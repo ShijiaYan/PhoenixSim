@@ -1,0 +1,35 @@
+package edu.columbia.lrl.CrossLayer.physical_models.generic_models.xtalk;
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import umontreal.iro.lecuyer.probdist.NormalDist;
+
+public class MeisamJLTXtalkModel extends AbstractXtalkPPModel {
+	private boolean ap;
+	
+	public MeisamJLTXtalkModel(@ParamName(name="Apply mod er?", default_="true") boolean ap) {
+		this.ap = ap;
+	}
+	
+
+	@Override
+	public double getXtalkPP(double xtalkPower, int berIndex, double modulationER) {
+		
+		double qBER = -NormalDist.inverseF01(Math.pow(10, -berIndex));
+		
+		double erfactor = 1;
+		if (ap && !Double.isInfinite(modulationER)) {
+			erfactor = (modulationER+1)/(modulationER-1);
+		}
+		
+		return -10 * Math.log10(1 - 0.5 * qBER * xtalkPower* erfactor);
+	}
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		return SimpleMap.getMap("apply er from mod at demux", ap);
+	}
+
+}

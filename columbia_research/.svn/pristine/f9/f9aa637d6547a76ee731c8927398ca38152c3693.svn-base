@@ -1,0 +1,243 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.demux.ring_array;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.results.DataPoint;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.MoreArrays;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.demux.ring_array.truncation.Abstract_SincSquare_Lorentzian_TruncationModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.demux.ring_array.truncation.ResidualsBased_SincSquare_Lorentzian_Model;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.RingResonatorModel;
+import edu.columbia.lrl.CrossLayer.physical_models.generic_models.xtalk.AbstractXtalkPPModel;
+import edu.columbia.lrl.CrossLayer.physical_models.generic_models.xtalk.MeisamJLTXtalkModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+
+public class RingBasedFilterArrayModelAdaptiveIL extends AbstractRingBasedFilterArrayModel {
+
+//	protected double Q_min ;
+//	protected double Q_max ;
+	protected double minGap;
+	protected double maxGap;
+	protected int steps;	
+	
+//	private InsertionLossModel ilModel;
+	private RingResonatorModel.AbstractBendingLossModel bendLossModel;
+	
+	public static double lastGap;
+	
+	public RingBasedFilterArrayModelAdaptiveIL(
+			@ParamName(name = "Track details", default_ = "false") boolean trackDetails,
+	//		@ParamName(name = "Q min", default_ = "1000") double Qmin,
+	//		@ParamName(name = "Q max", default_ = "40000") double Qmax,
+			@ParamName(name = "min Gap (nm)") double minGap,
+			@ParamName(name = "max Gap (nm)") double maxGap,
+			@ParamName(name = "optimization steps", default_ = "100") int steps,
+			@ParamName(name = "Truncation model to use", defaultClass_ = ResidualsBased_SincSquare_Lorentzian_Model.class) Abstract_SincSquare_Lorentzian_TruncationModel truncModel,
+//			@ParamName(name = "Insertion loss model", defaultClass_=AdaptiveILModel.class) InsertionLossModel ilModel,
+			@ParamName(name = "Bending loss model") RingResonatorModel.AbstractBendingLossModel bendLossModel,
+			@ParamName(name = "Xtalk model", defaultClass_=MeisamJLTXtalkModel.class) AbstractXtalkPPModel xtalkModel) {
+		super(trackDetails, truncModel, xtalkModel);
+	//	this.Q_min = Qmin;
+	//	this.Q_max = Qmax;
+		this.minGap = minGap;
+		this.maxGap = maxGap;
+		this.steps = steps;
+//		this.ilModel = ilModel;
+		this.bendLossModel = bendLossModel;
+	}
+	
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = super.getAllParameters();
+	//	map.putAll(ilModel.getAllParameters());
+		map.putAll(bendLossModel.getAllParameters());
+	//	map.put("Qmin", Q_min+"");
+	//	map.put("Qmax", Q_max+"");
+		map.put("min Gap (demuxRing)", minGap+"");
+		map.put("max Gap (demuxRing)", maxGap+"");
+		
+		map.put("Optimization steps", steps+"");
+		map.put("Bend loss model", bendLossModel.getClass().getSimpleName());
+		return map;
+	}
+
+	public ArrayList<PowerPenalty> getPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, 
+			AbstractLinkFormat linkFormat, 
+			Execution ex,
+			double modulationER) {
+		Constants ct = modelSet.getConstants();
+		
+		double channelSpacing = ct.wavelengthsToChannelSpacing(linkFormat.getNumberOfChannels());
+		double channelSpacingNm = 1e9* ct.getFullFSR() / linkFormat.getNumberOfChannels();
+		int wavelengths = linkFormat.getNumberOfChannels();
+		double rate = linkFormat.getWavelengthRate();
+		
+
+		double[] xtalk_pp = new double[steps];
+		double[] dropInsertionLoss = new double[steps] ;
+		double[] throughInsertionLoss = new double[steps];
+		double[] trunc_pp = new double[steps] ;
+		
+		double[] gapVec = new double[steps];
+		
+		double centerLambda = ct.getCenterWavelength();
+		double radiusMicron = 1e6* centerLambda*centerLambda/(2*Math.PI*ct.getEffectiveIndex()*ct.getFullFSR());
+		
+		
+		double gapIncrement = (maxGap - minGap)/(steps - 1);
+
+		for (int i = 0; i < steps; i++) {
+			Double outputGap = minGap + (i * gapIncrement);
+			gapVec[i] = outputGap;
+			throughInsertionLoss[i] = 1;
+			
+			RingResonatorModel ringModel = new RingResonatorModel(radiusMicron, outputGap, (Double)1.0, 0, bendLossModel);
+					
+			double Q_demux = ringModel.getQualityFactor();
+			double add_xtalk1 = 0;
+			for (int j = (int) -Math.ceil(wavelengths / 2); j <= (int) Math.ceil(wavelengths / 2); j++) {
+				if (j != 0) {
+
+					double p1 = getXtalkPenalty(Q_demux, ct.getCenterFrequency(), j * channelSpacing, rate) ;  // Added by Meisam
+					double p2 = 1/(1 + Math.pow(2*j*channelSpacing * Q_demux/ct.getCenterFrequency(), 2)) ;			
+					add_xtalk1 += ( p1 + p2) /2 ;
+					
+					double throughTrans = ringModel.getThroughTransmission(j*channelSpacingNm);
+					throughInsertionLoss[i] *= throughTrans;
+				}
+			}
+			xtalk_pp[i] = xtalkModel.getXtalkPP(add_xtalk1, modelSet.getTargetBER(), modulationER);
+			
+		//	xtalk_pp[i] = -5 * Math.log10(1 - 6 * add_xtalk1) ;  // for BER = 10 ^ (-9)		
+			trunc_pp[i] = truncationPowerPenalty.getPowerPenalty(ct, rate, Q_demux);
+		//	insertionLoss[i] = ilModel.calculateInsertionLoss(ct, Q_demux, 1);
+			dropInsertionLoss[i] = ringModel.getDropInsertionLossdB();
+			throughInsertionLoss[i] = -10 * Math.log10(throughInsertionLoss[i]);
+		}
+		
+		int bestIndex = storeDataLocal(linkFormat, dropInsertionLoss, gapVec, xtalk_pp, trunc_pp, throughInsertionLoss, radiusMicron, ex);
+		
+		lastGap = gapVec[bestIndex];
+		
+		double xtalkFinal;
+		if (Double.isNaN(xtalk_pp[bestIndex])) {
+			xtalkFinal = Double.POSITIVE_INFINITY;
+		} else {
+			xtalkFinal = xtalk_pp[bestIndex];
+		}
+		
+		double truncFinal;
+		if (Double.isNaN(trunc_pp[bestIndex])) {
+			truncFinal = Double.POSITIVE_INFINITY;
+		} else {
+			truncFinal = trunc_pp[bestIndex];
+		}		
+		
+		PowerPenalty xtalk = new PowerPenalty(PowerPenalty.CROSSTALK, DEMUX, xtalkFinal);
+		PowerPenalty trunc = new PowerPenalty(PowerPenalty.TRUNCATION, DEMUX, truncFinal);
+		PowerPenalty il = new PowerPenalty("Drop insertion loss", DEMUX, dropInsertionLoss[bestIndex]);
+		PowerPenalty ilT = new PowerPenalty("Through insertion loss", DEMUX, throughInsertionLoss[bestIndex]);
+		
+		return MoreArrays.getArrayList(xtalk, trunc, il, ilT);
+	}
+	
+	public int storeDataLocal(AbstractLinkFormat linkFormat,
+			double[] insertionLoss,
+			double[] gapVec,
+			double[] xtalk_pp,
+			double[] trunc_pp,
+			double[] throughInsertionLoss,
+			double ringRadius,
+			Execution ex) {
+		
+		double min = Double.MAX_VALUE;
+		int bestIndex = 0;
+		double[] sum_pp = new double[xtalk_pp.length];
+		for (int i = 0; i < xtalk_pp.length; i++) {
+			sum_pp[i] = xtalk_pp[i] + trunc_pp[i] + insertionLoss[i] + throughInsertionLoss[i];
+			if (sum_pp[i] < min) {
+				min = sum_pp[i];
+				bestIndex = i;
+			}
+		}				
+		
+		DataPoint basic = new DataPoint();
+		basic.addProperty("wavelengths", linkFormat.getNumberOfChannels());
+		basic.addProperty("Ring radius", ringRadius);
+		basic.addProperties(this.getAllParameters());
+		basic.addProperty("Filter array model", this.getClass().getSimpleName());
+		basic.addProperty("Data Rate (Gb/s)", linkFormat.getWavelengthRate()/1e9);
+		
+		if (ex != null && trackDetails) {
+			
+			DataPoint dp1 = basic.getDerivedDataPoint();
+			dp1.addResultProperty("ideal filter PP", sum_pp[bestIndex]);
+			dp1.addResultProperty("ideal filter Q", gapVec[bestIndex]);
+			ex.addDataPoint(dp1);
+		
+			for (int i = 0; i < xtalk_pp.length; i++) {
+				DataPoint dp = basic.getDerivedDataPoint();
+				if (xtalk_pp[i] == Double.NaN || trunc_pp[i] == Double.NaN) {
+					continue;
+				}				
+				dp.addProperty("gap value", gapVec[i]);
+				dp.addResultProperty("Xtalk Penalty(gap)", xtalk_pp[i]);
+				dp.addResultProperty("Insertion Loss(gap)", insertionLoss[i] + throughInsertionLoss[i]);				
+				dp.addResultProperty("Total Filter Penalty(gap)", sum_pp[i]);
+				dp.addResultProperty("Truncation Penalty(gap)", trunc_pp[i]);
+				ex.addDataPoint(dp);
+			}
+		}
+		return bestIndex;
+	}	
+	
+	private double getXtalkPenalty(double filterQ, double v0, double channelSpacing, double rate) {
+		
+		double FWHM = v0 / filterQ;
+		
+		double X = 2*channelSpacing/FWHM ;
+		double Y = FWHM/(2*rate) ;
+		double Z = channelSpacing/rate ;
+		
+		double Phase1 = 2*Math.atan(X) ;
+		double Phase2 = 2*Math.PI*Z ;
+		
+		double xtalk = 1/(1+Math.pow(X, 2)) * (1 - 1/(2*Math.PI) * 1/Y * ( Math.cos(Phase1) - Math.exp(-2*Math.PI * Y) * Math.cos(Phase2 + Phase1) ) ) ;
+		
+		return xtalk ;
+	}	
+	
+	@Override
+	public List<PowerConsumption> getDevicePowerConsumptions(PhysicalParameterAndModelsSet modelSet,
+            AbstractLinkFormat linkFormat) {
+		ArrayList<PowerConsumption> pc = new ArrayList<PowerConsumption>(1);
+		
+		PowerConsumption p2 = new PowerConsumption("Demux rings", false, true, true,  + modelSet.getDefaultSingleRingTTPowerMW());
+		pc.add(p2);
+		return pc;
+	}
+
+
+	@Override
+	public boolean hasThroughCapability() {
+		return false;
+	}
+
+
+	@Override
+	public ArrayList<PowerPenalty> getPassbyPowerPenalties(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		throw new IllegalStateException("Not implemented yet");
+	}
+	
+
+
+}

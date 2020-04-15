@@ -1,0 +1,290 @@
+package edu.columbia.lrl.CrossLayer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.experiment_aut.Experiment;
+import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
+import ch.epfl.general_libraries.results.AbstractResultsDisplayer;
+import ch.epfl.general_libraries.results.AbstractResultsManager;
+import ch.epfl.general_libraries.results.DataPoint;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.ParetoPoint;
+import ch.epfl.general_libraries.utils.ParetoSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.PhysicalLayout;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Number_X_RateFormat;
+
+public class PhysicalLayoutBandwidthPowerParetoExperiment implements Experiment {
+	
+	private int[] nbChannels;
+	private double[] rates;
+	private double[] FSRs = {2.5e-8};
+	private PhysicalLayout layout;
+	private PhysicalParameterAndModelsSet modeSet;
+	private boolean paretoOnly = true;
+	private double utilization = 1d;
+	private int mode;
+	
+	private static class BandwidthPower extends ParetoPoint {
+		
+		private double power;
+		private AbstractLinkFormat format;
+		private List<PowerConsumption> powerCons;
+		private LayoutWorseCaseProperties layProp;
+		private double FSR;
+		private double aggreBW;
+		private int mode;
+		
+		private BandwidthPower(
+				double aggreBW,
+				AbstractLinkFormat format, 
+				LayoutWorseCaseProperties layProp, 
+				double power, 
+				List<PowerConsumption> powerCons,
+				double FSR,
+				int mode) {
+			this.format = format;
+			this.power = power;
+			this.powerCons = powerCons;
+			this.layProp = layProp;
+			this.FSR = FSR;
+			this.aggreBW = aggreBW;
+			this.mode = mode;
+		}
+
+		@Override
+		public double getValueOfDimensionN(int n) {
+			if (mode == 1) {
+				switch(n) {
+				case 0:
+					return power;
+				case 1:
+					return aggreBW;
+				default:	
+					throw new IllegalStateException("Illegal value"); 
+				}
+			} else if (mode == 2) {
+				return aggreBW;
+			} else if (mode == 3) {
+				return power;
+			}
+			throw new IllegalStateException();
+		}
+
+		@Override
+		public boolean isDimensionNtheHigherTheBetter(int n) {
+			if (mode == 1) {
+				if (n==0) {
+					return false;
+				}
+				if (n==1) {
+					return true;
+				}
+			} else if (mode == 2) { // aggre rate only
+				return true;
+			} else if (mode == 3) { // power only
+				return false;
+			}
+			throw new IllegalStateException();
+		}
+
+		@Override
+		public int getDimensions() {
+			if (mode == 1) {
+				return 2;
+			} else {
+				return 1;
+			}
+		}
+		
+	}
+	
+	public PhysicalLayoutBandwidthPowerParetoExperiment(
+			PhysicalLayout layout, 
+			PhysicalParameterAndModelsSet modeSet,
+			int[] nbChannels,
+			double[] rates) {
+		this.nbChannels = nbChannels;
+		this.layout = layout;
+		this.modeSet = modeSet;
+		this.rates = rates;
+	}
+	
+	public PhysicalLayoutBandwidthPowerParetoExperiment(
+			PhysicalLayout layout, 
+			PhysicalParameterAndModelsSet modeSet,
+			int[] nbChannels,
+			double[] rates,
+			boolean paretoOnly) {
+		this.nbChannels = nbChannels;
+		this.layout = layout;
+		this.modeSet = modeSet;
+		this.rates = rates;
+		this.paretoOnly = paretoOnly;
+	}	
+	
+	public PhysicalLayoutBandwidthPowerParetoExperiment(
+			PhysicalLayout layout, 
+			PhysicalParameterAndModelsSet modeSet,
+			int[] nbChannels,
+			double[] rates,
+			double utilization,
+			boolean paretoOnly) {
+		this.nbChannels = nbChannels;
+		this.layout = layout;
+		this.modeSet = modeSet;
+		this.rates = rates;
+		this.paretoOnly = paretoOnly;
+		this.utilization = utilization;
+	}	
+	
+	public PhysicalLayoutBandwidthPowerParetoExperiment(
+			PhysicalLayout layout, 
+			PhysicalParameterAndModelsSet modeSet,
+			@ParamName(name="Number of channels") int[] nbChannels,
+			@ParamName(name="Total rates (mode 1) or channel rate (modes 2 or 3)") double[] rates,
+			@ParamName(name="Utilization") double utilization,
+			@ParamName(name="FSRs to consider") double[] FSRs,
+			@ParamName(name="mode") int mode,
+			@ParamName(name="Save pareto designs only") boolean paretoOnly) {
+		this.nbChannels = nbChannels;
+		this.layout = layout;
+		this.modeSet = modeSet;
+		this.rates = rates;
+		this.FSRs = FSRs;
+		this.paretoOnly = paretoOnly;
+		this.utilization = utilization;
+		this.mode = mode;
+	}		
+
+	@Override
+	public void run(AbstractResultsManager man, AbstractResultsDisplayer dis)
+			throws WrongExperimentException {
+		Execution execution = new Execution();		
+		Iterable<BandwidthPower> paretoSet;
+		if (paretoOnly && mode == 1) {
+			paretoSet = new ParetoSet<BandwidthPower>(2);
+		} else {
+			paretoSet = new ArrayList<BandwidthPower>();
+		}
+		
+		DataPoint dp = new DataPoint();
+		dp.addProperties(layout.getAllParameters());
+		dp.addProperties(modeSet.getAllParameters());
+		dp.addProperty("utilization", utilization);
+		
+		for (int i = 0 ; i < rates.length ; i++) {
+			double maxAggr = 0;
+			BandwidthPower maxAggreBP = null;
+			
+			double minPow = Double.POSITIVE_INFINITY;
+			BandwidthPower minPowBP = null;
+			for (int j = 0 ; j < nbChannels.length ; j++) {
+				for (double FSR : FSRs) {
+					try {
+						
+						modeSet.getConstants().setFSR(FSR);
+						
+						Number_X_RateFormat format;
+						if (mode == 1) {
+							format = new Number_X_RateFormat(nbChannels[j], rates[i]/nbChannels[j]);
+						} else {
+							format = new Number_X_RateFormat(nbChannels[j], rates[i]);
+						}
+						LayoutWorseCaseProperties layProp = layout.getLayoutPropertiesForaGivenNumberOfWavelengths(execution, modeSet, format);
+		
+						double availBudget = layout.getPowerBudget_dB(modeSet, format);
+					//	double availBudget = modeSet.getPowerBudgetModel().getBudgetdB(modeSet.getConstants(), format.getWavelengthRate());
+						double requiredBudget = layProp.getTotalPowerPenalty() + 10*Math.log10(nbChannels[j]);
+						
+						if (requiredBudget < availBudget) { // layout feasible
+							
+							List<PowerConsumption> pcs = layout.getPowerConsumptions(modeSet, format, true);
+							double maxPower = PowerConsumption.compute(pcs, utilization, utilization, 1, nbChannels[j]);
+		
+							
+							double powerPerBit = maxPower/(double)format.getAggregateRateInGbs();
+						//	double bandwidth = format.getAggregateRateInGbs();
+							
+							
+							BandwidthPower bp = new BandwidthPower(rates[i], format, layProp, powerPerBit, pcs, FSR, mode);
+							
+							if (format.getAggregateRateInGbs() > maxAggr) {
+								maxAggr = format.getAggregateRateInGbs();
+								maxAggreBP = bp;
+							}
+							
+							if (powerPerBit < minPow) {
+								minPow = powerPerBit;
+								minPowBP = bp;
+							}
+							
+							
+							if (paretoOnly) {
+								if (mode == 1) {
+									((ParetoSet<BandwidthPower>)paretoSet).addCandidate(bp);
+								}
+							} else {
+								((ArrayList<BandwidthPower>)paretoSet).add(bp);
+							}
+						}
+					}
+					catch (WrongExperimentException e) {
+						
+					}
+				}	
+			}
+			if (mode == 2 && maxAggreBP != null) {
+				((ArrayList<BandwidthPower>)paretoSet).add(maxAggreBP);
+			}
+			if (mode == 3 && minPowBP != null) {
+				((ArrayList<BandwidthPower>)paretoSet).add(minPowBP);
+			}
+		}
+		
+		for (BandwidthPower dd : paretoSet) {
+			
+			AbstractLinkFormat format = dd.format;
+			
+			for (PowerConsumption pc : dd.powerCons) {
+				DataPoint dp2 = dp.getDerivedDataPoint();
+				dp2.addProperties(format.getAllParameters());
+				dp2.addProperty("Consumption name", pc.getOrigin());
+				dp2.addProperty("FSR", dd.FSR);
+				double consumptionmW = pc.compute(utilization, utilization, 1, format.getNumberOfChannels());
+				dp2.addResultProperty("Consumption (mW)", consumptionmW);
+				dp2.addResultProperty("Energy need (pJ/bit)", consumptionmW/(format.getAggregateRateInGbs()*utilization));
+				dp2.addResultProperty("Aggregate line rate_ (Gb/s)", format.getAggregateRateInGbs());	
+				execution.addDataPoint(dp2);
+			}	
+			double sensibility = modeSet.getSignallingModel().getReceiverSensitivity(modeSet, format);
+	//		double sensibility = modeSet.getPowerBudgetModel().getSensitivity(modeSet.getConstants(), format.getWavelengthRate());
+			double requiredBudget = dd.layProp.getTotalPowerPenalty() + 10*Math.log10(format.getNumberOfChannels());
+			
+			DataPoint global = dp.getDerivedDataPoint();
+			global.addProperties(format.getAllParameters());
+			global.addProperty("Photodetector sensibility", sensibility);
+			global.addResultProperty("Energy per bit", dd.power);
+			global.addResultProperty("Aggregate line rate (Gb/s)", format.getAggregateRateInGbs());	
+			global.addProperty("FSR", dd.FSR);
+			Constants ct = modeSet.getConstants();
+			double centerLambda = ct.getCenterWavelength();
+			double radiusMicron = 1e6* centerLambda*centerLambda/(2*Math.PI*ct.getEffectiveIndex()*dd.FSR);
+			
+			global.addProperty("ring radius um", radiusMicron);
+			global.addResultProperty("Required laser power (dBm)", sensibility + requiredBudget);
+			global.addResultProperty("Required laser power (mW)", Math.pow(10, (sensibility + requiredBudget)/10d));
+			
+			execution.addDataPoint(global);
+		}
+		man.addExecution(execution);
+	}
+	
+	
+
+}

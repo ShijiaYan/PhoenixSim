@@ -1,0 +1,163 @@
+package edu.columbia.lrl.CrossLayer.physical_models.layout;
+
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.general_libraries.results.Execution;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+
+
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.AbstractLaserModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+
+public abstract class PhysicalLayout {
+
+	public abstract Map<String, String> getAllParameters();
+
+	public abstract double getUnavailabilityTime();
+
+	public abstract LayoutWorseCaseProperties getLayoutPropertiesForaGivenNumberOfWavelengths(
+			Execution ex,
+			PhysicalParameterAndModelsSet modelSet,
+			AbstractLinkFormat linkFormat);
+
+	public List<PowerConsumption> getPowerConsumptions(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat,
+			boolean withLaser) {
+
+		LayoutWorseCaseProperties layoutWorseCase = getLayoutPropertiesForaGivenNumberOfWavelengths(null, modelSet, linkFormat);
+
+		List<PowerConsumption> list = getLayoutSpecificConsumption(modelSet, linkFormat);
+
+		AbstractLaserModel laserModel = modelSet.getLaserModel();
+
+		if (laserModel.isPowerFixed()) {
+			double opticalPowerAtReceiverdBm = laserModel.getEmittedPowerdBm() - layoutWorseCase.getTotalPowerPenalty();
+			list.addAll(modelSet.getSignallingModel().getPowerConsumptions(opticalPowerAtReceiverdBm, modelSet, linkFormat));
+			if (withLaser) {
+				list.add(modelSet.getSingleLaserConsumption(laserModel, modelSet.dBmTomW(laserModel.getEmittedPowerdBm()), linkFormat.getNumberOfChannels()));
+			}
+		} else {
+			list.addAll(modelSet.getSignallingModel().getPowerConsumptionsWithMinimalLaser(modelSet, linkFormat));
+			if (withLaser) {
+				list.add(modelSet.getMinimalSingleLaserConsumption(linkFormat, layoutWorseCase));
+			}
+		}
+		return list;
+	}
+
+
+
+	public abstract List<PowerConsumption> getLayoutSpecificConsumption(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat);
+
+
+	/**
+	 * Class extending physical layout, by overriding this method,
+	 * can set a layout specific upper optical power value. If
+	 * negative value is returned (default), the maximum value is taken from
+	 * the PhysicalParameterAndModelsSet class.
+	 * @author Rumley
+	 *
+	 */
+	public double getLayoutSpecificMaximumToleratedOpticalPower() {
+		return -1;
+	}
+
+	private double getMaxOpticalPower(PhysicalParameterAndModelsSet modelSet) {
+		double d = getLayoutSpecificMaximumToleratedOpticalPower();
+		if (d < 0) {
+			return modelSet.getMaximumAggregatedOpticalPower();
+		} else {
+			return d;
+		}
+	}
+
+	public double getPowerBudget_dB(PhysicalParameterAndModelsSet modelSet,
+			AbstractLinkFormat linkFormat) {
+		double budgetDB = getMaxOpticalPower(modelSet) -
+				modelSet.getSignallingModel().getReceiverSensitivity(modelSet, linkFormat);
+		return budgetDB;
+	}
+
+	public double getPowerBudgetPerChannel_dB(PhysicalParameterAndModelsSet modelSet,
+			AbstractLinkFormat linkFormat) {
+		double budgetDB = getMaxOpticalPower(modelSet) - 10*Math.log10(linkFormat.getNumberOfChannels()) -
+				modelSet.getSignallingModel().getReceiverSensitivity(modelSet, linkFormat);
+		return budgetDB;
+	}
+
+	public LayoutWorseCaseProperties getCheckedLayoutProperties(
+			Execution ex,
+			PhysicalParameterAndModelsSet modelSet,
+			AbstractLinkFormat linkFormat) throws LayoutException {
+		int wavelengths = linkFormat.getNumberOfChannels();
+
+
+//		double budgetDB = modelSet.getPowerBudgetModel().getBudgetdB(modelSet.getConstants(), linkFormat.getWavelengthRate());
+		LayoutWorseCaseProperties lp = getLayoutPropertiesForaGivenNumberOfWavelengths(ex, modelSet, linkFormat);
+
+		double wavelengthFactor = 10*Math.log10(wavelengths);
+
+		if (lp.getTotalPowerPenalty() + wavelengthFactor > getPowerBudget_dB(modelSet, linkFormat)) {
+			throw new LayoutException("Too many wavelengths (" + wavelengths + ") for budget");
+		}
+		if (modelSet.getLaserModel().isPowerFixed()) {
+			if (modelSet.getLaserModel().getEmittedPowerdBm() + wavelengthFactor > getMaxOpticalPower(modelSet)) {
+				throw new LayoutException("Too many wavelengths (" + wavelengths + ") for budget with given laser power");
+			}
+		}
+		return lp;
+	}
+
+	public LayoutWorseCaseProperties getWavelengthOptimizedLayoutProperties(
+			Execution ex,
+			AbstractLinkFormat linkFormat,
+			PhysicalParameterAndModelsSet modelSet) throws LayoutException {
+		//Maximize the number of wavelengths while staying within power budget
+		// Do model optimization
+		int min = 0;
+		int max = -1;
+		int wavelengths = 16; // start by testing 16 wavelengths
+
+		double budgetDB = getPowerBudget_dB(modelSet, linkFormat);
+
+		double totalPowerPenalty = Double.MAX_VALUE;
+
+		LayoutWorseCaseProperties lp = null;
+
+		while (min != max) {
+			linkFormat.setNumberOfWavelengths(wavelengths);
+
+			lp = getLayoutPropertiesForaGivenNumberOfWavelengths(ex, modelSet, linkFormat);
+			totalPowerPenalty = lp.getTotalPowerPenalty();
+
+			double wavelengthFactor = 10*Math.log10(wavelengths);
+
+			if ((totalPowerPenalty + wavelengthFactor) < budgetDB) {
+
+				// There's extra power, try to increase wavelengths
+				min = Math.max(min, wavelengths);
+				if (max < 0) // quickly ramp up to closest power of 2
+					wavelengths *= 2;
+				else
+					wavelengths = min + (int) Math.ceil((double) (max - min) / 2d);
+			} else {
+				// We're over budget, try a smaller number of wavelengths
+				if (max < 0) // stop ramping
+					max = wavelengths - 1;
+				else
+					max = Math.min(wavelengths - 1, max);
+				wavelengths = min + ((max - min) / 2);
+			}
+		}
+		linkFormat.setNumberOfWavelengths(wavelengths);
+		if (lp == null)
+			throw new LayoutException("Too little budget for a single wavelength");
+		return lp;
+	}
+
+
+}

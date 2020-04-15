@@ -1,0 +1,69 @@
+package edu.columbia.lrl.CrossLayer.physical_models;
+
+import java.util.ArrayList;
+
+public class PowerPenalty {
+	
+	private double multiplier;
+	private double value;
+	private String name;
+	private String location;
+	
+	public static final String CROSSTALK = "Crosstalk";
+	public static final String INSERTIONLOSS = "Insertion loss";
+	public static final String OOK = "OOK";
+	public static final String ER = "Extinction ratio";
+	public static final String TRUNCATION = "Truncation";
+	public static final String JITTER = "Jitter";
+	public static final String DUTY_CYCLE = "Duty cycle";
+	public static final String PASSIVEINSERTIONLOSS = "Passive insertion loss";	
+	
+	
+	public PowerPenalty(String name, String location, double value) {
+		this.name = name;
+		this.location = location;
+		this.value = value;
+		this.multiplier = 1;  // initializing multiplier
+	}
+	
+	public PowerPenalty multiply(int factor) {
+		multiplier *= factor;
+		return this;
+	}
+	
+	public PowerPenalty multiply(double factor) {
+		multiplier *= factor;
+		return this;
+	}
+
+	public double getTotalPowerPenalty() {
+		return value * multiplier;
+	}
+	
+	public double getIndividualPowerPenalty() {
+		return value;
+	}
+
+	public static void multiply(ArrayList<PowerPenalty> list,
+			int mult) {
+		for (PowerPenalty pp : list) {
+			pp.multiply(mult);
+		}
+		
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public boolean isMultiplied() {
+		return (multiplier != 1);
+	}
+
+	public String getCategory() {
+		return location;
+	}
+	
+	
+
+}

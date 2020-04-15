@@ -1,0 +1,170 @@
+package edu.columbia.lrl.CrossLayer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.traffic.Rate;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.LayoutException;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.PhysicalLayout;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+import edu.columbia.lrl.CrossLayer.simulator.phy_builders.PhyWrapper;
+import edu.columbia.lrl.LWSim.InitFeedback;
+import edu.columbia.lrl.LWSim.LWSimComponent;
+import edu.columbia.lrl.LWSim.builders.AbstractBandwidthCalculatedNBClientBuilder;
+import edu.columbia.lrl.LWSim.builders.AbstractBandwidthSpecifiedNBClientBuilder;
+import edu.columbia.lrl.LWSim.builders.NumberOfClientBasedBuilder;
+
+public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuilder {
+	
+	private PhysicalParameterAndModelsSet ms;
+	private AbstractBandwidthSpecifiedNBClientBuilder regBui;
+	private AbstractLinkFormat linkFormat;
+	
+	private int nbClients;
+	private PhyWrapper wrapper;	
+	
+	public PhysicalBuilderStub(
+			@ParamName(name="A set of physical models", defaultClass_=PhysicalParameterAndModelsSet.class) PhysicalParameterAndModelsSet phyModels,
+			@ParamName(name="A link format") AbstractLinkFormat linkFormat,
+			@ParamName(name="Phy layer builder", requireInterface=PhyWrapper.class) AbstractBandwidthSpecifiedNBClientBuilder regBui
+			) {
+		if (!(regBui instanceof PhyWrapper)) {
+			throw new IllegalStateException("The NBClientBuilder must implement " + PhyWrapper.class.getSimpleName());
+		} else {
+			wrapper = (PhyWrapper)regBui;
+		}
+		this.ms = phyModels;
+		this.regBui = regBui;
+		this.linkFormat = linkFormat;
+	}
+	
+	@Override
+	public void setBuilder(NumberOfClientBasedBuilder builder) {
+		super.setBuilder(builder);
+		this.regBui.setBuilder(this.builder);
+	}
+
+	@Override
+	public InitFeedback buildSubBuilder(ArrayList<LWSimComponent> dests,
+			int nbClients) {
+		
+		this.nbClients = nbClients;
+		
+		wrapper.potentiallyImposeFormat(nbClients, linkFormat);
+		
+		if (linkFormat.isValid() != true) {
+			return new InitFeedback("Skipped one simulation as bandwidth format is invalid");
+		}
+		
+		LayoutWorseCaseProperties properties;
+		try {
+			properties = findLayoutProperties(lwSimExperiment.getExecution());
+		}
+		catch (LayoutException e) {
+			return new InitFeedback(e.getReason());
+		}
+		int wavelengths = linkFormat.getNumberOfChannels();
+		
+		lwSimExperiment.addPropertyToDefaultDataPoint("Number of wavelengths per waveguide", wavelengths+"");
+		lwSimExperiment.addPropertyToDefaultDataPoint("Wavelength modulation rate", ""+linkFormat.getWavelengthRate()/(double)1e9);
+		lwSimExperiment.addPropertyToDefaultDataPoint("Total aggregated rate (Gb/s)", linkFormat.getAggregateRateInGbs()+"");
+
+		
+		double channelSpacing = ms.getConstants().wavelengthsToChannelSpacing(wavelengths);
+		lwSimExperiment.addPropertyToDefaultDataPoint("Channel spacing", channelSpacing+"");
+
+	//	double propagationLatencyNS = properties.propagationLatencyNS;
+		
+		// this adapts the reference bandwidth (typically if WDM is used for routing, not for capacity)
+		lwSimExperiment.setReferenceBandwidth(wrapper.getSrcToDestRate(linkFormat));		
+		
+		return regBui.build(lwSimExperiment, dests, nbClients);
+	}
+	
+	private LayoutWorseCaseProperties findLayoutProperties(Execution ex) throws LayoutException {
+		if (linkFormat.isNumberOfChannelFixed()) {
+			return getPhysicalLayout().getCheckedLayoutProperties(ex, ms, linkFormat);
+		} else {
+			return getPhysicalLayout().getWavelengthOptimizedLayoutProperties(null, linkFormat, ms);
+		}
+	}
+	
+	public PhysicalLayout getPhysicalLayout() {
+		return wrapper.getPhysicalLayoutImpl(nbClients);
+	}	
+
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> m = ms.getAllParameters();
+		m.putAll(linkFormat.getAllParameters());
+		m.putAll(regBui.getAllParameters());
+		return m;
+	}
+
+	@Override
+	public int getMaxPacketSizeInBits() {
+		return regBui.getMaxPacketSizeInBits();
+	}
+
+	@Override
+	public double getTotalInjectionBandwidthRatio() {
+		return regBui.getTotalInjectionBandwidthRatio();
+	}
+
+	@Override
+	public int[][] getNeighborhood(int fromAnode) {
+		return regBui.getNeighborhood(fromAnode);
+	}
+	
+
+	
+	@Override	
+	public void notifyEnd(double clock, int status) {
+		for (Map.Entry<String, String> ent : ms.getAllParameters().entrySet()) {
+			if (lwSimExperiment.defaultDataPointHasProperty(ent.getKey()) == false) {			
+				lwSimExperiment.addPropertyToDefaultDataPoint(ent.getKey(), ent.getValue());
+			}
+		}
+		
+		double simTime = clock;	
+		double totalPower_mW = wrapper.getTotalpowerMW();
+		if (totalPower_mW < 0) {
+			Rate observedReceived = new Rate(lwSimExperiment.receivedBits, simTime/1000d);
+			
+			double receivedUtilization = observedReceived.divide(lwSimExperiment.getTotalInjectionBandwidth());
+			
+			List<PowerConsumption> consumptions = getPhysicalLayout().getPowerConsumptions(ms, linkFormat, true);
+			
+			
+			int pniPerClient = wrapper.getNumberOfOpticalInterfacesPerClient();
+			
+			int nbPNI = pniPerClient * lwSimExperiment.getNumberOfClients();
+			int wavelengths = linkFormat.getNumberOfChannels();
+			
+			double circuitUtil = lwSimExperiment.totalCacheTime*1e6/(simTime*nbPNI);
+			
+			totalPower_mW = PowerConsumption.compute(consumptions, circuitUtil, receivedUtilization, nbPNI, wavelengths);
+			lwSimExperiment.addGlobalResult("Wavelengths per client", wavelengths * pniPerClient);
+			lwSimExperiment.addGlobalResult("Circuit util", circuitUtil);
+		}
+		
+		double totalEnergy = (simTime/1e9) * (totalPower_mW /1e3);
+			
+		double energyPerDeliveredBit = totalEnergy / (double)lwSimExperiment.receivedBits;
+			
+		lwSimExperiment.addGlobalResult("Energy per delivered bit (pJ)", energyPerDeliveredBit*1e12+"");
+		lwSimExperiment.addGlobalResult("Total energy (J)", totalEnergy);
+		lwSimExperiment.addGlobalResult("Total average power (mW)", totalPower_mW);	
+		
+		LayoutWorseCaseProperties layProp = getPhysicalLayout().getLayoutPropertiesForaGivenNumberOfWavelengths(null, ms, linkFormat);
+		lwSimExperiment.addGlobalResult("Layout power penalty (dB)", layProp.getTotalPowerPenalty());
+		
+		
+		regBui.notifyEnd(clock, status);
+	}
+}

@@ -1,0 +1,180 @@
+package edu.columbia.lrl.CrossLayer.physical_models.layout;
+
+import java.util.List;
+import java.util.Map;
+
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+import edu.columbia.lrl.switch_arch.BenesSwitchGenerator;
+import ch.epfl.general_libraries.clazzes.*;
+import ch.epfl.general_libraries.math.MoreMaths;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.SimpleMap;
+
+public class BenesSwitchFabric extends AbstractSwitchFabric {
+
+//	boolean useMultichipOptimization;
+	double extraWaveguideLength;
+//	double effectiveIndex;
+	double crossingWidth;
+	
+
+	PhysicalParameterAndModelsSet devices;
+	BenesSwitchGenerator archGenerator;
+	
+	public BenesSwitchFabric(
+			@ParamName(name="Extra waveguide length (cm)", default_=".001") double extraWaveguideLength,
+			@ParamName(name="Crossing width (cm)", default_=".001") double crossingWidth,
+			@ParamName(name="Use multi-chip optimization", default_="false") boolean useMultichipOptimization
+			) {
+		this.extraWaveguideLength = extraWaveguideLength;
+//		this.effectiveIndex = effectiveIndex;
+		this.crossingWidth = crossingWidth;
+//		this.useMultichipOptimization = useMultichipOptimization;
+	}
+	
+	public BenesSwitchFabric(
+			@ParamName(name="Extra waveguide length (cm)", default_=".001") double extraWaveguideLength,
+			@ParamName(name="Crossing width (cm)", default_=".001") double crossingWidth,
+			@ParamName(name="Use multi-chip optimization", default_="false") boolean useMultichipOptimization,
+			int radix) {
+		this(extraWaveguideLength,/*effectiveIndex,*/crossingWidth,useMultichipOptimization);
+		super.setSwitchRadix(radix);
+		
+	}	
+	
+	@Override
+	public Map<String, String> getSwitchParameters() {
+		return SimpleMap.getMap(
+				"Extra waveguide length (cm)", extraWaveguideLength+"",
+				"Crossing width (cm)", crossingWidth+"");
+	}
+
+	@Override
+	public String toString() {
+		return "BenesSwitchFabric";
+	}
+
+	
+	@Override
+	public void setSwitchRadix(int radix) {
+		super.setSwitchRadix(radix);
+		archGenerator = new BenesSwitchGenerator(radix);
+	}
+	
+	@Override
+	public double getUnavailabilityTime() {
+		throw new IllegalStateException("Not meant to be used this way");
+	}	
+
+
+/*	public double getPowerPenalty() {
+		
+		data.checkAll(this, "SwitchRadix", "Wavelengths");
+		switchRadix = data.getInt("SwitchRadix");
+		int wavelengths = data.getInt("Wavelengths");
+		
+		LayoutProperties prop = getLayoutProperties(devices, wavelengths);
+		
+		data.set("LinkPropagationLatency", prop.propagationLatencyNS);
+		return prop.powerPenalty;
+	}*/
+		
+	@Override	
+	public LayoutWorseCaseProperties getLayoutPropertiesForaGivenNumberOfWavelengths(
+			Execution ex, 
+			PhysicalParameterAndModelsSet modelSet, 
+			AbstractLinkFormat linkFormat) {
+		
+		int numStages = getNumberOfStages();
+
+		LayoutWorseCaseProperties prop = new LayoutWorseCaseProperties(linkFormat.getNumberOfChannels());	
+		
+		prop.addPowerPenalty(modelSet.getCouplerLoss().multiply(2));
+
+		prop.addPowerPenalty(modelSet.get2x2SwitchModel().getPowerPenalty(linkFormat, numStages));
+		
+		//Calculate number of crossings
+		int numCrossings = (int)((super.switchRadix*2) - (MoreMaths.log2(switchRadix) + 1)*2);
+		prop.addPowerPenalty(modelSet.getCrossingLoss().multiply(numCrossings));
+ 		
+ 		double switchElementSize = modelSet.get2x2SwitchModel().getSize()/100d; // in cm
+ 		
+ 		double switchArrayHeight = Math.max(switchElementSize*switchRadix/2, ((switchRadix/2)-1)*crossingWidth);
+ 		double switchArrayWidth = switchElementSize*numStages;
+ 		double worstCaseDist = 2*Math.sqrt(Math.pow(switchArrayHeight,2) + Math.pow(switchArrayWidth/2,2));
+		
+		//Calculate length of waveguide required
+		double waveguideLength = worstCaseDist;
+		
+		prop.addPowerPenalty(modelSet.getWaveguideLossPP().multiply(waveguideLength));
+		
+		double linkPropLatencyNS = (waveguideLength)/(100*modelSet.getConstants().getSpeedOfLight())*1e9;
+		prop.setLinkLatency(linkPropLatencyNS);
+
+
+		
+		return prop;
+	}
+
+	@Override
+	public int getNumberOfStages() {
+		if (switchRadix <= 0) {
+			throw new IllegalStateException("Radix of benes switch not provided. Should be fixed by builder or given as parameter");
+		}
+		return 2*(int)Math.ceil(Math.log(switchRadix)/Math.log(2)) - 1;
+	}
+
+	@Override
+	public List<PowerConsumption> getLayoutSpecificConsumption(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+	
+		List<PowerConsumption> p = modelSet.get2x2SwitchModel().getDevicePowerConsumptions(modelSet, linkFormat);	
+		for (PowerConsumption pc : p) {
+			pc.multiply("Switch radix", switchRadix);
+			pc.multiply("Switch stages", getNumberOfStages());
+		}
+		return p;
+		
+	}
+
+	@Override
+	public int getNumberOfLinksInvolved() {
+		return archGenerator.getNumberOfLinksInvolved();
+	}
+
+	@Override
+	public int[][][][] getPaths() {
+		return archGenerator.getPossiblePaths();
+	}
+
+/*	@Override
+	public int[][][][] getSwitches() {
+		return archGenerator.getSwitchPaths();
+	}
+	@Override
+	public int[][][][] getSwitchIDs() {
+		return archGenerator.getSwitchIDs();
+	}
+	@Override 
+	public int[][][][] getSwitchStates() {
+		return archGenerator.getSwitchStates();
+	}*/
+	
+	
+	@Override
+	public int getNumberOfSwitches() {
+		return getNumberOfStages() * switchRadix/2;
+	}
+
+/*	@Override
+	public Map<String, Double> getPowerConsumption(PhysicalLayoutBasedLWSimExperiment phyExp, double utilization) {
+		int nbRingInSwitch = switchRadix * getNumberOfStages();
+		
+		Map<String, Double> single2x2SwitchPowers = phyExp.getPhysicalParameterAndModelsSet().get2x2SwitchModel().getDevicePowerConsumption(phyExp, utilization);
+		return Utils.multiplyPowers(single2x2SwitchPowers, nbRingInSwitch);
+	}*/
+
+}

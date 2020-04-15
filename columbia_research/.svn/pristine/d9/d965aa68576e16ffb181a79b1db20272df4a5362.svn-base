@@ -1,0 +1,117 @@
+package edu.columbia.lrl.CrossLayer.physical_models.layout;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+
+
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.ad_hoc.AbstractWaveguideLengthModel;
+import edu.columbia.lrl.CrossLayer.physical_models.ad_hoc.InterfaceWaveguideLengthModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.signaling.AbstractSignallingModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+
+
+
+public class PsyncLayout extends PhysicalLayout {
+
+	InterfaceWaveguideLengthModel interfaceLength;
+	AbstractWaveguideLengthModel busLength;
+	int numCouplers;
+	int sitesPerBranch;
+	int totalSites;
+	
+	PhysicalParameterAndModelsSet devices;
+	
+	public PsyncLayout(
+			InterfaceWaveguideLengthModel interfaceLength,
+			AbstractWaveguideLengthModel busLength,
+			@ParamName(name="Number of couplers", default_="3") int numCouplers,
+			@ParamName(name="Sites per link", default_="4") int sitesPerBranch,
+			@ParamName(name="Number of transmitters", default_="16") int sites) {
+		this.interfaceLength = interfaceLength;
+		this.busLength = busLength;
+		this.numCouplers = numCouplers;
+		this.totalSites = sites;
+		this.sitesPerBranch = sitesPerBranch;
+	}
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Number of couplers", numCouplers+"");
+		map.put("Waveguide length model", busLength+"");
+		map.putAll(busLength.getAllParameters());
+		map.putAll(interfaceLength.getAllParameters());
+		return map;
+	}
+
+	@Override
+	public String toString() {
+		return "Pysc layout";
+	}
+	
+	@Override
+	public double getUnavailabilityTime() {
+		throw new IllegalStateException("Not meant to be used this way");
+	}	
+
+	@Override
+	public LayoutWorseCaseProperties getLayoutPropertiesForaGivenNumberOfWavelengths(
+			Execution ex,
+			PhysicalParameterAndModelsSet modelSet, 
+			AbstractLinkFormat linkFormat) {		
+		
+		LayoutWorseCaseProperties layoutProp = new LayoutWorseCaseProperties(linkFormat.getNumberOfChannels());
+		
+		Constants ct = modelSet.getConstants();
+		
+		AbstractSignallingModel signalingModel = devices.getSignallingModel();
+		
+		layoutProp.addPowerPenalties(signalingModel.getPowerPenalties(ex, modelSet, linkFormat, sitesPerBranch, sitesPerBranch));
+		
+	//	AbstractModulatorArrayModel modulatorModel = devices.getModulatorArrayModel();
+		
+	//	ArrayList<PowerPenalty> passMod = modulatorModel.getPassivePowerPenalties(ct, linkFormat);
+	//	PowerPenalty.multiply(passMod, sitesPerBranch);
+		
+	//	layoutProp.addPowerPenalties(passMod);
+		
+	//	layoutProp.addPowerPenalties(modulatorModel.getActivePowerPenalties(ct, linkFormat));
+		
+//		layoutProp.addPowerPenalties(devices.getDemux().getPowerPenalties(ct, linkFormat, ex));
+		
+		int numberDrop = (totalSites <= sitesPerBranch) ? 0 : 2; 
+		int numberThrough = totalSites/sitesPerBranch - 1;
+		layoutProp.addPowerPenalties(devices.get1x2SwitchModel().getPowerPenalties(ct, linkFormat, numberDrop, numberThrough));
+		
+		layoutProp.addPowerPenalty(devices.getCouplerLoss().multiply(numCouplers));
+		
+		
+		double receiverLengthCm = interfaceLength.getFilterWaveguideLengthCm(linkFormat.getNumberOfChannels());
+		double busLengthCm = busLength.getWaveguideLengthCm(totalSites);
+		int numBends = busLength.getNumBends(totalSites);
+		
+		layoutProp.addPowerPenalty(devices.getWaveguideLossPP().multiply(receiverLengthCm + busLengthCm));
+		
+		layoutProp.addPowerPenalty(devices.getBendLoss().multiply(numBends));
+		
+//		layoutProp.addPowerPenalty(devices.getJitterPenalty());
+			
+		return layoutProp;
+	}
+
+	@Override
+	public List<PowerConsumption> getLayoutSpecificConsumption(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		// not implemented yet
+		System.out.println("Power consumption not implemented yet in Psync");
+		return new ArrayList<PowerConsumption>(0);
+	}
+}

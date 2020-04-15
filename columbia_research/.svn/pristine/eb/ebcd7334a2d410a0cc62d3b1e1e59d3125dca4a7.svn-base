@@ -1,0 +1,138 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.demux.ring_array;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.MoreArrays;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
+import edu.columbia.lrl.CrossLayer.physical_models.generic_models.xtalk.AbstractXtalkPPModel;
+import edu.columbia.lrl.CrossLayer.physical_models.generic_models.xtalk.MeisamJLTXtalkModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+
+
+public class RingBasedDoubleStageFilterArrayModelAdaptiveIL 
+	extends AbstractRingBasedFilterArrayModel {
+
+	protected double Q_min ;
+	protected double Q_max ;
+	protected int steps;	
+	
+	private InsertionLossModel ilModel;
+	
+	public RingBasedDoubleStageFilterArrayModelAdaptiveIL(
+			@ParamName(name = "Track details", default_ = "false") boolean trackDetails,
+			@ParamName(name = "Q min", default_ = "1000") double Qmin,
+			@ParamName(name = "Q max", default_ = "40000") double Qmax,
+			@ParamName(name = "optimization steps", default_ = "100") int steps,
+			@ParamName(name = "Xtalk model", defaultClass_=MeisamJLTXtalkModel.class) AbstractXtalkPPModel xtalkModel,
+			@ParamName(name = "Insertion loss model", defaultClass_=AdaptiveILModel.class) InsertionLossModel ilModel) {
+		super(trackDetails, null, xtalkModel);
+		this.ilModel = ilModel;
+		this.Q_min = Qmin;
+		this.Q_max = Qmax;
+		this.steps = steps;
+	}
+	
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = super.getAllParameters();
+		map.putAll(ilModel.getAllParameters());		
+		map.put("Insertion loss model", ilModel.getClass().getSimpleName());	
+		map.put("Qmin", Q_min+"");
+		map.put("Qmax", Q_max+"");
+		map.put("Optimization steps Q demux", steps+"");
+		return map;
+	}
+
+	public ArrayList<PowerPenalty> getPowerPenalties(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat, Execution ex, double modulationER) {
+		Constants ct = modelSet.getConstants();	
+		
+		double channelSpacing = ct.wavelengthsToChannelSpacing(linkFormat.getNumberOfChannels());
+		int wavelengths = linkFormat.getNumberOfChannels();
+		double rate = linkFormat.getWavelengthRate();
+		
+		double dQ = (Q_max - Q_min) / steps;
+		int size = (int) Math.ceil((Q_max - Q_min) / dQ);
+		double[] Q_vec = new double[size];
+		for (int i = 0; i < Q_vec.length; i++) {
+			Q_vec[i] = Q_min + i * dQ;
+		}
+		double[] xtalk_pp = new double[size];
+		double[] sum_pp = new double[size];
+		double[] insertionLoss = new double[size] ;
+		double[] trunc_pp = new double[size] ;
+
+		for (int i = 0; i < Q_vec.length; i++) {
+			double Q_demux = Q_vec[i];
+
+			double add_xtalk1 = 0;
+			for (int j = (int) -Math.ceil(wavelengths / 2); j <= (int) Math.ceil(wavelengths / 2); j++) {
+				if (j != 0) {
+					double p2 = 1/(1 + Math.pow(2*j*channelSpacing * Q_demux/ct.getCenterFrequency(), 2)) ;
+					
+					add_xtalk1 += (p2 * p2)  ;
+				}
+			}
+			
+			xtalk_pp[i] = xtalkModel.getXtalkPP(add_xtalk1, modelSet.getTargetBER(), modulationER);
+			//xtalk_pp[i] = -5 * Math.log10(1 - 6 * add_xtalk1) ;  // for BER = 10 ^ (-9)	
+			trunc_pp[i] = getTruncationPowerPenalty(ct, rate, Q_demux);		
+			insertionLoss[i] = 2 * ilModel.calculateInsertionLoss(ct, Q_demux, 2);		
+			sum_pp[i] = xtalk_pp[i] + trunc_pp[i] + insertionLoss[i] ;
+		}
+		
+		int bestIndex = storeData(linkFormat, insertionLoss, Q_vec, xtalk_pp, trunc_pp, ex);		
+		
+		PowerPenalty xtalk = new PowerPenalty(PowerPenalty.CROSSTALK, DEMUX, xtalk_pp[bestIndex]);
+		PowerPenalty trunc = new PowerPenalty(PowerPenalty.TRUNCATION, DEMUX, trunc_pp[bestIndex]);
+		PowerPenalty il = new PowerPenalty(PowerPenalty.INSERTIONLOSS, DEMUX, insertionLoss[bestIndex]);
+
+		return MoreArrays.getArrayList(xtalk, trunc, il);
+	}
+	
+	
+	private double getTruncationPowerPenalty(Constants ct, double rate, double filterQ) {
+		
+		double FWHM = ct.getCenterFrequency()/(filterQ) ;
+		double alpha = FWHM / (2 * rate) ;
+		
+		double eyeClosure = 1 - 2 * (1+2*Math.PI*alpha) * Math.exp(-2*Math.PI*alpha) ;
+		double trunPenaltydB = -20*Math.log10(eyeClosure) ;
+		
+		return trunPenaltydB ;
+	}
+	
+	@Override
+	public List<PowerConsumption> getDevicePowerConsumptions(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		ArrayList<PowerConsumption> pc = new ArrayList<PowerConsumption>(1);
+		
+		PowerConsumption p2 = new PowerConsumption("Demux rings", false, true, true,  + 2*modelSet.getDefaultSingleRingTTPowerMW());
+		pc.add(p2);
+		return pc;
+	}
+
+
+	@Override
+	public boolean hasThroughCapability() {
+		return false;
+	}
+
+
+	@Override
+	public ArrayList<PowerPenalty> getPassbyPowerPenalties(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		throw new IllegalStateException("Not implemented yet");
+	}	
+	
+
+	
+
+
+}

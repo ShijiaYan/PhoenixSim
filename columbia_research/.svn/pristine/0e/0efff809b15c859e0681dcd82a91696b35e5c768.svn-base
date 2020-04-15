@@ -1,0 +1,317 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.modarrays;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
+import ch.epfl.general_libraries.utils.MoreArrays;
+import ch.epfl.general_libraries.utils.Pair;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.AbstractModulator;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.Abstract_OOK_NRZ_Receiver;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.AbstractRingModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.AbstractRingPNJunctionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.QandERRingModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.RateDependentRingPNJunctionDepletionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+
+
+
+public class CarrierDepletionRing_OOK_NRZ_ModulatorArrayModel extends AbstractRingBased_OOK_NRZ_ModulatorArrayModel {
+	// Parameters
+	private double q  ; // ring modulator Q
+	private double referenceER ; //
+	private double relResShift;
+	private double capacitance;
+	private double maxDriveVoltage ;
+	
+	
+	
+	public static class DefaultDepletionModulatorRing extends QandERRingModel {
+		public DefaultDepletionModulatorRing(
+				@ParamName(name = "Modulator Q", default_ = "12000") double q,
+				@ParamName(name = "Modulator ER in dB", default_ = "20") double er) {
+			super(q, er);
+		}
+	}
+	
+	// Initialize the parameters with the constructor
+	public CarrierDepletionRing_OOK_NRZ_ModulatorArrayModel(
+			Abstract_OOK_NRZ_Receiver ookReceiver,
+			@ParamName(name = "Modulator ring model", defaultClass_ = DefaultDepletionModulatorRing.class) AbstractRingModel absRing,
+			@ParamName(name = "Power model", defaultClass_ = RateDependentRingPNJunctionDepletionDriverPowerModel.class) AbstractRingPNJunctionDriverPowerModel powerModel,
+			@ParamName(name = "Desired shift (relative to half spacing - -1 for max)", default_="-1") double resShift,
+			@ParamName(name="Capacitance (fF)", default_="145") double capacitance,
+			@ParamName(name="Maximum Drive Voltage (Volts)", default_ = "-5") double maxDriveVoltage) {
+		super(ookReceiver, powerModel); 	
+		this.q = absRing.getQ();
+		this.referenceER = absRing.getER();
+		this.relResShift = resShift;
+		this.capacitance = capacitance;
+		
+		this.maxDriveVoltage = maxDriveVoltage ;
+	}
+
+	public Map<String, String> getRingBasedArrayParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Modulator Q", q + "");
+		map.put("Reference ER (dB)", referenceER + "");
+		map.put("Relative res shift", relResShift+"");	
+		map.put("Maximum Drive Voltage", maxDriveVoltage+"") ;
+		return map;
+	}
+
+	
+	public ArrayList<PowerPenalty> getPassbyModulationBankPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		return MoreArrays.getArrayList(getInsertionLossPowerPenalties(modelSet, linkFormat, false));
+	}
+
+	// Next we calculate the Extinction ratio of modulation and find the ERPP
+	public Pair<Double, ArrayList<PowerPenalty>> getModulationERAndPowerPenalties(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		Constants ct = modelSet.getConstants();
+		
+		double resLambda = ct.getCenterWavelength() * 1e9;	// must be in nm
+		int wavelengths = linkFormat.getNumberOfChannels();
+		double channelSpacing = ct.getFullFSR()/wavelengths * 1e9 ; // in nm
+		
+		double[] calc = calculateQPrime_resShift_erWithCarrier(ct, linkFormat);
+		double Qprime = calc[0];
+		double resShift = calc[1];
+		double extinctionWithCarriers = calc[2];
+		
+		double powON = getTransmission(resLambda, resLambda + resShift, Qprime, extinctionWithCarriers  ) ;
+		double powOFF = getTransmission(resLambda, resLambda , q, referenceER  ) ;
+		
+		double er = powON/powOFF ; // This is the extinction ratio of ON-OFF keying Modulation
+		
+		double erPP = -10*Math.log10((er-1)/(er+1)) ; // This is the power penalty due to the finite extinction ratio of OOK modulation
+		double ookPP = -10*Math.log10((er+1)/(2*er)) ; // This is the power penalty for OOK with finite ER. It is less than 3 dB.
+
+		PowerPenalty erPP_ = new PowerPenalty(PowerPenalty.ER,AbstractModulator.MODULATOR, erPP);
+		PowerPenalty ookPP_ = new PowerPenalty(PowerPenalty.OOK, AbstractModulator.MODULATOR, ookPP);	
+		
+		PowerPenalty insertionLoss = getInsertionLossPowerPenalties(modelSet, linkFormat, true);
+		
+		// Finally we need to calculate the Mux Xtalk power penalty
+		
+//		double averageER = (referenceER + extinctionWithCarriers)/2 ;
+		double xtalk = getTransmission(resLambda - channelSpacing , resLambda + resShift, Qprime, referenceER ) ;
+		double xtalkPP = -5*Math.log10(xtalk) ;
+		
+		PowerPenalty xtalkPenalty = new PowerPenalty(PowerPenalty.CROSSTALK, AbstractModulator.MODULATOR, xtalkPP) ;		
+
+		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<Double, ArrayList<PowerPenalty>>();
+		pair.setFirst(er);
+		pair.setSecond(MoreArrays.getArrayList(erPP_, ookPP_, xtalkPenalty, insertionLoss));	
+		return pair;		
+	}
+	
+	public double getResShift(Constants ct, AbstractLinkFormat linkFormat) {
+		int wavelengths = linkFormat.getNumberOfChannels();
+		double channelSpacing = ct.getFullFSR()/wavelengths * 1e9 ; // in nm
+		
+		double resShift = 0;
+		if (relResShift < 0 || relResShift > 1) {
+			resShift = channelSpacing/2 ; // in nm. Assuming the shift of resonance is a half of channel spacing
+			
+			//limit to a maximum of 2 nm shift
+			if( resShift > 2 ) {
+				resShift = 2 ;
+			}
+		} else {
+			resShift = (channelSpacing/2)*relResShift;
+		}
+		
+		double maxResShiftNm = getResShiftNmFromMaxVoltage(ct) ;
+		
+		if (resShift <= maxResShiftNm){
+			return resShift ;
+		}else {
+			return maxResShiftNm ;
+		}
+	}
+	
+	public double[] calculateQPrime_resShift_erWithCarrier(Constants ct, AbstractLinkFormat linkFormat) {
+//		int wavelengths = linkFormat.getNumberOfChannels();
+//		double channelSpacing = ct.getFullFSR()/wavelengths * 1e9 ; // in nm
+		double resHz = ct.getCenterFrequency() ;
+		double effectiveIndex = ct.getEffectiveIndex();
+		double resLambda = ct.getCenterWavelength() * 1e9;	// must be in nm
+		
+		double resShift = getResShift(ct, linkFormat);
+		
+		// Find the parameters of the original spectrum
+		double t0 = Math.pow(10, -referenceER/10) ;
+		double FWHM = resHz/q ;
+		double tau_i = 2/(Math.PI * FWHM * (1+Math.sqrt(t0))) ;
+		double tau_c = (1+Math.sqrt(t0))/(1-Math.sqrt(t0)) * tau_i ;
+		double alpha = 2*effectiveIndex/(ct.getSpeedOfLight()*1e2 * tau_i) ; // Note: must be in 1/cm
+		double Gamma = 0.8 ;
+		double DeltaNsilicon = effectiveIndex/Gamma * resShift/resLambda ;
+		
+		// Find the parameters of the shifted spectrum
+		double deltaAlpha = getDeltaAlphaFromDeltaN(DeltaNsilicon) ; // is in 1/cm
+		double alphaPrime = alpha + deltaAlpha ; // calculated in 1/cm
+		double tau_i_prime = 2*effectiveIndex/(ct.getSpeedOfLight()*1e2 * alphaPrime) ;
+		double FWHMprime = 1/Math.PI * (1/tau_i_prime + 1/tau_c) ;
+		double resHzPrime = ct.getSpeedOfLight()/((resLambda+resShift)*1e-9) ; // in Hz
+		double Qprime = resHzPrime/FWHMprime ;
+		double t0Prime = Math.pow((1-tau_i_prime/tau_c)/(1+tau_i_prime/tau_c), 2) ;
+		double extinctionWithCarriers = -10*Math.log10(t0Prime) ;
+		
+		return new double[]{Qprime, resShift, extinctionWithCarriers};
+	}
+	
+	// First we calculate the Insertion loss of the modulation and worst-case loss for passing by the other rings
+	public PowerPenalty getInsertionLossPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat, boolean active) {
+		
+		Constants ct = modelSet.getConstants();
+		
+		int wavelengths = linkFormat.getNumberOfChannels();
+		double channelSpacing = ct.getFullFSR()/wavelengths * 1e9 ; // in nm
+		
+		double resLambda = ct.getCenterWavelength() * 1e9;	// must be in nm
+		double[] calc = calculateQPrime_resShift_erWithCarrier(ct, linkFormat);
+		double Qprime = calc[0];
+		double resShift = calc[1];
+		double extinctionWithCarriers = calc[2];
+		
+		// Now calculate passive power penalties	
+		double[] resLambdas = new double[wavelengths] ;
+		double transmission = 1 ;
+		
+		for (int i=0 ; i< wavelengths/2; i++){
+			// This calculates the resonances of all the WDM rings		
+			resLambdas[i] = resLambda + i * channelSpacing ; 			
+			if (i == 0  ){	
+				  // This one is the IL of the modulator itself				 
+				 resLambdas[i] = resLambda + resShift ;
+				 transmission *= getTransmission(resLambda, resLambdas[i], Qprime, extinctionWithCarriers) ;
+			} else {
+				  // This one is IL due to passing by the other rings
+				 transmission *= Math.pow(getTransmission(resLambda, resLambdas[i], q, referenceER), 2);	// assuming the worst case.
+			}
+			
+		}
+		
+		// This is then the total insertion loss of modulator array
+		double insertionLoss = -10*Math.log10(transmission) ; 
+		
+		// Adding IL of modulation and passive insertion loss of the ring
+		PowerPenalty insertionLossPP = new PowerPenalty(PowerPenalty.INSERTIONLOSS, AbstractModulator.MODULATOR, insertionLoss);
+	
+		/* Removed by sed 09/16/15 : should be calculated, if boolean parameter "active" is false" */
+		//	PowerPenalty passiveILPP = new PowerPenalty("IL passive", AbstractModulator.MODULATOR, passiveIL);
+
+		return insertionLossPP;
+		
+	}
+	
+
+	
+	// This method calculates the transmission spectrum of the ring modulator with the corresponding resonance extinction and Q factor. 
+	// Check that in the (PlotRingResonance) in utilities
+	public double getTransmission (double lambda, double resLambda, double qFactor, double resExtinctionDB) {
+		
+		double FWHM = resLambda/qFactor ;
+		double resExtinction = Math.pow(10, -resExtinctionDB/10) ;
+		
+		double trans =   ( Math.pow(2*(lambda-resLambda)/FWHM, 2) + resExtinction )/ ( Math.pow(2*(lambda-resLambda)/FWHM, 2) + 1 ) ;
+		
+		return trans ;
+		
+	}
+	
+	public double getDrivingCapacitance() {
+		return capacitance;
+	}
+	
+	public double getDrivingVoltage(Constants ct, AbstractLinkFormat linkFormat) {
+		double channelSpacingNm = ct.getFullFSR()/linkFormat.getNumberOfChannels() * 1e9 ;
+		double resShiftNm = getResShift(ct, linkFormat) ; 
+		double Gamma = 0.8 ;
+		double Na = 5e17 ;
+		double Nd = 1e18 ;
+		double eps_si = 3.47 * 3.47 ;
+		double eps0 = 8.85e-12/100 ; // Farad/cm
+		double nf = 4.25e-21 ;
+		double q = 1.6e-19 ;
+		double ng = 4.2 ;
+		double w = 500e-9 ;
+		double Vbi = 0.7 ;
+		double resWavelengthNm = ct.getCenterWavelength() * 1e9 ;
+		double A = resWavelengthNm * Gamma * nf/ng * 1/(w*1e2) ;
+		double B = Math.sqrt(2*eps_si * eps0/q * (Na * Nd)/(Na+Nd)) ;
+		double V = Vbi - Math.pow((resShiftNm/(A*B))+Math.sqrt(Vbi), 2) ;
+		return (V) ; // drive voltage is most likely  negative. Hence returning 
+	}
+	
+	public double getResShiftNmFromMaxVoltage(Constants ct) {
+		double Gamma = 0.8 ;
+		double Na = 5e17 ;
+		double Nd = 1e18 ;
+		double eps_si = 3.47 * 3.47 ;
+		double eps0 = 8.85e-12/100 ; // Farad/cm
+		double nf = 4.25e-21 ;
+		double q = 1.6e-19 ;
+		double ng = 4.2 ;
+		double w = 500e-9 ;
+		double Vbi = 0.7 ;
+		double resWavelengthNm = ct.getCenterWavelength() * 1e9 ;
+		double A = resWavelengthNm * Gamma * nf/ng * 1/(w*1e2) ;
+		double B = Math.sqrt(2*eps_si * eps0/q * (Na * Nd)/(Na+Nd)) ;
+		double maxResShiftNm = A * B * (Math.sqrt(Vbi-maxDriveVoltage) - Math.sqrt(Vbi)) ;
+		return maxResShiftNm ; 
+	}
+	
+
+	private double getDeltaAlphaFromDeltaN(double DeltaN){
+		double DeltaAlpha = 2.3474e3 * DeltaN ;
+		return DeltaAlpha ;
+	}
+	
+	public double getMaxDriveVoltage(){
+		return maxDriveVoltage ;
+	}
+		
+	public double getModERdB(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat){
+		Constants ct = modelSet.getConstants();
+		
+		double resLambda = ct.getCenterWavelength() * 1e9;	// must be in nm
+		int wavelengths = linkFormat.getNumberOfChannels();
+		double channelSpacing = ct.getFullFSR()/wavelengths * 1e9 ; // in nm
+		
+		double[] calc = calculateQPrime_resShift_erWithCarrier(ct, linkFormat);
+		double Qprime = calc[0];
+		double resShift = calc[1];
+		double extinctionWithCarriers = calc[2];
+		
+		double powON = getTransmission(resLambda, resLambda + resShift, Qprime, extinctionWithCarriers  ) ;
+		double powOFF = getTransmission(resLambda, resLambda , q, referenceER  ) ;
+		
+		double er = powON/powOFF ; // This is the extinction ratio of ON-OFF keying Modulation
+		double modERdB = 10*Math.log10(er) ;
+		
+		return modERdB ;
+	}
+	
+	public double getModulatorPassiveQ(){
+		return q ;
+	}
+	
+}
+
+
+
+
+
+
+
+

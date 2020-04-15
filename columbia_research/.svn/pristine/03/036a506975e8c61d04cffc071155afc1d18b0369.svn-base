@@ -1,0 +1,173 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.modarrays;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.MoreArrays;
+import ch.epfl.general_libraries.utils.Pair;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.AbstractModulator;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.Abstract_OOK_NRZ_Receiver;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.AbstractRingPNJunctionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.SimpleRingPNJunctionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+
+
+
+public class Improved_OOK_NRZ_ModulatorArrayModelMeisam extends AbstractRingBased_OOK_NRZ_ModulatorArrayModel {
+	// Parameters
+	private double ringRadius;
+	private double q;
+	private double qWithCarriers;
+	private double passiveIL;
+	private double referenceER;
+	private double extinctionWithCarriers;
+	private double capacitance;
+	private double voltage;
+	
+	// Initialize the parameters with the constructor
+	public Improved_OOK_NRZ_ModulatorArrayModelMeisam(
+			Abstract_OOK_NRZ_Receiver ookReceiver,
+			@ParamName(name = "Ring radius", default_ = "1.87e-6") double ringRadius,
+			@ParamName(name = "Modulator Q", default_ = "12000") double q,
+			@ParamName(name = "Modulator Q with carriers", default_ = "5600") double qWithCarriers,
+			@ParamName(name = "Passive insertion loss (dB)", default_ = "0.5") double passiveIL,
+			@ParamName(name = "Passive resonance extinction (dB)", default_ = "20") double referenceER,
+			@ParamName(name = "Resonance extinction with carriers (dB)", default_ = "8") double extinctionWithCarriers,
+			@ParamName(name = "Power model", defaultClass_ = SimpleRingPNJunctionDriverPowerModel.class) 
+				AbstractRingPNJunctionDriverPowerModel powerModel,
+			@ParamName(name = "Driving voltage", default_="2") double voltage,
+			@ParamName(name="Capacitance (fF)", default_="145") double capacitance) {
+		super(ookReceiver, powerModel); // required by the super class (AbstractModulatorArrayModel)
+		this.ringRadius = ringRadius;
+		this.q = q;
+		this.qWithCarriers = qWithCarriers;
+		this.passiveIL = passiveIL;
+		this.referenceER = referenceER;
+		this.extinctionWithCarriers = extinctionWithCarriers;
+		this.voltage = voltage;
+		this.capacitance = capacitance;
+	}
+
+	public Map<String, String> getRingBasedArrayParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Ring radius", ringRadius + "");
+		map.put("Modulator Q", q + "");
+		map.put("Modulator Q with carriers", qWithCarriers + "");
+		map.put("Passive IL (dB)", passiveIL + "");
+		map.put("Reference ER (dB)", referenceER + "");
+		map.put("Extinction ratio (dB)", extinctionWithCarriers + "");
+		return map;
+	}
+	
+	@Override
+	public double getDrivingCapacitance() {
+		return voltage;
+	}
+
+	@Override
+	public double getDrivingVoltage(Constants ct, AbstractLinkFormat linkFormat) {
+		return capacitance;
+	}	
+
+
+	public ArrayList<PowerPenalty> getPassbyModulationBankPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		Constants ct = modelSet.getConstants();
+		
+		int wavelengths = linkFormat.getNumberOfChannels();
+
+		double centerHz = ct.getSpeedOfLight() / ct.getCenterWavelength();	
+		double channelSpacing = ct.wavelengthsToChannelSpacing(wavelengths) ;
+		double resShiftHz = channelSpacing/2 ; // Assuming the shift of resonance is half of channel spacing
+
+		double[] centerFreqs = new double[wavelengths] ;
+		double transmission = 1 ;
+
+		for (int i=0 ; i< centerFreqs.length; i++){
+
+			centerFreqs[i] = centerHz + i * ct.wavelengthsToChannelSpacing(wavelengths) ; 
+			// This calculates the resonances of all the WDM rings		
+			if (i == 0  ){
+				// This one is the IL of the modulator itself		 
+				centerFreqs[i] = centerHz + resShiftHz ;
+				transmission *= getTransmission(centerHz, centerFreqs[i], qWithCarriers, extinctionWithCarriers) ;  
+			} else {
+				transmission *= getTransmission(centerHz, centerFreqs[i], q, referenceER) ;  // This one is IL due to passing by the other rings
+			}
+		}
+		
+		// This is then the total insertion loss of modulator array
+		double insertionLoss = -10*Math.log10(transmission) ;
+		
+		// Adding IL of modulation and passive insertion loss of the ring
+		PowerPenalty insertionLossPP = new PowerPenalty("Array induced IL", AbstractModulator.MODULATOR, insertionLoss);
+		
+		return MoreArrays.getArrayList(insertionLossPP);
+	}
+	
+	public Pair<Double, ArrayList<PowerPenalty>> getModulationERAndPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		Constants ct = modelSet.getConstants();
+
+		
+		double centerHz = ct.getSpeedOfLight() / ct.getCenterWavelength();
+		int wavelengths = linkFormat.getNumberOfChannels();
+
+		double channelSpacing = ct.wavelengthsToChannelSpacing(wavelengths) ;
+		double resShiftHz = channelSpacing/2 ; // Assuming the shift of resonance is half of channel spacing
+
+		
+		double powON = getTransmission(centerHz, centerHz + resShiftHz, qWithCarriers, extinctionWithCarriers  ) ;
+		double powOFF = getTransmission(centerHz, centerHz , q, referenceER  ) ;
+		
+		double er = powON/powOFF ; // This is the extinction ratio of ON-OFF keying Modulation
+		
+		double erPP = -10*Math.log10((er-1)/(er+1)) ; // This is the power penalty due to the finite extinction ratio of OOK modulation
+		double ookPP = -10*Math.log10((er+1)/(2*er)) ; // This is the power penalty for OOK with finite ER. It is less than 3 dB.
+
+		PowerPenalty erPP_ = new PowerPenalty(PowerPenalty.ER, AbstractModulator.MODULATOR, erPP);
+		PowerPenalty ookPP_ = new PowerPenalty(PowerPenalty.OOK, AbstractModulator.MODULATOR,ookPP);		
+
+		// Finally we need to calculate the Mux Xtalk power penalty
+		double averageER = (referenceER + extinctionWithCarriers)/2 ;
+		double xtalk = getTransmission(centerHz+channelSpacing-resShiftHz, centerHz, qWithCarriers, averageER ) ;
+		double xtalkPP = -10*Math.log10(xtalk) ;	
+		PowerPenalty xtalkPenalty = new PowerPenalty(PowerPenalty.CROSSTALK, AbstractModulator.MODULATOR, xtalkPP);		
+
+		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<Double, ArrayList<PowerPenalty>>();
+		pair.setFirst(er);
+		pair.setSecond(MoreArrays.getArrayList(erPP_, ookPP_, xtalkPenalty));	
+		return pair;	
+	}
+	
+	
+
+	
+	// This method calculates the transmission spectrum of the ring modulator with the corresponding resonance extinction and Q factor. 
+	// Check that in the (PlotRingResonance) in utilities
+	public double getTransmission (double freq, double resFreq, double qFactor, double resExtinctionDB) {
+		
+		double FWHM = resFreq/qFactor ;
+		double resExtinction = Math.pow(10, -resExtinctionDB/10) ;
+		
+		double trans =   ( Math.pow(2*(freq-resFreq)/FWHM, 2) + resExtinction )/ ( Math.pow(2*(freq-resFreq)/FWHM, 2) + 1 ) ;
+		
+		return trans ;
+		
+	}
+
+	
+}
+
+
+
+
+
+
+
+

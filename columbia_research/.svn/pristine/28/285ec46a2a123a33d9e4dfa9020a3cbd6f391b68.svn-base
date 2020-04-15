@@ -1,0 +1,223 @@
+package edu.columbia.lrl.CrossLayer.physical_models;
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.SimpleMap;
+
+
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.ad_hoc.InterfaceWaveguideLengthModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.AbstractLaserModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.signaling.AbstractSignallingModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.signaling.WDMSignallingModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.switches.Abstract2x2Switch;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.switches.Switch1x2;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.switches.Switch2x2HardCoded;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+
+public class PhysicalParameterAndModelsSet {
+	
+	//TODO: Think about constants. These are used by all devices, so using static methods so I don't have to propagate the object everywhere
+	Constants constants;
+	AbstractSignallingModel signallingModel;
+//	ModulatorArrayModel modulators;
+//	AbstractModulatorArrayModel modulators ;
+//	AbstractDemux filters;
+	Switch1x2 switches1x2;
+	Abstract2x2Switch switches2x2;
+//	AbstractPowerBudget powerBudget;
+	InterfaceWaveguideLengthModel interfaceWaveguideLengthModel;
+	AbstractLaserModel laserModel;
+	double maxOptPowerdBm;
+	double waveguideLoss;
+	double couplerLoss;
+	double bendLoss;
+	double crossingLoss;
+	double junctionLoss;
+//	double jitterPenalty;
+	double defaultSingleRingTTPower;
+	int ber;
+//	double detectorStaticPower;
+	
+	public PhysicalParameterAndModelsSet(
+			Constants constants,
+			@ParamName(name="", defaultClass_=WDMSignallingModel.class) AbstractSignallingModel signallingModel,
+			Switch1x2 switches1x2,
+			@ParamName(name="2x2 switch model", defaultClass_=Switch2x2HardCoded.class) Abstract2x2Switch switches2x2,
+			AbstractLaserModel laserModel,
+	//		@ParamName(name="Power budget", defaultClass_ = MinMaxPowerBudget.class ) AbstractPowerBudget powerBudget,
+			@ParamName(name="Element positioning model") InterfaceWaveguideLengthModel interfaceWaveguideLengthModel,
+			@ParamName(name = "Maximum aggregated optical power in dBm", default_ = "20") double maxOptPowerdBm,
+			@ParamName(name = "Default ring tuning/trimming power (mW)", default_ = "1") double defaultSingleRingTTPower,
+			@ParamName(name="Waveguide loss (dB/cm)", default_="1") double waveguideLoss,
+			@ParamName(name="Coupler loss dB)", default_="1") double couplerLoss,
+			@ParamName(name="Waveguide bend loss (dB/bend)", default_="0.02") double bendLoss,
+			@ParamName(name="Y junction loss (dB)", default_="0.28") double junctionLoss, // 0.28dB based on "A compact and low loss Y-junction for submicron silicon waveguide"
+			@ParamName(name="Waveguide crossing loss (dB)", default_="0.028") double crossingLoss,
+			@ParamName(name="Index of BER for which calculate (e.g. 9 for 10^-9)", default_="9") int ber
+			//Adding these three by Meisam (need them right now)
+//			@ParamName(name="Modulator Array Model", defaultClass_ = ModulatorArrayModel.class) AbstractModulatorArrayModel modulators,
+//			@ParamName(name="Filter Array Model", defaultClass_ = RingBasedFilterArrayModelAdaptiveIL.class) AbstractDemux filters,
+//			@ParamName(name="Jitter Penalty (dB)", default_ = "2") double jitterPenalty 
+			) {
+		this.constants = constants;
+		this.signallingModel = signallingModel;
+		this.interfaceWaveguideLengthModel = interfaceWaveguideLengthModel;
+
+		this.maxOptPowerdBm = maxOptPowerdBm;
+		this.laserModel = laserModel;
+		this.switches1x2 = switches1x2;
+		this.switches2x2 = switches2x2;
+		this.defaultSingleRingTTPower = defaultSingleRingTTPower;
+		this.waveguideLoss = waveguideLoss;
+		this.couplerLoss = couplerLoss;
+		this.bendLoss = bendLoss;
+		this.junctionLoss = junctionLoss;
+		this.crossingLoss = crossingLoss;
+		this.ber = ber;
+		// adding these three lines by Meisam
+	//	this.modulators = modulators ;
+	//	this.filters = filters ;
+	//	this.jitterPenalty = jitterPenalty ;
+		
+	}
+		
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Waveguide loss (dB/cm)", waveguideLoss+"");
+		map.put("Coupler loss (dB)", couplerLoss+"");
+		map.put("Default ring TT power", defaultSingleRingTTPower+"");
+		map.put("Target BER", ber+"");
+		map.putAll(constants.getAllParameters());
+		if (switches1x2 != null)
+		map.putAll(switches1x2.getAllParameters());
+		if (switches2x2 != null)
+		map.putAll(switches2x2.getAllParameters());
+		map.putAll(laserModel.getAllParameters());
+		map.putAll(signallingModel.getAllParameters());
+
+		return map;
+	}
+	
+	public static double mWtodBm(double mw) {
+		return 10*Math.log10(mw);
+	}
+	
+	public static double dBmTomW(double dBm) {
+		return Math.pow(10, dBm/10d);
+	}
+	
+	public String toString() {
+		return "Parameterizable device set";
+	}
+	
+	public InterfaceWaveguideLengthModel getInterfaceWaveguideLengthModel() {
+		return interfaceWaveguideLengthModel;
+	}
+	
+	public int getTargetBER() {
+		return ber;
+	}
+	
+	public Constants getConstants() {
+		return constants;
+	}
+	
+	public AbstractLaserModel getLaserModel() {
+		return laserModel;
+	}
+	
+/*	public AbstractPowerBudget getPowerBudgetModel() {
+		return powerBudget;
+	}*/
+	
+/*	public AbstractModulatorArrayModel getModulatorArrayModel() {
+		return modulators;
+	}*/
+	
+/*	public AbstractDemux getDemux() {
+		return filters;
+	}*/
+	
+	public AbstractSignallingModel getSignallingModel() {
+		return signallingModel;
+	}
+	
+	public Switch1x2 get1x2SwitchModel() {
+		return switches1x2;
+	}
+	
+	public Abstract2x2Switch get2x2SwitchModel() {
+		return switches2x2;
+	}
+	
+	public double getDefaultSingleRingTTPowerMW() {
+		return defaultSingleRingTTPower;
+	}
+	
+	public double getJunctionLoss() {
+		return junctionLoss;
+	}	
+	
+	public double getWaveguideLoss() {
+		return waveguideLoss;
+	}	
+	
+	public PowerPenalty getWaveguideLossPP() {
+		return new PowerPenalty("Waveguide", "link", waveguideLoss);
+	}
+	
+	public PowerPenalty getCouplerLoss() {
+		return new PowerPenalty("Couplers", "link", couplerLoss);
+	}
+	
+	public PowerPenalty getBendLoss() {
+		return new PowerPenalty ("Bendings", "link", bendLoss);
+	}
+	
+	public PowerPenalty getCrossingLoss() {
+		return new PowerPenalty ("Crossings", "link", crossingLoss);
+	}
+
+	public double getMaximumAggregatedOpticalPower() {
+		return maxOptPowerdBm;
+	}
+
+	public PowerConsumption getMinimalSingleLaserConsumption(
+			AbstractLinkFormat linkFormat,
+			LayoutWorseCaseProperties properties) {
+		return getMinimalSingleLaserConsumption(getLaserModel(), getSignallingModel(), linkFormat, properties);
+	}
+		
+	public PowerConsumption getMinimalSingleLaserConsumption(
+			AbstractLaserModel laserModel,
+			AbstractSignallingModel sigmod,
+			AbstractLinkFormat linkFormat,
+			LayoutWorseCaseProperties properties) {
+		double minimal_dBm = sigmod.getReceiverSensitivity(this, linkFormat) + properties.getTotalPowerPenalty();
+		double mw = dBmTomW(minimal_dBm);
+		
+		return getSingleLaserConsumption(laserModel, mw, linkFormat.getNumberOfChannels());
+	}
+		
+	public PowerConsumption getSingleLaserConsumption(
+				AbstractLaserModel laserModel,
+				double inputLaserPowerPerWavelength_mW,
+				int nbChannels) {
+			
+		double laserPower_mW = laserModel.getLaserWallPlugConsumption(inputLaserPowerPerWavelength_mW, nbChannels);
+		
+	//	double laserPower_mW = inputLaserPowerPerWavelength_mW / laserModel.getLaserEfficiency();
+		
+		PowerConsumption pc = new PowerConsumption("Laser", false, true, true, laserPower_mW);	
+		return pc;
+	}	
+		
+	// added by Meisam
+/*		public PowerPenalty getJitterPenalty(){
+			return new PowerPenalty ("jitter","link", jitterPenalty) ;
+		}*/
+}

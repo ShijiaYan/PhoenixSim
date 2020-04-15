@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="568.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="People.Meisam.GUI.SingleVariableCalculus.SingleVariableCalculusController">
+   <children>
+      <VBox prefHeight="568.0" prefWidth="823.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Tools">
+                  <items>
+                    <MenuItem fx:id="dataBase" mnemonicParsing="false" text="Database" />
+                        <MenuItem fx:id="popupPlot" mnemonicParsing="false" text="Popup Plot" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="Credits" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <TabPane fx:id="tabs" prefHeight="567.0" prefWidth="823.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="General">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea editable="false" layoutX="9.0" layoutY="14.0" prefHeight="353.0" prefWidth="377.0" text="Welcome to this mathematical tool. This tool will allow you to explore the behavior of single variable functions and their properties. &#10;&#10;This tool is part of PheonixSim software environment developed at Lightwave Research Laboratory at Columbia University. All rights are reserved.&#10;" wrapText="true" AnchorPane.leftAnchor="9.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></TextArea>
+                              <ImageView fitHeight="114.0" fitWidth="142.0" layoutX="9.0" layoutY="383.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../ThermalHeater/Extras/PhoenixSim_logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="127.0" fitWidth="297.0" layoutX="164.0" layoutY="388.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../ThermalHeater/Extras/LRL_logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="623.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Extras/function.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="412.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Extras/function-mathematical-symbol.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="420.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Extras/parabolic-function.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="629.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Extras/area-chart.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="533.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Extras/calculating.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab fx:id="dcTab" text="Functions">
+                     <content>
+                        <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Pane nodeOrientation="LEFT_TO_RIGHT">
+                                 <children>
+                                    <Label contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" text="Single Variable Function">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="12.0" layoutY="123.0" text="Set Kv:">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="KvTextField" layoutX="65.0" layoutY="119.0" promptText="1/Volt^2" />
+                                    <Button fx:id="KvSetButton" layoutX="225.0" layoutY="119.0" mnemonicParsing="false" text="set">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Button fx:id="RlinearSetButton" layoutX="226.0" layoutY="178.0" mnemonicParsing="false" text="set">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <TextField fx:id="RlinearTextField" layoutX="66.0" layoutY="178.0" promptText="Ohm" />
+                                    <Label layoutX="14.0" layoutY="182.0" text="Set R:">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="13.0" layoutY="242.0" text="Set aH:">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="aHTextField" layoutX="66.0" layoutY="238.0" promptText="1/Kelvin" />
+                                    <Button fx:id="aHButton" layoutX="226.0" layoutY="238.0" mnemonicParsing="false" text="set">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Label fx:id="kvLabel" layoutX="65.0" layoutY="149.0" text="Label" />
+                                    <Label fx:id="RlinearLabel" layoutX="68.0" layoutY="209.0" text="Label" />
+                                    <Label fx:id="aHLabel" layoutX="68.0" layoutY="270.0" text="Label" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="dcMatlabPlotPane" minHeight="400.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="500.0">
+                                 <HBox.margin>
+                                    <Insets right="10.0" top="10.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Button fx:id="exportToMatlabButton" layoutX="342.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Export to Matlab">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Button fx:id="openInPlotterButton" layoutX="342.0" layoutY="461.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Open in Plotter">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Label layoutX="40.0" layoutY="410.0" text="Plot...">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <RadioButton fx:id="viPlotRadioButton" layoutX="41.0" layoutY="438.0" mnemonicParsing="false" text="V-I">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="dcPlot" />
+                                       </toggleGroup></RadioButton>
+                                    <RadioButton fx:id="tempVRadioButton" layoutX="128.0" layoutY="438.0" mnemonicParsing="false" text="Heater Temperature-V" toggleGroup="$dcPlot" />
+                                    <RadioButton fx:id="tempIRadioButton" layoutX="41.0" layoutY="468.0" mnemonicParsing="false" text="Heater Temperature-I" toggleGroup="$dcPlot" />
+                                    <RadioButton fx:id="ivPlotRadioButton" layoutX="233.0" layoutY="468.0" mnemonicParsing="false" text="I-V" />
+                                 </children></Pane>
+                           </children>
+                        </HBox>
+                     </content></Tab>
+                  <Tab fx:id="dcTab1" text="1st Order Diff Eqn">
+                     <content>
+                        <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Pane nodeOrientation="LEFT_TO_RIGHT" />
+                              <Pane fx:id="dcMatlabPlotPane1" minHeight="400.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="500.0">
+                                 <HBox.margin>
+                                    <Insets right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Pane>
+                           </children>
+                        </HBox>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="dcTab11" text="2nd Order Diff Eqn">
+                     <content>
+                        <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Pane nodeOrientation="LEFT_TO_RIGHT" />
+                              <Pane fx:id="dcMatlabPlotPane11" minHeight="400.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="500.0">
+                                 <HBox.margin>
+                                    <Insets right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Pane>
+                           </children>
+                        </HBox>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

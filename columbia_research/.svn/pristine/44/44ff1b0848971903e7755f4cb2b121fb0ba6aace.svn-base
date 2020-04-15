@@ -1,0 +1,11 @@
+package edu.columbia.lrl.CrossLayer.physical_models.generic_models.xtalk;
+
+import java.util.Map;
+
+public abstract class AbstractXtalkPPModel {
+	
+	public abstract double getXtalkPP(double xtalkPower, int berIndex, double modulationER);
+
+	public abstract Map<String, String> getAllParameters();
+
+}

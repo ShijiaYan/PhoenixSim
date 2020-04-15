@@ -1,0 +1,12 @@
+<?xml version="1"?>
+<mapper>
+	<lookup>
+	        <service name="default" type="deamon.classlist.DefaultService" />
+	</lookup>
+	
+	<resolve>
+		<match path="/*"                       name="default" />
+		<match path="/*/*"                     name="default" />
+		<match path="/action"                  name="default" />
+	</resolve>
+</mapper>

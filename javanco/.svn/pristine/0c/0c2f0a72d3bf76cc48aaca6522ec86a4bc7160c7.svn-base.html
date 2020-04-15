@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>Execution server monitor</title>
+</head>
+<body>
+<h1>Execution Server Monitor</h1>
+<h2>Server Farm Status</h2>
+#REPLACE#
+<form name="threadstop" action="html_form_action.asp" method="get">
+Stop Thread Number: <input type="text" name="threadnumber">
+<input type="submit" value="Submit">
+</form>
+<form name="input" action="html_form_action.asp" method="get">
+<input type="submit" value="Start All Servers" name="startall">
+<input type="submit" value="Pause Server" name="stop">
+<input type="submit" value="Unpause Server" name="start">
+<input type="submit" value="Kill This Server" name="kill">
+<input type="submit" value="Kill All Servers" name="killall">
+</form>
+</body>
+</html>

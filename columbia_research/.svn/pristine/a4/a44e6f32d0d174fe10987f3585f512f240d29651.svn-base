@@ -1,0 +1,117 @@
+package edu.columbia.lrl.CrossLayer.physical_models.layout;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.ad_hoc.InterfaceWaveguideLengthModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.signaling.AbstractSignallingModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
+
+
+
+public class P2PLayout extends PhysicalLayout {
+	int numCouplers;
+	
+	PhysicalParameterAndModelsSet devices;
+	
+	public P2PLayout(
+			@ParamName(name="Number of couplers", default_="2") int numCouplers
+			) {
+		this.numCouplers = numCouplers;
+	}
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Number of couplers", numCouplers+"");
+		return map;
+	}
+
+	@Override
+	public String toString() {
+		return "P2P layout";
+	}
+	
+	@Override
+	public double getUnavailabilityTime() {
+		return 0;
+	}	
+	
+	
+	
+
+/*	@Override
+	public double getPowerPenalty() {
+		
+		dataManager.checkAll(this, "Wavelengths");
+		int wavelengths = dataManager.getInt("Wavelengths");
+		
+		LayoutProperties layoutProp = getLayoutProperties(devices, wavelengths);
+		dataManager.set("LinkPropagationLatency", layoutProp.propagationLatencyNS);
+		
+		return layoutProp.powerPenalty;
+	}*/
+		
+	
+	// Now this method does not uses the dataManager which is unsafe
+	@Override
+	public LayoutWorseCaseProperties getLayoutPropertiesForaGivenNumberOfWavelengths(
+			Execution ex, 
+			PhysicalParameterAndModelsSet modelSet, 
+			AbstractLinkFormat linkFormat) {
+		
+		LayoutWorseCaseProperties prop = new LayoutWorseCaseProperties(linkFormat.getNumberOfChannels());
+		
+		Constants ct = modelSet.getConstants();
+		int wavelengths = linkFormat.getNumberOfChannels();
+		
+		AbstractSignallingModel sig = modelSet.getSignallingModel();
+		
+		prop.addPowerPenalties(sig.getPowerPenalties(ex, modelSet, linkFormat, 1, 1));
+		
+	//	prop.addPowerPenalties(modelSet.getModulatorArrayModel().getPassivePowerPenalties(ct, linkFormat));
+		
+	//	prop.addPowerPenalties(modelSet.getModulatorArrayModel().getActivePowerPenalties(ct, linkFormat));
+		
+	//	prop.addPowerPenalties(modelSet.getDemux().getPowerPenalties(ct, linkFormat, ex));
+		
+		prop.addPowerPenalty(modelSet.getCouplerLoss().multiply(numCouplers));
+		
+		InterfaceWaveguideLengthModel waveGuideModel = modelSet.getInterfaceWaveguideLengthModel();
+		
+		double waveguideLengthCm = waveGuideModel.getModulatorWaveguideLengthCm(wavelengths) +
+								   waveGuideModel.getFilterWaveguideLengthCm(wavelengths);
+		
+		prop.addPowerPenalty(modelSet.getWaveguideLossPP().multiply(waveguideLengthCm));
+		
+	//	prop.addPowerPenalty(modelSet.getJitterPenalty());
+		
+		//Also compute the link propagation latency
+		double propLatencyNS = (waveguideLengthCm) / (100 * ct.getSpeedOfLight()) * 1e9 /* ns*/ ; //...estimation....
+		prop.setLinkLatency(propLatencyNS);
+		
+		return prop;
+	}
+
+
+	@Override
+	public List<PowerConsumption> getLayoutSpecificConsumption(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {	
+		
+		return new ArrayList<PowerConsumption>(0);
+		
+	//	List<PowerConsumption> p = modelSet.getModulatorArrayModel().getDevicePowerConsumptions(modelSet, linkFormat);
+	//	p.addAll(modelSet.getDemux().getDevicePowerConsumptions(modelSet, linkFormat));
+		
+	//	return p;
+	}
+
+}

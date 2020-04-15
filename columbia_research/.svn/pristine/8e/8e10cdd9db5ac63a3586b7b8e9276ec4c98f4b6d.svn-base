@@ -1,0 +1,46 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations;
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.AbstractRingPNJunctionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+
+public class OOK_DepletionDriverModel_28nm extends AbstractRingPNJunctionDriverPowerModel {
+	
+
+	public double getEnergyPJperBit(double voltage, double capacitance, AbstractLinkFormat linkFormat){
+		
+		double VDD = 1.0 ; // supply voltage for 65nm CMOS
+		double refCapacitance = 50 ; // in femto Farad. This is the modulator capacitance in Robert's paper
+		
+		double rate = linkFormat.getWavelengthRate() ;
+		double driverSlope = 0.2e-23  ; // grows as V^3 , for VDD = 1.0 V (28nm CMOS tech)
+		double driverConst = 8.8e-14  ; // grows as V^2 , for VDD = 1.0 V (28nm CMOS tech)
+		
+		double modifiedDriverSlope = driverSlope * Math.abs(Math.pow(voltage/(2*VDD), 2)) *(capacitance/refCapacitance) ;
+		double modifiedDriverConst = (driverConst-refCapacitance*1e-15*Math.pow(2*VDD, 2)/4) + capacitance*1e-15 * Math.pow(voltage, 2) * (1/4) ;
+		
+		double EnergyJperBit =  modifiedDriverSlope * rate + modifiedDriverConst ;
+		double EnergyPJperBit = EnergyJperBit * 1e12 ;
+		
+		return EnergyPJperBit ;
+	}
+
+
+	@Override
+	public double getAverageConsumption(double voltage, double capacitance, AbstractLinkFormat linkFormat) {
+		
+		double powerMW = getEnergyPJperBit(voltage, capacitance, linkFormat) * linkFormat.getWavelengthRate()/1e9 ; // This is for just one driver 
+		return powerMW ;
+	}
+
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		return map;
+	}
+
+	
+	
+}

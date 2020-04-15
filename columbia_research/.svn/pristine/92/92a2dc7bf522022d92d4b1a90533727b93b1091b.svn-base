@@ -1,0 +1,185 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.modarrays;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.MoreArrays;
+import ch.epfl.general_libraries.utils.Pair;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.AbstractModulator;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.Abstract_OOK_NRZ_Receiver;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.AbstractRingPNJunctionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.devices.rings.RateDependentRingPNJunctionDepletionDriverPowerModel;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
+import edu.columbia.lrl.CrossLayer.physical_models.util.RingResonance;
+
+
+
+public class Old_OOK_NRZ_ModulatorArrayModel extends AbstractRingBased_OOK_NRZ_ModulatorArrayModel {
+	// Parameters
+	private double ringRadius;
+	private double q;
+	private double qWithCarriers;
+	private double passiveIL;
+	private double referenceER;
+	private double extinctionRatio;
+	private double capacitance;
+	private double voltage;
+	
+	public Old_OOK_NRZ_ModulatorArrayModel(
+			Abstract_OOK_NRZ_Receiver ookReceiver,
+			@ParamName(name = "Ring radius", default_ = "1.87e-6") double ringRadius,
+			@ParamName(name = "Modulator Q", default_ = "12000") double q,
+			@ParamName(name = "Modulator Q with carriers", default_ = "5600") double qWithCarriers,
+			@ParamName(name = "Passive insertion loss (dB)", default_ = "1") double passiveIL,
+			@ParamName(name = "Reference extinction ratio (dB)", default_ = "20") double referenceER,
+			@ParamName(name = "Extinction ratio (dB)", default_ = "8") double extinctionRatio,
+			@ParamName(name = "Power model", defaultClass_ = RateDependentRingPNJunctionDepletionDriverPowerModel.class) AbstractRingPNJunctionDriverPowerModel powerModel,
+			@ParamName(name = "Driving voltage", default_="2") double voltage,
+			@ParamName(name="Capacitance (fF)", default_="145") double capacitance) {
+		super(ookReceiver, powerModel);
+		this.ringRadius = ringRadius;
+		this.q = q;
+		this.qWithCarriers = qWithCarriers;
+		this.passiveIL = passiveIL;
+		this.referenceER = referenceER;
+		this.extinctionRatio = extinctionRatio;
+		this.voltage = voltage;
+		this.capacitance = capacitance;
+	}
+
+	public Map<String, String> getRingBasedArrayParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Ring radius", ringRadius + "");
+		map.put("Modulator Q", q + "");
+		map.put("Modulator Q with carriers", qWithCarriers + "");
+		map.put("Passive IL (dB)", passiveIL + "");
+		map.put("Reference ER (dB)", referenceER + "");
+		map.put("Extinction ratio (dB)", extinctionRatio + "");		
+		return map;
+	}
+	
+	@Override
+	public double getDrivingCapacitance() {
+		return voltage;
+	}
+
+	@Override
+	public double getDrivingVoltage(Constants ct, AbstractLinkFormat linkFormat) {
+		return capacitance;
+	}	
+	
+	public ArrayList<PowerPenalty> getPassbyModulationBankPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		
+		Constants ct = modelSet.getConstants();
+		
+		int wavelengths = linkFormat.getNumberOfChannels();
+
+		double centerHz = ct.getSpeedOfLight() / ct.getCenterWavelength();
+		double fsrHz = ct.getSpeedOfLight() / (Math.PI * 2 * ringRadius * ct.getEffectiveIndex());
+		
+		// Generate ring resonance, find region of operation
+		RingResonance resonance = new RingResonance(centerHz, fsrHz, q);
+		int max = Integer.MAX_VALUE;
+		for (int i = resonance.getNumSamples() - 1; i >= 0; i--) {
+			// Generally want to operate at steepest part of "blue" side
+			if (resonance.at(i) >= 0.5) {
+				max = i;
+				break;
+			}
+		}
+		double v_laser = resonance.getFrequencyAtIndex(max);
+
+		double signal_mul_IL = 1;
+		double avg_loss = 0;
+
+		int ext = (int) Math.ceil(wavelengths / 2d);
+
+		double[] losses = new double[2 * ext];
+		double[] accum = new double[2 * ext];
+		double[] ringRes1 = new double[2 * ext];
+		double[] ringRes2 = new double[2 * ext];
+		double[] indexes = new double[2 * ext];
+
+		// Calculate shifted resonance
+
+		double channelSpacing = ct.wavelengthsToChannelSpacing(wavelengths);
+		double shiftHz = channelSpacing / 2;
+		
+		//limit to a 250 GHz shift
+		if( shiftHz > 250e9 ) {
+			shiftHz = 250e9;
+		} else if (shiftHz < 10e9) { // at least 10Ghz for 10Gb/s - adapt for other rates
+			shiftHz = 10e9;
+		}
+
+
+		for (int i = -ext; i < ext; i++) {
+			indexes[i + ext] = i;
+			if (i != 0) {
+				
+				double r1 = RingResonance.getResonance(centerHz, fsrHz, q, v_laser + (i * channelSpacing));
+				double r2 = RingResonance.getResonance(centerHz - shiftHz, fsrHz, qWithCarriers, v_laser + (i * channelSpacing));
+				
+				if (r1 > 0.999) r1 = 1;
+				if (r2 > 0.999) r2 = 1;
+				
+				ringRes1[i + ext] = r1;
+				ringRes2[i + ext] = r2;
+			//	ringRes1[i + ext] = resonance.getResonanceAt(v_laser + i * channelSpacing);
+			//	ringRes2[i + ext] = offResonance.getResonanceAt(v_laser + i * channelSpacing);
+
+				avg_loss = (ringRes1[i + ext] + ringRes2[i + ext]) / 2;
+				losses[i + ext] = (1 - avg_loss);
+				signal_mul_IL *= (1 - avg_loss);
+				accum[i + ext] = -10 * Math.log10(signal_mul_IL);
+			} else {
+				accum[i + ext] = accum[i + ext - 1];
+			}
+		}
+		
+		PowerPenalty intermod = new PowerPenalty(PowerPenalty.CROSSTALK, AbstractModulator.MODULATOR, -10 * Math.log10(signal_mul_IL));
+		PowerPenalty passivePP = new PowerPenalty(PowerPenalty.PASSIVEINSERTIONLOSS, AbstractModulator.MODULATOR, this.passiveIL);
+
+		return MoreArrays.getArrayList(intermod, passivePP);		
+		
+	}
+	public Pair<Double, ArrayList<PowerPenalty>> getModulationERAndPowerPenalties(PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		double ref_r = Math.pow(10, referenceER / 10);
+		double ref_er_pp = getPowerPenalty(ref_r);
+
+		double er_r = Math.pow(10, extinctionRatio / 10);
+
+		double er_pp = getPowerPenalty(er_r) - ref_er_pp;
+		double ook_il = -10 * Math.log10(0.5 + (0.5 / er_r));
+		
+		PowerPenalty ook = new PowerPenalty(PowerPenalty.OOK, AbstractModulator.MODULATOR, ook_il);
+		PowerPenalty erPP = new PowerPenalty(PowerPenalty.ER, AbstractModulator.MODULATOR, er_pp);
+		
+		// we should also add a passby
+		ArrayList<PowerPenalty> losses = getPassbyModulationBankPowerPenalties(modelSet, linkFormat);
+		
+		losses.add(ook);
+		losses.add(erPP);
+		
+		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<Double, ArrayList<PowerPenalty>>();
+		pair.setFirst(extinctionRatio);
+		pair.setSecond(losses);	
+		return pair;
+	}
+	
+
+	private double getPowerPenalty(double r) {
+		double a = r - 1;
+		double b = r + 1;
+		double c = Math.sqrt(b);
+		double d = Math.sqrt(r) + 1;
+		return -10 * Math.log10(a / b * c / d);
+	}	
+	
+}

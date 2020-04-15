@@ -1,0 +1,154 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.MoreArrays;
+import ch.epfl.general_libraries.utils.Pair;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.PowerConsumption;
+import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+
+public class OOK_NRZ_MachZehnderModulator extends Abstract_OOK_NRZ_Modulator {
+
+
+	//	public class NRZ_OOK_MZM extends AbstractMZM  {
+	// Parameters
+	private double armLength;  // length of each arm
+	private double vPi;
+	private double capModulator ;
+	private double bandwidthModulator ;
+
+	// Initialize the parameters with the constructor
+	public OOK_NRZ_MachZehnderModulator(
+			@ParamName(name = "Length of Arm of MZM (um)", default_ = "300") double armLength,
+			@ParamName(name = "Pi Voltage (volts)", default_ = "1") double vPi,
+			@ParamName(name = "Modulator Capacitance (fF)", default_ = "150") double capModulator,
+			@ParamName(name = "Modulator 3dB Bandwidth (GHz)", default_ = "150") double bandwidthModulator) {
+
+		this.armLength = armLength/1e6d;
+		this.vPi = vPi;
+		this.capModulator = capModulator ;
+		this.bandwidthModulator = bandwidthModulator ;
+	}
+	// Write the map
+	@Override
+	public Map<String, String> getAllParameters() {
+		// TODO Auto-generated method stub
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Vpp/Vpi", vPi/vPi + "");
+		map.put("Vpi", vPi + "");
+		map.put("Modulator BW", bandwidthModulator + "");
+		return map;
+	}
+
+	// First we calculate the passive Optical Losses
+	private double getPassivePowerPenalty(PhysicalParameterAndModelsSet modelSet) {
+
+		// This
+		double passiveLoss = 1*modelSet.getWaveguideLoss()*100*armLength + 2*modelSet.getJunctionLoss()  ;
+
+		return passiveLoss;
+
+	}
+
+	private double getModInsertionLoss(){
+		double vPeakToPeak = vPi;
+		
+		double modInsertionLoss =  Math.pow(Math.sin(Math.PI/4 * (1+ vPeakToPeak/vPi)), 2)  ;
+		double modIL = -10*Math.log10(modInsertionLoss) ;
+		return modIL ;
+	}
+
+	private double getModERPP(){
+		double vPeakToPeak = vPi;	
+		
+		if (vPeakToPeak/vPi != 1){
+			double er = getModER();
+			double ERPP = -10*Math.log10((er-1)/(er+1)) ;
+			return (ERPP) ; }
+		else {
+			return 0 ;
+		}
+	}
+	
+	private Double getModER() {
+		double vPeakToPeak = vPi;		
+		return (1 + Math.sin(Math.PI/2 * vPeakToPeak/vPi))/(1 - Math.sin(Math.PI/2 * vPeakToPeak/vPi)) ;	
+	}	
+
+	private double getModOOK(){
+		double vPeakToPeak = vPi;
+		
+		if (vPeakToPeak/vPi != 1){
+			double er = getModER();
+			double OOKPP =  -10*Math.log10(0.5*(er+1)/er) ;
+			return (OOKPP) ; }
+		else {
+			return 3 ;
+		}
+	}
+
+	@Override
+	public Pair<Double, ArrayList<PowerPenalty>> getModulationERAndPowerPenalties(PhysicalParameterAndModelsSet modelSet,
+			AbstractLinkFormat linkFormat) {
+		PowerPenalty ookPP = new PowerPenalty(PowerPenalty.OOK, MODULATOR, getModOOK());
+		PowerPenalty erPP = new PowerPenalty(PowerPenalty.ER, MODULATOR, getModERPP());
+		PowerPenalty ilPP = new PowerPenalty(PowerPenalty.INSERTIONLOSS, MODULATOR, getModInsertionLoss());		
+		PowerPenalty passiveILPP = new PowerPenalty(PowerPenalty.PASSIVEINSERTIONLOSS, MODULATOR, getPassivePowerPenalty(modelSet));
+
+		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<Double, ArrayList<PowerPenalty>>();
+		pair.setFirst(getModER());
+		pair.setSecond(MoreArrays.getArrayList(ookPP, erPP, ilPP, passiveILPP));	
+		return pair;		
+	}
+	
+
+	@Override
+	public ArrayList<PowerPenalty> getPassbyPowerPenalties(
+			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
+		PowerPenalty passiveILPP = new PowerPenalty(PowerPenalty.PASSIVEINSERTIONLOSS, MODULATOR, getPassivePowerPenalty(modelSet));		
+		return MoreArrays.getArrayList(passiveILPP);
+	}	
+
+	@Override
+	public ArrayList<PowerConsumption> getPowerConsumption(
+			PhysicalParameterAndModelsSet modelSet,
+			AbstractLinkFormat linkFormat) {
+		
+		double dataRateGbs = linkFormat.getWavelengthRate()/1e9d;
+		double vPeakToPeak = vPi;
+
+
+		//		double bandwidth = 0.67 * dataRate ;
+		//		double powerPulseCarver = 0.5 * capPulseCarver *vPulseCarver*vPulseCarver * dataRate*dataRate / bandwidthModulator ;
+		double powerModulator = 0.25 * capModulator * vPeakToPeak * vPeakToPeak * dataRateGbs*dataRateGbs / bandwidthModulator ; // This is in micro-watts
+
+		double vBias = vPi/2 ;
+		double Req = 310 ;
+		double statPower = Math.pow(vBias, 2)/Req ; // this is in watts
+		double dynPower = powerModulator ;
+
+		//		double totPower = powerPulseCarver + powerModulator ; // micro watts
+		double totPower = powerModulator + statPower * 1e6 ; // Double for differential driving voltage -- which we ignore (we consider single-arm drive)
+
+		// converting to milliwatts, the reference unit for Power consumption
+		totPower = totPower/1e3;
+		
+		PowerConsumption pc = new PowerConsumption(MODULATOR, true, true, true, totPower);
+		
+		return MoreArrays.getArrayList(pc);
+		//		return dynPower ;		
+	}
+
+	@Override
+	public boolean modulatorHasThroughCapability() {
+		return true;
+	}
+
+
+
+}

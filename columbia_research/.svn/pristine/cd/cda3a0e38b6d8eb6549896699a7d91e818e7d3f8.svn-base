@@ -1,0 +1,41 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.rings;
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+
+public class SimpleRingPNJunctionDriverPowerModel extends
+		AbstractRingPNJunctionDriverPowerModel {
+	
+	private double baseConsumption;
+	private double scalingPart;
+	
+	public SimpleRingPNJunctionDriverPowerModel(
+			@ParamName(name="offset (mW)", default_="0.45") double baseConsumption, 
+			@ParamName(name="dependence (mW/(gb/s)^2)", default_="0.01") double scalingPart) {
+		this.baseConsumption = baseConsumption;
+		this.scalingPart = scalingPart;
+	}
+
+	@Override
+	public double getAverageConsumption(double dum1, double dum2, AbstractLinkFormat linkFormat) {
+		return baseConsumption + Math.pow((linkFormat.getWavelengthRate()/1e9d), 2)*scalingPart;
+	}
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Base consumption", baseConsumption+"");
+		map.put("scalingPart", scalingPart+"");
+		return map;
+	}
+
+	@Override
+	public double getEnergyPJperBit(double voltage, double capacitance, AbstractLinkFormat linkFormat) {
+		double energyPJperBit = getAverageConsumption(voltage, capacitance, linkFormat) /(linkFormat.getWavelengthRate()/1e9) ;
+		return energyPJperBit ;
+	}	
+
+}

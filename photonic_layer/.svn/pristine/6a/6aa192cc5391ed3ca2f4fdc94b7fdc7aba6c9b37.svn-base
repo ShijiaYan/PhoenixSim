@@ -1,0 +1,89 @@
+package PhotonicElements.Switches.Switch2x2.SFG;
+
+import java.util.ArrayList;
+import complexSFG.edu.lrl.solver.SFG;
+import static complexSFG.edu.lrl.math.Complex.* ;
+
+public class switch2x2SFG {
+	
+	public static void main(String[] args){
+		ArrayList<String> nodes = new ArrayList<>() ;
+		
+		nodes.add("DC1.I1"); nodes.add("DC1.O1") ;
+		nodes.add("DC1.I2"); nodes.add("DC1.O2") ;
+		nodes.add("DC1.I3"); nodes.add("DC1.O3") ;
+		nodes.add("DC1.I4"); nodes.add("DC1.O4") ;
+		
+		nodes.add("DC2.I1"); nodes.add("DC2.O1") ;
+		nodes.add("DC2.I2"); nodes.add("DC2.O2") ;
+		nodes.add("DC2.I3"); nodes.add("DC2.O3") ;
+		nodes.add("DC2.I4"); nodes.add("DC2.O4") ;
+		
+		nodes.add("wg1.I1"); nodes.add("wg1.O1") ;
+		nodes.add("wg1.I2"); nodes.add("wg1.O2") ;
+		
+		nodes.add("wg2.I1"); nodes.add("wg2.O1") ;
+		nodes.add("wg2.I2"); nodes.add("wg2.O2") ;
+		
+		SFG sfg = new SFG(nodes) ;
+		// DC1
+		sfg.addArrow("DC1.I1", "DC1.O1", ZERO);
+		sfg.addArrow("DC1.I1", "DC1.O2", ONE);
+		sfg.addArrow("DC1.I1", "DC1.O3", ONE);
+		sfg.addArrow("DC1.I1", "DC1.O4", ZERO);
+		sfg.addArrow("DC1.I2", "DC1.O1", ONE);
+		sfg.addArrow("DC1.I2", "DC1.O2", ZERO);
+		sfg.addArrow("DC1.I2", "DC1.O3", ZERO);
+		sfg.addArrow("DC1.I2", "DC1.O4", ONE);
+		sfg.addArrow("DC1.I3", "DC1.O1", ONE);
+		sfg.addArrow("DC1.I3", "DC1.O2", ZERO);
+		sfg.addArrow("DC1.I3", "DC1.O3", ZERO);
+		sfg.addArrow("DC1.I3", "DC1.O4", ONE);
+		sfg.addArrow("DC1.I4", "DC1.O1", ZERO);
+		sfg.addArrow("DC1.I4", "DC1.O2", ONE);
+		sfg.addArrow("DC1.I4", "DC1.O3", ONE);
+		sfg.addArrow("DC1.I4", "DC1.O4", ZERO);
+		// DC2
+		sfg.addArrow("DC2.I1", "DC2.O1", ZERO);
+		sfg.addArrow("DC2.I1", "DC2.O2", ONE);
+		sfg.addArrow("DC2.I1", "DC2.O3", ONE);
+		sfg.addArrow("DC2.I1", "DC2.O4", ZERO);
+		sfg.addArrow("DC2.I2", "DC2.O1", ONE);
+		sfg.addArrow("DC2.I2", "DC2.O2", ZERO);
+		sfg.addArrow("DC2.I2", "DC2.O3", ZERO);
+		sfg.addArrow("DC2.I2", "DC2.O4", ONE);
+		sfg.addArrow("DC2.I3", "DC2.O1", ONE);
+		sfg.addArrow("DC2.I3", "DC2.O2", ZERO);
+		sfg.addArrow("DC2.I3", "DC2.O3", ZERO);
+		sfg.addArrow("DC2.I3", "DC2.O4", ONE);
+		sfg.addArrow("DC2.I4", "DC2.O1", ZERO);
+		sfg.addArrow("DC2.I4", "DC2.O2", ONE);
+		sfg.addArrow("DC2.I4", "DC2.O3", ONE);
+		sfg.addArrow("DC2.I4", "DC2.O4", ZERO);
+		// wg1
+		sfg.addArrow("wg1.I1", "wg1.O1", ONE);
+		sfg.addArrow("wg1.I1", "wg1.O2", ONE);
+		sfg.addArrow("wg1.I2", "wg1.O1", ONE);
+		sfg.addArrow("wg1.I2", "wg1.O2", ONE);
+		// wg2
+		sfg.addArrow("wg2.I1", "wg2.O1", ONE);
+		sfg.addArrow("wg2.I1", "wg2.O2", ONE);
+		sfg.addArrow("wg2.I2", "wg2.O1", ONE);
+		sfg.addArrow("wg2.I2", "wg2.O2", ONE);
+		// connections
+		sfg.addArrow("DC1.O3", "wg1.I1", ONE);
+		sfg.addArrow("wg1.O1", "DC1.I3", ONE);
+		sfg.addArrow("DC1.O2", "wg2.I1", ONE);
+		sfg.addArrow("wg2.O1", "DC1.I2", ONE);
+		
+		sfg.addArrow("DC2.O4", "wg1.I2", ONE);
+		sfg.addArrow("wg1.O2", "DC2.I4", ONE);
+		sfg.addArrow("DC2.O1", "wg2.I2", ONE);
+		sfg.addArrow("wg2.O2", "DC2.I1", ONE);
+		
+		System.out.println(sfg.printAllLoops_compactForm());
+		sfg.buildForwardPaths("DC1.I1", "DC2.O3");
+		System.out.println(sfg.printForwardPaths_noGains());
+	}
+
+}

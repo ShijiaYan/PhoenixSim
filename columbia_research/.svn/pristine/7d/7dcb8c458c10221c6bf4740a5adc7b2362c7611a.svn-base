@@ -1,0 +1,90 @@
+package edu.columbia.lrl.CrossLayer.physical_models.util;
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.SimpleMap;
+
+public class Constants {
+
+	//Parameters
+	private double speedOfLight;
+	private double fullFSR;
+	private double centerWavelength;
+	private double effectiveIndex;
+	private final double electronCharge = 1.6022e-19; //C
+
+	//Calculated
+	private double centerFrequency;
+
+	// Constructor for initializing the parameters
+	public Constants(
+			@ParamName(name="Speed of light (m/s)", default_="3e8") double speedOfLight,
+			@ParamName(name="Full FSR (m)", default_="50e-9") double fullFSR,
+			@ParamName(name="Center wavelength (m)", default_="1550e-9") double centerWavelength,
+			@ParamName(name="effective index", default_="4.23209") double effectiveIndex
+			) {
+		this.speedOfLight = speedOfLight;
+		this.fullFSR = fullFSR;
+		this.centerWavelength = centerWavelength;
+		this.effectiveIndex = effectiveIndex;
+
+		this.centerFrequency = speedOfLight/centerWavelength;
+	}
+
+	// Mapping the parameters, need to convert to strings. Comes from the super class (AbstractDeviceModel)
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Speed of light", speedOfLight+"");
+		map.put("FSR (nm)", fullFSR/1e-9d+"");
+		map.put("Center wavelength", centerWavelength+"");
+		map.put("Default effective index", effectiveIndex+"");
+		return map;
+	}
+
+	public double wavelengthsToChannelSpacing(int wavelengths) {
+		return fullFSR * (speedOfLight/ (wavelengths*Math.pow(centerWavelength,2)));
+	}
+
+	public static double wavelengthToFreq(double wavelengthNm) {
+		//return 3e8 / (wavelengthNm / 1e9);
+		return 3e17 /wavelengthNm;
+	}
+
+	public static double freqToWavelength(double freq) {
+		return 3e17 / freq;
+	}
+
+	public double getSpeedOfLight() {
+		return speedOfLight;
+	}
+
+	public double getFullFSR() {
+		return fullFSR;
+	}
+
+	public double getCenterWavelength() {
+		return centerWavelength;
+	}
+
+	public double getCenterFrequency() {
+		return centerFrequency;
+	}
+
+	public double e() {
+		return electronCharge;
+	}
+
+	// The value of effectiveIndex is not consistent with the one used in modulators and ring filters. Need to resolve this.
+	public double getEffectiveIndex() {
+		return effectiveIndex;
+	}
+
+		/**
+		 * this is a temporary solution
+		 * @param fSR
+		 */
+	public void setFSR(double fSR) {
+		fullFSR = fSR;
+	}
+}

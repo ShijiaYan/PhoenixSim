@@ -1,0 +1,34 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.rings;
+
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.utils.SimpleMap;
+import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
+
+public class RateDependentRingPNJunctionDepletionDriverPowerModel extends
+AbstractRingPNJunctionDriverPowerModel {
+	
+	
+	public RateDependentRingPNJunctionDepletionDriverPowerModel() {
+
+	}
+	public double getAverageConsumption(double voltage, double C, AbstractLinkFormat linkFormat) {
+		double rateInGbs = linkFormat.getWavelengthRate()/1e9d;
+		
+		return (double)(C*1e-3*rateInGbs*Math.pow((voltage), 2))/4d; // Power consumption is in mW
+	}
+	
+	@Override
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		return map;
+	}
+	
+	@Override
+	public double getEnergyPJperBit(double voltage, double capacitance, AbstractLinkFormat linkFormat) {
+		double energyPJperBit = getAverageConsumption(voltage, capacitance, linkFormat) /(linkFormat.getWavelengthRate()/1e9) ;
+		return energyPJperBit ;
+	}
+	
+}

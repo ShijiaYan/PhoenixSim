@@ -1,0 +1,51 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.receiver_power;
+
+import java.util.Map;
+
+import ch.epfl.general_libraries.math.MoreMaths;
+import ch.epfl.general_libraries.results.PropertyMap;
+
+public class OOK_NRZ_ReceiverPowerModel {
+	
+	private double pStatic;
+	private double oneQuarterCVSquare;
+	
+	public static class Agressive  extends OOK_NRZ_ReceiverPowerModel {
+		public Agressive() {
+			super(3.6757, 0.1783);
+		}
+	}
+	
+	public static class Conservative extends OOK_NRZ_ReceiverPowerModel {
+		public Conservative() {
+			super(5.9459, 0.2283);
+		}
+	}
+	
+	public static class Constant extends OOK_NRZ_ReceiverPowerModel {
+		public Constant(double pStatic) {
+			super(pStatic,0);
+		}
+	}
+	
+	protected OOK_NRZ_ReceiverPowerModel(double pStatic, double oneQuarterCVSquare) {
+		this.pStatic = pStatic;
+		this.oneQuarterCVSquare = oneQuarterCVSquare;
+	}
+	
+	public double getPowerConsumptionMW(double bitrate) {
+		double bitrateGbs = bitrate / 1e9d;
+		double cothArg = Math.PI * 5e9d / bitrate;
+		double second = Math.pow(MoreMaths.coth(cothArg),2)*oneQuarterCVSquare;
+		double first = pStatic;
+		return first + second*bitrateGbs;
+	}
+
+	public Map<? extends String, ? extends String> getAllParameters() {
+		PropertyMap m = new PropertyMap();
+		m.put("model type", this.getClass().getSimpleName());
+		m.put("Receiver static power (mW)", pStatic);
+		return m;
+	}
+
+}

@@ -1,0 +1,157 @@
+package edu.columbia.lrl.LWSim;
+
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.gui.PlayStopDialog;
+import ch.epfl.general_libraries.results.AbstractResultsDisplayer;
+import ch.epfl.general_libraries.results.AbstractResultsManager;
+import ch.epfl.javanco.base.AbstractGraphHandler;
+import ch.epfl.javanco.network.LinkContainer;
+import ch.epfl.javanco.network.NodeContainer;
+import ch.epfl.javanco.ui.AbstractGraphicalUI;
+import ch.epfl.javanco.ui.swing.multiframe.JavancoDefaultGUI;
+
+import edu.columbia.lrl.LWSim.SimulationEndCriterium;
+import edu.columbia.lrl.LWSim.analysers.AbstractLWSimAnalyser;
+import edu.columbia.lrl.LWSim.builders.AbstractTopologyBuilder;
+import edu.columbia.lrl.LWSim.components.AbstractSwitch;
+import edu.columbia.lrl.general.Evt;
+import edu.columbia.lrl.general.Message;
+
+
+
+
+public class GraphicalLWSimExperiment extends LWSIMExperiment implements LWSimComponent, EventOrigin {
+	
+	private PlayStopDialog diag;
+	
+	private AbstractGraphHandler agh;
+	JavancoDefaultGUI javancoGUI;
+	
+	private double repaintEach = 10000;
+	
+	public GraphicalLWSimExperiment(@ParamName(name="Model builder")AbstractTopologyBuilder builder, 
+			@ParamName(name="The default traffic generator") AbstractTrafficGenerator trafGenerator,
+						  @ParamName(name="PRNG Seed") int seed, 
+						  @ParamName(name="Simulate until?") SimulationEndCriterium criterium, 						  
+						   AbstractLWSimAnalyser[] analysers,
+						  @ParamName(name="Popup time line?", default_="false") boolean withTimeLine						  
+			) {
+		super(builder, trafGenerator, seed, criterium, analysers, withTimeLine);							 	
+	}	
+	
+	@Override
+	public void run(AbstractResultsManager man, AbstractResultsDisplayer dis) {	
+		Thread.currentThread().setName("Simulation thread");
+		javancoGUI = JavancoDefaultGUI.getAndShowDefaultGUI();
+		diag = new PlayStopDialog(javancoGUI);
+		super.run(man, null);	
+	}
+	
+	public String toShortString() { return ""; }
+	@Override
+	public InitFeedback initComponent(LWSIMExperiment lwSimExperiment) {return null;}
+	
+	public void processEvent(Evt e) {
+		if (agh != null) {
+			updateColors();
+		}
+		if (diag.waitFor()) {
+			manager.clearQueue();
+		} else {
+			Evt ev = new Evt(e.getTimeNS()+repaintEach, this, this);
+			manager.queueEvent(ev);	
+		}	
+	}
+	
+	
+	@Override
+	protected int launchSim(AbstractResultsManager man) {
+		AbstractGraphHandler agh = javancoGUI.getCurrentlyActiveAgh();
+		if (agh != null) {
+			AbstractGraphicalUI ui = agh.getUIDelegate().getDefaultGraphicalUI(agh, true);
+			ui.setBestFit(javancoGUI.getActuallyActiveInternalFrame().getSize());			
+			Evt e = new Evt(repaintEach, this, this);
+			manager.queueEvent(e);
+			int endCondition = 0;
+			try {
+				endCondition = manager.runSimulation();
+			}
+			catch (Exception ex) {
+				throw new IllegalStateException(ex);
+			}
+			javancoGUI.getActuallyActiveInternalFrame().dispose();
+			diag.setVisible(false);
+			return endCondition;
+		} else {
+			return super.launchSim(man);
+		}
+	}
+	
+	private int[][] counters;
+	
+	/*@Override
+	public void packetContented(Message m, String where, TrafficDestination swi, int type) {
+		updateCounters((AbstractSwitch)swi, type);
+		super.packetDropped(m, where, swi, type);
+	}	*/
+
+	@Override
+	public void packetDropped(Message m, String where, TrafficDestination swi, int type) {
+		updateCounters((AbstractSwitch)swi, type);
+		super.packetDropped(m, where, swi, type);
+	}
+	
+	private void initCounters() {
+		counters = new int[agh.getNumberOfNodes()][2];	
+	}
+	
+	private void updateCounters(AbstractSwitch swi, int type) {
+	//	try {
+			if (agh == null) {
+				agh = swi.getNodeContainer().getAbstractGraphHandler();
+				initCounters();
+			}
+			if (type == -1 || type == -3) {
+				counters[swi.getIndex()][0]++;
+			}
+			if (type == -2 || type == -3) {
+				counters[swi.getIndex()][1]++;
+			}
+	/*	} catch (NullPointerException e) {
+			int i = 0;
+		}	*/	
+	}
+
+	private void updateColors() {
+		int max = 0;
+		for (int i = 0 ; i < counters.length ; i++) {
+			if (counters[i][0] > max) max = counters[i][0];
+			if (counters[i][1] > max) max = counters[i][1];
+		}
+		for (int i = 0 ; i < counters.length ; i++) {
+			NodeContainer nc = agh.getNodeContainer(i);
+			for (LinkContainer lc : nc.getOutgoingLinks()) {
+				if (lc.attribute("orig_port").getValue().equals("up")) {
+					int drop = (int)(255*(double)counters[i][0]/(double)max);
+					lc.attribute("link_color").setValue(drop + "," + (255 - drop) + ", 0");
+				}
+				if (lc.attribute("orig_port").getValue().equals("down")) {
+					int drop = (int)(255*(double)counters[i][1]/(double)max);
+					lc.attribute("link_color").setValue(drop + "," + (255 - drop) + ", 0");
+				}	
+			}
+		}
+		for (int i = 0 ; i < counters.length ; i++) {
+			counters[i][0] = 0;
+			counters[i][1] = 0;
+		}		
+	}
+
+	@Override
+	public void notifyEnd(double ref, double status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+}

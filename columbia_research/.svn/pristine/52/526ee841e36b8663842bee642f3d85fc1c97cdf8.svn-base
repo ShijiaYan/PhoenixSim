@@ -1,0 +1,40 @@
+<project name="columbia_research" default="build" basedir=".">
+
+  <property name="DEPENDENCY_javanco" value=""/>
+  <property name="DEPENDENCY_columbia_commons" value=""/>
+
+  <!-- set external modules home dir property -->
+  <property name="javanco_home" location="../javanco"/> 
+  <import file="${javanco_home}/default_build.xml"/>
+  
+  	<property name="deploy_port" value="8080"/>
+  
+  <property name="DEFAULT_CLASS" value="edu.columbia.lrl.experiments.spinet.mains.Explicit44Configuration"/>
+  
+	<target name="run_deploy_cockpit" depends="init, checkServerRunning" description="Run the cockpit on the deploy_port and in spawn mode">
+		<java classname="ch.epfl.javancox.experiments.builder.web_gui.ConfigurationCockpitService" classpath="${dist.classpath};${dist}/${ant.project.name}.jar" spawn="true" fork="true" dir="${dist}">
+			<arg value="${deploy_port}"/>
+			<jvmarg value="-DJAVANCO_HOME=${dist}"/>
+			<jvmarg value="-Djava.security.manager=ch.epfl.javanco.remote.JavancoRemoteSecurityManager" />
+			<jvmarg value="-Djava.security.policy=jar:file:${dist}/${ant.project.name}.jar!/div/webserver.policy" />
+		</java>
+	</target>
+	
+	<target name="kill_deploy" depends="init"
+          description="Kill the web application deployed">
+		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="${GROOVY.JAR}"/>
+		<groovy>
+			java.net.Socket s = new Socket("localhost",15555);
+     </groovy>
+	</target>	
+
+	<target name="run_fake_deploy_cockpit" depends="init, checkServerRunning" description="un the cockpit on the deploy_port BUT NOT IN SPAWN">
+	<java classname="ch.epfl.javancox.experiments.builder.web_gui.ConfigurationCockpitService" classpath="${standard.classpath};${dist}/${ant.project.name}.jar;." fork="true" dir="${dist}">
+			<arg value="${deploy_port}"/>
+			<jvmarg value="-DJAVANCO_HOME=${dist}"/>
+			<jvmarg value="-Djava.security.manager=ch.epfl.javanco.remote.JavancoRemoteSecurityManager" />
+			<jvmarg value="-Djava.security.policy=jar:file:${dist}/${ant.project.name}.jar!/div/webserver.policy" />
+		</java>
+	</target>	
+  
+</project>

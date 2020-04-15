@@ -1,0 +1,135 @@
+<project name="javanco_lib" default="init" basedir=".">
+
+	<property environment="env"/>
+	<property name="java_extension_home" location="E:/Libraries/java_lib"/>
+	
+	<property name="lib"       location="lib"/>	
+	<property name="lib_jni"   location="lib_jni"/>
+	
+	<property name="APACHE_COMMONS_MATH_HOME" location="${java_extension_home}/apache-commons-math/1.2"/>	
+	<property name="BATIK_HOME"               location="${java_extension_home}/batik/1.7"/>
+	<property name="APACHE_COMMONS_BCEL_HOME" location="${java_extension_home}/apache-commons-bcel/trunk-20150702"/>
+	<property name="APACHE_COMMONS_IO_HOME"   location="${java_extension_home}/apache-commons-io/2.4"/>	
+	<property name="DOM4J_HOME"               location="${java_extension_home}/dom4j/1.6.1"/>
+	<property name="GROOVY_HOME"              location="${java_extension_home}/groovy/1.7.5"/>
+	<property name="JACOP_HOME"               location="${java_extension_home}/JaCoP/3.2"/>	
+	<property name="JDOM_HOME"                location="${java_extension_home}/jdom/1.1/"/>	
+	<property name="JFREECHART_HOME"          location="${java_extension_home}/jfreechart/1.0.10"/>	
+	<property name="JOGL_HOME"                location="${java_extension_home}/jogl/2.0"/>	
+	<property name="JUNIT_HOME"               location="${java_extension_home}/junit/4.4"/>
+	<property name="LOG4J_HOME"               location ="${java_extension_home}/log4j/1.2.14"/>
+	<property name="LP_SOLVE_HOME"            location="${java_extension_home}/lp_solve/5.5.0.13/"/>
+	<property name="MANTISSA_HOME"            location="${java_extension_home}/mantissa"/>
+	<property name="SIMPLE_UPLOAD_HOME"       location ="${java_extension_home}/simple-upload/0.3.4"/>
+	<property name="SSJ_HOME"                 location="${java_extension_home}/ssj/20070914"/>
+	<property name="JRE6_HOME"                location="${java_extension_home}/jre6"/>
+
+    <!-- Apache IO jar dir -->
+	<property name="APACHE_IO.JARDIR" location="${APACHE_COMMONS_IO_HOME}/"/>	
+	<!-- Apache math commons required jar -->	
+	<property name="COMMONS-MATH-1.2.JAR" location="${APACHE_COMMONS_MATH_HOME}/commons-math-1.2.jar"/>
+	<!-- batik required .jar files -->
+	<property name="BATIK.JARDIR" location="${BATIK_HOME}/"/>
+	<property name="BATIK2.JARDIR" location="${BATIK_HOME}/lib/"/>
+	<!-- bcel required .jar files -->
+	<property name="BCEL.JARDIR" location="${APACHE_COMMONS_BCEL_HOME}/"/>
+	<!-- dom4j required .jar files -->
+	<property name="DOM4J.JARDIR" location="${DOM4J_HOME}/"/>
+	<property name="JAXEN.JARDIR" location="${DOM4J_HOME}/lib/"/>	
+	<!-- groovy required .jar files -->
+	<property name="GROOVY.JAR" location ="${GROOVY_HOME}/embeddable/groovy-all-1.7.5.jar"/>	
+	<!-- JaCoP required .jar files -->
+	<property name="JACOP.JARDIR" location ="${JACOP_HOME}/"/>		
+	<!-- jdom required .jar files -->
+	<property name="JDOM.JAR" location="${JDOM_HOME}/build/jdom.jar"/>	
+	<!-- jfreechart required .jar files -->
+	<property name="JFREECHART.JARDIR" location="${JFREECHART_HOME}/lib/"/>
+	<!-- jogl required .jar files -->
+	<property name="GLUEGEN-RT.JARDIR" location="${JOGL_HOME}/gluegen-rt"/>
+	<property name="JOGL-ALL.JARDIR" location="${JOGL_HOME}/jocl-all"/>
+	<property name="VECMATH.JAR" location="${JOGL_HOME}/vecmath.jar"/>	
+	<!-- junit required .jar files -->
+	<property name="JUNIT.JAR" location="${JUNIT_HOME}/junit.jar"/>	
+	<!-- log4j required .jar files -->
+	<property name="LOG4J.JAR" location ="${LOG4J_HOME}/dist/lib/log4j-1.2.14.jar"/>
+	<!-- LP_solve required jardirs -->
+	<property name="LPSOLVE_DEV.LIBDIR" location="${LP_SOLVE_HOME}/lp_solve_dev"/>
+	<property name="LPSOLVE_JAVA.LIBDIR" location="${LP_SOLVE_HOME}/lp_solve_java/lib/win32"/>
+	<property name="LPSOLVE.JAR" location="${LP_SOLVE_HOME}/lp_solve_java/lib/lpsolve55j.jar"/>
+	<!--  mantissa required properties and settings -->
+	<property name="MANTISSA7.2.JAR" location="${MANTISSA_HOME}/mantissa-7.2.jar"/>
+	<!-- simple required .jar files -->
+	<property name="KXML.JAR" location ="${SIMPLE_UPLOAD_HOME}/lib/kxml.jar"/>
+	<property name="SIMPLE-UPLOAD.JAR" location ="${SIMPLE_UPLOAD_HOME}/jar/simple-upload-0.3.4.jar"/>
+	<!-- SSJ required .jar files -->
+	<property name="SSJ.JARDIR" location ="${SSJ_HOME}/lib"/>	
+	<!-- JRE6 .jar files -->
+	<property name="JRE.JARDIR" location ="${JRE6_HOME}/lib"/>	
+	
+	
+	<target name="init" description="Prepare classpaths, creates directories, etc. Should be executed before any other target">
+
+		<fail unless="java_extension_home"
+    message="Check the java_extension_home property"/>
+		<mkdir dir="${lib}"/>
+		<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpath="${GROOVY.JAR}"/>
+		<groovy>
+        import java.util.regex.*
+        normalClassPathBuffer = new StringBuffer()
+        manifestClassPathBuffer = new StringBuffer()
+        winBatchClassPathBuffer = new StringBuffer()
+        unixBatchClassPathBuffer = new StringBuffer()
+     	winNativeLibrary = new StringBuffer()
+        normalClassPathBuffer.append((new java.io.File(".")).getAbsolutePath())
+        normalClassPathBuffer.append(";")
+        println "Linking libraries : \r\n"
+        properties.each {
+           if (it.getKey().matches(".*JAR")) {
+              normalClassPathBuffer.append(it.getValue().toString() + ";")
+              p = Pattern.compile(".*[\\\\/]{1}([^\\\\/]+)")
+              m = p.matcher(it.getValue().toString())
+              if (m.matches()) {
+                 manifestClassPathBuffer.append("lib/" + m.group(1) + " ")
+                 winBatchClassPathBuffer.append("lib/" + m.group(1) + ";")
+                 unixBatchClassPathBuffer.append("lib/" + m.group(1) + ":")
+                 ant.copy( file:it.getValue(), tofile: properties.get("lib") + "/" + m.group(1))            
+              }
+           }
+     		if (it.getKey().matches(".*JARDIR")) {
+         		println it
+     	      new File(it.getValue().toString()).eachFileMatch(~/.*.jar/) {
+ 	            normalClassPathBuffer.append(it.toString() + ";")
+ 	            p = Pattern.compile(".*[\\\\/]{1}([^\\\\/]+)")
+ 	            m = p.matcher(it.toString())
+ 	            if (m.matches()) {
+ 	              manifestClassPathBuffer.append("lib/" + m.group(1) + " ")
+ 	              winBatchClassPathBuffer.append("lib/" + m.group(1) + ";")
+ 	              unixBatchClassPathBuffer.append("lib/" + m.group(1) + ":")
+ 	              ant.copy( file:it, tofile: properties.get("lib") + "/" + m.group(1))            
+ 	            }
+     		  }
+ 	         }
+     		if (it.getKey().matches(".*LIBDIR")) {
+                  println it
+          	  new File(it.getValue().toString()).eachFileMatch(~/(.*.dll)|(.*.so)|(.*.jnilib)/) {
+     				     p = Pattern.compile(".*[\\\\/]{1}([^\\\\/]+)")
+      	         m = p.matcher(it.toString())
+      	         if (m.matches()) {
+      	           ant.copy( file:it, tofile: properties.get("lib_jni") + "/" + m.group(1))            
+      	         }
+          	}
+      	    }
+        }
+     	
+        winBatchClassPathBuffer.append(".")
+        unixBatchClassPathBuffer.append(".")      
+        properties.put("manifest.classpath", manifestClassPathBuffer.toString())  
+        properties.put("standard.classpath", normalClassPathBuffer.toString())
+        properties.put("win.batch.classpath", winBatchClassPathBuffer.toString())
+        properties.put("unix.batch.classpath", unixBatchClassPathBuffer.toString())
+	String sep = (System.getProperty("os.name").equals("Linux") ? ":" : ";");
+	println "Using '" + sep + "' as a separator in library_path"
+     	properties.put("library_path", properties.get("java.library.path") + sep + properties.get("lib"))
+     </groovy>
+</target>    
+</project>

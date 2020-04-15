@@ -1,0 +1,629 @@
+package edu.columbia.lrl.CrossLayer.physical_models.devices.rings;
+
+//************************************************************
+import java.util.Map;
+
+import ch.epfl.general_libraries.clazzes.ConstructorDef;
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
+import ch.epfl.general_libraries.utils.SimpleMap;
+
+//************************************************************
+
+public class RingResonatorModel {
+
+	private double criticalCouplingDev;
+
+	private AbstractBendingLossModel bendLossMod;
+
+	private double inputGapNm ;
+	private double outputGapNm ;
+	private double radiusMicron ;
+	private double radiusNm ;
+	private double radiusMicronInner ;
+	private double radiusNmInner ;
+	private double widthNm = 450 ; // in nm
+	private double lambdaNm = 1550 ; // in nm
+	private double nEff = 2.3596 ; // at 1550 nm
+	private double nGroup = 4.2873 ; // at 1550 nm
+//	private double penetrationDepthNm ;
+	private double nSi = 3.4777 ; // at 1550 nm
+	private double nSiO2 = 1.4440 ; // at 1550 nm
+	private double detuningNm ; // detuning between the input wavelength and the resonance wavelength
+
+	private double outOverInp;
+
+	// NOTE: Waveguide cross section is 450 nm (width) * 220 nm (hight)
+	// NOTE: wavelength range is around 1550 nm
+
+	public static abstract class AbstractBendingLossModel {
+		public abstract double getLossdBCm(double radiusMicron);
+
+		public Map<String, String> getAllParameters() {
+			return SimpleMap.getMap();
+		}
+	}
+
+	public static class PowerlawBendingLossModel extends AbstractBendingLossModel {
+
+		double a,b,c;
+
+		public PowerlawBendingLossModel(double a, double b, double c) {
+			this.a = a;
+			this.b = b;
+			this.c = c;
+		}
+
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			double temp = Math.pow(radiusMicron, -b);
+			temp *= a;
+			temp += c;
+
+			return temp;
+		}
+
+		public Map<String, String> getAllParameters() {
+			return SimpleMap.getMap("a", a, "b", b, "c", c);
+		}
+	}
+
+	// Constant loss model
+	public static class NoExtraBendingLossModel extends AbstractBendingLossModel {
+
+		protected double alphaProp;
+
+		public NoExtraBendingLossModel(
+				@ParamName(name="Ring Propagation Loss (dB/cm)", default_ = "1") double alphaProp) {
+			this.alphaProp = alphaProp;
+		}
+
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			return alphaProp;
+		}
+
+		public Map<String, String> getAllParameters() {
+			return SimpleMap.getMap("Alpha prop in ring", alphaProp);
+		}
+	}
+
+	public static class ExponentialUBCModel extends AbstractBendingLossModel {
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			double a = 5.013e4;
+			double b = -1.185;
+			double c = 2;
+			return c + a*Math.exp(b*radiusMicron);
+		}
+	}
+
+	public static class ExponentialUBCModelOpt extends AbstractBendingLossModel {
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			double a = 1.637e5;
+			double b = -1.566;
+			double c = 1.2;
+			return c + a*Math.exp(b*radiusMicron);
+		}
+	}
+
+	public static class ExponentialIdeal extends AbstractBendingLossModel {
+
+		double K;
+
+		public ExponentialIdeal(double K) {
+			this.K = K;
+		}
+
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			double a = K;
+			double b = -2.55;
+			double c = 1.2;
+			return c + a*Math.exp(b*radiusMicron);
+		}
+
+		public Map<String, String> getAllParameters() {
+			return SimpleMap.getMap("K", K);
+		}
+	}
+
+	// Bending loss as a function of radius
+	public static class UBCModel extends AbstractBendingLossModel {
+
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			double a = 4.8411e7 ;
+			double b = 7.8016 ;
+			double c = 2;
+			double alphaBending = a * Math.pow(1/radiusMicron, b) ; // in dB/cm based on the measurements of UBC group
+
+			return (alphaBending + c ) ;
+		}
+	}
+
+	// Bending loss as a function of radius
+	public static class UBCModelOptimistic extends AbstractBendingLossModel {
+
+		@Override
+		public double getLossdBCm(double radiusMicron) {
+			double a = 1.044e9 ;
+			double b = 10.13 ;
+			double c = 1.2;
+			double alphaBending = a * Math.pow(1/radiusMicron, b) ; // in dB/cm based on the measurements of UBC group
+
+			return (alphaBending + c ) ;
+		}
+	}
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// Constructor to initialize the input arguments
+	public RingResonatorModel(
+
+			@ParamName(name="Radius (micron)") double radiusMicron ,
+			@ParamName(name="input gap size (nm) < 500 nm", default_ = "200") double inputGapNm,
+			@ParamName(name="output gap size (nm) < 500 nm", default_ = "200") double outputGapNm,
+			@ParamName(name="Detuning from Resonance (nm)", default_ = "0") double detuningNm,
+			AbstractBendingLossModel bendLossMod
+			){
+		this.radiusMicron = radiusMicron ;
+		this.inputGapNm = inputGapNm ;
+		this.outputGapNm = outputGapNm ;
+		this.radiusMicronInner = radiusMicron - (widthNm/1000)/2 ;
+		this.radiusNm = radiusMicron * 1000 ;
+		this.radiusNmInner = radiusMicronInner * 1000 ;
+		this.detuningNm = detuningNm ;
+		this.bendLossMod = bendLossMod;
+	}
+
+	// Constructor to initialize the input arguments
+	@ConstructorDef(def="Symmetric ring")
+	public RingResonatorModel(
+
+			@ParamName(name="Radius (micron)") double radiusMicron ,
+			@ParamName(name="input gap size (nm) < 500 nm", default_ = "200") double inputGapNm,
+			@ParamName(name="Detuning from Resonance (nm)", default_ = "0") double detuningNm,
+			AbstractBendingLossModel bendLossMod
+			){
+		this.radiusMicron = radiusMicron ;
+		this.inputGapNm = inputGapNm ;
+		this.outputGapNm = inputGapNm;
+		this.radiusMicronInner = radiusMicron - (widthNm/1000)/2 ;
+		this.radiusNm = radiusMicron * 1000 ;
+		this.radiusNmInner = radiusMicronInner * 1000 ;
+		this.detuningNm = detuningNm ;
+		this.bendLossMod = bendLossMod;
+	}
+
+	@ConstructorDef(def="Define ring with asymmetry coeff")
+	public RingResonatorModel(
+
+			@ParamName(name="Radius (micron)") Double radiusMicron ,
+			@ParamName(name="input gap size (nm) < 500 nm", default_ = "200") Double inputGapNm,
+			@ParamName(name="output gap/input gap", default_ = "1") Double outOverInp,
+			@ParamName(name="Detuning from Resonance (nm)", default_ = "0") double detuningNm,
+			AbstractBendingLossModel bendLossMod
+			){
+		this.radiusMicron = radiusMicron ;
+		this.inputGapNm = inputGapNm ;
+		this.outputGapNm = inputGapNm*outOverInp;
+		this.radiusMicronInner = radiusMicron - (widthNm/1000)/2 ;
+		this.radiusNm = radiusMicron * 1000 ;
+		this.radiusNmInner = radiusMicronInner * 1000 ;
+		this.detuningNm = detuningNm ;
+		this.bendLossMod = bendLossMod;
+		this.outOverInp = outOverInp;
+	}
+
+	@ConstructorDef(def="Fix radius, output gap, coupling and detuning")
+	public RingResonatorModel(
+			@ParamName(name="Radius (micron)") double radiusMicron ,
+			@ParamName(name="output gap size (nm) < 500 nm", default_ = "200") Double outputGapNm,
+			@ParamName(name="Coupling ratio (1 = critical)", default_ = "1") Double critCouplingDev,
+			@ParamName(name="Detuning from Resonance (nm)", default_ = "0") double detuningNm,
+			AbstractBendingLossModel bendLossMod
+			){
+		this.radiusMicron = radiusMicron ;
+		this.outputGapNm = outputGapNm;
+		this.radiusMicronInner = radiusMicron - (widthNm/1000)/2 ;
+		this.radiusNm = radiusMicron * 1000 ;
+		this.radiusNmInner = radiusMicronInner * 1000 ;
+		this.detuningNm = detuningNm ;
+		this.bendLossMod = bendLossMod;
+		this.criticalCouplingDev = critCouplingDev;
+
+		double tOut = getTcoeff(outputGapNm);
+		double loss = getRoundTripLoss();
+	//	double alphaExp = Math.exp(-alpha);
+		double tin = tOut*criticalCouplingDev*Math.sqrt(loss);
+		if (tin > 1) {
+			throw new WrongExperimentException("Impossible to get this ring at critical coupling");
+		}
+
+		double minGap = 0;
+		double maxGap = 4000;
+		double tempGap = 0;
+		double tInTemp = 1;
+		int iterationIndex = 0;
+		while (Math.abs(tin - tInTemp) > 0.00001 && iterationIndex < 3000) {
+			tempGap = minGap + ((maxGap-minGap)/2d);
+			tInTemp = getTcoeff(tempGap);
+			if (tInTemp < tin) {
+				minGap = tempGap;
+			} else {
+				maxGap = tempGap;
+			}
+			iterationIndex++;
+		}
+	/*	if (iterationIndex == 3000) {
+			throw new WrongExperimentException("Convergence problem");
+		}*/
+		this.inputGapNm = tempGap;
+	}
+
+	public RingResonatorModel(
+
+			@ParamName(name="Radius (micron)") double radiusMicron ,
+			@ParamName(name="input gap size (nm) < 500 nm", default_ = "200") double inputGapNm,
+			@ParamName(name="Coupling ratio (1 = critical)", default_ = "1") Double critCouplingDev,
+			@ParamName(name="Detuning from Resonance (nm)", default_ = "0") double detuningNm,
+			AbstractBendingLossModel bendLossMod
+			){
+		this.radiusMicron = radiusMicron ;
+		this.inputGapNm = inputGapNm ;
+		this.radiusMicronInner = radiusMicron - (widthNm/1000)/2 ;
+		this.radiusNm = radiusMicron * 1000 ;
+		this.radiusNmInner = radiusMicronInner * 1000 ;
+		this.detuningNm = detuningNm ;
+		this.bendLossMod = bendLossMod;
+		this.criticalCouplingDev = critCouplingDev;
+
+		double tIn = getTcoeff(inputGapNm);
+		double loss = getRoundTripLoss();
+		double tOut = tIn*Math.sqrt(1/loss)/critCouplingDev;
+		if (tOut > 1) {
+			throw new WrongExperimentException("Impossible to get this ring at critical coupling");
+		}
+
+		double minGap = 0;
+		double maxGap = 4000;
+		double tempGap = 0;
+		double tOutTemp = 1;
+		int iterationIndex = 0;
+		while (Math.abs(tOut - tOutTemp) > 0.00001 && iterationIndex < 3000) {
+			tempGap = minGap + ((maxGap-minGap)/2d);
+			tOutTemp = getTcoeff(tempGap);
+			if (tOutTemp < tOut) {
+				minGap = tempGap;
+			} else {
+				maxGap = tempGap;
+			}
+			iterationIndex++;
+		}
+	/*	if (iterationIndex == 3000) {
+			throw new WrongExperimentException("Convergence problem");
+		}*/
+		this.outputGapNm = tempGap;
+	}
+
+
+	public Map<String, String> getAllParameters() {
+		Map<String, String> map = new SimpleMap<String, String>();
+		map.put("Ring radius", radiusMicron + "");
+		map.put("input gap size", inputGapNm + "") ;
+		map.put("output gap size", outputGapNm + "") ;
+		map.put("Detuning from Resonance (nm)", detuningNm + "") ;
+		map.put("Alpha - bending model", bendLossMod.getClass().getSimpleName());
+		map.put("Critical coupling dev", criticalCouplingDev+"");
+		map.putAll(bendLossMod.getAllParameters());
+		map.put("out over inp", outOverInp+"");
+		return map;
+	}
+
+	// *********************** Methods for calculations ********************
+
+	// First calculate the loss of the ring (dB/cm)
+
+	public double getAlphaLossdBperCm(){
+		return bendLossMod.getLossdBCm(radiusMicron);
+	}
+
+
+//	public double getPenetrationDepthNm(){
+//		double A = Math.sqrt(nEff*nEff - nSiO2 * nSiO2) ;
+//		return (lambdaNm/(2*Math.PI * A)) ;
+//	}
+//
+//	public double getCouplingLengthNm(double gapNm) {
+//		double deltaNm = getPenetrationDepthNm() ;
+//		double Arg = 1 - (3.3*deltaNm - gapNm)/(radiusNmInner + widthNm + deltaNm) ;
+//		if (Arg <= 1 && gapNm <= 500){
+//			double couplingAngle = 2 * Math.acos(Arg) ;
+//			double couplingLengthNm = (radiusNmInner + widthNm/2) * couplingAngle ;
+//			return couplingLengthNm ;
+//		}
+//		else{
+//			return 0 ;
+//		}
+//	}
+//
+//	public double getEffectiveIndexEven(double gapNm){
+//		double A = 6.271840186e-11 ;
+//		double B = -5.52867665e-8 ;
+//		double C = 1.860771162e-5 ;
+//		double D = -2.978329085e-3 ;
+//		double E = 2.570923197 ;
+//		double nEffEven = A * Math.pow(gapNm, 4) + B * Math.pow(gapNm, 3) + C * Math.pow(gapNm, 2) + D * Math.pow(gapNm, 1) + E ;
+//		return nEffEven ;
+//
+//	}
+//
+//	public double getEffectiveIndexOdd(double gapNm){
+//		double A = 4.98987847e-12 ;
+//		double B = -3.976474339e-9 ;
+//		double C = 8.642934406e-7 ;
+//		double D = 7.448023424e-5 ;
+//		double E = 2.320016046 ;
+//		double nEffOdd = A * Math.pow(gapNm, 4) + B * Math.pow(gapNm, 3) + C * Math.pow(gapNm, 2) + D * Math.pow(gapNm, 1) + E ;
+//		return nEffOdd ;
+//	}
+//
+//	private double calculatTLocal(double gapNm) {
+//		double nEffEven = getEffectiveIndexEven(gapNm) ;
+//		double nEffOdd = getEffectiveIndexOdd(gapNm) ;
+//		double couplingLengthNm = getCouplingLengthNm(gapNm) ;
+//		double Arg = 2*Math.PI * (couplingLengthNm/lambdaNm) * (nEffEven - nEffOdd)/2 ;
+//		double t = Math.cos(Arg) ;
+//		return t;
+//	}
+//
+//	public double getTcoeff(double gapNm){
+//		if (gapNm > 310.8695) { // from 310 to 2000 we assume linear increase
+//			double val310 = calculatTLocal(310.8695);
+//		//	double diff = gapNm - 310.8695;
+//		//	double fact = diff/(700-310.8695);
+//			double fact = gapNm/310.8695;
+//		//	double add = (1-val310)*(1 - 1/Math.pow(fact,6)); // state before ECOC
+//			double add = (1-val310)*(1 - Math.exp(-fact/8)); // state before ECOC
+//			return val310 + add;
+//		} else {
+//			double kappa = calculateKappaLocal(gapNm);
+//			double kappaPlusE = calculateKappaLocal(gapNm + 0.03);
+//			if (kappaPlusE > kappa) {
+//				return 0;
+//			}
+//		}
+//		double t = calculatTLocal(gapNm);
+//		if (Double.isNaN(t)) {
+//			throw new WrongExperimentException("t coupling coefficient is NaN");
+//		}
+//		return t ;
+//	}
+//
+//	private double calculateKappaLocal(double gapNm) {
+//		double nEffEven = getEffectiveIndexEven(gapNm) ;
+//		double nEffOdd = getEffectiveIndexOdd(gapNm) ;
+//		double couplingLengthNm = getCouplingLengthNm(gapNm) ;
+//		double Arg = 2*Math.PI * (couplingLengthNm/lambdaNm) * (nEffEven - nEffOdd)/2 ;
+//		double kappa = Math.sin(Arg) ;
+//		return kappa;
+//	}
+//
+//	public double getKappacoeff(double gapNm){
+//		if (gapNm > 310.8695) {
+//			return Math.sqrt(1 - Math.pow(getTcoeff(gapNm),2));
+//		}
+//		double kappa = calculateKappaLocal(gapNm);
+//		double kappaPlusE = calculateKappaLocal(gapNm + 0.03);
+//		if (kappaPlusE > kappa) {
+//			return 1;
+//		}
+//		if (Double.isNaN(kappa)) {
+//			throw new WrongExperimentException("kappa coupling coefficient is NaN");
+//		}
+//		return kappa ;
+//	}
+
+
+	public double getKappacoeff(double gapNm){
+		double aE = 0.177967 ;
+		double aO = 0.049910 ;
+		double gammaE = 0.011898 ;
+		double gammaO = 0.006601 ;
+		double xE = gammaE*(radiusNm+widthNm/2) ;
+		double bE = Math.sqrt(2*Math.PI*xE) ;
+		double argE = aE/gammaE * Math.exp(-gammaE*gapNm) * bE ;
+		double xO = gammaO*(radiusNm+widthNm/2) ;
+		double bO = Math.sqrt(2*Math.PI*xO) ;
+		double argO = aO/gammaO * Math.exp(-gammaO*gapNm) * bO ;
+		double kappa = Math.sin(Math.PI/lambdaNm * (argE+argO)) ;
+		return kappa ;
+	}
+
+
+	public double getTcoeff(double gapNm){
+		double k = getKappacoeff(gapNm) ;
+		double t = Math.sqrt(1-k*k) ;
+		return t ;
+	}
+
+
+	public double getRoundTripLossdB(){
+		double radiusCm = radiusMicron * 1e-4 ;
+		double LossdB = 2*Math.PI * radiusCm * getAlphaLossdBperCm();
+		return LossdB ;
+	}
+
+	public double getRoundTripLoss(){
+		double LossdB = getRoundTripLossdB() ;
+		double Loss = Math.pow(10, -LossdB/10) ;
+		return Loss ;
+	}
+
+	public double getFSRnm(){
+		double FSRnm = lambdaNm * lambdaNm / (2*Math.PI*radiusNm * nGroup) ;
+		return FSRnm ;
+	}
+
+	public double get3dbBWhz(){
+		double alphaM = getAlphaLossdBperCm() * 23 ; // to convert it from dB/cm to 1/m
+		double A = 2 * Math.PI * (radiusMicron * 1e-6) * alphaM  ;
+		double x = getInputKappacoeff()*getInputKappacoeff() / A ;
+		double y = getOutputKappacoeff() * getOutputKappacoeff() / A ;
+		double c = 3e8 ;
+		double tauI = (2 * nGroup)/(c * alphaM) ;
+		double FWHMihz = 1/(Math.PI * tauI) ;
+		double FWHMhz = FWHMihz * (1 + x + y) ;
+		return FWHMhz ;
+	}
+
+	public double get3dbBWnm(){
+		double FWHMhz = get3dbBWhz() ;
+		double c = 3e8 ;
+		double FWHMnm = lambdaNm * (lambdaNm * 1e-9)/c * FWHMhz ;
+		return FWHMnm ;
+	}
+
+	public double getQualityFactor(){
+		double Q = lambdaNm / get3dbBWnm() ;
+		return Q ;
+	}
+
+	public double getFinesse(){
+		double Finesse = getFSRnm() / get3dbBWnm() ;
+		return Finesse ;
+	}
+
+	public double getDropTransmission(double detuningNm){
+		double alphaM = getAlphaLossdBperCm() * 23 ; // to convert it from dB/cm to 1/m
+		double A = 2 * Math.PI * (radiusMicron * 1e-6) * alphaM  ;
+		double x = getInputKappacoeff()*getInputKappacoeff() / A ;
+		double y = getOutputKappacoeff() * getOutputKappacoeff() / A ;
+		double D0 = (4*x*y)/(Math.pow(1+x+y, 2)) ;
+		double dropTrans = D0/(1 + Math.pow(2*detuningNm/get3dbBWnm(), 2)) ;
+		return dropTrans ;
+	}
+
+	public double getDropTransmissiondB(double detuningNm){
+		double alphaM = getAlphaLossdBperCm() * 23 ; // to convert it from dB/cm to 1/m
+		double A = 2 * Math.PI * (radiusMicron * 1e-6) * alphaM  ;
+		double L = Math.exp(-A);
+		double kin = getInputKappacoeff();
+		double kout = getOutputKappacoeff();
+
+		double kin2 = kin*kin;
+		double kout2 = kout*kout;
+		double tin2 = 1 - kin2;
+		double tout2 = 1 - kout2;
+		double tin = Math.sqrt(tin2);
+		double tout = Math.sqrt(tout2);
+
+		//double L = getRoundTripLoss() ;
+		//double num = (k_in*k_in)*(k_out*k_out)*Math.sqrt(L) ;
+		//double denum = 1 + t_in*t_in*t_out*t_out*L - 2*t_in*t_out*Math.sqrt(L)*Math.cos(deltaPhi) ;
+
+		double result2 = (kin*kin*kout*kout*Math.sqrt(L))/Math.pow(1 - tin*tout*Math.sqrt(L),2);
+	//	System.out.println(result2);
+
+		double x = getInputKappacoeff()*getInputKappacoeff() / A ;
+		double y = getOutputKappacoeff() * getOutputKappacoeff() / A ;
+		double D0 = (4*x*y)/(Math.pow(1+x+y, 2)) ;
+		double divider = (1 + Math.pow(2*detuningNm/get3dbBWnm(), 2));
+		double dropTrans = D0/ divider;
+	//	return 10*Math.log10(dropTrans) ;
+		return 10*Math.log10(result2) ;
+	}
+
+	public double getDropInsertionLossdB(){
+		double dropILdB = -10 * Math.log10(getDropTransmission(0)) ;
+		return dropILdB ;
+	}
+
+
+	public double getThroughTransmission(double detuningNm){
+		double alphaM = getAlphaLossdBperCm() * 23 ; // to convert it from dB/cm to 1/m
+		double A = 2 * Math.PI * (radiusMicron * 1e-6) * alphaM  ;
+		double x = getInputKappacoeff()*getInputKappacoeff() / A ;
+		double y = getOutputKappacoeff() * getOutputKappacoeff() / A ;
+		double T0 = Math.pow(1+y-x, 2)/Math.pow(1+x+y, 2) ;
+		double ThruTrans = (T0 + Math.pow(detuningNm/get3dbBWnm(), 2))/(1 + Math.pow(detuningNm/get3dbBWnm(), 2)) ;
+		return ThruTrans ;
+	}
+
+	public double getThroughTransmissiondB(double detuningNm){
+		double alphaM = getAlphaLossdBperCm() * 23 ; // to convert it from dB/cm to 1/m
+		double A = 2 * Math.PI * (radiusMicron * 1e-6) * alphaM  ;
+		double x = getInputKappacoeff()*getInputKappacoeff() / A ;
+		double y = getOutputKappacoeff() * getOutputKappacoeff() / A ;
+		double T0 = Math.pow(1+y-x, 2)/Math.pow(1+x+y, 2) ;
+		double ThruTrans = (T0 + Math.pow(detuningNm/get3dbBWnm(), 2))/(1 + Math.pow(detuningNm/get3dbBWnm(), 2)) ;
+		return 10*Math.log10(ThruTrans) ;
+	}
+
+	// Periodic transmission based on coupling coefficients (not based on Lorentzian formulation)
+	public double getThroughTransmissionPeriodic(double detuningNm){
+		double alphaM = getAlphaLossdBperCm() * 23 ; // to convert it from dB/cm to 1/m
+		double Lsquared = Math.exp(-2 * Math.PI * (radiusMicron * 1e-6) * alphaM)  ;
+		//		double alphaM = getAlphaLossdBperCm()  ; // to convert it from dB/cm to 1/m
+		//		double Lsquared = Math.pow(10, -2 * Math.PI * (radiusMicron * 1e-4) * alphaM/10)  ;
+		double L = Math.sqrt(Lsquared) ;
+		double tIn = getInputTcoeff() ;
+		double tOut = getOutputTcoeff() ;
+		double A = L * tIn * tOut ;
+		double B = L * tOut ;
+		double m = Math.round((2*Math.PI*radiusNm*nGroup)/(lambdaNm)) ;
+		double phi =  2*Math.PI* m * (detuningNm/lambdaNm)  ;
+		double numerator = tIn*tIn + B*B - 2*A*Math.cos(phi) ;
+		double denomerator = 1 + A*A - 2*A*Math.cos(phi) ;
+		double ThruTrans = numerator/denomerator ;
+		return ThruTrans ;
+	}
+
+
+
+
+	public double getThruInsertionLossdB(){
+		double ThruILdB = -10 * Math.log10(getThroughTransmission(0)) ;
+		return ThruILdB ;
+	}
+
+	public double getERdB(){
+		double fsr = getFSRnm();
+		return getThruInsertionLossdB() - getThroughTransmissiondB(fsr/2);
+	}
+
+	public double getInputGapNm(){
+		return inputGapNm ;
+	}
+
+	public double getOutputGapNm(){
+		return outputGapNm ;
+	}
+
+
+	public double getInputTcoeff(){
+		double tInput = getTcoeff(inputGapNm) ;
+		return tInput ;
+	}
+
+	public double getOutputTcoeff(){
+		double tOutput = getTcoeff(outputGapNm) ;
+		return tOutput ;
+	}
+
+	public double getInputKappacoeff(){
+		double kInput = getKappacoeff(inputGapNm) ;
+		return kInput ;
+	}
+
+	public double getOutputKappacoeff(){
+		double kOutput = getKappacoeff(outputGapNm) ;
+		return kOutput ;
+	}
+
+	public double getDetuningNm(){
+		return detuningNm ;
+	}
+
+}
