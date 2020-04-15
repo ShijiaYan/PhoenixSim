@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-math3-3.6.1/commons-math3-3.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/controlsfx-8.40.12/controlsfx-8.40.12.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/controlsfx-8.40.12/fxsampler-1.0.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/exp4j-0.4.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/arpack_combo-0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/blas_simple.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/blas.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/colt.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/ejml-0.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/f2jutil.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/Jama-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/jamtio.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/lapack_simple.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/lapack.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/mtj-0.9.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/netlib-java-0.9.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/ujmp-complete-0.2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fem_lib/xerbla.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/flanagan.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/fontawesomefx-8.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gral-core-0.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/Jama-1.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jamtio.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/Javaluator-v3.0.1/javaluator-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/Javaluator-v3.0.1/original-javaluator-demo-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.mail.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jfoenix.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/fxgraphics2d-1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/hamcrest-core-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/jcommon-1.0.23.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/orsoncharts-1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/orsonpdf-1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/servlet.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/swtgraphics2d.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jgraph.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit-4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/pdf-renderer-1.0.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/scenicView.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/columbia_commons"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/columbia_research"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/javanco"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/jfreesvg-3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/jfreechart-1.0.19-swt.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jFreechart/lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPOSITORY/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

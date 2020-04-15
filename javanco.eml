@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$/javanco"/>
+	<lib name="batik-anim.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-anim.jar!/"/>
+	</lib>
+	<lib name="batik-awt-util.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-awt-util.jar!/"/>
+	</lib>
+	<lib name="batik-bridge.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-bridge.jar!/"/>
+	</lib>
+	<lib name="batik-codec.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-codec.jar!/"/>
+	</lib>
+	<lib name="batik-css.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-css.jar!/"/>
+	</lib>
+	<lib name="batik-dom.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-dom.jar!/"/>
+	</lib>
+	<lib name="batik-ext.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-ext.jar!/"/>
+	</lib>
+	<lib name="batik-extension.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-extension.jar!/"/>
+	</lib>
+	<lib name="batik-gui-util.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-gui-util.jar!/"/>
+	</lib>
+	<lib name="batik-gvt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-gvt.jar!/"/>
+	</lib>
+	<lib name="batik-parser.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-parser.jar!/"/>
+	</lib>
+	<lib name="batik-rasterizer.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-rasterizer.jar!/"/>
+	</lib>
+	<lib name="batik-script.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-script.jar!/"/>
+	</lib>
+	<lib name="batik-slideshow.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-slideshow.jar!/"/>
+	</lib>
+	<lib name="batik-squiggle.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-squiggle.jar!/"/>
+	</lib>
+	<lib name="batik-svg-dom.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-svg-dom.jar!/"/>
+	</lib>
+	<lib name="batik-svggen.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-svggen.jar!/"/>
+	</lib>
+	<lib name="batik-svgpp.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-svgpp.jar!/"/>
+	</lib>
+	<lib name="batik-swing.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-swing.jar!/"/>
+	</lib>
+	<lib name="batik-transcoder.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-transcoder.jar!/"/>
+	</lib>
+	<lib name="batik-ttf2svg.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-ttf2svg.jar!/"/>
+	</lib>
+	<lib name="batik-util.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-util.jar!/"/>
+	</lib>
+	<lib name="batik-xml.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik-xml.jar!/"/>
+	</lib>
+	<lib name="batik.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/batik.jar!/"/>
+	</lib>
+	<lib name="Blas.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/Blas.jar!/"/>
+	</lib>
+	<lib name="colt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/colt.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4-javadoc.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/commons-io-2.4-javadoc.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/commons-io-2.4-sources.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4-test-sources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/commons-io-2.4-test-sources.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4-tests.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/commons-io-2.4-tests.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/commons-io-2.4.jar!/"/>
+	</lib>
+	<lib name="commons-math-1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/commons-math-1.2.jar!/"/>
+	</lib>
+	<lib name="dom4j-1.6.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/dom4j-1.6.1.jar!/"/>
+	</lib>
+	<lib name="event-1.6.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/event-1.6.5.jar!/"/>
+	</lib>
+	<lib name="freehep-graphics2d-2.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/freehep-graphics2d-2.1.1.jar!/"/>
+	</lib>
+	<lib name="freehep-graphicsio-2.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/freehep-graphicsio-2.1.1.jar!/"/>
+	</lib>
+	<lib name="freehep-graphicsio-emf-2.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/freehep-graphicsio-emf-2.1.1.jar!/"/>
+	</lib>
+	<lib name="freehep-graphicsio-pdf-2.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/freehep-graphicsio-pdf-2.1.1.jar!/"/>
+	</lib>
+	<lib name="freehep-io-2.0.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/freehep-io-2.0.2.jar!/"/>
+	</lib>
+	<lib name="freehep-util-2.0.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/freehep-util-2.0.2.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-linux-amd64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-linux-amd64.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-linux-i586.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-linux-i586.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-macosx-universal.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-macosx-universal.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-solaris-amd64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-solaris-amd64.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-solaris-i586.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-solaris-i586.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-windows-amd64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-windows-amd64.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt-natives-windows-i586.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt-natives-windows-i586.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/gluegen-rt.jar!/"/>
+	</lib>
+	<lib name="groovy-all-1.7.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/groovy-all-1.7.5.jar!/"/>
+	</lib>
+	<lib name="interpreter-1.6.8.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/interpreter-1.6.8.jar!/"/>
+	</lib>
+	<lib name="iText-2.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/iText-2.1.1.jar!/"/>
+	</lib>
+	<lib name="JaCoP-3.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/JaCoP-3.2.jar!/"/>
+	</lib>
+	<lib name="jaxen-1.1-beta-6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jaxen-1.1-beta-6.jar!/"/>
+	</lib>
+	<lib name="jaxme-api-0.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jaxme-api-0.3.jar!/"/>
+	</lib>
+	<lib name="jcommon-1.0.13.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jcommon-1.0.13.jar!/"/>
+	</lib>
+	<lib name="jdom.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jdom.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.10-experimental.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jfreechart-1.0.10-experimental.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.10-swt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jfreechart-1.0.10-swt.jar!/"/>
+	</lib>
+	<lib name="jfreechart-1.0.10.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jfreechart-1.0.10.jar!/"/>
+	</lib>
+	<lib name="jfreecharts-junit.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jfreecharts-junit.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-linux-amd64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-linux-amd64.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-linux-i586.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-linux-i586.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-macosx-universal.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-macosx-universal.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-solaris-amd64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-solaris-amd64.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-solaris-i586.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-solaris-i586.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-windows-amd64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-windows-amd64.jar!/"/>
+	</lib>
+	<lib name="jogl-all-natives-windows-i586.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all-natives-windows-i586.jar!/"/>
+	</lib>
+	<lib name="jogl-all.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jogl-all.jar!/"/>
+	</lib>
+	<lib name="js.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/js.jar!/"/>
+	</lib>
+	<lib name="jsch-0.1.53.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jsch-0.1.53.jar!/"/>
+	</lib>
+	<lib name="jsr173_1.0_api.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/jsr173_1.0_api.jar!/"/>
+	</lib>
+	<lib name="junit.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/junit.jar!/"/>
+	</lib>
+	<lib name="kxml.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/kxml.jar!/"/>
+	</lib>
+	<lib name="language-1.6.7.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/language-1.6.7.jar!/"/>
+	</lib>
+	<lib name="log4j-1.2.14.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/log4j-1.2.14.jar!/"/>
+	</lib>
+	<lib name="logger-1.6.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/logger-1.6.4.jar!/"/>
+	</lib>
+	<lib name="lpsolve55j.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/lpsolve55j.jar!/"/>
+	</lib>
+	<lib name="mantissa-7.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/mantissa-7.2.jar!/"/>
+	</lib>
+	<lib name="msv-20030807.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/msv-20030807.jar!/"/>
+	</lib>
+	<lib name="optimization.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/optimization.jar!/"/>
+	</lib>
+	<lib name="pdf-transcoder.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/pdf-transcoder.jar!/"/>
+	</lib>
+	<lib name="plugin.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/plugin.jar!/"/>
+	</lib>
+	<lib name="pull-parser-2.1.10.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/pull-parser-2.1.10.jar!/"/>
+	</lib>
+	<lib name="relaxngDatatype-20030807.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/relaxngDatatype-20030807.jar!/"/>
+	</lib>
+	<lib name="resources.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/resources.jar!/"/>
+	</lib>
+	<lib name="servlet.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/servlet.jar!/"/>
+	</lib>
+	<lib name="simple-upload-0.3.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/simple-upload-0.3.4.jar!/"/>
+	</lib>
+	<lib name="ssj.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/ssj.jar!/"/>
+	</lib>
+	<lib name="swtgraphics2d.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/swtgraphics2d.jar!/"/>
+	</lib>
+	<lib name="vecmath.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/vecmath.jar!/"/>
+	</lib>
+	<lib name="xalan-2.6.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/xalan-2.6.0.jar!/"/>
+	</lib>
+	<lib name="xerces_2_5_0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/xerces_2_5_0.jar!/"/>
+	</lib>
+	<lib name="xml-apis-ext.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/xml-apis-ext.jar!/"/>
+	</lib>
+	<lib name="xml-apis.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/xml-apis.jar!/"/>
+	</lib>
+	<lib name="xpp3-1.1.3.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/xpp3-1.1.3.3.jar!/"/>
+	</lib>
+	<lib name="xsdlib-20030807.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/xsdlib-20030807.jar!/"/>
+	</lib>
+	<lib name="bcel-trunk-20150702.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/javanco/lib/bcel-trunk-20150702.jar!/"/>
+	</lib>
+</component>
