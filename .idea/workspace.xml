@@ -7,7 +7,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
   <component name="ProjectId" id="1XSCBe7cFMA5dJGPjPtusZKPlKM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -36,9 +41,63 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
   <component name="SvnConfiguration" cleanupOnStartRun="true">
-    <configuration>C:\Users\User\AppData\Roaming\Subversion</configuration>
+    <configuration>$USER_HOME$/.subversion</configuration>
     <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/columbia_commons" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/columbia_commons" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/columbia_research" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/columbia_research" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/javanco" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/javanco" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/photonic_layer" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/photonic_layer" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/columbia_commons" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/columbia_commons" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/columbia_research" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/columbia_research" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/javanco" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/javanco" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/photonic_layer" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/photonic_layer" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -51,9 +110,13 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="981" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1581035370820">
-      <screen x="0" y="0" width="2560" height="1040" />
+    <state x="2171" y="479" key="Vcs.Push.Dialog.v2" timestamp="1590696432061">
+      <screen x="0" y="23" width="3440" height="1364" />
     </state>
-    <state x="981" y="345" key="com.intellij.ide.util.TipDialog/0.0.2560.1040/2560.0.1680.1010@0.0.2560.1040" timestamp="1581035370820" />
+    <state x="2171" y="479" key="Vcs.Push.Dialog.v2/0.23.3440.1364@0.23.3440.1364" timestamp="1590696432061" />
+    <state x="1698" y="837" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590691526735">
+      <screen x="0" y="23" width="3440" height="1417" />
+    </state>
+    <state x="1698" y="837" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.3440.1417/3440.1080.1440.824@0.23.3440.1417" timestamp="1590691526735" />
   </component>
 </project>

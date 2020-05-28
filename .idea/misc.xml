@@ -3,4 +3,38 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$/columbia_commons">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://lightwave2.ee.columbia.edu/svn/columbia_commons" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/columbia_research">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://lightwave2.ee.columbia.edu/svn/columbia_research" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/javanco">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://lightwave2.ee.columbia.edu/svn/javanco" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/photonic_layer">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://lightwave2.ee.columbia.edu/svn/PhyLaFS" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
 </project>
