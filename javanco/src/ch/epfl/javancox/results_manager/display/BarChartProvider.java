@@ -48,14 +48,14 @@ public class BarChartProvider extends AbstractChartProvider {
 	private TextureSupplier textureSupplier = new TextureSupplier();
 
 	//private Map<String, Shape> seriesShape = new HashMap<String, Shape>();
-	public Map<Pair<String,String>, Texture> seriesShapeBar = new HashMap<Pair<String,String>, Texture>();
+	public Map<Pair<String,String>, Texture> seriesShapeBar = new HashMap<>();
 	//	private DataSeriesProperties p;
 
-	private LinkedList<Association> assosList = new LinkedList<Association>();
-	public HashSet<PairList<String, String>> legends = new HashSet<PairList<String, String>>();
+	private LinkedList<Association> assosList = new LinkedList<>();
+	public HashSet<PairList<String, String>> legends = new HashSet<>();
 
 
-	TreeSet<Integer> expIDs = new TreeSet<Integer>();
+	TreeSet<Integer> expIDs = new TreeSet<>();
 
 	public boolean isXOnScale;
 	public boolean isLogY;
@@ -68,7 +68,7 @@ public class BarChartProvider extends AbstractChartProvider {
 	private final static Texture DEFAULT_TEXTURE;
 
 	static {
-		DEFAULT_TEXTURE = (Texture) (new TextureSupplier()).getNext();
+		DEFAULT_TEXTURE = (Texture) new TextureSupplier().getNext();
 	}
 
 
@@ -102,7 +102,7 @@ public class BarChartProvider extends AbstractChartProvider {
 
 			if (st != null && st.length == 1) {
 				String valu = ss + " = " + st[0];
-				constantValues = ((constantValues == null) ? "Constant(s)"
+				constantValues = (constantValues == null ? "Constant(s)"
 						+ separator
 						: constantValues + separator + "\r\n"
 						+ separator)
@@ -113,10 +113,10 @@ public class BarChartProvider extends AbstractChartProvider {
 			constantValues += "\r\n";
 		}
 
-		Map<String, List<String>> params = new HashMap<String, List<String>>(
-				nbParams);
-		Map<String, Set<String>> temp = new HashMap<String, Set<String>>(
-				nbParams);
+		Map<String, List<String>> params = new HashMap<>(
+                nbParams);
+		Map<String, Set<String>> temp = new HashMap<>(
+                nbParams);
 
 		Iterator<PairList<String, String>> it = legends.iterator();
 		while (it.hasNext()) {
@@ -127,26 +127,26 @@ public class BarChartProvider extends AbstractChartProvider {
 				if (temp.containsKey(param)) {
 					temp.get(param).add(value);
 				} else {
-					Set<String> newSet = new HashSet<String>();
+					Set<String> newSet = new HashSet<>();
 					newSet.add(value);
 					temp.put(param, newSet);
 				}
 			}
 		}
 		for (Entry<String, Set<String>> e : temp.entrySet()) {
-			params.put(e.getKey(), new ArrayList<String>(e.getValue()));
+			params.put(e.getKey(), new ArrayList<>(e.getValue()));
 		}
 		temp = null;
-		List<String> exps = new ArrayList<String>();
-		List<String> allValues = new ArrayList<String>();
-		List<String> paramsKey = new ArrayList<String>(params.keySet());
+		List<String> exps = new ArrayList<>();
+		List<String> allValues = new ArrayList<>();
+		List<String> paramsKey = new ArrayList<>(params.keySet());
 		Collections.sort(paramsKey);
 		int totalSize = 1;
 		for (Entry<String, List<String>> e : params.entrySet()) {
 			Collections.sort(e.getValue());
 			totalSize *= e.getValue().size();
 		}
-		List<Iterator<String>> iterators = new ArrayList<Iterator<String>>();
+		List<Iterator<String>> iterators = new ArrayList<>();
 		String[] currentValue = new String[paramsKey.size()];
 		for (int i = 0; i < paramsKey.size(); ++i) {
 			iterators.add(params.get(paramsKey.get(i)).iterator());
@@ -174,7 +174,7 @@ public class BarChartProvider extends AbstractChartProvider {
 
 		String[][][] data = new String[9][exps.size() + 1][xVals.size()
 		                                                   + 1 + nbParams];
-		HashMap<String, Integer> xValsCor = new HashMap<String, Integer>();
+		HashMap<String, Integer> xValsCor = new HashMap<>();
 		int j = nbParams + 1;
 		Collection<String> xv = sort(xVals);
 		for (String s : xv) {
@@ -245,7 +245,7 @@ public class BarChartProvider extends AbstractChartProvider {
 		if (/*options.hasSecondMethod()*/!meth2.equals("")) {
 			data2 = retriever.getChartValues(options, meth2/*options.method[1]/*meth2, p*/);
 		} else {
-			data2 = new ArrayList<DataSeries>(0);
+			data2 = new ArrayList<>(0);
 		}
 		int length = Math.min(data1.size(), data2.size());
 		double[] scalarValue = new double[length];
@@ -274,9 +274,9 @@ public class BarChartProvider extends AbstractChartProvider {
 							.getFirst()*/it1.next().yVal * it2.next().yVal;
 						//	* it2.next().getFirst().getSecond().getFirst();
 				if (scalarValue[i] > 0) {
-					Comparable<?> rowKey = (data1.get(i).crit.get(0) == null ? "NULL"
-							: data1.get(i).crit.get(0));
-					Comparable<?> columnKey = (noSerie);
+					Comparable<?> rowKey = data1.get(i).crit.get(0) == null ? "NULL"
+							: data1.get(i).crit.get(0);
+					Comparable<?> columnKey = noSerie;
 					dataset.setValue(scalarValue[i], rowKey, columnKey);
 				}
 		}
@@ -303,7 +303,7 @@ public class BarChartProvider extends AbstractChartProvider {
 
 		// Store how many time a value (given by a pair of rowKey an columnKey)
 		// is in the dataset
-		Map<Pair<Comparable<?>, Comparable<?>>, Pair<Integer, List<Double>>> multiplesValues = new HashMap<Pair<Comparable<?>, Comparable<?>>, Pair<Integer, List<Double>>>();
+		Map<Pair<Comparable<?>, Comparable<?>>, Pair<Integer, List<Double>>> multiplesValues = new HashMap<>();
 
 		BarRenderer renderer = new CustomBarRenderer(options);
 		jFreeChart.getCategoryPlot().setRenderer(renderer);
@@ -319,9 +319,9 @@ public class BarChartProvider extends AbstractChartProvider {
 			Comparable<?> previousColumnKey = null;
 			PairList<String, String> legend = cv.getSerieCriteria();
 			legends.add(cv.getSerieCriteria());
-			Comparable<?> rowKey = (cv.crit.get(0) == null ? "NULL" : legend);
+			Comparable<?> rowKey = cv.crit.get(0) == null ? "NULL" : legend;
 			for (DataSeries.DataSeriesStruct x : cv) {
-				Comparable<?> columnKey = (x.xVal == null ? "NULL" : x.xVal);
+				Comparable<?> columnKey = x.xVal == null ? "NULL" : x.xVal;
 				String textColumnKey = previousColumnKey+"";
 				if (x.expId >= 0) {
 					expIDs.add(x.expId);
@@ -345,7 +345,7 @@ public class BarChartProvider extends AbstractChartProvider {
 						// normal
 					}
 				}
-				if (isXOnScale && columnKey instanceof Number && (previousColumnKey instanceof Number)) {
+				if (isXOnScale && columnKey instanceof Number && previousColumnKey instanceof Number) {
 					while (((Number) columnKey).doubleValue() > ((Number) previousColumnKey).doubleValue() + 1) {
 						previousColumnKey = ((Number) previousColumnKey).intValue() + 1;
 						try {
@@ -383,21 +383,21 @@ public class BarChartProvider extends AbstractChartProvider {
 						continue;
 					}
 
-					Pair<Comparable<?>, Comparable<?>> pair = new Pair<Comparable<?>, Comparable<?>>(rowKey, columnKey);
+					Pair<Comparable<?>, Comparable<?>> pair = new Pair<>(rowKey, columnKey);
 					Pair<Integer, List<Double>> nb_pair = multiplesValues.get(pair);
 					Integer nb = null;
 					try {
 						nb = nb_pair.getFirst();
 					} catch (NullPointerException e) {}
 					if (nb == null) {
-						List<Double> newList = new LinkedList<Double>();
+						List<Double> newList = new LinkedList<>();
 						newList.add(n.doubleValue());
 						newList.add(yValue);
-						multiplesValues.put(pair, new Pair<Integer, List<Double>>(2, newList));
+						multiplesValues.put(pair, new Pair<>(2, newList));
 					} else {
 						List<Double> list = multiplesValues.get(pair).getSecond();
 						list.add(yValue);
-						multiplesValues.put(pair, new Pair<Integer, List<Double>>(nb + 1, list));
+						multiplesValues.put(pair, new Pair<>(nb + 1, list));
 					}
 					for (int i = 0; i < 10; ++i) {
 						dataset.setValue(yValue, i, rowKey, columnKey);
@@ -529,7 +529,7 @@ public class BarChartProvider extends AbstractChartProvider {
 			text = DEFAULT_TEXTURE;
 			Color color2 = (Color)paint;
 			text.setColor(color2);
-			seriesShapeBar.put(new Pair<String, String>("", ""), text);
+			seriesShapeBar.put(new Pair<>("", ""), text);
 		}
 
 		renderer.setSeriesPaint(noSerie, paint);

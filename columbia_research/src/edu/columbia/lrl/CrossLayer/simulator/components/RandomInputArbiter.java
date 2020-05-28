@@ -28,10 +28,10 @@ public class RandomInputArbiter extends Arbiter {
 
 		public RequestBuffer(int numClients, int start) {
 
-			inputs = new TreeMap<Integer, CircuitRequestBuffer<Message>>();
+			inputs = new TreeMap<>();
 
 			for (int i = 0; i < numClients; i++) {
-				inputs.put(i, new CircuitRequestBuffer<Message>(1000));
+				inputs.put(i, new CircuitRequestBuffer<>(1000));
 			}
 
 			current = start;
@@ -46,7 +46,7 @@ public class RandomInputArbiter extends Arbiter {
 		}
 
 		public boolean empty(int input) {
-			return (inputs.get(input).getDepth() == 0);
+			return inputs.get(input).getDepth() == 0;
 		}
 	}
 
@@ -67,14 +67,14 @@ public class RandomInputArbiter extends Arbiter {
 		this.switchTime = switchTime;
 		this.useTimeline = useTimeline;
 
-		requestBuffers = new TreeMap<Integer, RequestBuffer>();
-		inputMap = new TreeMap<Integer, EventTarget>();
+		requestBuffers = new TreeMap<>();
+		inputMap = new TreeMap<>();
 
-		outputHorizon = new TreeMap<Integer, Double>();
-		inputHorizon = new TreeMap<Integer, Double>();
+		outputHorizon = new TreeMap<>();
+		inputHorizon = new TreeMap<>();
 
 		if (useTimeline)
-			timelines = new ArrayList<TimeLine>();
+			timelines = new ArrayList<>();
 	}
 	
 	public Transmitter getTransmitter(int index, Collection<Integer> destinations) {
@@ -159,7 +159,7 @@ public class RandomInputArbiter extends Arbiter {
 			if (outputFree(requestBufferIndex)) {
 
 				// Generate random grant order
-				List<Integer> grantOrder = new ArrayList<Integer>();
+				List<Integer> grantOrder = new ArrayList<>();
 				for (int i = 0; i < numClients; i++) {
 					grantOrder.add(i);
 				}
@@ -195,7 +195,7 @@ public class RandomInputArbiter extends Arbiter {
 						experiment.manager.queueEvent(grantDone);
 
 						if( useTimeline ) {
-							int timelineIndex = (requestBufferIndex * numClients) + input;
+							int timelineIndex = requestBufferIndex * numClients + input;
 							timelines.get(timelineIndex).addJobPhase(grantTime, newHorizon, "Grant: Out(" + requestBufferIndex + "),In(" + input + ")",
 									Color.GREEN);
 						}

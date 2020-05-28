@@ -34,7 +34,7 @@ public class Driver {
 		double driverConst = 8.4e-14  ; // grows as V^2 , for VDD = 1.2 V (65nm CMOS tech) --> What about 0.5 factor??
 		
 		double modifiedDriverSlope = driverSlope * Math.abs(Math.pow(voltage/(2*VDD), 2)) *(capacitance/refCapacitance) ;
-		double modifiedDriverConst = (driverConst-refCapacitance*1e-15*Math.pow(2*VDD, 2)/4) + capacitance*1e-15 * Math.pow(voltage, 2) * (1/4) ;
+		double modifiedDriverConst = driverConst-refCapacitance*1e-15*Math.pow(2*VDD, 2)/4 + capacitance*1e-15 * Math.pow(voltage, 2) * (1/4) ;
 		
 		double EnergyJperBit =  modifiedDriverSlope * rate + modifiedDriverConst ;
 		double EnergyPJperBit = EnergyJperBit * 1e12 ;

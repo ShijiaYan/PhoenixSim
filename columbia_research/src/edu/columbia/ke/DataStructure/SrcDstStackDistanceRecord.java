@@ -22,15 +22,15 @@ public class SrcDstStackDistanceRecord {
 	
 	public SrcDstStackDistanceRecord() {
 		
-		srcRDList = new ArrayList<Integer>();
-		dstRDList = new ArrayList<Integer>();
-		RDinTimeList = new ArrayList<Double>();
-		sizeList = new ArrayList<Integer>();
+		srcRDList = new ArrayList<>();
+		dstRDList = new ArrayList<>();
+		RDinTimeList = new ArrayList<>();
+		sizeList = new ArrayList<>();
 		
-		srcMap = new HashMap<Integer, Integer>();
-		dstMap = new HashMap<Integer, Integer>();
-		timeMap = new HashMap<Integer, Integer>();
-		sizeMap = new HashMap<Integer, Integer>();
+		srcMap = new HashMap<>();
+		dstMap = new HashMap<>();
+		timeMap = new HashMap<>();
+		sizeMap = new HashMap<>();
 		
 		lastSeenIndexInSrc = -1;
 		lastSeenIndexInDst = -1;

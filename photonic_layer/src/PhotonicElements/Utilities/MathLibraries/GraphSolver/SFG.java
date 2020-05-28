@@ -4,12 +4,12 @@ import java.util.*;
 
 public class SFG {
 
-	private ArrayList<Edge> graph[];
+	private ArrayList<Edge>[] graph;
 	private ArrayList<Path> forwardPaths, individualLoops;
 	private boolean[] visited;
 	private ArrayList<ArrayList<Integer>> allLoops;
 	private Hashtable<String, Boolean> orignal;
-	private double deltaM[];
+	private double[] deltaM;
 	private ArrayList<String> nodesName;
 
 	@SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class SFG {
 			double ans = 0;
 			for (Path p : forwardPaths) {
 				deltaM[path+1]=computeDelta(path);
-				ans += (deltaM[path+1] * p.getGain());
+				ans += deltaM[path+1] * p.getGain();
 				path++;
 			}
 			return ans;
@@ -75,7 +75,7 @@ public class SFG {
 			double ans = 0;
 			int path=0;
 			for (Path p : forwardPaths) {
-				ans += (deltaM[++path] * p.getGain());
+				ans += deltaM[++path] * p.getGain();
 			}
 			return ans;
 		}
@@ -105,7 +105,7 @@ public class SFG {
 
 			ArrayList<Integer> cur = allLoops.get(level);
 			double brackerGain=0.0;
-			for (int i = 0; i < cur.size(); i += (level + 1)) {
+			for (int i = 0; i < cur.size(); i += level + 1) {
 				double termGain = 1.0;
 				for (int j = 0; j <= level; j++) {
 					if (isTouched(individualLoops.get(cur.get(i + j)).getPath()
@@ -121,7 +121,7 @@ public class SFG {
 				brackerGain+=termGain;
 
 			}
-			delta += (sign * brackerGain);
+			delta += sign * brackerGain;
 			sign *= -1;
 		}
 		System.out.println("Delta "+(num+1)+" = "+delta);
@@ -140,7 +140,7 @@ public class SFG {
 			ArrayList<Integer> cur = allLoops.get(level);
 
 			double bracketGain = 0.0;
-			for (int i = 0; i < cur.size(); i += (level + 1)) {
+			for (int i = 0; i < cur.size(); i += level + 1) {
 				double termGain=individualLoops.get(cur.get(i)).getGain();
 				for (int j = 1; j <= level; j++) {
 					termGain *= individualLoops.get(cur.get(i + j)).getGain();
@@ -149,7 +149,7 @@ public class SFG {
 				bracketGain += termGain;
 			}
 
-			delta+=(sign*bracketGain);
+			delta+= sign*bracketGain;
 			sign *= -1;
 		}
 
@@ -162,7 +162,7 @@ public class SFG {
 			// Start adding the first level of n'th non-touching loops
 			ArrayList<Integer> individual;
 			constructIndividualLoops();
-			allLoops.add(individual = new ArrayList<Integer>());
+			allLoops.add(individual = new ArrayList<>());
 			for (int i = 0; i < individualLoops.size(); i++) {
 				individual.add(i);
 			}
@@ -240,9 +240,9 @@ public class SFG {
 			String[] recentPath = (recent = forwardPaths.get(prev)).getPath()
 					.split(" ");
 			orignal = new Hashtable<>();
-			for (int i = 0; i < recentPath.length; i++) {
-				orignal.put(recentPath[i], true);
-			}
+            for (String s : recentPath) {
+                orignal.put(s, true);
+            }
 
 			String[] tempStrings;
 			for (int i = 0; i < PREV; i++) {
@@ -264,14 +264,14 @@ public class SFG {
 
 	private boolean isEqual(String[] b) {
 
-		if (orignal.size() != (b.length - 1)) // because "b" has the src node
+		if (orignal.size() != b.length - 1) // because "b" has the src node
 												// twice
 			return false;
 
-		for (int i = 0; i < b.length; i++) {
-			if (!orignal.containsKey(b[i]))
-				return false;
-		}
+        for (String s : b) {
+            if (!orignal.containsKey(s))
+                return false;
+        }
 		return true;
 	}
 
@@ -325,7 +325,7 @@ public class SFG {
 				if (!touched) { // if not touched then add this combination
 					ArrayList<Integer> nextLevel = new ArrayList<>();
 					if (allLoops.size() == level)
-						allLoops.add(nextLevel = new ArrayList<Integer>());
+						allLoops.add(nextLevel = new ArrayList<>());
 					else
 						nextLevel = allLoops.get(level);
 					// check if this combination of paths were already taken
@@ -343,27 +343,27 @@ public class SFG {
 
 	private boolean isTouched(Path a, Path b) {
 
-		String aa[] = a.getPath().split(" ");
+		String[] aa = a.getPath().split(" ");
 		String[] bb = b.getPath().split(" ");
 
 		orignal = new Hashtable<>();
-		for (int i = 0; i < aa.length; i++) {
-			orignal.put(aa[i], true);
-		}
+        for (String value : aa) {
+            orignal.put(value, true);
+        }
 
-		for (int i = 0; i < bb.length; i++) {
-			if (orignal.containsKey(bb[i]))
-				return true;
-		}
+        for (String s : bb) {
+            if (orignal.containsKey(s))
+                return true;
+        }
 		return false;
 	}
 
 	private boolean isTouched(String[] a) {
 
-		for (int i = 0; i < a.length; i++) {
-			if (orignal.containsKey(a[i]))
-				return true;
-		}
+        for (String s : a) {
+            if (orignal.containsKey(s))
+                return true;
+        }
 		return false;
 	}
 }

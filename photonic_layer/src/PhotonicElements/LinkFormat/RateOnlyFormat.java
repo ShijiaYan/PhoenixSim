@@ -25,12 +25,12 @@ public class RateOnlyFormat extends AbstractLinkFormat {
 
 	@Override
 	public boolean isNumberOfChannelFixed() {
-		return (wavelengths > 0);
+		return wavelengths > 0;
 	}
 
 	@Override
 	public double getTotalRateGbps() {
-		return (rate/1e9 * wavelengths);
+		return rate/1e9 * wavelengths;
 	}
 
 }

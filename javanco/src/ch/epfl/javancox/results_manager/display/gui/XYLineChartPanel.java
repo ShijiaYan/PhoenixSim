@@ -139,38 +139,34 @@ public class XYLineChartPanel extends AbstractChartPanel implements ActionListen
 	}
 
 	public Pair<ActionListener[], String[]> getDisplayerPossibleActions(final ComplexDisplayPanel panel) {
-		ActionListener excel = new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent ev) {
-				XYChartProvider xyDisp = (XYChartProvider)displayer;
-				try {
-					xyDisp.createExcelData(retriever);
-				}
-				catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Error during exportation of the file : \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		};
+		ActionListener excel = ev -> {
+            XYChartProvider xyDisp = (XYChartProvider)displayer;
+            try {
+                xyDisp.createExcelData(retriever);
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error during exportation of the file : \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        };
 
-		ActionListener matlab = new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent ev) {
-				XYChartProvider xyDisp = (XYChartProvider)displayer;
-				try {
-					xyDisp.createMatlabData(panel);
-				}
-				catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Error creating MATLAB figure script : \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		};
+		ActionListener matlab = ev -> {
+            XYChartProvider xyDisp = (XYChartProvider)displayer;
+            try {
+                xyDisp.createMatlabData(panel);
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error creating MATLAB figure script : \n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        };
 
-		return new Pair<ActionListener[], String[]>(new ActionListener[] { excel, matlab }, new String[] { "Export displayed series as excel sheet", "export as matlab" });
+		return new Pair<>(new ActionListener[]{excel, matlab}, new String[]{"Export displayed series as excel sheet", "export as matlab"});
 	}
 
 	@Override
 	public Object getLegend() {
 		XYChartProvider xyDisp = (XYChartProvider)displayer;
-		JTree tl = TreeLegend.createTreeLegend(xyDisp.seriesPaint, xyDisp.seriesShape, new HashMap<Pair<String, String>, Texture>(), xyDisp.legends);
-		JScrollPane jp = new JScrollPane((JComponent) tl);
+		JTree tl = TreeLegend.createTreeLegend(xyDisp.seriesPaint, xyDisp.seriesShape, new HashMap<>(), xyDisp.legends);
+		JScrollPane jp = new JScrollPane(tl);
 		jp.setVisible(true);
 		return jp;
 	}

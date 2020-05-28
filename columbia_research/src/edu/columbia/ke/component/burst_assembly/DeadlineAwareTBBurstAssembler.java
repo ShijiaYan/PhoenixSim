@@ -26,12 +26,9 @@ public class DeadlineAwareTBBurstAssembler extends TimeBasedBurstAssembler {
 			if (this.assembleEndTime < now)
 				this.assembleEndTime = now;
 			return true;
-		} 
-		
-		if (this.burst.size() == 1)
-			return true;
-		else 
-			return false;
+		}
+
+        return this.burst.size() == 1;
 	}
 	
 	@Override

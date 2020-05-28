@@ -63,17 +63,17 @@ public class TaskExecutionAnalyser {
 			double FxInNs = appl.getTimeNSforFlops(FxInFlops); 	
 			double tasks = scheduler.getNumberOfTaskToSchedule();		
 			double computePowerFlopsPerNs = (double)participatingToCompute*P;
-			double rhoX = Rounder.round(((double)taskgen.getComputationLoadInFlopsPerNS(appl)/computePowerFlopsPerNs), 2);		
+			double rhoX = Rounder.round(taskgen.getComputationLoadInFlopsPerNS(appl) /computePowerFlopsPerNs, 2);
 			double Fc = taskgen.getMeanCommunicationFootprintPerCompoundTask__Fc(appl);	
-			double rhoC = (double)taskgen.getCommunicationLoadInBitsPerS(appl)/networkAccesBW;
+			double rhoC = taskgen.getCommunicationLoadInBitsPerS(appl) /networkAccesBW;
 			double F = Rounder.round(Fc/FxInFlops, 2);
 			double Fsec = Rounder.round(Fc/FxInNs, 2);
 			double zeta = B*1e-9/F;
-			double b = Fc/(double)taskgen.getMeanNumberOfTasksInCompoundTask();
+			double b = Fc/ taskgen.getMeanNumberOfTasksInCompoundTask();
 			try {
 				AbstractNumberOfClientConfigurableBuilder builder = ((NumberOfClientBasedBuilder)lwSimExp.getTopologyBuilder()).getSubBuilder();
 				double networkLatency = ((HubNetworkBuilder)builder).getZeroLoadLatency();
-				double psi = Rounder.round((b*1e9/B)/networkLatency, 2);
+				double psi = Rounder.round((b * 1e9 / B) / networkLatency, 2);
 				lwSimExp.addPropertyToDefaultDataPoint("Psi", psi+"");
 			}
 			catch (Exception e) {
@@ -82,18 +82,18 @@ public class TaskExecutionAnalyser {
 
 			lwSimExp.addPropertyToDefaultDataPoint("Bandwidth (Gb/s)", B/1e9+"");
 			lwSimExp.addPropertyToDefaultDataPoint("Compute node Power [flops/ns]", P+"");		
-			lwSimExp.addPropertyToDefaultDataPoint("Predicted running time", (FxInNs*tasks) +"");	
+			lwSimExp.addPropertyToDefaultDataPoint("Predicted running time", FxInNs*tasks +"");
 			lwSimExp.addPropertyToDefaultDataPoint("F_x (flops)", FxInFlops+"");	
-			lwSimExp.addPropertyToDefaultDataPoint("Predicted emitted bits", (Fc*tasks) +"");
+			lwSimExp.addPropertyToDefaultDataPoint("Predicted emitted bits", Fc*tasks +"");
 			lwSimExp.addPropertyToDefaultDataPoint("F_c (bits)", Fc+"");
 			if (P > 0) {
 				lwSimExp.addPropertyToDefaultDataPoint("F (Byte/flop)", F/8+"" );
 			}
 			lwSimExp.addPropertyToDefaultDataPoint("F (Gb/s)", Fsec+"");
 			lwSimExp.addPropertyToDefaultDataPoint("zeta (B/F) (flops/ns)", Rounder.round(zeta, 3)+"");
-			lwSimExp.addPropertyToDefaultDataPoint("zeta/P (xi_eff)", Rounder.round((B*1e-9/F)/P, 3)+"");			
+			lwSimExp.addPropertyToDefaultDataPoint("zeta/P (xi_eff)", Rounder.round((B * 1e-9 / F) / P, 3)+"");
 			if (tasks > 1) {
-				lwSimExp.addPropertyToDefaultDataPoint("xi", Rounder.roundString((rhoX/rhoC), 2)+"");					
+				lwSimExp.addPropertyToDefaultDataPoint("xi", Rounder.roundString(rhoX/rhoC, 2)+"");
 				lwSimExp.addPropertyToDefaultDataPoint("rho_c", Rounder.round(rhoC, 2)+"");	
 				lwSimExp.addPropertyToDefaultDataPoint("rho_x", rhoX+"");
 				lwSimExp.addPropertyToDefaultDataPoint("Beta (tasks per ms)", appl.getConfigurator().getTaskGenerator().getArrivalRatePerMS()+"");
@@ -110,7 +110,7 @@ public class TaskExecutionAnalyser {
 			dp.addResultProperty("Average task queue time", globalTaskQueueTime/globalTaskCompleted);	
 			dp.addResultProperty("Execution speed-up", FxInNs/((globalTaskExecutionTimeNS - globalTaskQueueTime)/globalTaskCompleted));
 			dp.addResultProperty("Speed-up (task)", FxInNs/(globalTaskExecutionTimeNS/globalTaskCompleted));
-			dp.addResultProperty("Relative speed-up", (FxInNs/(globalTaskExecutionTimeNS/globalTaskCompleted))/participants);
+			dp.addResultProperty("Relative speed-up", (FxInNs / (globalTaskExecutionTimeNS / globalTaskCompleted)) / participants);
 			double totalRunningTime = appl.getTotalRunningTime();
 			double rho_x_eff = appl.getComputeUtilisation();
 			dp.addResultProperty("Node utilisation (reserved)", totalOnlineTime/totalTime);

@@ -25,7 +25,7 @@ public class HeatDelayModel {
 	}
 	
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("tau delay (usec)", tau_usec+"") ;
 		map.put("Peak value", peakVal+"") ;
 		return map ;
@@ -37,7 +37,7 @@ public class HeatDelayModel {
 		}
 		else if(t_usec <= tau_usec){
 			double slope = peakVal/tau_usec ;
-			return (slope * t_usec) ;
+			return slope * t_usec;
 		}
 		else{
 			double slope = -peakVal/tau_usec ;

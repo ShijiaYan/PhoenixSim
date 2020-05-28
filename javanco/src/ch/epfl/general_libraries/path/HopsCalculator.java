@@ -29,20 +29,12 @@ public class HopsCalculator extends PathCalculator {
 
 	
 	public Comparator<Path> getComparator() {
-		return new Comparator<Path>() {
-			public int compare(Path p1, Path p2) {
-				return p1.size() - p2.size();
-			}
-		};
+		return (p1, p2) -> p1.size() - p2.size();
 	}
 
 	@Override
 	public Comparator<NodePair> getNodePairComparator() {
-		return new Comparator<NodePair>() {
-			public int compare(NodePair p1, NodePair p2) {
-				return 0;
-			}
-		};
+		return (p1, p2) -> 0;
 	}
 
 	public HopsCalculator() {

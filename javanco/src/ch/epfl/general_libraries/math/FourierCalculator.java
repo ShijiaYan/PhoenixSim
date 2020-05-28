@@ -116,7 +116,7 @@ public class FourierCalculator {
 
 		// divide by N
 		for (int i = 0; i < N; i++) {
-			y[i] = y[i].times((1.0/N)) ;
+			y[i] = y[i].times(1.0/N) ;
 		}
 
 		return y;

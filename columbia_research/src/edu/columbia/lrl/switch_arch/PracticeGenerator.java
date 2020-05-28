@@ -10,7 +10,7 @@ import ch.epfl.javanco.network.NodeContainer;
 
 public class PracticeGenerator extends AbstractSwitchArchitectureGenerator {
 	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		Javanco.initJavancoSafe();
 		AbstractGraphHandler agh = Javanco.getDefaultGraphHandler(true);
 		agh.newLayer("physical");

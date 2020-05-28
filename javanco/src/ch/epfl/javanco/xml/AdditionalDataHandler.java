@@ -275,7 +275,7 @@ XMLDataHandler {
 			if (container != null) {
 				boolean needDefiningAttributes = false;
 				for (NetworkAttribute att : container.attributes()) {
-					if ((att.hasParent() == false) && (e.attribute(att.getName()) == null)) {
+					if (att.hasParent() == false && e.attribute(att.getName()) == null) {
 						e.add(att);
 						needDefiningAttributes = true;
 					}

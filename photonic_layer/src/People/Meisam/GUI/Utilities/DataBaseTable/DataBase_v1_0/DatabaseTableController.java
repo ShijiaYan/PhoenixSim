@@ -92,30 +92,20 @@ public class DatabaseTableController extends AbstractController {
         for(SimulationVariable x : dataBase.getVariableList()){
             list.add(x) ;
         }
-        TableColumn<SimulationVariable, String> nameColumn = new TableColumn<SimulationVariable, String>("Name") ;
-        nameColumn.setCellValueFactory(new PropertyValueFactory<SimulationVariable, String>("name"));
+        TableColumn<SimulationVariable, String> nameColumn = new TableColumn<>("Name") ;
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<SimulationVariable, String> aliasColumn = new TableColumn<SimulationVariable, String>("Alias") ;
-        aliasColumn.setCellValueFactory(new PropertyValueFactory<SimulationVariable, String>("alias"));
+        TableColumn<SimulationVariable, String> aliasColumn = new TableColumn<>("Alias") ;
+        aliasColumn.setCellValueFactory(new PropertyValueFactory<>("alias"));
 
-        TableColumn<SimulationVariable, String> sizeColumn = new TableColumn<SimulationVariable, String>("Size") ;
-        sizeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SimulationVariable, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<SimulationVariable, String> param) {
-                return new SimpleStringProperty(param.getValue().getArraySize());
-            }
-        }) ;
+        TableColumn<SimulationVariable, String> sizeColumn = new TableColumn<>("Size") ;
+        sizeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getArraySize())) ;
 
-        TableColumn<SimulationVariable, String> typeColumn = new TableColumn<SimulationVariable, String>("Type") ;
-        typeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SimulationVariable, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<SimulationVariable, String> param) {
-                return new SimpleStringProperty(param.getValue().getType()) ;
-            }
-        });
+        TableColumn<SimulationVariable, String> typeColumn = new TableColumn<>("Type") ;
+        typeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType()));
 
-        TableColumn<SimulationVariable, String> valuesColumn = new TableColumn<SimulationVariable, String>("Values") ;
-        valuesColumn.setCellValueFactory(new PropertyValueFactory<SimulationVariable, String>("variableList"));
+        TableColumn<SimulationVariable, String> valuesColumn = new TableColumn<>("Values") ;
+        valuesColumn.setCellValueFactory(new PropertyValueFactory<>("variableList"));
 
         paramTable.getColumns().addAll(nameColumn, aliasColumn, sizeColumn, typeColumn, valuesColumn) ;
         paramTable.setItems(list);
@@ -191,14 +181,14 @@ public class DatabaseTableController extends AbstractController {
     public void exportPressed(){
     	ObservableList<SimulationVariable> list = paramTable.getSelectionModel().getSelectedItems() ;
     	if(list.isEmpty()){
-    		(new ExportVariables(dataBase)).export();
+    		new ExportVariables(dataBase).export();
     	}
     	else{
     		SimulationDataBase selectedVars = new SimulationDataBase() ;
     		for(SimulationVariable x : list){
     			selectedVars.addNewVariable(x);
     		}
-    		(new ExportVariables(selectedVars)).export();
+    		new ExportVariables(selectedVars).export();
     	}
     }
 
@@ -263,12 +253,7 @@ public class DatabaseTableController extends AbstractController {
 		String[] st = filePath.trim().split("\\.") ;
 		int M = st.length ;
 		String fileExt = st[M-1] ;
-		if(fileExt.equals(ext)){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return fileExt.equals(ext);
 	}
 
 }

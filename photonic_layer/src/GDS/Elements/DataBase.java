@@ -9,9 +9,9 @@ import java.util.Map;
 public abstract class DataBase {
 
 	
-	public static Map<String, Port> objectPorts = new SimpleMap<String, Port>() ; // this map contains all ports of all objects (use: "objectName.portNumber")
-	public static Map<String, Double> objectProperties = new SimpleMap<String, Double>() ; // this map for storing properties of each object
-	public static Map<String, Object> allElements = new SimpleMap<String, Object>() ; // all created objects
+	public static Map<String, Port> objectPorts = new SimpleMap<>() ; // this map contains all ports of all objects (use: "objectName.portNumber")
+	public static Map<String, Double> objectProperties = new SimpleMap<>() ; // this map for storing properties of each object
+	public static Map<String, Object> allElements = new SimpleMap<>() ; // all created objects
 	
 	public static class Entry{
 		double e ;

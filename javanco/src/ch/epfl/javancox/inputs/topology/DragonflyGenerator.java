@@ -91,7 +91,7 @@ public class DragonflyGenerator extends AbstractDeterministicGenerator {
 
 	private void recursion(AbstractGraphHandler agh, double anglePrev, double x, double y, double R, int level) {
 		int items = getNumberOfPenultianGroups(level);
-		double angle = 2*Math.PI/((double)items);
+		double angle = 2*Math.PI/ (double)items;
 	//	anglePrev = anglePrev%(2*Math.PI/(nodesAtFirstLevel+level));
 		for (int i = 0 ; i < items ; i++) {
 			double addX = R*Math.sin(anglePrev + angle*(i+0.5));
@@ -131,16 +131,16 @@ public class DragonflyGenerator extends AbstractDeterministicGenerator {
 							start += m*matrix[i-1][0];
 							start += n - 1 - m;
 							end += n*matrix[i-1][0];
-							end += (matrix[i-1][0] + m - n);
+							end += matrix[i-1][0] + m - n;
 						}
 						
 						agh.newLink(start, end);
 						if (i == 2) { // more inter-group added only at level 2 for now
 							for (int h = 0 ; h < extraIntergroup; h++) {
-								int increment = ((h+1)*matrix[i-1][0]);
+								int increment = (h+1)*matrix[i-1][0];
 								int dest = increment + end;
 								if (dest >= matrix[i][0]) {
-									dest = ((dest) % matrix[i][0]) + matrix[i-1][0];
+									dest = dest % matrix[i][0] + matrix[i-1][0];
 								}
 								LinkContainer l = agh.newLink(start, dest);
 								l.attribute("link_color").setValue("255, 0, " + 50*h);
@@ -192,7 +192,7 @@ public class DragonflyGenerator extends AbstractDeterministicGenerator {
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		Map<String, String> s = new SimpleMap<String, String>();
+		Map<String, String> s = new SimpleMap<>();
 		s.put("nodes per level", nodesAtFirstLevel+"");
 		s.put("dragonfly levels", levels+"");
 		return s;

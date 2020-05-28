@@ -90,12 +90,12 @@ public class FourFourSpinetBuilder extends AbstractSpinetBuilder {
 		}
 		for (int i = 0 ; i < 2 ; i++) {
 			links[0][i*2].setTrafficDestination(swis[0][i]); // l_00->sw_00, l_02->sw_01
-			links[0][(i*2)+1].setTrafficDestination(swis[0][i]); // l_01->sw_00, l_03->sw_01
+			links[0][i*2 +1].setTrafficDestination(swis[0][i]); // l_01->sw_00, l_03->sw_01
 			swis[0][i].setEventOrigin(links[0][i*2], 0);
-			swis[0][i].setEventOrigin(links[0][(i*2)+1], 1);
+			swis[0][i].setEventOrigin(links[0][i*2 +1], 1);
 
 			swis[1][i].setTrafficDestination(links[1][i*2], 0/* for up*/);
-			swis[1][i].setTrafficDestination(links[1][(i*2)+1], 1 /* 1 for down*/);
+			swis[1][i].setTrafficDestination(links[1][i*2 +1], 1 /* 1 for down*/);
 		}
 		
 		swis[0][0].setTrafficDestination(swis[1][0], 0); 

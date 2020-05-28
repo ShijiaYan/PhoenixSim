@@ -89,13 +89,8 @@ public class SlabWgModesTabController extends AbstractTabController {
     }
 
     private boolean wgModePlotToggleSelected(){
-        if(neffLambdaRadioButton.isSelected() ||  neffWRadioButton.isSelected() ||
-                 ngLambdaRadioButton.isSelected() || ngWRadioButton.isSelected()){
-            return true;
-        }
-        else{
-            return false ;
-        }
+        return neffLambdaRadioButton.isSelected() || neffWRadioButton.isSelected() ||
+                ngLambdaRadioButton.isSelected() || ngWRadioButton.isSelected();
     }
 
     @FXML
@@ -113,7 +108,7 @@ public class SlabWgModesTabController extends AbstractTabController {
 
     @FXML
     public void sweepWidth() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -153,7 +148,7 @@ public class SlabWgModesTabController extends AbstractTabController {
     }
 
     public void sweepLambda() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -261,7 +256,7 @@ public class SlabWgModesTabController extends AbstractTabController {
             neff_max = getNeffTE(width_nm, lambda_max_nm, m_index) ;
             neff_min = getNeffTE(width_nm, lambda_min_nm, m_index) ;
             double dneff_dlambda = (neff_max-neff_min)/(lambda_max_nm-lambda_min_nm) ;
-            return (neff_min - lambda_nm * dneff_dlambda) ;
+            return neff_min - lambda_nm * dneff_dlambda;
     }
 
     private double getNeffTM(double width_nm, double lambda_nm, int m_index){
@@ -279,7 +274,7 @@ public class SlabWgModesTabController extends AbstractTabController {
         neff_max = getNeffTM(width_nm, lambda_max_nm, m_index) ;
         neff_min = getNeffTM(width_nm, lambda_min_nm, m_index) ;
         double dneff_dlambda = (neff_max-neff_min)/(lambda_max_nm-lambda_min_nm) ;
-        return (neff_min - lambda_nm * dneff_dlambda) ;
+        return neff_min - lambda_nm * dneff_dlambda;
     }
 
     private void solveForTE(){

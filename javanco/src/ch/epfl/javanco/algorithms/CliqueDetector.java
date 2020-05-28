@@ -46,15 +46,15 @@ public class CliqueDetector {
 		}
 		LayerContainer layC = agh.getLayerContainer(layerName);
 		Collection<LinkContainer> links = layC.getLinkContainers();
-		ArrayList<TreeSet<Integer>> cli = new ArrayList<TreeSet<Integer>>(links.size());
+		ArrayList<TreeSet<Integer>> cli = new ArrayList<>(links.size());
 		for (LinkContainer lc : links) {
-			TreeSet<Integer> el = new TreeSet<Integer>();
+			TreeSet<Integer> el = new TreeSet<>();
 			el.add(lc.getStartNodeIndex());
 			el.add(lc.getEndNodeIndex());
 			cli.add(el);
 		}
 		boolean[][] incimat = layC.getIncidenceMatrix();
-		Vector<Collection<Integer>> reachableHighestNodes = new Vector<Collection<Integer>>(agh.getHighestNodeIndex()+1);
+		Vector<Collection<Integer>> reachableHighestNodes = new Vector<>(agh.getHighestNodeIndex() + 1);
 		reachableHighestNodes.setSize(agh.getHighestNodeIndex()+1);
 		for (NodeContainer nc : agh.getNodeContainers()) {
 			reachableHighestNodes.setElementAt(nc.getConnectedNodeIndexes().tailSet(nc.getIndex()+1), nc.getIndex());
@@ -66,7 +66,7 @@ public class CliqueDetector {
 			boolean[][] incidenceMatrix,
 			Vector<Collection<Integer>> reachableHighestNodes) {
 		if (lastLevel.size() > 0) {
-			ArrayList<TreeSet<Integer>> nextLevelList = new ArrayList<TreeSet<Integer>>();
+			ArrayList<TreeSet<Integer>> nextLevelList = new ArrayList<>();
 			for (TreeSet<Integer> set : lastLevel) {
 				for (int i : reachableHighestNodes.get(set.last())) {
 					boolean test = true;
@@ -77,7 +77,7 @@ public class CliqueDetector {
 						}
 					}
 					if (test) {
-						TreeSet<Integer> augCli = new TreeSet<Integer>();
+						TreeSet<Integer> augCli = new TreeSet<>();
 						augCli.addAll(set);
 						augCli.add(i);
 						nextLevelList.add(augCli);
@@ -92,5 +92,5 @@ public class CliqueDetector {
 
 	}
 
-	private static List<TreeSet<Integer>> emptyList = new ArrayList<TreeSet<Integer>>(0);
+	private static List<TreeSet<Integer>> emptyList = new ArrayList<>(0);
 }

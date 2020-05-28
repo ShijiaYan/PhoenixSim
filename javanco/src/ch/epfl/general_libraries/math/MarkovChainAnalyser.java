@@ -19,7 +19,7 @@ public class MarkovChainAnalyser {
 	}
 	
 	public double[] compute() {
-		double p[] = new double[transitions[0].length];
+		double[] p = new double[transitions[0].length];
 		p[0] = 1;
 		double[] nextP = p;
 		do {
@@ -64,7 +64,7 @@ public class MarkovChainAnalyser {
 		//	double[][] trans = new double[][]{{2*mu, 4*gamma},{2*mu, 2*gamma+2*mu}};
 			double[][] trans = new double[][]{{0, lam, 0},{mu, 0, lam/2},{0, 3*mu/2, 0}};
 			
-			System.out.print((new MarkovChainAnalyser(trans)).compute()[1] + "\t");
+			System.out.print(new MarkovChainAnalyser(trans).compute()[1] + "\t");
 		}
 		
 	}

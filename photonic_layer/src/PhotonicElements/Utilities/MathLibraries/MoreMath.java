@@ -55,14 +55,10 @@ public class MoreMath {
 		}
 
 		public static double sinIntegral(double x){
-			IntegralFunction func = new IntegralFunction() {
-
-				@Override
-				public double function(double t) {
-					double y = MoreMath.Functions.sinc(t/Math.PI);
-					return y;
-				}
-			};
+			IntegralFunction func = t -> {
+                double y = Functions.sinc(t/Math.PI);
+                return y;
+            };
 			AdaptiveIntegral result = new AdaptiveIntegral(func, 0, x) ;
 			return result.getIntegral() ;
 		}
@@ -93,7 +89,7 @@ public class MoreMath {
 	}
 
 	public static double[] linspace(double start, double end, double stepSize){
-		ArrayList<Double> values = new ArrayList<Double>() ;
+		ArrayList<Double> values = new ArrayList<>() ;
 		for(double x = start; x<=end; x+=stepSize){
 			values.add(x) ;
 		}
@@ -118,19 +114,19 @@ public class MoreMath {
 		// convert lenght units
 		public static class Length{
 			public static double meters_to_feet(double length_meters){
-				return (length_meters * 3.28084) ;
+				return length_meters * 3.28084;
 			}
 			public static double feet_to_meters(double length_feet){
-				return (length_feet / 3.28084) ;
+				return length_feet / 3.28084;
 			}
 		}
 		// convert weight units
 		public static class Weight{
 			public static double kg_to_lb(double weight_kg){
-				return (weight_kg * 2.20462) ;
+				return weight_kg * 2.20462;
 			}
 			public static double lb_to_kg(double weight_lb){
-				return (weight_lb / 2.20462) ;
+				return weight_lb / 2.20462;
 			}
 		}
 
@@ -217,7 +213,7 @@ public class MoreMath {
 			return x ;
 		}
 
-		public static double[] replaceValues(double[] x, int indexArray[], double[] values){
+		public static double[] replaceValues(double[] x, int[] indexArray, double[] values){
 			int n = indexArray.length ;
 			for(int i=0; i<n; i++){
 				x[indexArray[i]] = values[i] ;
@@ -445,18 +441,18 @@ public class MoreMath {
 			public static class Length{
 				public static double[] meters_to_feet(double[] length_meters){
 					double[] x = {} ;
-					for(int i=0; i<length_meters.length; i++){
-						double y = MoreMath.Conversions.Length.meters_to_feet(length_meters[i])  ;
-						x = MoreMath.Arrays.append(x, y) ;
-					}
+                    for (double length_meter : length_meters) {
+                        double y = MoreMath.Conversions.Length.meters_to_feet(length_meter);
+                        x = Arrays.append(x, y);
+                    }
 					return x;
 				}
 				public static double[] feet_to_meters(double[] length_feet){
 					double[] x = {} ;
-					for(int i=0; i<length_feet.length; i++){
-						double y = MoreMath.Conversions.Length.feet_to_meters(length_feet[i])  ;
-						x = MoreMath.Arrays.append(x, y) ;
-					}
+                    for (double v : length_feet) {
+                        double y = MoreMath.Conversions.Length.feet_to_meters(v);
+                        x = Arrays.append(x, y);
+                    }
 					return x;
 				}
 			}
@@ -464,18 +460,18 @@ public class MoreMath {
 			public static class Weight{
 				public static double[] kg_to_lb(double[] weight_kg){
 					double[] x = {} ;
-					for(int i=0; i<weight_kg.length; i++){
-						double y = MoreMath.Conversions.Weight.kg_to_lb(weight_kg[i]) ;
-						x = MoreMath.Arrays.append(x, y) ;
-					}
+                    for (double v : weight_kg) {
+                        double y = MoreMath.Conversions.Weight.kg_to_lb(v);
+                        x = Arrays.append(x, y);
+                    }
 					return x;
 				}
 				public static double[] lb_to_kg(double[] weight_lb){
 					double[] x = {} ;
-					for(int i=0; i<weight_lb.length; i++){
-						double y = MoreMath.Conversions.Weight.lb_to_kg(weight_lb[i]) ;
-						x = MoreMath.Arrays.append(x, y) ;
-					}
+                    for (double v : weight_lb) {
+                        double y = MoreMath.Conversions.Weight.lb_to_kg(v);
+                        x = Arrays.append(x, y);
+                    }
 					return x;
 				}
 			}
@@ -483,20 +479,20 @@ public class MoreMath {
 			// converting to dB
 			public static double[] todB(double[] x){
 				double[] t = {} ;
-				for(int i=0; i<x.length; i++){
-					double y = MoreMath.Conversions.todB(x[i])  ;
-					t = MoreMath.Arrays.append(t, y) ;
-				}
+                for (double v : x) {
+                    double y = MoreMath.Conversions.todB(v);
+                    t = Arrays.append(t, y);
+                }
 				return t;
 			}
 
 			// converting from dB
 			public static double[] fromdB(double[] xdB){
 				double[] t = {} ;
-				for(int i=0; i<xdB.length; i++){
-					double y = MoreMath.Conversions.fromdB(xdB[i])  ;
-					t = MoreMath.Arrays.append(t, y) ;
-				}
+                for (double v : xdB) {
+                    double y = MoreMath.Conversions.fromdB(v);
+                    t = Arrays.append(t, y);
+                }
 				return t;
 			}
 

@@ -92,7 +92,7 @@ public class NQPrioritizedBuffer extends SpinnetBuffer {
 		int pIndex = -1;
 		for (int i = 0; i < this.nbClient; i++) {
 			if (this.priorityQueue[i].size() > 0
-					&& (double)(Double) this.priorityQueue[i].firstKey() < prior) {
+					&& (Double) this.priorityQueue[i].firstKey() < prior) {
 				prior = (double)(Double) this.priorityQueue[i].firstKey();
 				pIndex = i;
 			}
@@ -100,7 +100,7 @@ public class NQPrioritizedBuffer extends SpinnetBuffer {
 
 		if (pIndex != -1) {
 			Entry first = priorityQueue[pIndex].pollFirstEntry();
-			sendMessage(e, (Message) (first.getValue()));
+			sendMessage(e, (Message) first.getValue());
 		}
 		// otherwise, all of the queues are empty
 	}

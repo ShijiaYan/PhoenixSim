@@ -61,7 +61,7 @@ public class Interleaver extends AbstractInterleaver {
 		double xtalk = -10.0D * Math.log10(1.0D - 10.0D * Math.pow(10.0D, this.leaverXTalk / 2.0D));
 		double totalLeaverLoss = (this.leaverIL + xtalk) * 3.0D;
 		PowerPenalty interleaverTotalLoss = new PowerPenalty("Interleaver Penalty", "Interleaver", totalLeaverLoss);
-		return MoreArrays.getArrayList(new PowerPenalty[] { interleaverTotalLoss });
+		return MoreArrays.getArrayList(interleaverTotalLoss);
 	}
 
 	public boolean hasThroughCapability() {
@@ -69,8 +69,8 @@ public class Interleaver extends AbstractInterleaver {
 	}
 
 	public ArrayList<PowerPenalty> getPassbyPowerPenalties(PhysicalParameterAndModelsSet modelSet,
-			AbstractLinkFormat linkFormat) {
-		return null;
+							 AbstractLinkFormat linkFormat) {
+		return this.getPowerPenalties(modelSet, linkFormat, null, Double.NaN);
 	}
 
 	public double getLeaverIL() {
@@ -79,10 +79,6 @@ public class Interleaver extends AbstractInterleaver {
 
 	public double getLeaverXTalk() {
 		return this.leaverXTalk;
-	}
-
-	public int getLeaverChannel() {
-		return this.leaverChannel;
 	}
 
 	public double getLeaverStaticPower() {

@@ -34,7 +34,7 @@ public class GeneralizedGenerator extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getInputNodesIndexes() {
-		ArrayList<Integer> l = new ArrayList<Integer>(numberOfClients);
+		ArrayList<Integer> l = new ArrayList<>(numberOfClients);
 		for (int i = 0 ; i < numberOfClients ; i++)
 			l.add(i);
 		return l;
@@ -43,7 +43,7 @@ public class GeneralizedGenerator extends AbstractSwitchArchitectureGenerator {
 	@Override
 	public List<Integer> getOutputNodesIndexes() {
 		int endIndex = getNumberOfInternalNodes() + numberOfClients;
-		ArrayList<Integer> l = new ArrayList<Integer>(endIndex-numberOfClients);
+		ArrayList<Integer> l = new ArrayList<>(endIndex - numberOfClients);
 		for (int i = endIndex ; i < endIndex + numberOfClients ; i++)
 			l.add(i);
 		return l;
@@ -52,7 +52,7 @@ public class GeneralizedGenerator extends AbstractSwitchArchitectureGenerator {
 	@Override
 	public List<Integer> getSwitchingNodesIndexes() {
 		int endIndex = getNumberOfInternalNodes() + numberOfClients;
-		ArrayList<Integer> l = new ArrayList<Integer>(endIndex-numberOfClients);
+		ArrayList<Integer> l = new ArrayList<>(endIndex - numberOfClients);
 		for (int i = numberOfClients ; i < endIndex ; i++)
 			l.add(i);
 		return l;
@@ -201,7 +201,7 @@ public class GeneralizedGenerator extends AbstractSwitchArchitectureGenerator {
 	private void connectDivide(List<NodeContainer> l1, List<NodeContainer> l2, AbstractGraphHandler agh) {
 		for (int i = 0 ; i < l1.size() ; i++) {
 			agh.newLink(l1.get(i), l2.get(2*i)).attribute("directed").setValue("true");
-			agh.newLink(l1.get(i), l2.get((2*i)+1)).attribute("directed").setValue("true");	
+			agh.newLink(l1.get(i), l2.get(2*i +1)).attribute("directed").setValue("true");
 		}
 	}
 	
@@ -214,20 +214,19 @@ public class GeneralizedGenerator extends AbstractSwitchArchitectureGenerator {
 	
 	private void connectStage(List<NodeContainer> l1, List<NodeContainer> l2, int index, AbstractGraphHandler agh) {
 		int j = 0;
-		for (int i = 0 ; i < l1.size() ; i++) {
-			NodeContainer n1 = l1.get(i);
-			agh.newLink(n1, l2.get(j)).attribute("directed").setValue("true");
-			agh.newLink(n1, l2.get(j+1)).attribute("directed").setValue("true");
-			j = (j+2) % l2.size();
-		}		
+        for (NodeContainer n1 : l1) {
+            agh.newLink(n1, l2.get(j)).attribute("directed").setValue("true");
+            agh.newLink(n1, l2.get(j + 1)).attribute("directed").setValue("true");
+            j = (j + 2) % l2.size();
+        }
 	}
 	
 	private void connectConciliate(List<NodeContainer> l1, List<NodeContainer> l2, AbstractGraphHandler agh) {
-		ArrayList<Stack<Integer>> groups = new ArrayList<Stack<Integer>>(numberOfClients);
+		ArrayList<Stack<Integer>> groups = new ArrayList<>(numberOfClients);
 		int nodePerGroup = l1.size()/numberOfClients;
 		int index = 0;
 		for (int i = 0 ; i < numberOfClients ; i++) {
-			Stack<Integer> forGroup = new Stack<Integer>();
+			Stack<Integer> forGroup = new Stack<>();
 			for (int j = 0 ; j < nodePerGroup ; j++) {
 				forGroup.add(l2.get(index).getIndex());
 				forGroup.add(l2.get(index).getIndex());
@@ -239,9 +238,9 @@ public class GeneralizedGenerator extends AbstractSwitchArchitectureGenerator {
 		for (int i = 0 ; i < l1.size() ; i++) {
 			NodeContainer n1 = l1.get(i);
 			
-			int dest = groups.get((2*i) % groups.size()).pop();
+			int dest = groups.get(2*i % groups.size()).pop();
 			agh.newLink(n1.getIndex(), dest).attribute("directed").setValue("true");
-			dest = groups.get(((2*i)+1) % groups.size()).pop();
+			dest = groups.get((2*i +1) % groups.size()).pop();
 			agh.newLink(n1.getIndex(), dest).attribute("directed").setValue("true");
 			
 			agh.fireAllElementsModificationEvent(new CasualEvent(this));	

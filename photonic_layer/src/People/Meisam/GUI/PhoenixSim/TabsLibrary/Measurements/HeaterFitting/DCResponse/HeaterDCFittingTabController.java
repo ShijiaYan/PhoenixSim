@@ -83,7 +83,7 @@ public class HeaterDCFittingTabController extends AbstractTabController {
 
 	@FXML
 	public void chooseIData() throws IOException{
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
 		WindowBuilder varSelect = new WindowBuilder(loader) ;
 		varSelect.setIcon("/People/Meisam/GUI/Utilities/VariableSelector/Extras/icon.png");
 		varSelect.build("Select Variable & Values", false);
@@ -116,7 +116,7 @@ public class HeaterDCFittingTabController extends AbstractTabController {
 
 	@FXML
 	public void chooseVData() throws IOException{
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
 		WindowBuilder varSelect = new WindowBuilder(loader) ;
 		varSelect.setIcon("/People/Meisam/GUI/Utilities/VariableSelector/Extras/icon.png");
 		varSelect.build("Select Variable & Values", false);

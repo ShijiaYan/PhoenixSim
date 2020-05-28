@@ -31,7 +31,7 @@ public class StepVoltage extends AbstractVoltage {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("tStep (usec)", tJump_usec+"") ;
 		map.put("vStart (V)", vStart+"") ;
 		map.put("vEnd (V)", vEnd+"") ;

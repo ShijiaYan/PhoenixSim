@@ -30,14 +30,14 @@ public class TypeEnumerator implements Iterable<String> {
 		return new Iterator<String>() {
 			
 			int index = 0;
-			SetEnumerator<Character> setEnum = new SetEnumerator<Character>(MoreString.toCharSet(possiblechars), dimensions[index], true);
+			SetEnumerator<Character> setEnum = new SetEnumerator<>(MoreString.toCharSet(possiblechars), dimensions[index], true);
 			Iterator<ArrayList<Character>> protoIt = setEnum.iterator();
 
 			@Override
 			public boolean hasNext() {
 				while (protoIt.hasNext() == false && index+1 < dimensions.length) {
 					index++;
-					setEnum = new SetEnumerator<Character>(MoreString.toCharSet(possiblechars), dimensions[index], true);
+					setEnum = new SetEnumerator<>(MoreString.toCharSet(possiblechars), dimensions[index], true);
 					protoIt = setEnum.iterator();
 				}
 				return protoIt.hasNext();

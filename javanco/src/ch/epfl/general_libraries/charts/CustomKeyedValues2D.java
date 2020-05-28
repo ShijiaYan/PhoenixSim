@@ -50,9 +50,9 @@ Serializable {
 	 * @param sortRowKeys  if the row keys should be sorted.
 	 */
 	public CustomKeyedValues2D(boolean sortRowKeys) {
-		this.rowKeys = new ArrayList<Comparable<?>>();
-		this.columnKeys = new ArrayList<Comparable<?>>();
-		this.rows = new ArrayList<DefaultKeyedValues>();
+		this.rowKeys = new ArrayList<>();
+		this.columnKeys = new ArrayList<>();
+		this.rows = new ArrayList<>();
 		this.sortRowKeys = sortRowKeys;
 	}
 
@@ -226,7 +226,7 @@ Serializable {
 		}
 
 		// check that the column key is defined in the 2D structure
-		if (!(this.columnKeys.contains(columnKey))) {
+		if (!this.columnKeys.contains(columnKey)) {
 			throw new UnknownKeyException("Unrecognised columnKey: "
 					+ columnKey);
 		}
@@ -239,7 +239,7 @@ Serializable {
 			DefaultKeyedValues rowData
 			= this.rows.get(row);
 			int col = rowData.getIndex(columnKey);
-			return (col >= 0 ? rowData.getValue(col) : null);
+			return col >= 0 ? rowData.getValue(col) : null;
 		}
 		else {
 			throw new UnknownKeyException("Unrecognised rowKey: " + rowKey);
@@ -337,25 +337,23 @@ Serializable {
 		allNull = true;
 		//int columnIndex = getColumnIndex(columnKey);
 
-		for (int item = 0, itemCount = this.rows.size(); item < itemCount;
-		item++) {
-			row = this.rows.get(item);
-			int columnIndex = row.getIndex(columnKey);
-			if (columnIndex >= 0 && row.getValue(columnIndex) != null) {
-				allNull = false;
-				break;
-			}
-		}
+        for (DefaultKeyedValues keyedValues : this.rows) {
+            row = keyedValues;
+            int columnIndex = row.getIndex(columnKey);
+            if (columnIndex >= 0 && row.getValue(columnIndex) != null) {
+                allNull = false;
+                break;
+            }
+        }
 
 		if (allNull) {
-			for (int item = 0, itemCount = this.rows.size(); item < itemCount;
-			item++) {
-				row = this.rows.get(item);
-				int columnIndex = row.getIndex(columnKey);
-				if (columnIndex >= 0) {
-					row.removeValue(columnIndex);
-				}
-			}
+            for (DefaultKeyedValues defaultKeyedValues : this.rows) {
+                row = defaultKeyedValues;
+                int columnIndex = row.getIndex(columnKey);
+                if (columnIndex >= 0) {
+                    row.removeValue(columnIndex);
+                }
+            }
 			this.columnKeys.remove(columnKey);
 		}
 	}
@@ -533,8 +531,8 @@ Serializable {
 		CustomKeyedValues2D clone = (CustomKeyedValues2D) super.clone();
 		// for the keys, a shallow copy should be fine because keys
 		// should be immutable...
-		clone.columnKeys = new ArrayList<Comparable<?>>(this.columnKeys);
-		clone.rowKeys = new ArrayList<Comparable<?>>(this.rowKeys);
+		clone.columnKeys = new ArrayList<>(this.columnKeys);
+		clone.rowKeys = new ArrayList<>(this.rowKeys);
 
 		// but the row data requires a deep copy
 		clone.rows = (List<DefaultKeyedValues>) ObjectUtilities.deepClone(this.rows);

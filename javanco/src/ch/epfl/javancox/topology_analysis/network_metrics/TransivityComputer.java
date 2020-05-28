@@ -19,7 +19,7 @@ public class TransivityComputer extends NetworkWideMetricComputer {
 			return 0;
 		}
 
-		res = (3 * (double)tri)/lam ;
+		res = 3 * (double)tri /lam ;
 
 		return res;
 	}

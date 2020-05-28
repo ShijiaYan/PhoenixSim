@@ -133,14 +133,11 @@ public abstract class AbstractRandomTrafficGenerator extends AbstractTrafficGene
 		JMenu load = new JMenu("Load");
 		final JLabel loadValue = new JLabel("Load : " + r);
 		final JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 320, (int)r.getInGbitSeconds());
-		slider.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				r = Rate.ONE_GBIT_S.multiply(slider.getValue());
-				updateRate();
-				loadValue.setText("Load : " + r);
-			}	
-		});
+		slider.addChangeListener(e -> {
+            r = Rate.ONE_GBIT_S.multiply(slider.getValue());
+            updateRate();
+            loadValue.setText("Load : " + r);
+        });
 		load.add(loadValue);
 		load.add(slider);		
 		menu.add(load);		

@@ -13,12 +13,12 @@ public class AIMPhotonicsBendLossModel extends AbstractBendLossModel {
 
 	@Override
 	public double getLossPerCm(double radiusMicron) {
-		return (getLossdBperCm(radiusMicron) * 23/100);
+		return getLossdBperCm(radiusMicron) * 23/100;
 	}
 
 	@Override
 	public double getLossPerMeter(double radiusMicron) {
-		return (getLossdBperCm(radiusMicron) * 23);
+		return getLossdBperCm(radiusMicron) * 23;
 	}
 
 	@Override

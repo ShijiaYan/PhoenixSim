@@ -111,9 +111,9 @@ public class LayeredTreeGenerator extends AbstractDeterministicGenerator
 	@Override
 	public double getAverageNumberOfLeaves() {
 		int val = 1;
-		for (int i = 0 ; i < siblings.length ; i++) {
-			val *= siblings[i];
-		}
+        for (int sibling : siblings) {
+            val *= sibling;
+        }
 		return val;
 	}
 

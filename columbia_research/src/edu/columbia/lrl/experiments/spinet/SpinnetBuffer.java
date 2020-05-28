@@ -19,15 +19,15 @@ public class SpinnetBuffer extends Buffer implements SpinetComponent {
 	}
 
 	protected double getEOTTimeNS(Message toSend, Evt e) {
-		double packet = lwSimExperiment.getReferenceBandwidth().getTime(toSend.sizeInBits).getNanoseconds()+(headerTime);
+		double packet = lwSimExperiment.getReferenceBandwidth().getTime(toSend.sizeInBits).getNanoseconds()+ headerTime;
 		double duration = Math.max(minTransmissionTime, packet);
 		toSend.lastDuration = duration;
 		return duration+e.getTimeNS();
 	}
 	
 	protected double getEOTTimeNS(Message toSend, double startTime) {
-		double min = (builder.getLinkToSwitchLatency()*2)+(builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS*2);
-		double packet = lwSimExperiment.getReferenceBandwidth().getTime(toSend.sizeInBits).getNanoseconds()+(builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS);
+		double min = builder.getLinkToSwitchLatency()*2 + builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS*2;
+		double packet = lwSimExperiment.getReferenceBandwidth().getTime(toSend.sizeInBits).getNanoseconds()+ builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS;
 		double duration = Math.max(min, packet);
 		toSend.lastDuration = duration;
 		return duration+startTime;
@@ -37,7 +37,7 @@ public class SpinnetBuffer extends Buffer implements SpinetComponent {
 	public void setSpinetBuilder(AbstractSpinetBuilder builder) {
 		this.builder = builder;	
 		headerTime = builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS;
-		minTransmissionTime = (builder.getLinkToSwitchLatency()*2)+(2*headerTime);		
+		minTransmissionTime = builder.getLinkToSwitchLatency()*2 + 2*headerTime;
 	}
 	
 	// if
@@ -58,7 +58,7 @@ public class SpinnetBuffer extends Buffer implements SpinetComponent {
 		msg.setTransmissionTime(lwSimExperiment.getReferenceBandwidth().getTime(msg.sizeInBits).getNanoseconds());		
 		msg.clearOccupyResource();
 		
-		if ((!msg.deadlineSet) ){
+		if (!msg.deadlineSet){
 			double deadline = msg.timeEmitted + msg.getTransmissionTimeNS() + msg.getInitTimeToLive();
 			msg.setDeadline(deadline);
 		}

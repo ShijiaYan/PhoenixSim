@@ -22,7 +22,7 @@ public class DCVoltage extends AbstractVoltage {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("vDC", vDC+"") ;
 		map.put("VoltageName", "DCVoltage") ;
 		return map ;

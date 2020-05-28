@@ -37,10 +37,10 @@ public class GraphColouring {
         } 
  
         // search for a solution and print results 
-        Search<IntVar> search = new DepthFirstSearch<IntVar>(); 
-        SelectChoicePoint<IntVar> select = 
-            new InputOrderSelect<IntVar>(store, v, 
-                                         new IndomainMin<IntVar>()); 
+        Search<IntVar> search = new DepthFirstSearch<>();
+        SelectChoicePoint<IntVar> select =
+                new InputOrderSelect<>(store, v,
+                        new IndomainMin<>());
         boolean result = search.labeling(store, select);
         
         ColorMap m = ColorMap.getAnotherMap();

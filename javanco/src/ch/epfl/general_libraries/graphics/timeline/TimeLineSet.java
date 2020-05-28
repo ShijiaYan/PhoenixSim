@@ -179,7 +179,7 @@ public class TimeLineSet extends ArrayList<TimeLine> {
 			this.notifyAll();
 		}
 		if (matched == true) return communications;
-		communications = new ArrayList<Communication>();
+		communications = new ArrayList<>();
 			
 		int totSend = 0;
 		int totRece = 0;
@@ -187,8 +187,8 @@ public class TimeLineSet extends ArrayList<TimeLine> {
 			totSend += i.sends.size();
 			totRece += i.receives.size();
 		}
-		ArrayList<SendComm> allsend = new ArrayList<SendComm>(totSend);
-		ArrayList<ReceComm> allrece = new ArrayList<ReceComm>(totRece);
+		ArrayList<SendComm> allsend = new ArrayList<>(totSend);
+		ArrayList<ReceComm> allrece = new ArrayList<>(totRece);
 
 		for (TimeLine i : this) {
 			allsend.addAll(i.sends);

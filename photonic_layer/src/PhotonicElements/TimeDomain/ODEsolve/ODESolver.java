@@ -5,12 +5,12 @@ public class ODESolver {
 	public static int rungeKutta4(ODE ode, double range, double dx) {
 	//Define some convenience variables to make the code more readable
 	int numEqns = ode.getNumEqns();
-	double x[] = ode.getX();
-	double y[][] = ode.getY();
+	double[] x = ode.getX();
+	double[][] y = ode.getY();
 	//Define some local variables and arrays int i, j, k;
-	double scale[] = {1.0, .5, .5, 1.0};
-	double dy[][] = new double[4][numEqns];
-	double ytmp[] = new double[numEqns];
+	double[] scale = {1.0, .5, .5, 1.0};
+	double[][] dy = new double[4][numEqns];
+	double[] ytmp = new double[numEqns];
 	//Integrate the ODE over the desired range
 	//Stop if you are going to overflow the matrices
 	int i = 1;

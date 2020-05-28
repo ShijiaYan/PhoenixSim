@@ -94,7 +94,7 @@ public class Improved_OOK_NRZ_ModulatorArrayModelMeisam extends AbstractRingBase
 
 		double insertionLoss = -10.0D * Math.log10(transmission);
 		PowerPenalty insertionLossPP = new PowerPenalty("Array induced IL", "Modulator", insertionLoss);
-		return MoreArrays.getArrayList(new PowerPenalty[] { insertionLossPP });
+		return MoreArrays.getArrayList(insertionLossPP);
 	}
 
 	public Pair<Double, ArrayList<PowerPenalty>> getModulationERAndPowerPenalties(
@@ -119,7 +119,7 @@ public class Improved_OOK_NRZ_ModulatorArrayModelMeisam extends AbstractRingBase
 		PowerPenalty xtalkPenalty = new PowerPenalty("Crosstalk", "Modulator", xtalkPP);
 		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<>();
 		pair.setFirst(er);
-		pair.setSecond(MoreArrays.getArrayList(new PowerPenalty[] { erPP_, ookPP_, xtalkPenalty }));
+		pair.setSecond(MoreArrays.getArrayList(erPP_, ookPP_, xtalkPenalty));
 		return pair;
 	}
 

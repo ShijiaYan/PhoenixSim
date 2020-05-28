@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class WelcomeTabHPE extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/WelcomeHPE/welcome_tab_hpe.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/WelcomeHPE/welcome_tab_hpe.fxml")) ;
 	WelcomeTabHPEController controller ;
 
 	public WelcomeTabHPE(SimulationDataBase simDataBase){

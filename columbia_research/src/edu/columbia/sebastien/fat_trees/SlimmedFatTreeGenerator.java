@@ -113,9 +113,9 @@ public class SlimmedFatTreeGenerator extends AbstractDeterministicGenerator {
 		IntegerArrayList[] downLinks = IntegerArrayList.getInitialisedArray(switchesWeight.length);
 
 		// for routing
-		ArrayList<ArrayList<Integer>> routing = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> routing = new ArrayList<>();
 		for (int i = 0; i <= switchesStartIndex[level] ; i++) {
-			ArrayList<Integer> list = new ArrayList<Integer>();
+			ArrayList<Integer> list = new ArrayList<>();
 			routing.add(list);
 			if (i < switchesStartIndex[1]) {
 				list.add(i);
@@ -234,7 +234,7 @@ public class SlimmedFatTreeGenerator extends AbstractDeterministicGenerator {
 		System.out.println("Number of switches :" + (MoreArrays.sum(switchMult) - clients));
 		System.out.println("Number of link :" + nbLinks);		
 		
-		nbSwitches = (MoreArrays.sum(switchMult) - clients);
+		nbSwitches = MoreArrays.sum(switchMult) - clients;
 		
 		double totDist = 0;
 	//	for (int i = 0 ; i < clients ; i++) {
@@ -245,7 +245,7 @@ public class SlimmedFatTreeGenerator extends AbstractDeterministicGenerator {
 				}
 			}
 	//	}
-		averageDistance = totDist/(double)((clients-1));
+		averageDistance = totDist/(double) (clients-1);
 
 		
 		Collection<NodeContainer> nodes = agh.getNodeContainers();

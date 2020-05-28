@@ -128,362 +128,323 @@ public class Display extends JFrame {
 		edgeJPanel.add(save);
 		edgeJPanel.add(load);
 		edgeJPanel.add(clear);
-		clear.addActionListener(new ActionListener() {
+		clear.addActionListener(e -> {
+            nodes = new Hashtable<>();
+            edgeList = new ArrayList<>();
+            nodesList = new ArrayList<>();
+            index = 0;
+            updateDrawing();
+        });
+		save.addActionListener(e -> {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				nodes = new Hashtable<>();
-				edgeList = new ArrayList<>();
-				nodesList = new ArrayList<>();
-				index = 0;
-				updateDrawing();
-			}
-		});
-		save.addActionListener(new ActionListener() {
+         JFileChooser chooser = new JFileChooser();
+         FileNameExtensionFilter filter = new FileNameExtensionFilter(
+           "XML Files", "xml");
+         chooser.setFileFilter(filter);
+         int returnVal = chooser.showOpenDialog(getParent());
+         if (returnVal == JFileChooser.APPROVE_OPTION) {
+          String path = chooser.getSelectedFile().getAbsolutePath()
+            + ".xml";
+          System.out.println(path);
+          if (!save(path))
+           JOptionPane.showMessageDialog(null, "Saved");
+         }
+         // load("E:\\"+fileName);
+        });
+			  load.addActionListener(e -> {
+               JFileChooser chooser = new JFileChooser();
+               FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                 "XML Files", "xml");
+               chooser.setFileFilter(filter);
+               int openChoice = chooser.showOpenDialog(getParent());
 
-			   @Override
-			   public void actionPerformed(ActionEvent e) {
+               if (openChoice == JFileChooser.APPROVE_OPTION) {
+                String path = chooser.getSelectedFile().getAbsolutePath();
+                System.out.println(path);
+                load(path);
+               }
 
-			    JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			      "XML Files", "xml");
-			    chooser.setFileFilter(filter);
-			    int returnVal = chooser.showOpenDialog(getParent());
-			    if (returnVal == JFileChooser.APPROVE_OPTION) {
-			     String path = chooser.getSelectedFile().getAbsolutePath()
-			       + ".xml";
-			     System.out.println(path);
-			     if (!save(path))
-			      JOptionPane.showMessageDialog(null, "Saved");
-			    }
-			    // load("E:\\"+fileName);
-			   }
-			  });
-			  load.addActionListener(new ActionListener() {
+              });
+		totalGain.addActionListener(arg0 -> {
+            if (nodes.size() > 0) {
+                int src = 0, dest = 0;
+                String from = fromPath.getText().trim();
+                String to = toPath.getText().trim();
+                if (!nodes.containsKey(from)) {
+                    JOptionPane.showMessageDialog(null,
+                            "INVALID START NODE !!!!");
+                    return;
+                }
 
-			   @Override
-			   public void actionPerformed(ActionEvent e) {
-			    JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			      "XML Files", "xml");
-			    chooser.setFileFilter(filter);
-			    int openChoice = chooser.showOpenDialog(getParent());
+                if (!nodes.containsKey(to)) {
+                    JOptionPane.showMessageDialog(null,
+                            "INVALID END NODE!!!!");
+                    return;
+                }
+                src = nodes.get(from);
+                dest = nodes.get(to);
 
-			    if (openChoice == JFileChooser.APPROVE_OPTION) {
-			     String path = chooser.getSelectedFile().getAbsolutePath();
-			     System.out.println(path);
-			     load(path);
-			    }
+                Solver solver = new Solver();
+                double[][] mat = new double[nodes.size()][nodes.size()];
+                for (double[] edge : edgeList) {
+                    mat[(int) edge[0]][(int) edge[1]] = edge[2];
+                }
+                if (!solver.constructGraph(mat, nodesList))
+                    return;
+                double gain = solver.computeGain(src + 1, 1 + dest);
+                JFrame frame = new JFrame("Total Gain");
+                frame.setLocation(100, 100);
+                frame.setSize(500, 500);
+                double[] deltas = solver.getDeltas();
+                StringBuilder output = new StringBuilder();
+                output.append("Total gain(Overall Transfer Function) = ")
+                        .append(gain)
+                        .append("\n===================================\n");
+                output.append("Δ = ").append(deltas[0]).append("\n");
+                for (int i = 1; i < deltas.length; i++) {
+                    output.append("Δ").append(i).append(" = ")
+                            .append(deltas[i]).append("\n");
+                }
+                JTextArea paths = new JTextArea(output.toString());
+                JScrollPane scl = new JScrollPane(paths);
+                paths.setFont(new Font("MONOSPACED", Font.BOLD, 18));
+                paths.setLineWrap(true);
+                paths.setWrapStyleWord(true);
+                paths.setEditable(false);
+                frame.add(scl);
+                frame.setVisible(true);
+            }
+        });
 
-			   }
-			  });
-		totalGain.addActionListener(new ActionListener() {
+		forwardPaths.addActionListener(arg0 -> {
+            if (nodes.size() > 0) {
+                int src = 0, dest = 0;
+                String from = fromPath.getText().trim();
+                String to = toPath.getText().trim();
+                if (!nodes.containsKey(from)) {
+                    JOptionPane.showMessageDialog(null,
+                            "INVALID START NODE !!!!");
+                    return;
+                }
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (nodes.size() > 0) {
-					int src = 0, dest = 0;
-					String from = fromPath.getText().trim();
-					String to = toPath.getText().trim();
-					if (!nodes.containsKey(from)) {
-						JOptionPane.showMessageDialog(null,
-								"INVALID START NODE !!!!");
-						return;
-					}
+                if (!nodes.containsKey(to)) {
+                    JOptionPane.showMessageDialog(null,
+                            "INVALID END NODE !!!!");
+                    return;
+                }
+                src = nodes.get(from);
+                dest = nodes.get(to);
 
-					if (!nodes.containsKey(to)) {
-						JOptionPane.showMessageDialog(null,
-								"INVALID END NODE!!!!");
-						return;
-					}
-					src = nodes.get(from);
-					dest = nodes.get(to);
+                Solver solver = new Solver();
+                double[][] mat = new double[nodes.size()][nodes.size()];
+                for (double[] edge : edgeList) {
+                    mat[(int) edge[0]][(int) edge[1]] = edge[2];
+                }
+                if (!solver.constructGraph(mat, nodesList))
+                    return;
+                String output = solver.printForwardPaths(src + 1, 1 + dest);
+                JFrame frame = new JFrame("Forward Paths");
+                frame.setLocation(100, 100);
+                frame.setSize(500, 500);
 
-					Solver solver = new Solver();
-					double[][] mat = new double[nodes.size()][nodes.size()];
-					for (double[] edge : edgeList) {
-						mat[(int) edge[0]][(int) edge[1]] = edge[2];
-					}
-					if (!solver.constructGraph(mat, nodesList))
-						return;
-					double gain = solver.computeGain(src + 1, 1 + dest);
-					JFrame frame = new JFrame("Total Gain");
-					frame.setLocation(100, 100);
-					frame.setSize(500, 500);
-					double[] deltas = solver.getDeltas();
-					StringBuilder output = new StringBuilder();
-					output.append("Total gain(Overall Transfer Function) = ")
-							.append(gain)
-							.append("\n===================================\n");
-					output.append("Δ = ").append(deltas[0]).append("\n");
-					for (int i = 1; i < deltas.length; i++) {
-						output.append("Δ").append(i).append(" = ")
-								.append(deltas[i]).append("\n");
-					}
-					JTextArea paths = new JTextArea(output.toString());
-					JScrollPane scl = new JScrollPane(paths);
-					paths.setFont(new Font("MONOSPACED", Font.BOLD, 18));
-					paths.setLineWrap(true);
-					paths.setWrapStyleWord(true);
-					paths.setEditable(false);
-					frame.add(scl);
-					frame.setVisible(true);
-				}
-			}
-		});
+                JTextArea paths = new JTextArea(output);
+                JScrollPane scl = new JScrollPane(paths);
+                paths.setFont(new Font("MONOSPACED", Font.BOLD, 18));
+                paths.setLineWrap(true);
+                paths.setWrapStyleWord(true);
+                paths.setEditable(false);
+                frame.add(scl);
+                frame.setVisible(true);
+            }
+        });
 
-		forwardPaths.addActionListener(new ActionListener() {
+		showLoops.addActionListener(arg0 -> {
+            if (nodes.size() > 0) {
+                Solver solver = new Solver();
+                double[][] mat = new double[nodes.size()][nodes.size()];
+                for (double[] edge : edgeList) {
+                    mat[(int) edge[0]][(int) edge[1]] = edge[2];
+                }
+                if (!solver.constructGraph(mat, nodesList))
+                    return;
+                String output = solver.printAllLoops();
+                JFrame frame = new JFrame("Loops");
+                frame.setLocation(100, 100);
+                frame.setSize(500, 500);
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (nodes.size() > 0) {
-					int src = 0, dest = 0;
-					String from = fromPath.getText().trim();
-					String to = toPath.getText().trim();
-					if (!nodes.containsKey(from)) {
-						JOptionPane.showMessageDialog(null,
-								"INVALID START NODE !!!!");
-						return;
-					}
-
-					if (!nodes.containsKey(to)) {
-						JOptionPane.showMessageDialog(null,
-								"INVALID END NODE !!!!");
-						return;
-					}
-					src = nodes.get(from);
-					dest = nodes.get(to);
-
-					Solver solver = new Solver();
-					double[][] mat = new double[nodes.size()][nodes.size()];
-					for (double[] edge : edgeList) {
-						mat[(int) edge[0]][(int) edge[1]] = edge[2];
-					}
-					if (!solver.constructGraph(mat, nodesList))
-						return;
-					String output = solver.printForwardPaths(src + 1, 1 + dest);
-					JFrame frame = new JFrame("Forward Paths");
-					frame.setLocation(100, 100);
-					frame.setSize(500, 500);
-
-					JTextArea paths = new JTextArea(output);
-					JScrollPane scl = new JScrollPane(paths);
-					paths.setFont(new Font("MONOSPACED", Font.BOLD, 18));
-					paths.setLineWrap(true);
-					paths.setWrapStyleWord(true);
-					paths.setEditable(false);
-					frame.add(scl);
-					frame.setVisible(true);
-				}
-			}
-		});
-
-		showLoops.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (nodes.size() > 0) {
-					Solver solver = new Solver();
-					double[][] mat = new double[nodes.size()][nodes.size()];
-					for (double[] edge : edgeList) {
-						mat[(int) edge[0]][(int) edge[1]] = edge[2];
-					}
-					if (!solver.constructGraph(mat, nodesList))
-						return;
-					String output = solver.printAllLoops();
-					JFrame frame = new JFrame("Loops");
-					frame.setLocation(100, 100);
-					frame.setSize(500, 500);
-
-					JTextArea loops = new JTextArea(output);
-					JScrollPane scl = new JScrollPane(loops);
-					loops.setFont(new Font("MONOSPACED", Font.BOLD, 18));
-					loops.setLineWrap(true);
-					loops.setWrapStyleWord(true);
-					loops.setEditable(false);
-					frame.getContentPane().add(scl);
-					frame.setVisible(true);
-				}
-			}
-		});
+                JTextArea loops = new JTextArea(output);
+                JScrollPane scl = new JScrollPane(loops);
+                loops.setFont(new Font("MONOSPACED", Font.BOLD, 18));
+                loops.setLineWrap(true);
+                loops.setWrapStyleWord(true);
+                loops.setEditable(false);
+                frame.getContentPane().add(scl);
+                frame.setVisible(true);
+            }
+        });
 
 		model = new DefaultGraphModel();
 		view = new GraphLayoutCache(model, new DefaultCellViewFactory());
 		graph = new JGraph(model, view);
-		enterEdge.addActionListener(new ActionListener() {
+		enterEdge.addActionListener(arg0 -> {
+            int from, to;
+            boolean finished = false;
+            String fromNode = fromField.getText().trim();
+            String toNode = toField.getText().trim();
+            String gain = gainField.getText().trim();
+            double gainVal = 0;
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int from, to;
-				boolean finished = false;
-				String fromNode = fromField.getText().trim();
-				String toNode = toField.getText().trim();
-				String gain = gainField.getText().trim();
-				double gainVal = 0;
+            if (fromNode.trim().length() == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "START NODE IS EMPTY !!!!");
 
-				if (fromNode.trim().length() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"START NODE IS EMPTY !!!!");
+            } else if (toNode.length() == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "END NODE IS EMPTY !!!!");
 
-				} else if (toNode.length() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"END NODE IS EMPTY !!!!");
+            } else {
+                if (gain.trim().length() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "GAIN Field IS EMPTY !!!!");
+                    finished = false;
 
-				} else {
-					if (gain.trim().length() == 0) {
-						JOptionPane.showMessageDialog(null,
-								"GAIN Field IS EMPTY !!!!");
-						finished = false;
+                } else {
+                    if (isNumeric(gain)) {
+                        gainVal = Double.parseDouble(gain);
+                        finished = true;
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "INVALID GAIN VALUE");
+                    }
+                }
+            }
+            if (finished) { // if valid data
 
-					} else {
-						if (isNumeric(gain)) {
-							gainVal = Double.parseDouble(gain);
-							finished = true;
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"INVALID GAIN VALUE");
-						}
-					}
-				}
-				if (finished) { // if valid data
+                if (nodes.containsKey(fromNode)) {
+                    from = nodes.get(fromNode);
 
-					if (nodes.containsKey(fromNode)) {
-						from = nodes.get(fromNode);
+                } else {
+                    nodes.put(fromNode, index);
+                    nodesList.add(fromNode);
+                    from = index++;
+                }
 
-					} else {
-						nodes.put(fromNode, index);
-						nodesList.add(fromNode);
-						from = index++;
-					}
+                if (nodes.containsKey(toNode)) {
+                    to = nodes.get(toNode);
+                } else {
+                    nodes.put(toNode, index);
+                    nodesList.add(toNode);
+                    to = index++;
+                }
 
-					if (nodes.containsKey(toNode)) {
-						to = nodes.get(toNode);
-					} else {
-						nodes.put(toNode, index);
-						nodesList.add(toNode);
-						to = index++;
-					}
+                boolean isExisted = false;
+                double[] edg = new double[] { from, to, gainVal };
+                for (double[] arr : edgeList) {
+                    if ((int) arr[0] == from && (int) arr[1] == to) {
+                        arr[2] += gainVal;
+                        isExisted = true;
+                        edg = arr;
+                        break;
+                    }
+                }
+                if (!isExisted)
+                    edgeList.add(edg);
+                updateDrawing();
 
-					boolean isExisted = false;
-					double[] edg = new double[] { from, to, gainVal };
-					for (double[] arr : edgeList) {
-						if ((int) arr[0] == from && (int) arr[1] == to) {
-							arr[2] += gainVal;
-							isExisted = true;
-							edg = arr;
-							break;
-						}
-					}
-					if (!isExisted)
-						edgeList.add(edg);
-					updateDrawing();
+            }
 
-				}
+        });
 
-			}
-		});
+		deleteNode.addActionListener(arg0 -> {
 
-		deleteNode.addActionListener(new ActionListener() {
+            int indexOfNode;
+            boolean finished = false;
+            String node = nodeToDelete.getText().trim();
+            if (node.trim().length() == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "PLEASE INSERT NODE NAME!!!!");
 
-			@SuppressWarnings("unused")
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+            } else {
+                if (nodes.containsKey(node)) {
+                    indexOfNode = nodes.get(node);
+                    nodes.remove(nodesList.get(indexOfNode));
+                    nodesList.remove(indexOfNode);
+                    index--;
+                    for (int j = indexOfNode; j < nodesList.size(); j++) {
+                        nodes.put(nodesList.get(j), j);
+                    }
+                    double[] edg;
+                    for (int i = 0; i < edgeList.size(); i++) {
+                        edg = edgeList.get(i);
+                        if ((int) edg[0] == indexOfNode
+                                || (int) edg[1] == indexOfNode) {
+                            edgeList.remove(i);
 
-				int indexOfNode;
-				boolean finished = false;
-				String node = nodeToDelete.getText().trim();
-				if (node.trim().length() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"PLEASE INSERT NODE NAME!!!!");
+                            i--;
+                        } else {
+                            if ((int) edg[0] > indexOfNode) {
+                                edg[0]--;
+                            }
+                            if ((int) edg[1] > indexOfNode) {
+                                edg[1]--;
+                            }
+                        }
+                    }
+                    updateDrawing();
 
-				} else {
-					if (nodes.containsKey(node)) {
-						indexOfNode = nodes.get(node);
-						nodes.remove(nodesList.get(indexOfNode));
-						nodesList.remove(indexOfNode);
-						index--;
-						for (int j = indexOfNode; j < nodesList.size(); j++) {
-							nodes.put(nodesList.get(j), j);
-						}
-						double[] edg;
-						for (int i = 0; i < edgeList.size(); i++) {
-							edg = edgeList.get(i);
-							if ((int) edg[0] == indexOfNode
-									|| (int) edg[1] == indexOfNode) {
-								edgeList.remove(i);
+                } else {
+                    JOptionPane
+                            .showMessageDialog(null, "NO SUCH NODE !!!!");
+                }
+            }
+        });
+		deleteEdge.addActionListener(arg0 -> {
 
-								i--;
-							} else {
-								if ((int) edg[0] > indexOfNode) {
-									edg[0]--;
-								}
-								if ((int) edg[1] > indexOfNode) {
-									edg[1]--;
-								}
-							}
-						}
-						updateDrawing();
+            int from = 0, to = 0;
+            boolean finished = false;
+            String fromNode = startToDelete.getText().trim();
+            String toNode = endToDelete.getText().trim();
+            double gainVal = 0;
 
-					} else {
-						JOptionPane
-								.showMessageDialog(null, "NO SUCH NODE !!!!");
-					}
-				}
-			}
+            if (fromNode.trim().length() == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "START NODE IS EMPTY !!!!");
 
-		});
-		deleteEdge.addActionListener(new ActionListener() {
+            } else if (toNode.length() == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "END NODE IS EMPTY !!!!");
 
-			@SuppressWarnings("unused")
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+            } else {
+                if (nodes.containsKey(fromNode)
+                        && nodes.containsKey(toNode)) {
+                    from = nodes.get(fromNode);
+                    to = nodes.get(toNode);
+                    finished = true;
 
-				int from = 0, to = 0;
-				boolean finished = false;
-				String fromNode = startToDelete.getText().trim();
-				String toNode = endToDelete.getText().trim();
-				double gainVal = 0;
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "NO SUCH NODES !!!!");
 
-				if (fromNode.trim().length() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"START NODE IS EMPTY !!!!");
+                }
+                if (finished) {
+                    boolean isExisted = false;
+                    double[] edg;
+                    for (int i = 0; i < edgeList.size(); i++) {
+                        edg = edgeList.get(i);
+                        if ((int) edg[0] == from && (int) edg[1] == to) {
+                            edgeList.remove(i);
 
-				} else if (toNode.length() == 0) {
-					JOptionPane.showMessageDialog(null,
-							"END NODE IS EMPTY !!!!");
+                            i--;
+                        }
+                    }
 
-				} else {
-					if (nodes.containsKey(fromNode)
-							&& nodes.containsKey(toNode)) {
-						from = nodes.get(fromNode);
-						to = nodes.get(toNode);
-						finished = true;
+                    updateDrawing();
 
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"NO SUCH NODES !!!!");
+                }
 
-					}
-					if (finished) {
-						boolean isExisted = false;
-						double[] edg;
-						for (int i = 0; i < edgeList.size(); i++) {
-							edg = edgeList.get(i);
-							if ((int) edg[0] == from && (int) edg[1] == to) {
-								edgeList.remove(i);
+            }
 
-								i--;
-							}
-						}
-
-						updateDrawing();
-
-					}
-
-				}
-
-			}
-		});
+        });
 		setVisible(true);
 
 	}
@@ -526,8 +487,8 @@ public class Display extends JFrame {
 			GraphConstants.setExtraLabelPositions(e.getAttributes(), point);
 
 			String t = "("
-					+ (nodesList.get((int) edgeList.get(i)[0]) + " to " + (nodesList
-							.get((int) edgeList.get(i)[1]))) + ")\n" + "\t["
+					+ (nodesList.get((int) edgeList.get(i)[0]) + " to " + nodesList
+							.get((int) edgeList.get(i)[1])) + ")\n" + "\t["
 					+ edgeList.get(i)[2] + "]";
 			Object[] array = { t };
 			// array[0]=temp.getEdgeGain();
@@ -568,7 +529,7 @@ public class Display extends JFrame {
 		   docBuilder = docFactory.newDocumentBuilder();
 
 		   // root elements
-		   Document doc = (Document) docBuilder.newDocument();
+		   Document doc = docBuilder.newDocument();
 		   Element rootElement = doc.createElement("SFG");
 		   doc.appendChild(rootElement);
 

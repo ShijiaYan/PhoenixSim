@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class HeaterFreqTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Heater/HeaterFreq/heater_freq.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Heater/HeaterFreq/heater_freq.fxml")) ; ;
 	HeaterFreqTabController controller ;
 
 	public HeaterFreqTab(SimulationDataBase simDataBase){

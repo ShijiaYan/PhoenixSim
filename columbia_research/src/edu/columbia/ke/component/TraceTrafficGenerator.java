@@ -127,12 +127,12 @@ public class TraceTrafficGenerator extends AbstractTrafficGenerator implements L
 			boolean msgSent = false;
 			while ((sCurrentLine = br.readLine()) != null) {
 				
-				ArrayList<Integer> args = new ArrayList<Integer>();
+				ArrayList<Integer> args = new ArrayList<>();
 				double sendTime = parse(sCurrentLine, args);
 				
 				int src = args.get(0);
 				int dst = args.get(1);
-				int sizeByte = (args.get(2) + 2);	//size in byte; overhead = 2 bytes
+				int sizeByte = args.get(2) + 2;	//size in byte; overhead = 2 bytes
 				
 				if (sizeByte < this.minSize) continue;
 				

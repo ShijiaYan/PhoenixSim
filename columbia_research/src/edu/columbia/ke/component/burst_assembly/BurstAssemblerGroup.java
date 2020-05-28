@@ -23,7 +23,7 @@ public class BurstAssemblerGroup extends AbstractTrafficOrigin implements Traffi
 		for (int i = 0; i < destinations; i++) {
 			// add burst assembler between gen and buf
 			try {
-				BA[i] = (AbstractBurstAssembler) (exampleBA.clone());
+				BA[i] = (AbstractBurstAssembler) exampleBA.clone();
 				dests.add(BA[i]);
 			} catch (CloneNotSupportedException e) {
 				// TODO Auto-generated catch block

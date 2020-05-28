@@ -68,7 +68,7 @@ public class HubNetworkBuilder extends AbstractBandwidthSpecifiedNBClientBuilder
 		
 		
 		// create the switch
-		ElecSwitch sw = null;			
+		ElecSwitch sw = null;
 		
 		sw = new ElecSwitch(nbClients, switchLatency, 1, prior, bufferLatency);
 		dests.add(sw);

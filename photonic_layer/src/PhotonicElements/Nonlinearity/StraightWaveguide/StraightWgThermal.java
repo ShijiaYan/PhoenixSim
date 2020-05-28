@@ -71,7 +71,7 @@ public class StraightWgThermal {
 	}
 	
 	public double getPowerAbsW(){
-		return (pin_mW*1e-3)*(1-wgKerr.getExcessLossKerr()*wgTPA.getExcessLossTPA()*getLossLinear()) ;
+		return pin_mW * 1e-3 * (1 - wgKerr.getExcessLossKerr() * wgTPA.getExcessLossTPA() * getLossLinear());
 	}
 	
 	public double getLossLinear(){
@@ -83,7 +83,7 @@ public class StraightWgThermal {
 	}
 	
 	public double getDeltaT(){
-		return (Ksi*getLengthCm()/wgProp.getCrossSectionAreaCmSquare())*Pabs ;
+		return (Ksi*getLengthCm()/wgProp.getCrossSectionAreaCmSquare()) *Pabs ;
 	}
 	
 	public double getDnThermal(){

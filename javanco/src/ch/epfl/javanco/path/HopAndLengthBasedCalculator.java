@@ -18,7 +18,7 @@ public class HopAndLengthBasedCalculator extends LengthBasedCalculator {
 
 	@Override
 	public float getPathValue(Path myPath) {
-		return super.getPathValue(myPath) + ((myPath.getNumberOfHops()-1) * hopLengthEq);
+		return super.getPathValue(myPath) + (myPath.getNumberOfHops()-1) * hopLengthEq;
 	}
 
 }

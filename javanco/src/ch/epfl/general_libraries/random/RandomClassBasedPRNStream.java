@@ -47,7 +47,7 @@ public abstract class RandomClassBasedPRNStream  extends PRNStream {
 		int i = source.nextInt();
 		long l;
 		if ( i < 0) {
-			l = (i) ^ 0xFFFFFFFF00000000l;
+			l = i ^ 0xFFFFFFFF00000000l;
 		} else {
 			l = i;
 		}

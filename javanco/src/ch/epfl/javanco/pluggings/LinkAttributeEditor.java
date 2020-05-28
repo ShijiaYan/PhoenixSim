@@ -113,13 +113,11 @@ public class LinkAttributeEditor extends JavancoTool {
 	private JButton getPopulateButton() {
 		if (goPopuButton == null) {
 			goPopuButton = new JButton("Go");
-			goPopuButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ev) {
-					LayerContainer lay = getActuallySelectedLayer();
-					lay.setAttributeOnAllLinks(attributeName.getText(),populatorData.getText(), true);
-					updateValues();
-				}
-			});
+			goPopuButton.addActionListener(ev -> {
+                LayerContainer lay = getActuallySelectedLayer();
+                lay.setAttributeOnAllLinks(attributeName.getText(),populatorData.getText(), true);
+                updateValues();
+            });
 		}
 		return goPopuButton;
 	}
@@ -208,12 +206,7 @@ public class LinkAttributeEditor extends JavancoTool {
 	}
 
 	private void init() {
-		getJTable().getModel().addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(final TableModelEvent e) {
-				cellChanged(e);
-			}
-		});
+		getJTable().getModel().addTableModelListener(e -> cellChanged(e));
 		getJTable().setShowHorizontalLines(true);
 		getJTable().setShowVerticalLines(true);
 		getJTable().setColumnSelectionAllowed(false);

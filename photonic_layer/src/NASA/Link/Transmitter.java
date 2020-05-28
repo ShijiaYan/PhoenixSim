@@ -94,7 +94,7 @@ public class Transmitter {
 		else{
 			totPenalty = ILdB + erPenalty+ ookPenalty+2*ILdB_from_neighbors ;
 		}
-		return (totPenalty) ;
+		return totPenalty;
 	}
 	
 	public double getGratingLossdB(){

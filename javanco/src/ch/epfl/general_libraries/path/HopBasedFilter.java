@@ -39,9 +39,9 @@ public class HopBasedFilter extends PathFilter {
 	@Override
 	public boolean filter(Path p) {
 		if (isHighPass()) {
-			return (p.size() >= maxHops+1);
+			return p.size() >= maxHops+1;
 		} else {
-			return (p.size() <= maxHops+1);
+			return p.size() <= maxHops+1;
 		}
 	}
 }

@@ -185,7 +185,7 @@ public class TransferMatrixTE {
 		Complex T = getFieldTransmission() ; // this is electric field --> divide by normal impedance to get 
 		Complex ZnormalFirst = new Complex(omega*muFirst, 0).divides(kNormalFirst) ;
 		Complex ZnormalSecond = new Complex(omega*muSecond, 0).divides(kNormalSecond) ;
-		double Trans_Coeff = T.absSquared() * (one.divides(ZnormalSecond).conjugate()).re() / (one.divides(ZnormalFirst).conjugate()).re() ;
+		double Trans_Coeff = T.absSquared() * one.divides(ZnormalSecond).conjugate().re() / one.divides(ZnormalFirst).conjugate().re() ;
 		return Trans_Coeff ;
 	}
 	

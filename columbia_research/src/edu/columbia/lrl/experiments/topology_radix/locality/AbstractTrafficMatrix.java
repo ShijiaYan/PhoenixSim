@@ -71,7 +71,7 @@ public abstract class AbstractTrafficMatrix implements ExperimentBlock {
 	
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("Normalized load", normLoad+"");
 		m.put("Traffic matrix type",this.getClass().getSimpleName());
 		return m;

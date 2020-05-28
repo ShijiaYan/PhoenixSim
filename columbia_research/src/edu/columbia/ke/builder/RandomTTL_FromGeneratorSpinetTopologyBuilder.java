@@ -43,7 +43,7 @@ public class RandomTTL_FromGeneratorSpinetTopologyBuilder extends
 		double oldTTLMean = ttlGen.getMean();
 		//double newTTLMean = getNewTTLMean(oldTTLMean);
 		//ttlGen.setMean(newTTLMean);
-		ttlGen.setMean(((index % 2 ) * 3 + 1) * oldTTLMean);
+		ttlGen.setMean((index % 2 * 3 + 1) * oldTTLMean);
 	}
 
 	@Override

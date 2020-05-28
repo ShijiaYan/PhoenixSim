@@ -27,15 +27,12 @@ public class Main extends Application {
 			Menu menuFile = new Menu("File");
 			Menu menuHelp = new Menu("Help");
 			MenuItem about = new MenuItem("About");
-			about.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					/*
-					 * Implement dialog to be prompted when users asks for
-					 * details.
-					 */
-				}
-			});
+			about.setOnAction(event -> {
+                /*
+                 * Implement dialog to be prompted when users asks for
+                 * details.
+                 */
+            });
 			menuHelp.getItems().add(about);
 
 			/* Adding all sub menus at ones to a MenuBar. */
@@ -44,12 +41,7 @@ public class Main extends Application {
 			/* Create a button. */
 			Button btn = new Button();
 			btn.setText("Say Hello World.");
-			btn.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Hello World!");
-				}
-			});
+			btn.setOnAction(event -> System.out.println("Hello World!"));
 
 			/* Create a new ToolBar. */
 			ToolBar tools = new ToolBar(btn);
@@ -61,7 +53,7 @@ public class Main extends Application {
 			/*
 			 * Adding a TreeView to the very left of the application window.
 			 */
-			TreeView<File> fileView = new TreeView<File>(
+			TreeView<File> fileView = new TreeView<>(
 					new SimpleFileTreeItem(new File(System.getProperty("user.home") + "/Desktop")));
 
 			/* Creating a SplitPane and adding the fileView. */

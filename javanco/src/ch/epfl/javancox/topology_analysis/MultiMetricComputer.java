@@ -45,11 +45,11 @@ public abstract class MultiMetricComputer extends AbstractTopologyAnalyser {
 	@MethodDef
 	public List<Double> computeAll() {
 		double[] comp = computeForAllElements();
-		ArrayList<Double> list = new ArrayList<Double>(comp.length);
+		ArrayList<Double> list = new ArrayList<>(comp.length);
 
-		for (int i = 0; i < comp.length; i++) {
-			list.add(comp[i]);
-		}
+        for (double v : comp) {
+            list.add(v);
+        }
 
 		return list;
 	}

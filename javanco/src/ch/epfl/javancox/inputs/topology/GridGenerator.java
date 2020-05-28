@@ -22,7 +22,7 @@ public class GridGenerator extends AbstractPlanarDeterministicGenerator {
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("grid_width",width+"");
 		map.put("grid_element_width", linkLength+"");
 		return map;

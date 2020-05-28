@@ -24,20 +24,17 @@ public class HeaterLumpedModel {
 	}
 	
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.putAll(heat.getAllParameters());
 		map.putAll(lowpass.getAllParameters());
 		return map ;
 	}
 	
 	public double getImpulseResponse(final double t_usec){
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double x_usec) {
-				double func = heat.getImpulseResponse(x_usec) * lowpass.getImpulseResponse(t_usec - x_usec) ;
-				return func ;
-			}
-		};
+		IntegralFunction func = x_usec -> {
+            double func1 = heat.getImpulseResponse(x_usec) * lowpass.getImpulseResponse(t_usec - x_usec) ;
+            return func1;
+        };
 		Integration integral = new Integration() ;
 		integral.setIntegrationFunction(func);
 		integral.setLimits(0, 2*tau_d);
@@ -72,13 +69,10 @@ public class HeaterLumpedModel {
 	}
 	
 	public double getImpulseResponseDerivative(final double t_usec){
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double x_usec) {
-				double func = heat.getImpulseResponseDerivative(x_usec) * lowpass.getImpulseResponse(t_usec - x_usec) ;
-				return func ;
-			}
-		};
+		IntegralFunction func = x_usec -> {
+            double func1 = heat.getImpulseResponseDerivative(x_usec) * lowpass.getImpulseResponse(t_usec - x_usec) ;
+            return func1;
+        };
 		Integration integral = new Integration() ;
 		integral.setIntegrationFunction(func);
 		integral.setLimits(0, 2*tau_d);
@@ -92,7 +86,7 @@ public class HeaterLumpedModel {
 			return 0 ;
 		}
 		else if (t_usec < tau_d){
-			double result = (1-Math.exp(-t_usec/tau))/(tau_d)/(tau_d*1e-6) ;
+			double result = (1-Math.exp(-t_usec/tau))/ tau_d /(tau_d*1e-6) ;
 			return result * coeff ;
 		}
 		else if (t_usec < 2*tau_d){

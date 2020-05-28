@@ -32,7 +32,7 @@ public class PriorityReceiver extends Receiver {
 		if (m.dest != index)
 			throw new IllegalStateException("Wrong index at receiver");
 		setLatest(m.origin, m.index);
-		if ((m.partialData == false || m.lastPartial == true)) {
+		if (m.partialData == false || m.lastPartial == true) {
 			if (notifiable != null)
 				notifiable.objectReceived(m, m.carriedData, m.origin, lwSimExperiment.getReferenceBandwidth().getTime(m.sizeInBits).getNanoseconds() + e.getTimeNS());
 			if (m.lastPartial == true)

@@ -58,20 +58,20 @@ public class Generators extends JavancoTool {
 	}	
 
 	private void popupPanel() {
-		ClassLister<GeneratorStub> lister = new ClassLister<GeneratorStub>(
-				Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), GeneratorStub.class);		
+		ClassLister<GeneratorStub> lister = new ClassLister<>(
+                Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), GeneratorStub.class);
 		for (Class<GeneratorStub> c : lister.getSortedClasses()) {
 			getJTabbedPane().addTab(c.getSimpleName(), new JScrollPane(createPanel(c)));
 		}
 	}
 	
 	private JPanel createPanel(final Class<? extends GeneratorStub> c) {
-		List<Pair<Method, Job>> pairList = new ArrayList<Pair<Method, Job>>();
+		List<Pair<Method, Job>> pairList = new ArrayList<>();
 		for (final Method m: c.getMethods()) {
 		//	Annotation[] annot = m.getAnnotations();
 			if (m.getAnnotation(MethodDef.class) != null) {
 				GeneratorJob job = new GeneratorJob(m, c);
-				Pair<Method, Job> pair = new Pair<Method, Job>(m, job);
+				Pair<Method, Job> pair = new Pair<>(m, job);
 				pairList.add(pair);
 			}
 		}

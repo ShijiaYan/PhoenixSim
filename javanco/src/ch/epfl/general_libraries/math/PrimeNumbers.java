@@ -64,7 +64,7 @@ public class PrimeNumbers {
 		BigInteger maxx = new BigInteger(max+"");
 		while (genTest < max) {
 			BigInteger prim = new BigInteger(genTest+"");
-			HashSet<Integer> generated = new HashSet<Integer>();
+			HashSet<Integer> generated = new HashSet<>();
 			generated.add(genTest % max);
 			BigInteger actual = new BigInteger(genTest+"");
 			int ite = 5000;

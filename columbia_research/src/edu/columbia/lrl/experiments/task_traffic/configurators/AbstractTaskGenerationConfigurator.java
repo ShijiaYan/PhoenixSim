@@ -25,7 +25,7 @@ public abstract class AbstractTaskGenerationConfigurator {
 	private double rhoc;
 	private double beta;
 	private double xi;
-	private Map<String, String> extraParams = new SimpleMap<String, String>(2);
+	private Map<String, String> extraParams = new SimpleMap<>(2);
 	
 	public void addParam(String s, String v) {
 		extraParams.put(s, v);

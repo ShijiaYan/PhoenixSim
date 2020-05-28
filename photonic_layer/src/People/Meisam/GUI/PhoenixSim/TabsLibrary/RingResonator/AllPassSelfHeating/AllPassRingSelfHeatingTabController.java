@@ -76,12 +76,7 @@ public class AllPassRingSelfHeatingTabController extends AbstractTabController {
 	}
 
     private boolean toggleSelected(){
-        if(driftLambda.isSelected() || thruLambda.isSelected() ){
-            return true;
-        }
-        else{
-            return false ;
-        }
+        return driftLambda.isSelected() || thruLambda.isSelected();
     }
 
     @FXML

@@ -31,8 +31,8 @@ public class CombinationBasedShortestDistancePathSet extends PathSet {
 
 	private void compute(AbstractGraphHandler agh, String layerName, String attribName, boolean directed){
 		// init
-		ArrayList<WeigthedPath> news = new ArrayList<WeigthedPath>(0);
-		ArrayList<WeigthedPath> olds = new ArrayList<WeigthedPath>(0);
+		ArrayList<WeigthedPath> news = new ArrayList<>(0);
+		ArrayList<WeigthedPath> olds = new ArrayList<>(0);
 		JavancoShortestPathSet refSet = new JavancoShortestPathSet(agh, layerName, attribName, directed, null);
 		double[][] costs = refSet.getCosts();
 		LayerContainer layC = agh.getLayerContainer(layerName);
@@ -56,7 +56,7 @@ public class CombinationBasedShortestDistancePathSet extends PathSet {
 		
 		// loop
 		while (news.size() > 0) {
-			ArrayList<WeigthedPath> newNews = new ArrayList<WeigthedPath>();
+			ArrayList<WeigthedPath> newNews = new ArrayList<>();
 			for (WeigthedPath lc : news) {
 				for (WeigthedPath lc2 : olds) {
 					if (lc.getLast() == lc2.getFirst()) {

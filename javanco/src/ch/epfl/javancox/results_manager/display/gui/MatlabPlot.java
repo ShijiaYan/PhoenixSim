@@ -36,7 +36,7 @@ public class MatlabPlot {
 	
 	
 	public MatlabPlot(PairList<String, String> l, boolean xText) {
-		entries = new ArrayList<Entry>();
+		entries = new ArrayList<>();
 		legend = l;
 		this.xText = xText;
 	}
@@ -56,7 +56,7 @@ public class MatlabPlot {
 	public static class MATLABPlotMap {
 
 		public MATLABPlotMap() {
-			plots = new ArrayList<MatlabPlot>();
+			plots = new ArrayList<>();
 		}
 
 		public ArrayList<MatlabPlot> plots;

@@ -58,9 +58,9 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	}
 
 	public Path(int[] r) {
-		for (int i = 0; i < r.length; i++) {
-			add(r[i]);
-		}
+        for (int value : r) {
+            add(value);
+        }
 	}
 
 	public Path(int[][] tab) {
@@ -185,14 +185,14 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	}
 
 	public ArrayList<Path> split(Collection<Integer> splittingPoints) {
-		ArrayList<Path> splitted = new ArrayList<Path>(3);
+		ArrayList<Path> splitted = new ArrayList<>(3);
 		Path newPath = new Path();
 		int size = this.size();
 		int size1 = size-1;
 		for (int i = 0 ; i < size ; i++) {
 			Integer point = this.get(i);
 			newPath.add(point);
-			if (splittingPoints.contains(point) && (newPath.size() > 1))  {
+			if (splittingPoints.contains(point) && newPath.size() > 1)  {
 				splitted.add(newPath);
 				if (point != this.get(size1)) {
 					newPath = new Path();
@@ -209,14 +209,14 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	}
 
 	public List<Path> split(int splittingPoint) {
-		ArrayList<Path> splitted = new ArrayList<Path>(3);
+		ArrayList<Path> splitted = new ArrayList<>(3);
 		int size = this.size();
 		int size1 = size-1;
 		Path newPath = new Path();
 		for (int i = 0 ; i < size ; i++) {
 			Integer point = this.get(i);
 			newPath.add(point);
-			if ((splittingPoint == point) && (newPath.size() > 1))  {
+			if (splittingPoint == point && newPath.size() > 1)  {
 				splitted.add(newPath);
 				if (point != this.get(size1)) {
 					newPath = new Path();
@@ -270,9 +270,9 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	private Path concatPrivate(Path p1, Path p2) {
 		Path p = (Path)p1.clone();
 		p.removeLast();
-		for (int i = 0 ; i < p2.size() ; i++) {
-			p.add(p2.get(i));
-		}
+        for (Integer integer : p2) {
+            p.add(integer);
+        }
 		return p;
 	}
 
@@ -302,12 +302,12 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 			return true;
 		}
 		int otherL = other.getLast();
-		return (thisS == otherL || thisL == otherL);
+		return thisS == otherL || thisL == otherL;
 	}
 
 
 	public ArrayList<NodePair> getPathSegments() {
-		ArrayList<NodePair> myCollection = new ArrayList<NodePair>(0);
+		ArrayList<NodePair> myCollection = new ArrayList<>(0);
 		Iterator<Integer> myIterator = this.iterator();
 		if (myIterator.hasNext()) {
 			int previous = myIterator.next();
@@ -325,7 +325,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	public Iterator<Float> pathValuesIterator(final PathCalculator pcalc) {
 		return new Iterator<Float>() {
 			Iterator<Integer> myIterator = iterator();
-			int previous = (myIterator.hasNext()) ? myIterator.next() : -1 ;
+			int previous = myIterator.hasNext() ? myIterator.next() : -1 ;
 			Float next = prepareNext();
 
 			private Float prepareNext() {
@@ -339,7 +339,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 			}
 
 			public boolean hasNext() {
-				return (next != null);
+				return next != null;
 			}
 			public Float next() {
 				float oldNext = next;
@@ -366,7 +366,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	public Iterator<NodePair> pathSegmentsIterator() {
 		return new Iterator<NodePair>() {
 			Iterator<Integer> myIterator = iterator();
-			int previous = (myIterator.hasNext()) ? myIterator.next() : -1 ;
+			int previous = myIterator.hasNext() ? myIterator.next() : -1 ;
 			NodePair next = prepareNext();
 
 			private NodePair prepareNext() {
@@ -380,7 +380,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 			}
 
 			public boolean hasNext() {
-				return (next != null);
+				return next != null;
 			}
 			public NodePair next() {
 				NodePair oldNext = next;
@@ -401,7 +401,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	}
 
 	public ArrayList<NodePair> getCanonicalPathSegments() {
-		ArrayList<NodePair> myCollection = new ArrayList<NodePair>(0);
+		ArrayList<NodePair> myCollection = new ArrayList<>(0);
 		Iterator<Integer> myIterator = this.iterator();
 		if (myIterator.hasNext()) {
 			int previous = myIterator.next();
@@ -446,23 +446,19 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	}
 
 	public Iterable<Integer> iterateOnInternalNodeIndexes() {
-		return new Iterable<Integer>() {
-			public Iterator<Integer> iterator() {
-				return new Iterator<Integer>() {
-					public int index = 1;
-					public Path p = Path.this;
-					public Integer next() {
-						return p.get(index++);
-					}
-					public boolean hasNext() {
-						return (index < p.size()-1);
-					}
-					public void remove() {
-						throw new IllegalStateException("Not supported");
-					}
-				};
-			}
-		};
+		return () -> new Iterator<Integer>() {
+            public int index = 1;
+            public Path p = Path.this;
+            public Integer next() {
+                return p.get(index++);
+            }
+            public boolean hasNext() {
+                return index < p.size()-1;
+            }
+            public void remove() {
+                throw new IllegalStateException("Not supported");
+            }
+        };
 	}
 
 	public int getPathID(){
@@ -510,7 +506,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 	}
 
 	public Set<Integer> getNodeIndexSet() {
-		Set<Integer> set = new TreeSet<Integer>();
+		Set<Integer> set = new TreeSet<>();
 		for (Integer id : this) {
 			set.add(id);
 		}
@@ -527,7 +523,7 @@ public class Path extends ArrayList<Integer> implements Comparable<Path>{
 
 	private boolean removeCyclePrivate(boolean remove) {
 		boolean toReturn = false;
-		Set<Integer> visitedSet = new TreeSet<Integer>();
+		Set<Integer> visitedSet = new TreeSet<>();
 		int i = 0;
 		while (i < this.size()) {
 			if (visitedSet.contains(this.get(i))) {

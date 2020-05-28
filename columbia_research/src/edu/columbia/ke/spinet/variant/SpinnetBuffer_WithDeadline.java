@@ -19,7 +19,7 @@ public class SpinnetBuffer_WithDeadline extends SpinnetBuffer {
 		super.defineSpinetMessage(msg);
 		double randomDeadline = msg.timeEmitted + msg.getTransmissionTimeNS() + randomUniformTimeMargin(100, 1000);
 		msg.setDeadline(randomDeadline);
-		((SpinetMessage)msg).setSpinetPriority( (int)(msg.getDeadline())) ;
+		msg.setSpinetPriority( (int) msg.getDeadline()) ;
 	}
 	
 	public double randomUniformTimeMargin(double min, double max){

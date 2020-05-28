@@ -38,7 +38,7 @@ public abstract class AbstractChartProvider {
 	protected static final Shape DEFAULT_SHAPE;
 
 	static {
-		DEFAULT_SHAPE = (new DefaultDrawingSupplier()).getNextShape();
+		DEFAULT_SHAPE = new DefaultDrawingSupplier().getNextShape();
 	}
 	
 	public static final int MAX_VALUE = Integer.MAX_VALUE;
@@ -47,9 +47,9 @@ public abstract class AbstractChartProvider {
 	public static int min = MAX_VALUE;
 	public static int max = MIN_VALUE;
 	
-	public HashSet<String> xVals = new HashSet<String>();
+	public HashSet<String> xVals = new HashSet<>();
 	protected DefaultDrawingSupplier drawingSupplier = new DefaultDrawingSupplier();
-	public Map<PairList<String,String>, Paint> seriesPaint = new HashMap<PairList<String,String>, Paint>();
+	public Map<PairList<String,String>, Paint> seriesPaint = new HashMap<>();
 
 	public AbstractChartProvider() {}
 
@@ -87,13 +87,13 @@ public abstract class AbstractChartProvider {
 	 * For remote compatibility
 	 */
 	public ArrayList<String> getProperties() {
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 	
 	protected Collection<String> sort(Collection<String> sort) {
 		
 		// try first to sort numerically
-		ArrayList<Double> d = new ArrayList<Double>(sort.size());
+		ArrayList<Double> d = new ArrayList<>(sort.size());
 		boolean alpha = false;
 		for (String s : sort) {
 			try {
@@ -105,7 +105,7 @@ public abstract class AbstractChartProvider {
 			}
 		} 
 		if (alpha) {
-			ArrayList<String> d2 = new ArrayList<String>(sort.size());
+			ArrayList<String> d2 = new ArrayList<>(sort.size());
 			for (String s : sort) {
 				d2.add(s);
 			}
@@ -113,7 +113,7 @@ public abstract class AbstractChartProvider {
 			return d2;
 		} else {
 			Collections.sort(d);
-			ArrayList<String> finalA = new ArrayList<String>();
+			ArrayList<String> finalA = new ArrayList<>();
 			for (Double sortedD : d) {
 				finalA.add(sortedD + "");
 			}
@@ -218,7 +218,7 @@ public abstract class AbstractChartProvider {
 			if (listGraphs2 == null) {
 				return;
 			}
-			Vector<Description> list = new Vector<Description>();
+			Vector<Description> list = new Vector<>();
 			Collection<String> menuItems;
 			menuItems = this.getMetrics();
 
@@ -232,8 +232,8 @@ public abstract class AbstractChartProvider {
 				public Component getListCellRendererComponent(JList list,
 						Object value, int index, boolean isSelected,
 						boolean cellHasFocus) {
-					Description description = ((Description) value);
-					String s = (value == null ? "" : description.description);
+					Description description = (Description) value;
+					String s = value == null ? "" : description.description;
 					Component comp = super.getListCellRendererComponent(list, s,
 							index, isSelected, cellHasFocus);
 					if (description != null && description.isDistribution) {

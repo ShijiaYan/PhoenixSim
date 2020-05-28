@@ -129,33 +129,25 @@ public class AddDropFittingSymmetricBSTabController extends AbstractTabControlle
 	@FXML
 	public void chooseXData() throws IOException {
 		VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase);
-		varSelect.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				xData = new SimulationVariable(varSelect.getController().getVariable().getName(),
-						varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
-				xDataLabel.setText("X data is set to '" + xData.getName() + "'");
-				varSelect.getController().getSetExitButton().getScene().getWindow().hide();
-				if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
-			}
-		});
+		varSelect.setExitAction(() -> {
+            xData = new SimulationVariable(varSelect.getController().getVariable().getName(),
+                    varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
+            xDataLabel.setText("X data is set to '" + xData.getName() + "'");
+            varSelect.getController().getSetExitButton().getScene().getWindow().hide();
+            if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
 	public void chooseYData() throws IOException {
 		VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase);
-		varSelect.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				yData = new SimulationVariable(varSelect.getController().getVariable().getName(),
-						varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
-				yDataLabel.setText("Y data is set to '" + yData.getName() + "'");
-				varSelect.getController().getSetExitButton().getScene().getWindow().hide();
-				if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
-			}
-		});
+		varSelect.setExitAction(() -> {
+            yData = new SimulationVariable(varSelect.getController().getVariable().getName(),
+                    varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
+            yDataLabel.setText("Y data is set to '" + yData.getName() + "'");
+            varSelect.getController().getSetExitButton().getScene().getWindow().hide();
+            if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
@@ -287,7 +279,7 @@ public class AddDropFittingSymmetricBSTabController extends AbstractTabControlle
 					adr = new AddDropBS(new Wavelength(lambdaNm), lambda_res_nm, FSR_nm, kappa, kappa, L,
 							new LumpedReflector(r, 0));
 					double transDrop_dB = MoreMath.Conversions.todB(adr.S41.absSquared());
-					return (transDrop_dB + offset_dB);
+					return transDrop_dB + offset_dB;
 				}
 
 				@Override
@@ -310,7 +302,7 @@ public class AddDropFittingSymmetricBSTabController extends AbstractTabControlle
 			double kappa = fit.getParameters()[0];
 			// double L = fit.getParameters()[1] ;
 			double r = fit.getParameters()[1];
-			double L = (1 - r * r); // t from lumped reflector is also added
+			double L = 1 - r * r; // t from lumped reflector is also added
 			double offset_dB = fit.getParameters()[2];
 
 			resultListView.getItems().removeAll(resultListView.getItems());

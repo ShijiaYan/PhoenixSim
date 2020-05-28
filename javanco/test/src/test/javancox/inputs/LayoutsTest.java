@@ -41,7 +41,7 @@ public class LayoutsTest {
 		for (int nbNodes : nbNodesT) {
 			for (int seed : seedT) {
 				
-				List<AbstractRandomTopologyGenerator> generators = new ArrayList<AbstractRandomTopologyGenerator>();
+				List<AbstractRandomTopologyGenerator> generators = new ArrayList<>();
 			
 				generators.add(new ReyniErdosGenerator(0.12f, nbNodes));
 				generators.add(new ScaleFreeNetworkGenerator(nbNodes, 1));

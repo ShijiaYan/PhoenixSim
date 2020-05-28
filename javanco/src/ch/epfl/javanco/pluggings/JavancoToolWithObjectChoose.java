@@ -32,17 +32,15 @@ public abstract class JavancoToolWithObjectChoose extends JavancoTool {
 		dial.add(jcb);
 
 		JButton go = new JButton("GO");
-		go.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				final Object obj = DynamicInstancier.getInstance((Class)jcb.getSelectedItem());
-				new Thread() {
-					public void run() {
-						todo.do__(obj);	
-					}
-				}.start();
-							
-			}
-		});
+		go.addActionListener(ev -> {
+            final Object obj = DynamicInstancier.getInstance((Class)jcb.getSelectedItem());
+            new Thread() {
+                public void run() {
+                    todo.do__(obj);
+                }
+            }.start();
+
+        });
 		dial.add(go);
 		dial.pack();
 		dial.setVisible(true);

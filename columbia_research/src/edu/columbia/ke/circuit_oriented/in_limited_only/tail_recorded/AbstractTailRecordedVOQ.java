@@ -14,7 +14,7 @@ import edu.columbia.ke.circuit_oriented.in_limited_only.InCircuitLimitedVOQ;
 
 public abstract class AbstractTailRecordedVOQ extends InCircuitLimitedVOQ {
 	
-	protected Queue<Integer> precedentDests = new LinkedList<Integer>();
+	protected Queue<Integer> precedentDests = new LinkedList<>();
 	protected int tailLen = 2;
 	protected boolean logTail = false;
 	
@@ -38,16 +38,16 @@ public abstract class AbstractTailRecordedVOQ extends InCircuitLimitedVOQ {
 	protected Set<Integer> getTail(int dest) {
 		
 		List list = MapSort.listSortByValue(csi.get(dest).tailList);
-		Set<Integer> exemptSet = new TreeSet<Integer>();
+		Set<Integer> exemptSet = new TreeSet<>();
 		int i = 0;
-		for (Iterator it = list.iterator(); it.hasNext();) {
-			Map.Entry entry = (Map.Entry) it.next();
-			exemptSet.add((Integer) entry.getKey());
-			i++;
-			if (i == tailLen) {
-				break;
-			}
-		}		
+        for (Object o : list) {
+            Map.Entry entry = (Map.Entry) o;
+            exemptSet.add((Integer) entry.getKey());
+            i++;
+            if (i == tailLen) {
+                break;
+            }
+        }
 		
 		return exemptSet;
 	}

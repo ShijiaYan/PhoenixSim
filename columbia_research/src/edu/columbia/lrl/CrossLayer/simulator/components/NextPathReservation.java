@@ -12,15 +12,15 @@ public class NextPathReservation extends AbstractReservationStrategy {
 	//Stores which links and paths (for tear down) are reserved
 	Map<Integer, Boolean> reservedLinks;
 	Map<Integer, Integer> switchStates;
-	int reservedPaths[][];	
+	int[][] reservedPaths;
 	
 	//Input and output blocking (TODO: can probably combine some data structures to save on space)
-	boolean inputBusy[];
-	boolean outputBusy[];
+	boolean[] inputBusy;
+	boolean[] outputBusy;
 
 	public void initReservation() {		
-		reservedLinks = new TreeMap<Integer, Boolean>();
-		switchStates = new TreeMap<Integer, Integer>();
+		reservedLinks = new TreeMap<>();
+		switchStates = new TreeMap<>();
 		//Pre: First two dimensions of paths form a rectangular matrix
 		reservedPaths = new int[paths.length][paths[0].length];
 		
@@ -74,7 +74,7 @@ public class NextPathReservation extends AbstractReservationStrategy {
 			return false;
 		
 		//Check if there are any paths available
-		return (findNextFreePath(source, dest) >= 0);
+		return findNextFreePath(source, dest) >= 0;
 	}
 	
 	public ArrayList<Integer> reservePath(int source, int dest) {
@@ -101,7 +101,7 @@ public class NextPathReservation extends AbstractReservationStrategy {
 		}
 				
 		//Change switch state if needed
-		ArrayList<Integer> transitions = new ArrayList<Integer>();
+		ArrayList<Integer> transitions = new ArrayList<>();
 /*		for( int sw = 0; sw < switches[source][dest][freePath].length; sw++ ) {
 			int requiredState = switches[source][dest][freePath][sw];
 			int switchID = switchIDs[source][dest][freePath][sw];

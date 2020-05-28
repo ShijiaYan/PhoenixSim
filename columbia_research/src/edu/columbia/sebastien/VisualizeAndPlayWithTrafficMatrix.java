@@ -29,14 +29,14 @@ class ClusterGridPainter extends GridPainter {
 		
 		g.setColor(Color.DARK_GRAY);
 		for (int i = 1 ; i < size ; i++) {
-			g.fillRect((i*pixelWidth), 0, 3, size*pixelHeight);
-			g.fillRect(0, (i*pixelHeight), size*pixelWidth, 3);			
+			g.fillRect(i*pixelWidth, 0, 3, size*pixelHeight);
+			g.fillRect(0, i*pixelHeight, size*pixelWidth, 3);
 		}
 		
 		g.setColor(Color.WHITE);
 		for (int i = 1 ; i < size ; i++) {
-			g.fillRect((i*pixelWidth*clusterSize), (i-1)*clusterSize*pixelHeight, 3, pixelHeight*clusterSize*2);
-			g.fillRect((i-1)*clusterSize*pixelWidth, (i*pixelHeight*clusterSize), clusterSize*2*pixelWidth, 3);			
+			g.fillRect(i*pixelWidth*clusterSize, (i-1)*clusterSize*pixelHeight, 3, pixelHeight*clusterSize*2);
+			g.fillRect((i-1)*clusterSize*pixelWidth, i*pixelHeight*clusterSize, clusterSize*2*pixelWidth, 3);
 		}
 		
 		
@@ -61,23 +61,17 @@ public class VisualizeAndPlayWithTrafficMatrix {
 		
 		JButton shiftRight = new JButton("Shift right");
 		dia.add(shiftRight);
-		shiftRight.addActionListener(new ActionListener() {		
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Matrix.shiftRight(mat, 1);
-				gui.repaint();
-			}
-		});
+		shiftRight.addActionListener(e -> {
+            Matrix.shiftRight(mat, 1);
+            gui.repaint();
+        });
 		
 		JButton shiftDown = new JButton("Shift down");
 		dia.add(shiftDown);
-		shiftDown.addActionListener(new ActionListener() {		
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Matrix.shiftDown(mat, 1);
-				gui.repaint();
-			}
-		});	
+		shiftDown.addActionListener(e -> {
+            Matrix.shiftDown(mat, 1);
+            gui.repaint();
+        });
 		
 		JPanel perm = new JPanel();
 		perm.setLayout(new FlowLayout());
@@ -91,14 +85,10 @@ public class VisualizeAndPlayWithTrafficMatrix {
 		perm.add(field2);
 		JButton permute = new JButton("Permute");
 		perm.add(permute);
-		permute.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Matrix.permute(mat, Integer.parseInt(field1.getText()), Integer.parseInt(field2.getText()));
-				gui.repaint();
-			}
-		});
+		permute.addActionListener(e -> {
+            Matrix.permute(mat, Integer.parseInt(field1.getText()), Integer.parseInt(field2.getText()));
+            gui.repaint();
+        });
 		
 		
 		

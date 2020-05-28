@@ -22,7 +22,7 @@ public class NetworkDocumentHelper {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void clearDefaultTextElement(Branch b) {
-		List<Node> toRemove = new ArrayList<Node>();
+		List<Node> toRemove = new ArrayList<>();
 		for (Node node : (List<Node>)b.content()) {
 			if (node instanceof DefaultText) {
 				String txt = node.getText().trim();

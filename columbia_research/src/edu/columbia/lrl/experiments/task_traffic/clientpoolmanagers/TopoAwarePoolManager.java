@@ -15,14 +15,14 @@ public class TopoAwarePoolManager extends FlatClientPoolManager {
 		if (fromAnode >= 0) {
 			int[][] nei = action.getExperiment().getTopologyBuilder().getNeighborhood(fromAnode);
 			int[] concat = new int[0];
-			for (int i = 0 ; i < nei.length ; i++) {
-				int[] part;
-				if (shuffle)
-					part = action.getExperimentStream().shuffle(nei[i]);
-				else
-					part = nei[i];
-				concat = MoreArrays.concat(concat, part);
-			}
+            for (int[] ints : nei) {
+                int[] part;
+                if (shuffle)
+                    part = action.getExperimentStream().shuffle(ints);
+                else
+                    part = ints;
+                concat = MoreArrays.concat(concat, part);
+            }
 			return concat;
 		} else {
 			return super.getSortedArrayOfTrials(action, fromAnode, includeZero);

@@ -23,7 +23,7 @@ public class SinglePopulationGenerator extends AbstractRandomTrafficGenerator {
 	@Override
 	protected void updateRate() {	
 		double load = r.divide(lwSimExperiment.getReferenceBandwidth());
-		double averageIdleTime = ((1-load)/load)*lwSimExperiment.getReferenceBandwidth().getTime(sizeGen.getAverageSize()).getNanoseconds();
+		double averageIdleTime = ((1-load)/load) *lwSimExperiment.getReferenceBandwidth().getTime(sizeGen.getAverageSize()).getNanoseconds();
 		try {
 			dist = new ExponentialDist(1d/averageIdleTime);		
 		}

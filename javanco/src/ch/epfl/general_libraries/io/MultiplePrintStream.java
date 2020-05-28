@@ -17,7 +17,7 @@ public class MultiplePrintStream extends PrintStream {
 		}
 	}
 
-	private Collection<Writer> destinations = new ArrayList<Writer>();
+	private Collection<Writer> destinations = new ArrayList<>();
 	private String lineSeparator = System.getProperty("line.separator");
 	private boolean withSdtOut = false;
 	private PrintStream defOut = null;
@@ -60,7 +60,7 @@ public class MultiplePrintStream extends PrintStream {
 	}
 
 	public Collection<Writer> getDestinations() {
-		Collection<Writer> backCopy = new ArrayList<Writer>();
+		Collection<Writer> backCopy = new ArrayList<>();
 		backCopy.addAll(destinations);
 		return backCopy;
 	}

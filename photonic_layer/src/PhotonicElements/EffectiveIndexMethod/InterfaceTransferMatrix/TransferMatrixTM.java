@@ -180,7 +180,7 @@ public class TransferMatrixTM {
 		Complex T = getFieldTransmission() ; // this is magnetic field --> multiply by normal impedance
 		Complex ZnormalFirst = kNormalFirst.divides(omega*epsFirst) ;
 		Complex ZnormalSecond = kNormalSecond.divides(omega*epsSecond) ;
-		double Trans_Coeff = T.absSquared() * (one.times(ZnormalSecond).conjugate()).re() / (one.times(ZnormalFirst).conjugate()).re() ;
+		double Trans_Coeff = T.absSquared() * one.times(ZnormalSecond).conjugate().re() / one.times(ZnormalFirst).conjugate().re() ;
 		return Trans_Coeff ;
 	}
 	

@@ -14,7 +14,7 @@ public class AskQuestion {
 	}
 
 	public static boolean askQuestion(String s) {
-		return (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, s, s, JOptionPane.YES_NO_OPTION));
+		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, s, s, JOptionPane.YES_NO_OPTION);
 	}
 
 	public static class LDialog extends JDialog {
@@ -36,26 +36,22 @@ public class AskQuestion {
 		d.setLayout(new java.awt.FlowLayout());
 
 		JButton b1 = new JButton(s1);
-		b1.addActionListener(new ActionListener () {
-			public void actionPerformed(ActionEvent e) {
-				synchronized (d) {
-					d.returnVal = true;
-					d.setVisible(false);
-					d.notifyAll();
-				}
-			}
-		});
+		b1.addActionListener(e -> {
+            synchronized (d) {
+                d.returnVal = true;
+                d.setVisible(false);
+                d.notifyAll();
+            }
+        });
 
 		JButton b2 = new JButton(s2);
-		b2.addActionListener(new ActionListener () {
-			public void actionPerformed(ActionEvent ef) {
-				synchronized (d) {
-					d.returnVal = false;
-					d.setVisible(false);
-					d.notifyAll();
-				}
-			}
-		});
+		b2.addActionListener(ef -> {
+            synchronized (d) {
+                d.returnVal = false;
+                d.setVisible(false);
+                d.notifyAll();
+            }
+        });
 
 		d.add(b1);
 		d.add(b2);

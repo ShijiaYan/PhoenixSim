@@ -16,11 +16,7 @@ public class Optimum180DegreeBend {
 		double b = 2.9123 ;
 		double p = (3*b-1)/(2*b) ;
 
-		DerivFunction dFunction = new DerivFunction() {
-			public double deriv(double x, double f) {
-				return A*Math.pow(1+f*f, p);
-			}
-		};
+		DerivFunction dFunction = (x, f) -> A*Math.pow(1+f*f, p);
 		RungeKutta integration = new RungeKutta() ;
 		integration.setInitialValueOfX(0);
 		integration.setInitialValueOfY(0);
@@ -41,11 +37,7 @@ public class Optimum180DegreeBend {
 
 		// now calculate y
 		LinearInterpolation interpolation = new LinearInterpolation(x, f) ;
-		IntegralFunction func = new IntegralFunction() {
-			public double function(double x) {
-				return interpolation.interpolate(x);
-			}
-		};
+		IntegralFunction func = x1 -> interpolation.interpolate(x1);
 
 		double[] y = new double[x.length] ;
 

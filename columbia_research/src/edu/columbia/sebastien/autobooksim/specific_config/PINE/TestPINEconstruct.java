@@ -42,7 +42,7 @@ public class TestPINEconstruct extends AbstractPINEconstruct {
 
 	@Override
 	public ArrayList<Integer> getConnectivityOfCPU(int index) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		list.add(index); //  the cpu index
 		list.add(index + getNumberOfCPUs());
 		list.add(index + getNumberOfCPUs() + getNumberOfGPUs());
@@ -55,7 +55,7 @@ public class TestPINEconstruct extends AbstractPINEconstruct {
 	@Override
 	public ArrayList<Integer> getConnectivityOfGPU(int index) {
 		int realIndex = index + getNumberOfCPUs();
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		list.add(realIndex);
 		list.add(realIndex - getNumberOfCPUs());
 		return list;
@@ -64,7 +64,7 @@ public class TestPINEconstruct extends AbstractPINEconstruct {
 	@Override
 	public ArrayList<Integer> getConnectivityOfMEM(int index) {
 		int realIndex = index + getNumberOfCPUs() + getNumberOfGPUs();
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		list.add(realIndex);
 		list.add(realIndex - getNumberOfCPUs() - getNumberOfGPUs());
 		return list;
@@ -73,7 +73,7 @@ public class TestPINEconstruct extends AbstractPINEconstruct {
 	@Override
 	public ArrayList<Integer> getConnectivityOfOther(int index) {
 		int realIndex = index + getNumberOfCPUs() + getNumberOfGPUs() + getNumberOfMEMs();
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		list.add(realIndex);
 		list.add(realIndex - getNumberOfCPUs() - getNumberOfGPUs() - getNumberOfMEMs());
 		if (index > 0) {

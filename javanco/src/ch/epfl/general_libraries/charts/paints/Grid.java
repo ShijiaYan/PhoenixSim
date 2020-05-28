@@ -77,7 +77,7 @@ public class Grid extends Texture {
 			for (int i = 0; i < width; i++) {
 				for (int j = 0; j < height; j++) {
 					int color = this.backGroundColor;
-					if (((i + xx) % 2 == 1 &&  (j + yy) % 2 == 1) || ((i + xx) % 2 != 1 &&  (j + yy) % 2 !=1)) {
+					if ((i + xx) % 2 == 1 &&  (j + yy) % 2 == 1 || (i + xx) % 2 != 1 &&  (j + yy) % 2 !=1) {
 						color = this.gridColor;
 					}
 					Color col = new Color(color);

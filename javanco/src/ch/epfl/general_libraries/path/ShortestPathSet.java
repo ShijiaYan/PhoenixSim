@@ -9,7 +9,7 @@ public class ShortestPathSet extends PathSet {
 		double[][] d = new double[b.length][b.length];
 		for (int i = 0 ; i < b.length ; i++) {
 			for (int j = 0 ; j < b.length ; j++) {
-				d[i][j] = (b[i][j] ? 1 : -1);
+				d[i][j] = b[i][j] ? 1 : -1;
 			}
 		}
 		compute(d, true);
@@ -29,7 +29,7 @@ public class ShortestPathSet extends PathSet {
 		ShortestPathAlgorithm alg = new ShortestPathAlgorithm(d, directed);
 		alg.computeAll();
 		for (Path p : alg) {
-			if (p != null && (directed || (p.getFirst() < p.getLast()))) {
+			if (p != null && (directed || p.getFirst() < p.getLast())) {
 				addPath(p);
 			}
 		}

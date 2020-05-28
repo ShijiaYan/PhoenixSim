@@ -113,7 +113,7 @@ public class JavancoShortestPathSet extends PathSet {
 		/*	if (p == null) {
 				int debug = 0;			
 			}
-			else*/ if (directed || (p.getFirst() < p.getLast())) {
+			else*/ if (directed || p.getFirst() < p.getLast()) {
 				addPath(p);
 			}
 		}
@@ -131,7 +131,7 @@ public class JavancoShortestPathSet extends PathSet {
 		shortestPath.computeAll();
 		costs = shortestPath.getDistances();
 		for (Path p : shortestPath) {
-			if (p != null && (directed || (p.getFirst() < p.getLast()))) {
+			if (p != null && (directed || p.getFirst() < p.getLast())) {
 				addPath(p);
 			}
 		}

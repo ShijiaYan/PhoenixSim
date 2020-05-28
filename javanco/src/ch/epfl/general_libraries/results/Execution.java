@@ -11,7 +11,7 @@ public class Execution implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final String application;
 	private final String version;
-	private final List<DataPoint> dataPoints = new ArrayList<DataPoint>();
+	private final List<DataPoint> dataPoints = new ArrayList<>();
 	private final String date;
 
 	public Execution(String application, String version, String date) {

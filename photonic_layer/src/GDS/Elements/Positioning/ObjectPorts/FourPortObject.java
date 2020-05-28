@@ -31,39 +31,19 @@ public class FourPortObject {
 	
 	// Checking the port numbers
 	private boolean isPort1(){
-		if(portNumber.equals("port1") || portNumber.equals("Port1") || portNumber.equals("port 1") || portNumber.equals("Port 1")){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return portNumber.equals("port1") || portNumber.equals("Port1") || portNumber.equals("port 1") || portNumber.equals("Port 1");
 	}
 	
 	private boolean isPort2(){
-		if(portNumber.equals("port2") || portNumber.equals("Port2") || portNumber.equals("port 2") || portNumber.equals("Port 2")){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return portNumber.equals("port2") || portNumber.equals("Port2") || portNumber.equals("port 2") || portNumber.equals("Port 2");
 	}
 	
 	private boolean isPort3(){
-		if(portNumber.equals("port3") || portNumber.equals("Port3") || portNumber.equals("port 3") || portNumber.equals("Port 3")){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return portNumber.equals("port3") || portNumber.equals("Port3") || portNumber.equals("port 3") || portNumber.equals("Port 3");
 	}
 	
 	private boolean isPort4(){
-		if(portNumber.equals("port4") || portNumber.equals("Port4") || portNumber.equals("port 4") || portNumber.equals("Port 4")){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return portNumber.equals("port4") || portNumber.equals("Port4") || portNumber.equals("port 4") || portNumber.equals("Port 4");
 	}
 	
 	// now calculating the ports 

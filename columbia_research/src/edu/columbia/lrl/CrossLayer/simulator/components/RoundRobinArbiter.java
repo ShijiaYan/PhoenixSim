@@ -37,9 +37,9 @@ public class RoundRobinArbiter extends Arbiter {
 		}		
 	}
 	
-	ArbiterBuffer reqBuffers[][];
-	int roundRobinPointer[];
-	int outputOrder[];
+	ArbiterBuffer[][] reqBuffers;
+	int[] roundRobinPointer;
+	int[] outputOrder;
 	
 	Map<Integer, Double> transitioningSwitches;
 
@@ -53,12 +53,12 @@ public class RoundRobinArbiter extends Arbiter {
 		this.grantLatency = grantLatency;
 		this.useTimeline = useTimeline;
 
-		inputMap = new TreeMap<Integer, EventTarget>();
+		inputMap = new TreeMap<>();
 
-		transitioningSwitches = new TreeMap<Integer, Double>();
+		transitioningSwitches = new TreeMap<>();
 		
 		if (useTimeline)
-			timelines = new ArrayList<TimeLine>();
+			timelines = new ArrayList<>();
 	}
 
 	public Transmitter getTransmitter(int index, Collection<Integer> destinations) {
@@ -195,7 +195,7 @@ public class RoundRobinArbiter extends Arbiter {
 				
 				//visualize
 				if (useTimeline) {
-					int timelineIndex = (output * numClients) + toGrant;
+					int timelineIndex = output * numClients + toGrant;
 					if( grantTime > experiment.getSimTimeNS() ) 
 						timelines.get(timelineIndex).addJobPhase(experiment.getSimTimeNS(), grantTime, "Switching", Color.BLUE);
 					timelines.get(timelineIndex).addJobPhase(grantTime, releaseTime, Arrays.toString(reservation.getReservedSwitchPath(toGrant, output)),

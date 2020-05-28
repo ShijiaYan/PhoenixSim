@@ -12,7 +12,7 @@ import ch.epfl.javanco.network.NodeContainer;
 
 public class ComponentCounter {
 
-	ArrayList<TreeSet<NodeContainer>> components = new ArrayList<TreeSet<NodeContainer>>();
+	ArrayList<TreeSet<NodeContainer>> components = new ArrayList<>();
 	
 	public ComponentCounter(AbstractGraphHandler agh) {
 		this(agh, agh.getEditedLayer());
@@ -23,12 +23,12 @@ public class ComponentCounter {
 	}
 
 	public ComponentCounter(AbstractGraphHandler agh, LayerContainer lc) {
-		TreeSet<NodeContainer> nodeSet = new TreeSet<NodeContainer>();
+		TreeSet<NodeContainer> nodeSet = new TreeSet<>();
 		for (NodeContainer nc : agh.getNodeContainers()) {
 			nodeSet.add(nc);
 		}
 		while (nodeSet.size() > 0) {
-			TreeSet<NodeContainer> newComponent = new TreeSet<NodeContainer>();
+			TreeSet<NodeContainer> newComponent = new TreeSet<>();
 			NodeContainer removed = nodeSet.pollFirst();
 			newComponent.add(removed);
 			removeRecursive(removed, nodeSet, lc, newComponent);
@@ -37,7 +37,7 @@ public class ComponentCounter {
 	}
 
 	public boolean isConvex() {
-		return (components.size() == 1);
+		return components.size() == 1;
 	}
 
 	public int getNumberOfComponents() {
@@ -68,7 +68,7 @@ public class ComponentCounter {
 
 	public Collection<Set<NodeContainer>> getMinorComponents() {
 		Set<NodeContainer> maxComp = getLargestComponent();
-		Collection<Set<NodeContainer>> minors = new ArrayList<Set<NodeContainer>>(getNumberOfComponents()-1);
+		Collection<Set<NodeContainer>> minors = new ArrayList<>(getNumberOfComponents() - 1);
 		for (Set<NodeContainer> tr : components) {
 			if (tr.equals(maxComp) == false) {
 				minors.add(tr);

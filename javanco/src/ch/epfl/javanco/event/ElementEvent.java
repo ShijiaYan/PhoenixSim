@@ -76,33 +76,30 @@ public class ElementEvent extends CasualEvent {
 	}
 
 	public boolean concernsNode() {
-		return (target == EVENT_TARGET.NODE) || (target == EVENT_TARGET.ALL);
+		return target == EVENT_TARGET.NODE || target == EVENT_TARGET.ALL;
 	}
 	public boolean concernsLink() {
-		return (target == EVENT_TARGET.LINK) || (target == EVENT_TARGET.ALL);
+		return target == EVENT_TARGET.LINK || target == EVENT_TARGET.ALL;
 	}
 	public boolean concernsLayer() {
-		return (target == EVENT_TARGET.LAYER) || (target == EVENT_TARGET.ALL);
+		return target == EVENT_TARGET.LAYER || target == EVENT_TARGET.ALL;
 	}
 	public boolean concernsAll() {
-		return (target == EVENT_TARGET.ALL);
+		return target == EVENT_TARGET.ALL;
 	}
 	public boolean isCreation() {
-		return (type == EVENT_TYPE.CREATION);
+		return type == EVENT_TYPE.CREATION;
 	}
 	public boolean isSuppression() {
-		return (type == EVENT_TYPE.SUPPRESSION);
+		return type == EVENT_TYPE.SUPPRESSION;
 	}
 	public boolean isModification() {
-		return (type == EVENT_TYPE.MODIFICATION);
+		return type == EVENT_TYPE.MODIFICATION;
 	}
 	public boolean concernsProperty(String property) {
 		if (this.property == null) return false;
-		if (type == EVENT_TYPE.MODIFICATION && this.property.equals(property)) {
-			return true;
-		}
-		return false;
-	}
+        return type == EVENT_TYPE.MODIFICATION && this.property.equals(property);
+    }
 
 	public NodeContainer getNodeContainer() {
 		if (concernsNode()) {

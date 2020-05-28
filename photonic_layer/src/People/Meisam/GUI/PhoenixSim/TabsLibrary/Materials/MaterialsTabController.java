@@ -92,12 +92,7 @@ public class MaterialsTabController extends AbstractTabController {
 	}
 
     private boolean plotToggleSelected(){
-        if(ngLambda.isSelected() || nLambda.isSelected() ||  epsilonLambda.isSelected()){
-            return true;
-        }
-        else{
-            return false ;
-        }
+        return ngLambda.isSelected() || nLambda.isSelected() || epsilonLambda.isSelected();
     }
 
     @SuppressWarnings("unchecked")
@@ -134,7 +129,7 @@ public class MaterialsTabController extends AbstractTabController {
     }
 
     public void sweepLambda() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);

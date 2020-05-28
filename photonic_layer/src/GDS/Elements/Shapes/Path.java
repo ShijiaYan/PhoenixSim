@@ -94,19 +94,20 @@ public class Path extends AbstractElement {
 		String st02 = "## ---------------------------------------- ##" ;
 		String[] args = new String[] {st00, st01, st02} ;
 		int m = layerMap.length ;
-		for(int k=0; k<m; k++){
-			int n = pathElements.length ;
-			String st1 = "### adding a new PATH on layer " + layerMap[k].getLayerName() ;
-			String st2 = objectName + " = gdspy.Path(" + width_um + "," + "initial_point=" + P1.getString() + "," + "number_of_paths=" + numOfPaths + "," + " distance=" + distance_um+")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {st1, st2}) ;
-			for(int i=0; i<n; i++){
-				String[] st3 = pathElements[i].getPythonCode(objectName, layerMap[k]) ;
-				args = MoreMath.Arrays.concat(args, st3) ;
-			}
-			String st40 = objectName + ".rotate(" + port1.connect().getNormalRad() + "," + P1.getString() + ")" ;
-			String st4 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {st40, st4}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int n = pathElements.length;
+            String st1 = "### adding a new PATH on layer " + abstractLayerMap.getLayerName();
+            String st2 = objectName + " = gdspy.Path(" + width_um + "," + "initial_point=" + P1.getString() + "," +
+                    "number_of_paths=" + numOfPaths + "," + " distance=" + distance_um + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{st1, st2});
+            for (AbstractPathElement pathElement : pathElements) {
+                String[] st3 = pathElement.getPythonCode(objectName, abstractLayerMap);
+                args = MoreMath.Arrays.concat(args, st3);
+            }
+            String st40 = objectName + ".rotate(" + port1.connect().getNormalRad() + "," + P1.getString() + ")";
+            String st4 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{st40, st4});
+        }
 		return args ;
 	}
 	
@@ -114,19 +115,20 @@ public class Path extends AbstractElement {
 	public String[] getPythonCode_no_header(String fileName, String topCellName) {
 		String[] args = new String[0] ;
 		int m = layerMap.length ;
-		for(int k=0; k<m; k++){
-			int n = pathElements.length ;
-			String st1 = "### adding a new PATH on layer " + layerMap[k].getLayerName() ;
-			String st2 = objectName + " = gdspy.Path(" + width_um + "," + "initial_point=" + P1.getString() + "," + "number_of_paths=" + numOfPaths + "," + " distance=" + distance_um+")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {st1, st2}) ;
-			for(int i=0; i<n; i++){
-				String[] st3 = pathElements[i].getPythonCode(objectName, layerMap[k]) ;
-				args = MoreMath.Arrays.concat(args, st3) ;
-			}
-			String st40 = objectName + ".rotate(" + port1.connect().getNormalRad() + "," + P1.getString() + ")" ;
-			String st4 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {st40, st4}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int n = pathElements.length;
+            String st1 = "### adding a new PATH on layer " + abstractLayerMap.getLayerName();
+            String st2 = objectName + " = gdspy.Path(" + width_um + "," + "initial_point=" + P1.getString() + "," +
+                    "number_of_paths=" + numOfPaths + "," + " distance=" + distance_um + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{st1, st2});
+            for (AbstractPathElement pathElement : pathElements) {
+                String[] st3 = pathElement.getPythonCode(objectName, abstractLayerMap);
+                args = MoreMath.Arrays.concat(args, st3);
+            }
+            String st40 = objectName + ".rotate(" + port1.connect().getNormalRad() + "," + P1.getString() + ")";
+            String st4 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{st40, st4});
+        }
 		return args ;
 	}
 

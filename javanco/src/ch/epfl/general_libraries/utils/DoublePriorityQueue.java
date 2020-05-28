@@ -31,7 +31,7 @@ public class DoublePriorityQueue<K> implements Comparator {
 				if (r != 0) {
 					return false;
 				}
-				return (e1.c2.compareTo(this.c2) == 0);
+				return e1.c2.compareTo(this.c2) == 0;
 			} catch(ClassCastException e) {
 				return false;
 			}

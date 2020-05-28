@@ -68,15 +68,15 @@ public class McKayMillerSiranGenerator extends AbstractDeterministicGenerator {
 		BigInteger generator = new BigInteger(generator_+"");
 		BigInteger qbi = new BigInteger(q+"");
 		
-		ArrayList<Integer> X = new ArrayList<Integer>();
-		ArrayList<Integer> Xp = new ArrayList<Integer>();
+		ArrayList<Integer> X = new ArrayList<>();
+		ArrayList<Integer> Xp = new ArrayList<>();
 		
 		if (d == 0 || d == 1) {
 			X.add(1);
 			for (int i = 2 ; i <= 4*w-2 ; i = i+ 2) {
 				int prod = 1;
 				for (int p = 0 ; p < i ; p++) {
-					prod = (prod*generator_) % q;
+					prod = prod*generator_ % q;
 				}
 				X.add(prod);
 				
@@ -176,7 +176,7 @@ public class McKayMillerSiranGenerator extends AbstractDeterministicGenerator {
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		SimpleMap<String, String> m = new SimpleMap<String, String>();
+		SimpleMap<String, String> m = new SimpleMap<>();
 		m.put("target nodes", target+"");
 		m.put("q value", q+"");
 		m.put("d value", d+"");
@@ -193,7 +193,7 @@ public class McKayMillerSiranGenerator extends AbstractDeterministicGenerator {
 		double sqrtTarget = Math.pow(target/2d,0.5);
 		int minW = (int)Math.floor((Math.pow(target/2d,0.5) - 1)/4d);
 		for (int w = minW ; w < 60 ; w++) {
-			int q1 = (4*w)+1;
+			int q1 = 4*w +1;
 			if (!PrimeNumbers.isPrimePower(q1)) continue;
 			if (PrimeNumbers.findGenerator(q1) < 0) continue;
 			if (q1 >= sqrtTarget) {
@@ -205,7 +205,7 @@ public class McKayMillerSiranGenerator extends AbstractDeterministicGenerator {
 		}
 		minW = (int)Math.floor((Math.pow(target/2d,0.5) + 1)/4d);
 		for (int w = minW ; w < 17 ; w++) {
-			int q1 = (4*w)-1;
+			int q1 = 4*w -1;
 			if (!PrimeNumbers.isPrimePower(q1)) continue;
 			if (PrimeNumbers.findGenerator(q1) < 0) continue;
 			if (q1 >= sqrtTarget) {
@@ -217,9 +217,9 @@ public class McKayMillerSiranGenerator extends AbstractDeterministicGenerator {
 				break;
 			}
 		}
-		minW = (int)Math.floor((Math.pow(target/2d,0.5))/4d);
+		minW = (int)Math.floor(Math.pow(target/2d,0.5) /4d);
 		for (int w = minW ; w < 16 ; w++) {
-			int q1 = (4*w);
+			int q1 = 4*w;
 			if (!PrimeNumbers.isPrimePower(q1)) continue;
 			if (PrimeNumbers.findGenerator(q1) < 0) continue;
 			if (q1 >= sqrtTarget) {

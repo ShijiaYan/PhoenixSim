@@ -102,7 +102,7 @@ public class HPCCGstruct {
 					A.nnz_in_row[curlocalrow] = nnzrow;
 					nnzglobal += nnzrow;
 					x[curlocalrow] = 0.0;
-					b[curlocalrow] = 27.0 - ((double) (nnzrow-1));
+					b[curlocalrow] = 27.0 - (double) (nnzrow-1);
 					xexact[curlocalrow] = 1.0;
 				} // end ix loop
 			}
@@ -127,7 +127,7 @@ public class HPCCGstruct {
 	}	
 	
 	public static void make_local_matrix(ActionManager c, Time ref, HPCSparseMatrix A, int rank, int size, boolean debug) throws InterruptedException {
-		TreeMap<Integer, Integer> externals = new TreeMap<Integer, Integer>();
+		TreeMap<Integer, Integer> externals = new TreeMap<>();
 		int i, j, k;
 		int num_external = 0;
 		double t0;
@@ -186,7 +186,7 @@ public class HPCCGstruct {
 				//	Integer cur = externals.get(cur_ind);
 				//	Map.Entry<Integer,Integer> entry = externals.lastEntry();
 				//	if (cur != null && entry != null && cur ==entry.getValue()) {
-					if (!externals.containsKey((Integer)cur_ind)) {
+					if (!externals.containsKey(cur_ind)) {
 						externals.put(cur_ind, num_external); 	// instead of	externals[cur_ind] = num_external++;
 						num_external++;
 
@@ -442,7 +442,7 @@ public class HPCCGstruct {
 			if (r == null) {
 				System.out.println("Rank : "  + rank);
 			}
-			tmp_buffer[i] = (int)(Integer)(r.getObject());
+			tmp_buffer[i] = (int)(Integer) r.getObject();
 			///
 			// Receive message from each send neighbor to construct 'send_list'.
 			///
@@ -474,7 +474,7 @@ public class HPCCGstruct {
 					System.out.println("Processor " + rank + " of " + size + ": recv_list[" + num_recv_neighbors + "] = "+  send_list[j] );
 				}
 				recv_list[num_recv_neighbors] = send_list[j];
-				(num_recv_neighbors)++;
+				num_recv_neighbors++;
 			}
 		}
 
@@ -534,7 +534,7 @@ public class HPCCGstruct {
 			// go through list of external elements until updating 
 			// processor changes
 
-			while ((j < num_external) && (new_external_processor[j] == recv_list[i])) {
+			while (j < num_external && new_external_processor[j] == recv_list[i]) {
 				newlength++;
 				j++;
 				if (j == num_external) break;
@@ -551,7 +551,7 @@ public class HPCCGstruct {
 		for (i = 0; i < num_recv_neighbors; i++) {
 			int partner    = recv_list[i];
 			Transmission r = c.blockingRead(ref, partner, true, MPI_MY_TAG);
-			lengths[i] = (int)(Integer)(r.getObject());
+			lengths[i] = (int)(Integer) r.getObject();
 		//	MPI_Irecv(lengths+i, 1, MPI_INT, partner, MPI_MY_TAG, MPI_COMM_WORLD, 
 		//			request+i);
 		}
@@ -579,7 +579,7 @@ public class HPCCGstruct {
 			// until updating processor changes.  This is redundant, but 
 			// saves us from recording this information.
 
-			while ((j < num_external) && (new_external_processor[j] == recv_list[i])) {
+			while (j < num_external && new_external_processor[j] == recv_list[i]) {
 
 				newlength++;
 				j++;
@@ -595,7 +595,7 @@ public class HPCCGstruct {
 		j = 0;
 		for (i = 0; i < num_recv_neighbors; i++) {
 			Transmission r = c.blockingRead(ref, A.neighbors[i], true, MPI_MY_TAG);
-			System.arraycopy((int[])r.getObject(), 0, A.elements_to_send, j, A.send_length[i]);
+			System.arraycopy(r.getObject(), 0, A.elements_to_send, j, A.send_length[i]);
 		//	MPI_Irecv(elements_to_send+j, send_length[i], MPI_INT, neighbors[i], 
 		//			MPI_MY_TAG, MPI_COMM_WORLD, request+i);
 			j += A.send_length[i];

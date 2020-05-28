@@ -36,9 +36,9 @@ public class ColorMap {
 	}
 	
 	public static Color getLighterTone(Color c, int totalTones, int index) {
-		double red = (255-c.getRed());
-		double green = (255-c.getGreen());
-		double blue = (255-c.getBlue());
+		double red = 255-c.getRed();
+		double green = 255-c.getGreen();
+		double blue = 255-c.getBlue();
 		double coeff = (double)(totalTones - index)/(double)totalTones;
 		return new Color(255 - (int)(red*coeff), 255 - (int)(green*coeff), 255 - (int)(coeff*blue), c.getAlpha());
 	}
@@ -117,13 +117,13 @@ public class ColorMap {
 
 	public static ColorMap getRingMap(int a, int b, float s, float brightness) {
 		int i = 1;
-		while (((i*a) % b) != a) {
+		while (i*a % b != a) {
 			i++;
 		}
 		ColorMap map = new ColorMap();
 		map.map = new int[i];
 		for (int j = 0 ; j < i ; j++) {
-			float chrom = ((j*a) % b) / ((float)b);
+			float chrom = (j*a % b) / (float)b;
 			java.awt.Color c = new java.awt.Color(java.awt.Color.HSBtoRGB(chrom, s, brightness));
 			map.map[j] = c.getRGB();
 		}
@@ -132,7 +132,7 @@ public class ColorMap {
 
 	public static ColorMap getRingMapPlus(int a, int b, int c) {
 		int i = 2;
-		while (((i*a) % b) != a) {
+		while (i*a % b != a) {
 			i++;
 		}
 		i--;
@@ -147,9 +147,9 @@ public class ColorMap {
 			sat = 1f - (float)idy/(float)c;
 			brightness = 1f - (float)idz/(float)c;
 			for (int j = 0 ; j < i ; j++) {
-				float chrom = ((j*a) % b) / ((float)b);
+				float chrom = (j*a % b) / (float)b;
 				java.awt.Color col = new java.awt.Color(java.awt.Color.HSBtoRGB(chrom, sat , brightness + (1-brightness)*0.2f));
-				map.map[idx] = (col.getRed() << 16) + (col.getGreen() << 8) + (col.getBlue());
+				map.map[idx] = (col.getRed() << 16) + (col.getGreen() << 8) + col.getBlue();
 				idx++;
 			}
 			if (idx % i == 0) {
@@ -205,7 +205,7 @@ public class ColorMap {
 			g = rand.nextInt(255);
 			b = rand.nextInt(255);
 			tot = (int)(r*1.02f)+(int)(g*1.06f)+b;
-			if (!minDif(r,g,b,prevs, min_dif) || (tot < intMinLum) || (tot > intMaxLum)) {
+			if (!minDif(r,g,b,prevs, min_dif) || tot < intMinLum || tot > intMaxLum) {
 				i--;
 				continue;
 			} else {
@@ -220,12 +220,12 @@ public class ColorMap {
 
 	private static boolean minDif(int r, int g, int b, int[][] prevs, float minDif) {
 		int minDifInt = (int)(minDif * (3*255));
-		for (int i = 0 ; i < prevs.length ; i++) {
-			int dif = Math.abs(prevs[i][0] - r) + Math.abs(prevs[i][1] - g) + Math.abs(prevs[i][2] - b);
-			if (dif < minDifInt) {
-				return false;
-			}
-		}
+        for (int[] prev : prevs) {
+            int dif = Math.abs(prev[0] - r) + Math.abs(prev[1] - g) + Math.abs(prev[2] - b);
+            if (dif < minDifInt) {
+                return false;
+            }
+        }
 		return true;
 	}
 	

@@ -32,7 +32,7 @@ public class DefaultMachineModel {
 	}
 
 	public Map<String, String> getAllProperties() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("Total comp. pow. PF", totalPetaflops+"");
 		m.put("Node pow TF", nodeTeraflops+"");
 		m.put("Byte per flop", bytePerFlop+"");

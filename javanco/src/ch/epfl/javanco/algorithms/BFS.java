@@ -94,12 +94,12 @@ public class BFS {
 	public static double getAverageDistanceFromUndirected(AbstractGraphHandler agh, int startNode) {
 		int[] dist = getDistancesFromUndirected(agh, startNode);
 		int total = 0;
-		for (int i = 0 ; i < dist.length ; i++) {
-			if (dist[i] == Integer.MAX_VALUE) {
-				return Integer.MAX_VALUE;
-			}
-			total += dist[i];
-		}
+        for (int value : dist) {
+            if (value == Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            }
+            total += value;
+        }
 		return (double)total/(double)(dist.length-1);
 	}
 	
@@ -150,7 +150,7 @@ public class BFS {
 		Arrays.fill(predecessors, -1);
 		Arrays.fill(visited, -1);
 		
-		LinkedList<NodeContainer> lc = new LinkedList<NodeContainer>();	
+		LinkedList<NodeContainer> lc = new LinkedList<>();
 		// init
 		int visitedCounter = 0;
 		lc.add(agh.getNodeContainer(node));
@@ -182,14 +182,13 @@ public class BFS {
 				nexts = n.getAllConnectedLinkExtremities();					
 			} 
 			Collections.sort(nexts);
-			for (int i = 0 ; i < nexts.size() ; i++) {
-				NodeContainer nc = nexts.get(i);
-				int itIndex = nc.getIndex();
-				if (predecessors[itIndex] < 0) {
-					predecessors[itIndex] = index;
-					lc.addLast(nc);
-				}
-			}
+            for (NodeContainer nc : nexts) {
+                int itIndex = nc.getIndex();
+                if (predecessors[itIndex] < 0) {
+                    predecessors[itIndex] = index;
+                    lc.addLast(nc);
+                }
+            }
 			visited[visitedCounter] = index;
 			visitedCounter++;
 		}

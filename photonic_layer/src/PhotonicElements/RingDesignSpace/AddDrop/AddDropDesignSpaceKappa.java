@@ -79,7 +79,7 @@ public class AddDropDesignSpaceKappa {
 	public double getFSRnm(){
 		double Rnm = radiusMicron * 1e3 ;
 		double lambdaResNm = inputLambda.getWavelengthNm() ;
-		return (lambdaResNm*lambdaResNm)/(2*Math.PI*Rnm * ng) ;
+		return lambdaResNm*lambdaResNm /(2*Math.PI*Rnm * ng) ;
 	}
 	
 	public double getOutputKappa(){
@@ -125,7 +125,7 @@ public class AddDropDesignSpaceKappa {
 		double k_out = getOutputKappa() ;
 		double k_in = getInputKappa() ;
 		double L = getRoundTripLoss() ;
-		double num = (k_in*k_in)*(k_out*k_out)*Math.sqrt(L) ;
+		double num = k_in * k_in * (k_out * k_out) * Math.sqrt(L);
 		double denum = 1 + t_in*t_in*t_out*t_out*L - 2*t_in*t_out*Math.sqrt(L)*Math.cos(deltaPhi) ;
 		double trans = num/denum ;
 		return trans ;
@@ -188,7 +188,7 @@ public class AddDropDesignSpaceKappa {
 		double t_out = getOutputT() ;
 		double L = getRoundTripLoss() ;
 		double FSR = getFSRnm() ;
-		double A = (t_in*t_out*Math.sqrt(L)) ;
+		double A = t_in*t_out*Math.sqrt(L);
 		double phase = 1-(1-A)*(1-A)/(2*A) ;
 		double DlambdaNm = FSR/Math.PI * Math.acos(phase) ;
 		return DlambdaNm ;

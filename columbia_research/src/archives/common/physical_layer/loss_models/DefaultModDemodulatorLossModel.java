@@ -133,8 +133,8 @@ public class DefaultModDemodulatorLossModel extends AbstractLossModel {
 				//ringRes2Result.add(i+ext, ringRes2[i+ext]);
 				
 				avg_loss = (ringRes1[i+ext]+ringRes2[i+ext])/2;
-				losses[i+ext] = (1-avg_loss);
-				signal_mul_IL *= (1-avg_loss);
+				losses[i+ext] = 1-avg_loss;
+				signal_mul_IL *= 1-avg_loss;
 				accum[i+ext] = signal_mul_IL;
 				//System.out.println(l1 + " \t " + l2 + "\t" + signal_mul_IL);
 			} else {
@@ -209,7 +209,7 @@ public class DefaultModDemodulatorLossModel extends AbstractLossModel {
 			double add_xtalk1 = 0;
 			for (int j = (int)-Math.ceil(gloco.getNumberOfWavelengths()/2) ; j <= (int)Math.ceil(gloco.getNumberOfWavelengths()/2) ; j++) {
 				if (j != 0) {
-					double p1 = RingResonance.ringResonance(center_v + (j*gloco.getChannelSpacing()), v0, FSRvf, Q_demux);
+					double p1 = RingResonance.ringResonance(center_v + j*gloco.getChannelSpacing(), v0, FSRvf, Q_demux);
 	//				System.out.println(p1);
 					add_xtalk1 += p1;
 				}
@@ -244,7 +244,7 @@ public class DefaultModDemodulatorLossModel extends AbstractLossModel {
 		int indexes = (int)(Math.ceil(vf + 40*dv)/(dv/10));	//   divided by 10 ? granularity ?
 		double[] v = new double[indexes];
 		for (int i = 0 ; i < indexes ; i++) {
-			v[i] = v0 + (i*dv/10);
+			v[i] = v0 + i*dv/10;
 		}
 		return v;
 	}

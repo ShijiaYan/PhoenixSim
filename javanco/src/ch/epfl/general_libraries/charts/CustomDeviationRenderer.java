@@ -272,7 +272,7 @@ public class CustomDeviationRenderer extends DeviationRenderer {
 	 */
 	@Override
 	protected boolean isItemPass(int pass) {
-		return (pass == 2);
+		return pass == 2;
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class CustomDeviationRenderer extends DeviationRenderer {
 	 */
 	@Override
 	protected boolean isLinePass(int pass) {
-		return (pass == 1);
+		return pass == 1;
 	}
 
 	/**
@@ -387,7 +387,7 @@ public class CustomDeviationRenderer extends DeviationRenderer {
 					upList.add(new double[] {xx, yyHigh});
 				}
 
-				if (item == (dataset.getItemCount(series) - 1)) {
+				if (item == dataset.getItemCount(series) - 1) {
 					// last item in series, draw the lot...
 					// set up the alpha-transparency...
 					Composite originalComposite = g2.getComposite();
@@ -599,7 +599,7 @@ public class CustomDeviationRenderer extends DeviationRenderer {
 				// draw path
 				drawFirstPassShape(g2, pass, series, item, p, i);
 				//If last item of the graph (with 3 curves), set LastPoint as not good. (It will be erased by the next repaint)
-				if ((i == 2) || (col.displayMedian() && !col.displayFirst() && i == 1) || (col.displayMean() && !col.displayMedian() && !col.displayFirst() && i == 0)) {
+				if (i == 2 || col.displayMedian() && !col.displayFirst() && i == 1 || col.displayMean() && !col.displayMedian() && !col.displayFirst() && i == 0) {
 					s.setLastPointGood(false);
 				}
 			}
@@ -723,7 +723,7 @@ public class CustomDeviationRenderer extends DeviationRenderer {
 		// draw the item label if there is one...
 		if (isItemLabelVisible(series, item)) {
 			drawItemLabel(g2, orientation, dataset, series, item, xx, yy,
-					(y1 < 0.0));
+                    y1 < 0.0);
 		}
 
 		int domainAxisIndex = plot.getDomainAxisIndex(domainAxis);
@@ -778,13 +778,13 @@ public class CustomDeviationRenderer extends DeviationRenderer {
                 Shape shape = lookupSeriesShape(series);
                 shape = legendShapeEnlarger.createTransformedShape(shape);
                 boolean shapeIsFilled = getItemShapeFilled(series, 0);
-                Paint fillPaint = (getUseFillPaint()
+                Paint fillPaint = getUseFillPaint()
                     ? lookupSeriesFillPaint(series)
-                    : lookupSeriesPaint(series));
+                    : lookupSeriesPaint(series);
                 boolean shapeOutlineVisible = getDrawOutlines();
-                Paint outlinePaint = (getUseOutlinePaint()
+                Paint outlinePaint = getUseOutlinePaint()
                     ? lookupSeriesOutlinePaint(series)
-                    : lookupSeriesPaint(series));
+                    : lookupSeriesPaint(series);
                 Stroke outlineStroke = lookupSeriesOutlineStroke(series);
                 boolean lineVisible = getItemLineVisible(series, 0);
                 Stroke lineStroke = lookupSeriesStroke(series);

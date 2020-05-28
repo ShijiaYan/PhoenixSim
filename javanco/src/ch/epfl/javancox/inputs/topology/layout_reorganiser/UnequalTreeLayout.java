@@ -34,11 +34,11 @@ public class UnequalTreeLayout extends AbstractTreeLayout {
 			for(NodeContainer candidate : childs){
 				int[] levs = getMaxNodeInEachSubLevel(candidate);
 				int max = 0;
-				for (int i = 0 ; i < levs.length ; i++) {
-					if (levs[i] > max) {
-						max = levs[i];
-					}
-				}
+                for (int lev : levs) {
+                    if (lev > max) {
+                        max = lev;
+                    }
+                }
 				maxs[index] = max;
 				index++;
 				sumMax += max;

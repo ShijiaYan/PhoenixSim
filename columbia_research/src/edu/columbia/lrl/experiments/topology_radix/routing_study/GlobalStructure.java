@@ -58,7 +58,7 @@ import edu.columbia.lrl.experiments.topology_radix.routing_study.structures.Abst
 
 public class GlobalStructure {
 	
-	public static enum MODE {
+	public enum MODE {
 		MIN, ONE, MAX, DIM;
 	}
 	
@@ -233,7 +233,7 @@ public class GlobalStructure {
 		double[] trafFrom = new double[usedSwitches];
 		double[] trafTo = new double[usedSwitches];
 		
-		StatisticalDistribution<Integer> distances = new StatisticalDistribution<Integer>();
+		StatisticalDistribution<Integer> distances = new StatisticalDistribution<>();
 		
 		
 		for (int i = 0 ; i < usedSwitches ; i++) {
@@ -366,7 +366,7 @@ public class GlobalStructure {
 		// 2) evalute (usedNodes) flat index values in this hypercube
 		// -- dimensions with less nodes are priviledged
 		boolean isOk = true;
-		ArrayList<Integer> imposedFactors = new ArrayList<Integer>();
+		ArrayList<Integer> imposedFactors = new ArrayList<>();
 		int[] cubeDim = null;
 		
 		for (int k = 0 ; k < dimensionsLength ; k++) {
@@ -434,7 +434,7 @@ public class GlobalStructure {
 			dimensionSizes[dimId] = counter.getBases();			
 		}
 		catch (Exception e) {
-			if (e.getCause() != null && (e.getCause() instanceof IllegalStateException)) {
+			if (e.getCause() != null && e.getCause() instanceof IllegalStateException) {
 				throw (IllegalStateException)e.getCause();
 			}
 			throw new IllegalStateException(e);
@@ -559,7 +559,7 @@ public class GlobalStructure {
 	}
 
 	public Pair<Double[][], StatisticalDistribution<Double>> getLinkUsages() {
-		StatisticalDistribution<Double> dist = new StatisticalDistribution<Double>();
+		StatisticalDistribution<Double> dist = new StatisticalDistribution<>();
 		
 		Double[][] perDim = new Double[4][dimensionsLength];	
 		for (int i = 0 ; i < dimensionsLength ; i++) {
@@ -587,7 +587,7 @@ public class GlobalStructure {
 			perDim[3][i] = (double)divtot;
 		}	
 		
-		return new Pair<Double[][], StatisticalDistribution<Double>>(perDim, dist);
+		return new Pair<>(perDim, dist);
 	}
 	
 	public int[][] getRouterDegrees() {
@@ -604,12 +604,12 @@ public class GlobalStructure {
 				int[] indexes = struct.getIndexesOfLinksConnectedTo(coordOfOneNode[i]);
 				double[] front = struct.getUsagesFront();
 				double[] back = struct.getUsagesBack();
-				for (int j = 0 ; j < indexes.length ; j++) {
-					double radFront = front[indexes[j]];
-					double radBack = back[indexes[j]];
-					radixOfOneNodeMin += Math.ceil(Math.max(radFront, radBack));
-					radixOfOneNodeOne += Math.max(1, Math.ceil(Math.max(radFront, radBack)));
-				}
+                for (int value : indexes) {
+                    double radFront = front[value];
+                    double radBack = back[value];
+                    radixOfOneNodeMin += Math.ceil(Math.max(radFront, radBack));
+                    radixOfOneNodeOne += Math.max(1, Math.ceil(Math.max(radFront, radBack)));
+                }
 			}
 			ret[0][index] = radixOfOneNodeMin;
 			ret[1][index] = radixOfOneNodeOne;
@@ -652,23 +652,23 @@ public class GlobalStructure {
 					}
 				}
 			}
-		}		
-		for (int i = 0 ; i < axes.length ; i++) {
-			for (int j = 0 ; j < axes[i].length ; j++) {
-				AbstractAxisStructure struct = axes[i][j];
-				for (int k = 0 ; k < struct.getNumberOfLinksInStructure() ; k++) {
-					int[] srcDest = struct.getExtremitiesOfLink(k);
-					int[] coordFrom = struct.getCoordOfNodeIndex(srcDest[0]);
-					int[] coordTo = struct.getCoordOfNodeIndex(srcDest[1]);
-					int from = this.getIdOfCoord(coordFrom);
-					int to = this.getIdOfCoord(coordTo);
-					double[] front = struct.getUsagesFront();
-					double[] back = struct.getUsagesBack();
-					inci[from][to] = front[k];
-					inci[to][from] = back[k];
-				}
-			}
 		}
+        for (AbstractAxisStructure[] axe : axes) {
+            for (int j = 0; j < axe.length; j++) {
+                AbstractAxisStructure struct = axe[j];
+                for (int k = 0; k < struct.getNumberOfLinksInStructure(); k++) {
+                    int[] srcDest = struct.getExtremitiesOfLink(k);
+                    int[] coordFrom = struct.getCoordOfNodeIndex(srcDest[0]);
+                    int[] coordTo = struct.getCoordOfNodeIndex(srcDest[1]);
+                    int from = this.getIdOfCoord(coordFrom);
+                    int to = this.getIdOfCoord(coordTo);
+                    double[] front = struct.getUsagesFront();
+                    double[] back = struct.getUsagesBack();
+                    inci[from][to] = front[k];
+                    inci[to][from] = back[k];
+                }
+            }
+        }
 		inci = Matrix.normalize(inci);
 		return inci;
 	}

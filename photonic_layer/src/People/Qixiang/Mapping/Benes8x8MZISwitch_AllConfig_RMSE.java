@@ -253,10 +253,14 @@ public class Benes8x8MZISwitch_AllConfig_RMSE implements Experiment{
 	public String getSwitchStateBinary(){
 		char[] state = getSwitchState().toCharArray() ;
 		String stateBinary = "" ;
-		for(int i=0; i<state.length; i++){
-			if(state[i]=='B'){stateBinary += "0" ;}
-			if(state[i]=='C'){stateBinary += '1' ;}
-		}
+        for (char c : state) {
+            if (c == 'B') {
+                stateBinary += "0";
+            }
+            if (c == 'C') {
+                stateBinary += '1';
+            }
+        }
 		return stateBinary ;
 	}
 

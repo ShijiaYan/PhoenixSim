@@ -6,7 +6,7 @@ import ch.epfl.javanco.xml.NetworkAttribute;
 public class JavancoMatrixes {
 
 	public static Matrix<Integer> toIntegerMatrix(Matrix<NetworkAttribute> matrix) {
-		Matrix<Integer> result = new Matrix<Integer>(matrix.size());
+		Matrix<Integer> result = new Matrix<>(matrix.size());
 		for (int i = 0 ; i < matrix.size() ; i++) {
 			for (int j = 0 ; j < matrix.size() ; j++) {
 				NetworkAttribute at = matrix.getMatrixElement(i,j);
@@ -34,7 +34,7 @@ public class JavancoMatrixes {
 	}
 
 	public static Matrix<Float> toFloatingMatrix(Matrix<NetworkAttribute> matrix) {
-		Matrix<Float> result = new Matrix<Float>(matrix.size());
+		Matrix<Float> result = new Matrix<>(matrix.size());
 		for (int i = 0 ; i < matrix.size() ; i++) {
 			for (int j = 0 ; j < matrix.size() ; j++) {
 				NetworkAttribute at = matrix.getMatrixElement(i,j);
@@ -62,7 +62,7 @@ public class JavancoMatrixes {
 	}
 
 	public static Matrix<Double> toDoubleMatrix(Matrix<NetworkAttribute> matrix) {
-		Matrix<Double> result = new Matrix<Double>(matrix.size());
+		Matrix<Double> result = new Matrix<>(matrix.size());
 		for (int i = 0 ; i < matrix.size() ; i++) {
 			for (int j = 0 ; j < matrix.size() ; j++) {
 				NetworkAttribute at = matrix.getMatrixElement(i,j);

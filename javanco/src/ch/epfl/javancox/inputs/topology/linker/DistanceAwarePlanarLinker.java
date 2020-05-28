@@ -14,7 +14,7 @@ public class DistanceAwarePlanarLinker extends PlanarLinker {
 	}	
 	
 	protected List<NodeContainer> arrangeList(NodeContainer start, List<NodeContainer> candidates, PRNStream s) {
-		List<NodeContainer> newList = new ArrayList<NodeContainer>(candidates.size());
+		List<NodeContainer> newList = new ArrayList<>(candidates.size());
 		
 		double[] weight = new double[candidates.size()];
 		double total = 0;

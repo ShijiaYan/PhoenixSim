@@ -47,12 +47,7 @@ public class FeedbackFormController extends AbstractController {
 	}
 	
 	private boolean checkAllBoxesFilled(){
-		if(nameTextField.getText().isEmpty() || topicComboBox.getSelectionModel().isEmpty() || feedbackTextArea.getText().isEmpty()){
-			return false ;
-		}
-		else{
-			return true ;
-		}
+        return !nameTextField.getText().isEmpty() && !topicComboBox.getSelectionModel().isEmpty() && !feedbackTextArea.getText().isEmpty();
 	}
 	
 	@FXML
@@ -98,9 +93,9 @@ public class FeedbackFormController extends AbstractController {
 		for(int i=0; i<to.length; i++){
 			toAddress[i] = new InternetAddress(to[i]) ;
 		}
-		for(int i=0; i<toAddress.length; i++){
-			message.setRecipient(Message.RecipientType.TO, toAddress[i]);
-		}
+        for (InternetAddress address : toAddress) {
+            message.setRecipient(Message.RecipientType.TO, address);
+        }
 		
 		message.setSubject("PhoenixSim Feedback: " + topicComboBox.getSelectionModel().getSelectedItem());
 		String name = nameTextField.getText() ;
@@ -110,7 +105,7 @@ public class FeedbackFormController extends AbstractController {
 		transport.sendMessage(message, message.getAllRecipients());
 		transport.close();
 		
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/FeedbackForm/Confirmation/sent_confirmation.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/FeedbackForm/Confirmation/sent_confirmation.fxml")) ;
 		WindowBuilder confirmation = new WindowBuilder(loader) ;
 		confirmation.setIcon("/People/Meisam/GUI/Credits/FeedbackForm/Extras/email.png");
 		try {

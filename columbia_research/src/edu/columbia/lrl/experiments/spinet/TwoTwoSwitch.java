@@ -37,7 +37,7 @@ public class TwoTwoSwitch extends AbstractSwitch implements SpinetComponent {
 	protected double stateFixedUntil;
 	protected boolean stateCrossed;
 	private Message[] OutputOccupyingMsgs;
-	private double perOutputFixedUntil[];
+	private double[] perOutputFixedUntil;
 	
 	
 	public TwoTwoSwitch(String id, double swi, boolean doubleWay) {

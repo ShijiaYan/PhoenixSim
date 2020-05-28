@@ -80,7 +80,7 @@ public class ParetoProvider extends XYChartProvider {
 		XYPlot plot = chart.getChart().getXYPlot();
 		CustomXYIntervalSeriesCollection seriesCollection = new CustomXYIntervalSeriesCollection(options);
 		boolean useLines = !(options.getCriteriumSet().get(0).size() == 0);
-		useLines &= (isWithLines|| isWithLinesWA);
+		useLines &= isWithLines|| isWithLinesWA;
 		CustomDeviationRenderer renderer = new CustomDeviationRenderer(useLines, true, chart); // chart is given for problem reporting
 		renderer.useMultipointHighlight(!isWithoutIdentitical);
 		renderer.setBaseStroke(stroke);
@@ -114,11 +114,11 @@ public class ParetoProvider extends XYChartProvider {
 		DataSeries.DataSeriesSorter sorter = new DataSeries.DataSeriesSorter();
 		boolean nonNumericXValues = false;
 
-		TreeMap<Double, String> tickEquivalenceMap = new TreeMap<Double, String>();
+		TreeMap<Double, String> tickEquivalenceMap = new TreeMap<>();
 		
 		List<DataSeries> dataSeries = retriever.getChartValues(options, options.method[idx]);
 	
-		HashSet<String> toSortAndEvalFromZeroToOne = new HashSet<String>();
+		HashSet<String> toSortAndEvalFromZeroToOne = new HashSet<>();
 		
 		yaxis = options.method[idx];
 		xaxis = options.xAxisProperty;
@@ -131,11 +131,11 @@ public class ParetoProvider extends XYChartProvider {
 		
 		Map<String, Float> colorMap = Mapper.getMap(toSortAndEvalFromZeroToOne, isLogColors);
 		
-		ArrayList<ParetoSet<ParetoEntry>> psets = new ArrayList<ParetoSet<ParetoEntry>>();
+		ArrayList<ParetoSet<ParetoEntry>> psets = new ArrayList<>();
 		
 		
 		for( DataSeries cv : dataSeries) {
-			ParetoSet<ParetoEntry> paretoSet = new ParetoSet<ParetoEntry>(2);
+			ParetoSet<ParetoEntry> paretoSet = new ParetoSet<>(2);
 			psets.add(paretoSet);
 			if( cv instanceof DataSeries.EmptyChartValues )
 				continue;
@@ -212,7 +212,7 @@ public class ParetoProvider extends XYChartProvider {
 						nonNumericXValues = true;
 					}
 					chart.addProblem(new Problem(Severity.INFORMATION,
-							((int) (float) xe.numericXValue) + " = "
+							(int) (float) xe.numericXValue + " = "
 									+ xe.alphaXValue, options.method[idx]));
 					tickEquivalenceMap.put((double) xe.numericXValue,
 							xe.alphaXValue);

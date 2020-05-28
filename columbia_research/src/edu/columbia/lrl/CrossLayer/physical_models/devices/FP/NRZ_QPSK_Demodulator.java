@@ -42,7 +42,7 @@ public class NRZ_QPSK_Demodulator extends AbstractDemodulator__ {
 	@Override
 	public Map<String, String> getAllParameters() {
 		// TODO Auto-generated method stub
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Receiver Power (mW)", demodStaticPower + "");
 		return map;
 	}
@@ -51,7 +51,7 @@ public class NRZ_QPSK_Demodulator extends AbstractDemodulator__ {
 	public double getPowerPenalties(double dutyCycle) {
 		
 		double jitterPP = passiveJitterPenalty + 1 * dutyCycle ; // 1 dB penalty if 100% duty cycle (a linear assumption)
-		double demodulatorLoss = passiveIL + polarizationLoss + junctionLoss + phaseShifterLoss + 2*balancedDetecCouplingLoss + (-10*Math.log10(inputCoupling)) + jitterPP ;
+		double demodulatorLoss = passiveIL + polarizationLoss + junctionLoss + phaseShifterLoss + 2*balancedDetecCouplingLoss + -10*Math.log10(inputCoupling) + jitterPP ;
 		
 		return demodulatorLoss ;
 		

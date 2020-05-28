@@ -100,16 +100,12 @@ public class BERPenaltyTabController extends AbstractTabController {
 	@FXML
 	private void chooseXDataCase1() {
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase);
-		varModule.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				xDataCase1 = new SimulationVariable(varModule.getController().getVariable().getName(),
-						varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
-				xDataCase1Label.setText("X data is set to '" + xDataCase1.getName() + "'");
-				if (xDataCase1 != null && yDataCase1 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
-			}
-		});
+		varModule.setExitAction(() -> {
+            xDataCase1 = new SimulationVariable(varModule.getController().getVariable().getName(),
+                    varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
+            xDataCase1Label.setText("X data is set to '" + xDataCase1.getName() + "'");
+            if (xDataCase1 != null && yDataCase1 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
@@ -125,16 +121,12 @@ public class BERPenaltyTabController extends AbstractTabController {
 	@FXML
 	private void chooseYDataCase1() {
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase);
-		varModule.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				yDataCase1 = new SimulationVariable(varModule.getController().getVariable().getName(),
-						varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
-				yDataCase1Label.setText("Y data is set to '" + yDataCase1.getName() + "'");
-				if (xDataCase1 != null && yDataCase1 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
-			}
-		});
+		varModule.setExitAction(() -> {
+            yDataCase1 = new SimulationVariable(varModule.getController().getVariable().getName(),
+                    varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
+            yDataCase1Label.setText("Y data is set to '" + yDataCase1.getName() + "'");
+            if (xDataCase1 != null && yDataCase1 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
@@ -150,16 +142,12 @@ public class BERPenaltyTabController extends AbstractTabController {
 	@FXML
 	private void chooseXDataCase2() {
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase);
-		varModule.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				xDataCase2 = new SimulationVariable(varModule.getController().getVariable().getName(),
-						varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
-				xDataCase2Label.setText("X data is set to '" + xDataCase2.getName() + "'");
-				if (xDataCase2 != null && yDataCase2 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
-			}
-		});
+		varModule.setExitAction(() -> {
+            xDataCase2 = new SimulationVariable(varModule.getController().getVariable().getName(),
+                    varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
+            xDataCase2Label.setText("X data is set to '" + xDataCase2.getName() + "'");
+            if (xDataCase2 != null && yDataCase2 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
@@ -175,16 +163,12 @@ public class BERPenaltyTabController extends AbstractTabController {
 	@FXML
 	private void chooseYDataCase2() {
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase);
-		varModule.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				yDataCase2 = new SimulationVariable(varModule.getController().getVariable().getName(),
-						varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
-				yDataCase2Label.setText("Y data is set to '" + yDataCase2.getName() + "'");
-				if (xDataCase2 != null && yDataCase2 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
-			}
-		});
+		varModule.setExitAction(() -> {
+            yDataCase2 = new SimulationVariable(varModule.getController().getVariable().getName(),
+                    varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
+            yDataCase2Label.setText("Y data is set to '" + yDataCase2.getName() + "'");
+            if (xDataCase2 != null && yDataCase2 != null) { fig = createPlot(); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML

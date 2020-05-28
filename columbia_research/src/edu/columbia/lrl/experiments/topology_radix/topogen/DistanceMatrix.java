@@ -70,7 +70,7 @@ public class DistanceMatrix {
 		trafMat.init(mat.length, null);
 		
 		
-		StatisticalDistribution<Double> distrib = new StatisticalDistribution<Double>(50, 2, 4);
+		StatisticalDistribution<Double> distrib = new StatisticalDistribution<>(50, 2, 4);
 		
 		for (int i = 0 ; i < mat.length ; i++) {
 		

@@ -23,7 +23,7 @@ public class PBSWithStreaming extends PBS_App {
 		// get the share distribution here
 		nextStageShare = getBucketShare(parti);		
 
-			myProblemSize = sizeoftheproblem/(parti);
+			myProblemSize = sizeoftheproblem/ parti;
 			
 			int parcel = (int)((double)myProblemSize/(double)granularity);
 			
@@ -47,8 +47,8 @@ public class PBSWithStreaming extends PBS_App {
 			for (int partnerIdx = 0; partnerIdx < parti*granularity; partnerIdx++){
 				if (partnerIdx % parti != rank){
 					communicator.blockingReadFromAny(ref);
-					communicator.doSomeJob(ref, (complexSerialSort(mySerialSortSize)/opsPerNs)/(granularity*(parti-1)), "serial sort #"+sortId );					
-					System.out.println((complexSerialSort(mySerialSortSize)/opsPerNs)/(granularity*(parti-1)));
+					communicator.doSomeJob(ref, (complexSerialSort(mySerialSortSize) / opsPerNs) / (granularity * (parti - 1)), "serial sort #"+sortId );
+					System.out.println((complexSerialSort(mySerialSortSize) / opsPerNs) / (granularity * (parti - 1)));
 					sortId++;
 				}
 			} 

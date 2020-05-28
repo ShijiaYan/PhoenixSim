@@ -67,11 +67,11 @@ public class TrialsAnalyser extends AbstractLWSimAnalyser {
 		globals.addResultProperty("Retransmission Time Per Delivered Packet", allReTransTime/totalReceived);
 		globals.addResultProperty("Blocking Probability", totalRetran/(double)totalTransmitTrials);
 		globals.addResultProperty("Blocking Probabiltiy for Retran", 1 - (totalReceived - this.firstTimeSuccessCounter)/(double)totalRetran);
-		globals.addResultProperty("First-Time Successful Rate", this.firstTimeSuccessCounter/(double)(this.firstTrialCounter));
-		globals.addResultProperty("packet quench rate", this.totalQuenched/(double)(this.lwSimExp.totalEmitted));
+		globals.addResultProperty("First-Time Successful Rate", this.firstTimeSuccessCounter/(double) this.firstTrialCounter);
+		globals.addResultProperty("packet quench rate", this.totalQuenched/(double) this.lwSimExp.totalEmitted);
 		
-		double alpha = (double)allTransTime/lwSimExp.getNumberOfClients()/(double)(1e5);
-		double eta = totalReceived * lwSimExp.getTrafficGenerator().getAveragePacketSize()/lwSimExp.getNumberOfClients()/(double)(1e5)/lwSimExp.getReferenceBandwidth().getInGbitSeconds();
+		double alpha = allTransTime /lwSimExp.getNumberOfClients()/ 1e5;
+		double eta = totalReceived * lwSimExp.getTrafficGenerator().getAveragePacketSize()/lwSimExp.getNumberOfClients()/ 1e5 /lwSimExp.getReferenceBandwidth().getInGbitSeconds();
 		double Edyn = 2.35 * alpha / eta + 1;
 		double Esta10 = 0.76 / eta;
 		double Esta1 = 7.6 / eta;

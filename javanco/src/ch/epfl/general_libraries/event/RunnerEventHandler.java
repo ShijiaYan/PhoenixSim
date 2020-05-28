@@ -9,7 +9,7 @@ public class RunnerEventHandler {
 
 	public void addRunnerEventListener(RunnerEventListener listener) {
 		if (runnerEventListeners == null) {
-			runnerEventListeners = new ArrayList<RunnerEventListener>();
+			runnerEventListeners = new ArrayList<>();
 		}
 		runnerEventListeners.add(listener);
 	}

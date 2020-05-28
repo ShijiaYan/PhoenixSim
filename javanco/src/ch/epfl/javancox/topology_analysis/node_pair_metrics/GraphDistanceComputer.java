@@ -13,7 +13,7 @@ public abstract class GraphDistanceComputer extends MultiMetricComputer {
 	
 	public PairList<Double, NodePair> computeDistancesPerNodePair() {
 		AbstractGraphHandler agh = rpi.getInput().getAgh();
-		PairList<Double, NodePair> pairList = new PairList<Double, NodePair>();
+		PairList<Double, NodePair> pairList = new PairList<>();
 		double[][] distances = computeAllDistances();
 
 		for (int i = 0; i < agh.getHighestNodeIndex(); i++){
@@ -33,7 +33,7 @@ public abstract class GraphDistanceComputer extends MultiMetricComputer {
 		AbstractGraphHandler agh = rpi.getInput().getAgh();
 		int var = agh.getHighestNodeIndex()+1;
 		// on peut calculer le nombre de couples possible avec la formule de Gauss
-		int res = (var*(var-1))/2;
+		int res = var*(var-1) /2;
 		int pos = 0;
 		int skipped = 0;
 

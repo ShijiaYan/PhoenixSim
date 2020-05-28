@@ -8,7 +8,7 @@ public class ObjectIndexedCounter<T> implements Iterable<Pair<T, Integer>> {
 	private HashMap<T, Counter> map;
 	
 	public ObjectIndexedCounter() {
-		map = new HashMap<T, Counter>();
+		map = new HashMap<>();
 	}
 	
 	public void increment(T t) {
@@ -44,7 +44,7 @@ public class ObjectIndexedCounter<T> implements Iterable<Pair<T, Integer>> {
 			public Pair<T,Integer> next() {
 				T t = it.next();
 				Counter c = map.get(t);
-				return new Pair<T,Integer>(t, c.getValue());
+				return new Pair<>(t, c.getValue());
 			}
 			public void remove() {
 			}

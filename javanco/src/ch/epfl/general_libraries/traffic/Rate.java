@@ -129,7 +129,7 @@ public class Rate implements Cloneable {
 	 * Returns the emission frequency of packet of the given size at the current rate (in herz)
 	 */
 	public float divide(DataSize size) {
-		return (float)((this.rate*1e6) / size.getBits());
+		return (float)(this.rate*1e6 / size.getBits());
 	}
 
 	public Time getTime(DataSize dt) {
@@ -142,13 +142,13 @@ public class Rate implements Cloneable {
 	}
 
 	public float getRate(String timeUnit) {
-		float aux = (float)((new Time(1, timeUnit)).getMicroseconds());
+		float aux = (float) new Time(1, timeUnit).getMicroseconds();
 		return rate * aux;
 	}
 
 	public float getRate(DataSize.Unit dataUnit, String timeUnit) {
-		float aux = (float)((new Time(1, timeUnit)).getMicroseconds());
-		float aux2 = (new DataSize(1, dataUnit)).getBits();
+		float aux = (float) new Time(1, timeUnit).getMicroseconds();
+		float aux2 = new DataSize(1, dataUnit).getBits();
 		return rate * aux / aux2;
 	}
 
@@ -175,7 +175,7 @@ public class Rate implements Cloneable {
 	}
 	
 	public double getTimeNS(int sizeInBits) {
-		return (1000*sizeInBits/rate);
+		return 1000*sizeInBits/rate;
 	}	
 
 	public void setTimeUnit(String s) {
@@ -194,7 +194,7 @@ public class Rate implements Cloneable {
 	public String toString() {
 		double rt = REFTIME.getLengthInUnit(timeUnit);
 		double rs = REFSIZE.getLengthInUnit(dataUnit);
-		return (rate/rt)*rs + " " + dataUnit + "/" + timeUnit;
+		return (rate/rt) *rs + " " + dataUnit + "/" + timeUnit;
 	}
 
 

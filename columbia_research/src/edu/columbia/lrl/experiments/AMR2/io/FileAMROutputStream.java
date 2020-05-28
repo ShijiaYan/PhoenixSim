@@ -72,12 +72,12 @@ public class FileAMROutputStream extends AbstractAMROutputStreamManager {
 
 	@Override
 	public void flushAndClose() throws IOException {
-		for (int i = 0 ; i < fos.length ; i++) {
-			for (int j = 0 ; j < fos[i].length ; j++) {
-				fos[i][j].flush();
-				fos[i][j].close();
-			}
-		}
+        for (FileOutputStream[] fo : fos) {
+            for (int j = 0; j < fo.length; j++) {
+                fo[j].flush();
+                fo[j].close();
+            }
+        }
 	}
 
 }

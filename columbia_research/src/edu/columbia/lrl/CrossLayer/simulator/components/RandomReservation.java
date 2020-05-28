@@ -11,14 +11,14 @@ import ch.epfl.general_libraries.utils.SimpleMap;
 public class RandomReservation extends AbstractReservationStrategy {
 	//Stores which links and paths (for tear down) are reserved
 	Map<Integer, Boolean> reservedLinks;
-	int reservedPaths[][];	
+	int[][] reservedPaths;
 	
 	//Input and output blocking (TODO: can probably combine some data structures to save on space)
-	boolean inputBusy[];
-	boolean outputBusy[];
+	boolean[] inputBusy;
+	boolean[] outputBusy;
 
 	public void initReservation() {		
-		reservedLinks = new TreeMap<Integer, Boolean>();
+		reservedLinks = new TreeMap<>();
 		//Pre: First two dimensions of paths form a rectangular matrix
 		reservedPaths = new int[paths.length][paths[0].length];
 		
@@ -36,7 +36,7 @@ public class RandomReservation extends AbstractReservationStrategy {
 	private int findNextFreePath(int source, int dest) {
 		int freePath = -1;
 		
-		int pathOrder[] = new int[paths[source][dest].length];
+		int[] pathOrder = new int[paths[source][dest].length];
 		for( int i = 0; i < pathOrder.length; i++ ) pathOrder[i] = i;
 		pathOrder = experiment.getRandomStreamForEverythingButTraffic().shuffle(pathOrder);
 		
@@ -68,7 +68,7 @@ public class RandomReservation extends AbstractReservationStrategy {
 			return false;
 		
 		//Check if there are any paths available
-		return (findNextFreePath(source, dest) >= 0);
+		return findNextFreePath(source, dest) >= 0;
 	}
 	
 	@SuppressWarnings("unused")

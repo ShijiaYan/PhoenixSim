@@ -8,18 +8,15 @@ public class FxFcNPConfigurator extends AbstractFixedNPConfigurator {
 			@ParamName(name="Fc") final double Fc_, 
 			@ParamName(name="Zeta") final double zeta, 
 			@ParamName(name="rhox") final float rhox) {
-		toInvoke = new Runnable() {		
-			@Override
-			public void run() {
-				double Fx = getFx(Fx_);
-				double Fc = getFc(Fc_);
-				double beta = getBetaFromX(rhox, Fx);
-				double xi = getXiFromZetaP(zeta, P);
-				double rhoc = getRhocFromXi(rhox, xi);
-				double B = getBFromRhoC(rhoc, Fc, beta);
-				configureInternal(B, Fx, Fc, rhox, rhoc, beta);		
-			}
-		};
+		toInvoke = () -> {
+            double Fx = getFx(Fx_);
+            double Fc = getFc(Fc_);
+            double beta = getBetaFromX(rhox, Fx);
+            double xi = getXiFromZetaP(zeta, P);
+            double rhoc = getRhocFromXi(rhox, xi);
+            double B = getBFromRhoC(rhoc, Fc, beta);
+            configureInternal(B, Fx, Fc, rhox, rhoc, beta);
+        };
 	}		
 	
 	

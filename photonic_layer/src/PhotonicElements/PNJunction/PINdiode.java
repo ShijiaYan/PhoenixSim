@@ -67,10 +67,10 @@ public class PINdiode {
 	public double getDN(){
 		double I_mA = getCurrent_mA_fromVoltage_volt(voltage_volt) ;
 		double length_cm = length_um*1e-6/1e-2 ;
-		double volume = wgProp.getCrossSectionAreaCmSquare()* (length_cm) ;
-		double Q_coulomb = (I_mA*1e-3)*(lifetime_ns*1e-9);
+		double volume = wgProp.getCrossSectionAreaCmSquare()* length_cm;
+		double Q_coulomb = I_mA * 1e-3 * (lifetime_ns * 1e-9);
 		double q = PhysicalConstants.getElementaryCharge() ;
-		double DN = (Q_coulomb/q)/volume ; // charge carrier density 1/cm^3
+		double DN = (Q_coulomb / q) / volume; // charge carrier density 1/cm^3
 		return DN ;
 	}
 	

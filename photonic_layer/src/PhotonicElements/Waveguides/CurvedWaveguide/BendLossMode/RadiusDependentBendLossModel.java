@@ -29,17 +29,17 @@ public class RadiusDependentBendLossModel extends AbstractBendLossModel {
 //		double a = 4.8411e7 ;
 //		double b = 7.8016 ;
 		double alphaBending = a * Math.pow(1/radiusMicron, b) ; // in dB/cm based on the measurements of UBC group
-		return (alphaBending + alphaPropdBperCm ) ;
+		return alphaBending + alphaPropdBperCm;
 		 }
 
 	@Override
 	public double getLossPerCm(double radiusMicron) {
-		return (getLossdBperCm(radiusMicron) * 23/100);
+		return getLossdBperCm(radiusMicron) * 23/100;
 	}
 
 	@Override
 	public double getLossPerMeter(double radiusMicron) {
-		return (getLossdBperCm(radiusMicron) * 23);
+		return getLossdBperCm(radiusMicron) * 23;
 	}
 
 	@Override

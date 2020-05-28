@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class PINacFittingTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/ElectroOpticFitting/PINdiode/PINac/pin_ac_fitting.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/ElectroOpticFitting/PINdiode/PINac/pin_ac_fitting.fxml")) ; ;
 	PINacFittingTabController controller ;
 
 	public PINacFittingTab(SimulationDataBase simDataBase){

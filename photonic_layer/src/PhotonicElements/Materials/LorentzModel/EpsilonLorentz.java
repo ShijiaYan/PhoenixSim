@@ -22,7 +22,7 @@ public class EpsilonLorentz {
 	}
 	
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("Omega", Omega+"") ;
 		map.put("Gamma", Gamma+"") ;
 		map.put("Chi0", chi0+"") ;
@@ -32,7 +32,7 @@ public class EpsilonLorentz {
 	public Complex getComplexChi(){
 		Complex denom = new Complex(1-Omega*Omega, Gamma*Omega) ;
 		Complex num = new Complex(chi0, 0) ;
-		return (num.divides(denom)) ;
+		return num.divides(denom);
 	}
 	
 	public double getRealChi(){

@@ -179,7 +179,7 @@ public class JavancoXMLElement implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<JavancoXMLElement> selectElements(String xpathExpression) {
-		List<JavancoXMLElement> toReturn = new ArrayList<JavancoXMLElement>();
+		List<JavancoXMLElement> toReturn = new ArrayList<>();
 		List<Node> toChange = backedElement.selectNodes(xpathExpression);
 		for (Node node : toChange) {
 			if (node instanceof JavancoInternalXMLElement) {
@@ -227,7 +227,7 @@ public class JavancoXMLElement implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<JavancoXMLElement> elements() {
-		List<JavancoXMLElement> toReturn = new ArrayList<JavancoXMLElement>();
+		List<JavancoXMLElement> toReturn = new ArrayList<>();
 		List<JavancoInternalXMLElement> toChange = backedElement.elements();
 		for (JavancoInternalXMLElement el : toChange) {
 			toReturn.add(el.getJavancoXMLElement());
@@ -245,8 +245,8 @@ public class JavancoXMLElement implements Serializable {
 		while (leafNodes.size() > 0) {
 			Node leaf = leafNodes.iterator().next();
 			leafNodes.remove(leaf);
-			if ((leaf.selectNodes("descendant-or-self::*/@*").size() == 0) &&
-					(leaf.getText().length() == 0)) {
+			if (leaf.selectNodes("descendant-or-self::*/@*").size() == 0 &&
+                    leaf.getText().length() == 0) {
 				Node parent = leaf.getParent();
 				if (parent != null) {
 					leaf.detach();
@@ -256,11 +256,7 @@ public class JavancoXMLElement implements Serializable {
 				}
 			}
 		}
-		if ((backedElement.elements().size() == 0) && (backedElement.attributes().size() == 0)) {
-			return true;
-		} else {
-			return false;
-		}
+        return backedElement.elements().size() == 0 && backedElement.attributes().size() == 0;
 	}
 
 	/*	private void triggerElementModifiedEvent() {

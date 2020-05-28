@@ -23,7 +23,7 @@ public class Convolution {
 		this.funcs = funcs ;
 		this.ts = ts ;
 		M = (int) (Math.log(tPeriod/ts)/Math.log(2) + 1) ;
-		N = (int) (Math.pow(2, M)) ;
+		N = (int) Math.pow(2, M);
 		this.fs = 1.0/ts ;
 		this.df = fs/N ;
 	}

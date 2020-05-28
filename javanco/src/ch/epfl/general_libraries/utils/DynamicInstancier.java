@@ -18,7 +18,7 @@ public class DynamicInstancier<T> {
 
 	public T getInstance() {
 		try {
-			T new_ = class_.getConstructor(new Class[]{}).newInstance(new Object[]{});
+			T new_ = class_.getConstructor(new Class[]{}).newInstance();
 			return new_;
 		}
 		catch (NoSuchMethodException e) {
@@ -161,11 +161,8 @@ public class DynamicInstancier<T> {
 		if (c.equals(Short.TYPE) && c2.equals(Short.class)) {
 			return true;
 		}
-		if (c.equals(Boolean.TYPE) && c2.equals(Boolean.class)) {
-			return true;
-		}
-		return false;
-	}
+        return c.equals(Boolean.TYPE) && c2.equals(Boolean.class);
+    }
 
 
 }

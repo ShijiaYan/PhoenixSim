@@ -2,7 +2,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.mux;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
 import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
 import edu.columbia.lrl.CrossLayer.physical_models.devices.AbstractDeviceModel;

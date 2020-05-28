@@ -40,14 +40,11 @@ public class ResonanceLock {
 		StraightWg wg = new StraightWg(inputLambda, wgProp, 10, false, null, false, null) ; // length does not matter. We need only neff. (We can also use the Mode solver for the strip Wg...)
 		final double neff = wg.getEffectiveIndex() ;
 
-		RealRootDerivFunction func = new RealRootDerivFunction() {
-			@Override
-			public double[] function(double x) {
-				double F = 1 - Math.cos(2*Math.PI/(lockedLambdaNm*1e-9) * neff * 2*Math.PI* (radiusMicron*1e-6) + x) ;
-				double dF = Math.sin(2*Math.PI/(lockedLambdaNm*1e-9) * neff * 2*Math.PI* (radiusMicron*1e-6) + x) ;
-				return new double[] {F, dF};
-			}
-		};
+		RealRootDerivFunction func = x -> {
+            double F = 1 - Math.cos(2*Math.PI/(lockedLambdaNm*1e-9) * neff * 2*Math.PI* (radiusMicron*1e-6) + x) ;
+            double dF = Math.sin(2*Math.PI/(lockedLambdaNm*1e-9) * neff * 2*Math.PI* (radiusMicron*1e-6) + x) ;
+            return new double[] {F, dF};
+        };
 		RealRoot root = new RealRoot() ;
 		double phaseShiftRadian = root.newtonRaphson(func, Math.PI);
 		return phaseShiftRadian ;
@@ -55,7 +52,7 @@ public class ResonanceLock {
 
 	private double findLockPhaseShiftDegree(){
 		double phaseRadian = findLockPhaseShiftRadian() ;
-		double phaseDegree = 180/(Math.PI) * phaseRadian ;
+		double phaseDegree = 180/ Math.PI * phaseRadian ;
 		return phaseDegree ;
 	}
 

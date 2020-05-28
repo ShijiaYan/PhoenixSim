@@ -48,7 +48,7 @@ public class AddClientsAndGetDistances extends JavancoTool implements ActionList
 	public void run(AbstractGraphHandler agh, Frame f) {
 		this.agh = agh;
 		this.callingFrame = f;
-		previousNodes = new ArrayList<Integer>();
+		previousNodes = new ArrayList<>();
 		for (NodeContainer n : agh.getNodeContainers()) {
 			previousNodes.add(n.getIndex());
 		}
@@ -120,19 +120,19 @@ public class AddClientsAndGetDistances extends JavancoTool implements ActionList
 			int index = 0;
 		//	int[] positions = TypeParser.parseIntArray(AskQuestion.askString("sequence"));
 			int[] positions = TypeParser.parseIntArray("0:" + (numNodesBase-1));
-			for (int i = 0 ; i < positions.length ; i++) {
-				NodeContainer nc = agh.getNodeContainer(positions[i]);
-				nc.setX((int)(Math.cos(angle1*index)*ray1));
-				nc.setY((int)(Math.sin(angle1*index)*ray1));
-				nc.attribute("node_color").setValue("#ffcccc");
-			//	nc.attribute("node_size").setValue(40);				
-				index++;
-			}
+            for (int position : positions) {
+                NodeContainer nc = agh.getNodeContainer(position);
+                nc.setX((int) (Math.cos(angle1 * index) * ray1));
+                nc.setY((int) (Math.sin(angle1 * index) * ray1));
+                nc.attribute("node_color").setValue("#ffcccc");
+                //	nc.attribute("node_size").setValue(40);
+                index++;
+            }
 			index = 0;
 			for (int i = 0 ; i < numNodesBase ; i++) {
 				for (int j = 0 ; j < clientPerNode ; j++) {
-					double x = Math.cos(startAngle2 + (angle2*index))*ray2;
-					double y = Math.sin(startAngle2 + (angle2*index))*ray2;
+					double x = Math.cos(startAngle2 + angle2*index)*ray2;
+					double y = Math.sin(startAngle2 + angle2*index)*ray2;
 					NodeContainer nn = agh.newNode((int)x, (int)y);
 					nn.attribute("node_color").setValue("220,100,200");
 			//		nn.attribute("node_size").setValue(30);

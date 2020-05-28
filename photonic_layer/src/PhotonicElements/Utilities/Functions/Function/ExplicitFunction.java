@@ -99,12 +99,7 @@ public class ExplicitFunction {
 	}
 	
 	public double integrate(double x_from, double x_to){
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double t) {
-				return getFuncAt(t);
-			}
-		} ;
+		IntegralFunction func = t -> getFuncAt(t);
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, x_from, x_to) ;
 		return integral.getIntegral() ;
 	}

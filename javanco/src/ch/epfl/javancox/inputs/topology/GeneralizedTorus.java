@@ -62,7 +62,7 @@ public class GeneralizedTorus extends AbstractDeterministicGenerator {
 	
 	@ConstructorDef(def = "Build the ith least irregular version of a n dimensionnal torus, if it creates less than maxnode")
 	public GeneralizedTorus(int topologyIndex, short dimensions, int maxNode) {	
-		int minWidth = (topologyIndex/dimensions) + 1;
+		int minWidth = topologyIndex/dimensions + 1;
 		width = new int[dimensions];
 		this.dimensions = dimensions;
 		Arrays.fill(width, minWidth);
@@ -125,12 +125,11 @@ public class GeneralizedTorus extends AbstractDeterministicGenerator {
 				}
 			}
 			int offset = existingNb * (j+1);
-			for (int i = 0 ; i < existingLinks.size(); i++) {
-				LinkContainer lc = existingLinks.get(i);
-				LinkContainer lcnew = agh.newLink(lc.getStartNodeIndex() + offset, lc.getEndNodeIndex() + offset);
-				if (colors)
-					lcnew.attribute("link_color").setValue(lc.attribute("link_color").getValue());
-			}
+            for (LinkContainer lc : existingLinks) {
+                LinkContainer lcnew = agh.newLink(lc.getStartNodeIndex() + offset, lc.getEndNodeIndex() + offset);
+                if (colors)
+                    lcnew.attribute("link_color").setValue(lc.attribute("link_color").getValue());
+            }
 		}
 		
 	}

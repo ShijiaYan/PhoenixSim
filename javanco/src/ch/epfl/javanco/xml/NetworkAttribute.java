@@ -127,7 +127,7 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 	}
 
 	public boolean isLinked() {
-		return (!(getLinkedElement() == null));
+		return !(getLinkedElement() == null);
 	}
 
 	public boolean isLinkedTo(String s) {
@@ -143,7 +143,7 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 	}
 
 	public List<String> getLinkKeywords() {
-		ArrayList<String> links = new ArrayList<String>();
+		ArrayList<String> links = new ArrayList<>();
 		if (linkedElements == null) {
 			return links;
 		}
@@ -154,7 +154,7 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 	}
 
 	public boolean isFloating() {
-		return ((!isLinked()) && (!(keyword.isCore())));
+		return !isLinked() && !keyword.isCore();
 	}
 
 	private void setValueInternal(String s, EventObject e) {
@@ -172,17 +172,17 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 	}
 
 	private void analyseChange(String previous, String new_, EventObject e) {
-		if ((previous != null) && (new_ != null)) {
+		if (previous != null && new_ != null) {
 			if (!previous.equals(new_)) {
 				notifyChange(e);
 				return;
 			}
 		}
-		if ((previous == null) && (new_ != null)) {
+		if (previous == null && new_ != null) {
 			notifyChange(e);
 			return;
 		}
-		if ((previous != null) && (new_ == null)) {
+		if (previous != null && new_ == null) {
 			notifyChange(e);
 			return;
 		}
@@ -342,15 +342,15 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 	}
 
 	public boolean textEquals(NetworkAttribute other) {
-		return ((other.value.equals(this.value)) && (other.keyword.equals(this.keyword)));
+		return other.value.equals(this.value) && other.keyword.equals(this.keyword);
 	}
 
 
 	public void addLinkedElement(JavancoXMLElement parent) {
 		if (linkedElements == null) {
-			linkedElements = new ArrayList<JavancoXMLElement>(1);
+			linkedElements = new ArrayList<>(1);
 		}
-		if ((linkedElements.size() < 1) || (keyword.isCore())) {
+		if (linkedElements.size() < 1 || keyword.isCore()) {
 			linkedElements.add(parent);
 		} else {
 			throw new org.dom4j.IllegalAddException(parent.getBackedElement(), this, " Attribute is not core and has already been linked");
@@ -401,9 +401,7 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 
 	public boolean hasParent() {
 		if (linkedElements != null) {
-			if (linkedElements.size() > 0) {
-				return true;
-			}
+            return linkedElements.size() > 0;
 		}
 		return false;
 	}
@@ -419,7 +417,7 @@ public class NetworkAttribute extends DefaultAttribute implements Serializable {
 		}
 		catch (NumberFormatException e) {}
 		try {
-			return (int)(Double.parseDouble(super.getValue()));
+			return (int) Double.parseDouble(super.getValue());
 		}
 		catch (NumberFormatException e) {}
 		return -1;

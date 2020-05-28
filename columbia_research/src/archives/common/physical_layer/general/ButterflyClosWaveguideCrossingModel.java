@@ -15,7 +15,7 @@ public class ButterflyClosWaveguideCrossingModel extends AbstractWaveguideCrossi
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		return map;
 	}
 

@@ -40,25 +40,22 @@ public class ClassLister<T> {
 			if (targetClass.isInterface()) {
 				interface_ = true;
 			}
-			result = new HashSet<Class<T>>();
-			ClasspathClassesEnumerator.enumerateClasses(new ClasspathClassesEnumerator.Processor() {
-				@SuppressWarnings("unchecked")
-				public void process(String className) {
-					try {				
-						if (interface_) {
-							if (implementsInterface(className, model)) {
-								result.add((Class<T>) Class.forName(className));
-							}
-						} else {
-							if (implementsClass(className, model)) {
-								result.add((Class<T>) Class.forName(className));
-							}
-						}
-					} catch (Throwable t) {
-						throw new IllegalStateException(t);
-					}	
-				}
-			}, prefixes);			
+			result = new HashSet<>();
+			ClasspathClassesEnumerator.enumerateClasses(className -> {
+                try {
+                    if (interface_) {
+                        if (implementsInterface(className, model)) {
+                            result.add((Class<T>) Class.forName(className));
+                        }
+                    } else {
+                        if (implementsClass(className, model)) {
+                            result.add((Class<T>) Class.forName(className));
+                        }
+                    }
+                } catch (Throwable t) {
+                    throw new IllegalStateException(t);
+                }
+            }, prefixes);
 			
 			
 		} catch (Exception e) {
@@ -71,24 +68,15 @@ public class ClassLister<T> {
 	}
 	
 	public Collection<Class<T>> getSortedClasses() {
-		ArrayList<Class<T>> al = new ArrayList<Class<T>>(result);
-		Collections.sort(al, new Comparator<Class>() {
-
-			@Override
-			public int compare(Class o1, Class o2) {
-				return o1.getSimpleName().compareTo(o2.getSimpleName());
-			}
-			
-		});
+		ArrayList<Class<T>> al = new ArrayList<>(result);
+		Collections.sort(al, (Comparator<Class>) (o1, o2) -> o1.getSimpleName().compareTo(o2.getSimpleName()));
 		return al;
 	}
 
 	private boolean implementsInterface(String className, JavaClass model) throws Exception {
 		JavaClass jv = Repository.lookupClass(className);
 		if (jv.isAbstract() == false) {
-			if (Repository.implementationOf(className, model)) {
-				return true;
-			}
+            return Repository.implementationOf(className, model);
 		}
 		return false;
 	}
@@ -96,9 +84,7 @@ public class ClassLister<T> {
 	private boolean implementsClass(String className, JavaClass model) throws Exception {
 		JavaClass jv = Repository.lookupClass(className);
 		if (jv.isAbstract() == false) {
-			if (Repository.instanceOf(className, model)) {
-				return true;
-			}
+            return Repository.instanceOf(className, model);
 		}
 		return false;
 	}

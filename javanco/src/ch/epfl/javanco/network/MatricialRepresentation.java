@@ -16,9 +16,9 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 	@Override
 	protected List<NodeContainer> getAllNodeContainers() {
 		if (nodes == null) {
-			return new Vector<NodeContainer>(0);
+			return new Vector<>(0);
 		}
-		Vector<NodeContainer> c = new Vector<NodeContainer>();
+		Vector<NodeContainer> c = new Vector<>();
 		for (NodeContainer nodeContainer : nodes) {
 			if (nodeContainer != null) {
 				c.add(nodeContainer);
@@ -29,9 +29,9 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 
 	protected List<Node> getAllNodes(){
 		if (nodes == null) {
-			return new Vector<Node>(0);
+			return new Vector<>(0);
 		}
-		Vector<Node> c = new Vector<Node>();
+		Vector<Node> c = new Vector<>();
 		for (NodeContainer nodeContainer : nodes) {
 			if (nodeContainer != null) {
 				c.add(nodeContainer.getNode());
@@ -43,9 +43,9 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 	@Override
 	protected List<LinkContainer> getAllLinkContainers(){
 		if (incidenceMatrix == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
-		Vector<LinkContainer> c = new Vector<LinkContainer>();
+		Vector<LinkContainer> c = new Vector<>();
 		for (Vector<Vector<LinkContainer>> v : incidenceMatrix) {
 			if (v != null) {
 				for (Vector<LinkContainer> v2 : v) {
@@ -61,15 +61,15 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 	@Override
 	protected List<LinkContainer> getOutgoingLinks(int start) {
 		if (incidenceMatrix == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
 		if (incidenceMatrix.size() <= start) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
 		if (incidenceMatrix.get(start) == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
-		Vector<LinkContainer> c = new Vector<LinkContainer>();
+		Vector<LinkContainer> c = new Vector<>();
 		for (Vector<LinkContainer> cell : incidenceMatrix.get(start)) {
 			if (cell != null) {
 				c.addAll(cell);
@@ -81,9 +81,9 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 	@Override
 	protected List<LinkContainer> getIncomingLinks(int end) {
 		if (incidenceMatrix == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
-		Vector<LinkContainer> c = new Vector<LinkContainer>();
+		Vector<LinkContainer> c = new Vector<>();
 		for (Vector<Vector<LinkContainer>> column : incidenceMatrix) {
 			if (column != null) {
 				if (column.size() > end) {
@@ -100,22 +100,22 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 	@Override
 	protected Collection<LinkContainer>	getLinkContainers(int start, int end){
 		if (incidenceMatrix == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
 		if (incidenceMatrix.size() <= start) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
 		if (incidenceMatrix.elementAt(start) == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
 		Vector<Vector<LinkContainer>> column = incidenceMatrix.elementAt(start);
 		if (column.size() <= end) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
 		if (column.elementAt(end) == null) {
-			return new Vector<LinkContainer>(0);
+			return new Vector<>(0);
 		}
-		Vector<LinkContainer> c = new Vector<LinkContainer>();
+		Vector<LinkContainer> c = new Vector<>();
 		for (LinkContainer container : column.elementAt(end)) {
 			c.add(container);
 		}
@@ -130,7 +130,7 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 				throw new IllegalStateException("Trying to add a node without index, index must be choosen first");
 			}
 			if (nodes == null) {
-				nodes = new Vector<NodeContainer>();
+				nodes = new Vector<>();
 			}
 			if (nodes.size() <= index) {
 				nodes.setSize(index + 1);
@@ -149,13 +149,13 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 		int end   = linkContainer.getEndNodeIndex();
 
 		if (incidenceMatrix == null) {
-			incidenceMatrix = new Vector<Vector<Vector<LinkContainer>>>();
+			incidenceMatrix = new Vector<>();
 		}
 		if (incidenceMatrix.size() <= start) {
 			incidenceMatrix.setSize(start + 1);
 		}
 		if (incidenceMatrix.elementAt(start) == null) {
-			incidenceMatrix.setElementAt(new Vector<Vector<LinkContainer>>(end +1), start);
+			incidenceMatrix.setElementAt(new Vector<>(end + 1), start);
 		}
 
 		Vector<Vector<LinkContainer>> startColumn = incidenceMatrix.elementAt(start);
@@ -165,7 +165,7 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 		}
 
 		if (startColumn.elementAt(end) == null) {
-			startColumn.set(end, new Vector<LinkContainer>(1));
+			startColumn.set(end, new Vector<>(1));
 		}
 
 		Vector<LinkContainer> cell = startColumn.elementAt(end);
@@ -182,7 +182,7 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 		} else if (el instanceof LinkContainer) {
 			return removeLink((LinkContainer)el);
 		} else {
-			assert(1 == 0) : "type of element not recognized";
+			assert 1 == 0 : "type of element not recognized";
 			return null;
 		}
 	}
@@ -236,7 +236,7 @@ class MatricialRepresentation extends AbstractLayerRepresentation {
 		int start = linkContainer.getStartNodeIndex();
 		int end   = linkContainer.getEndNodeIndex();
 		boolean result = incidenceMatrix.get(start).get(end).remove(linkContainer);
-		assert (result) : "removing not existing link";
+		assert result : "removing not existing link";
 		return linkContainer;
 	}
 

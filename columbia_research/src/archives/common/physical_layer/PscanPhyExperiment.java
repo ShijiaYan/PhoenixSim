@@ -48,7 +48,7 @@ public class PscanPhyExperiment implements Experiment {
 	}
 
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Loss per cm in dB", lossPerCMInDB + "");
 		map.put("Single coupler loss in dB", singleCouplerLoss + "");
 		map.put("Jitter power penalty in dB", jitterPP + "");
@@ -135,7 +135,7 @@ public class PscanPhyExperiment implements Experiment {
 						max = sites - 1;
 					else
 						max = Math.min(sites - 1, max);
-					sites = min + ((max - min) / 2);
+					sites = min + (max - min) / 2;
 				}
 			}
 			if (!gloco.isSiteFixed()) {
@@ -181,7 +181,7 @@ public class PscanPhyExperiment implements Experiment {
 						+ photoDiodeSensitivity;
 				double loss_dB = result.getSumOfPowers();
 				double total_powDS = Math.pow(10, total_power_reqDS / 10);
-				feasible = (total_powDS < powerThreshold);
+				feasible = total_powDS < powerThreshold;
 
 				glo.addProperty("feasible", feasible + "");
 				if (store && !Double.isInfinite(total_powDS)) {
@@ -191,13 +191,13 @@ public class PscanPhyExperiment implements Experiment {
 					
 					dp.addResultProperty(
 							"Required power for iSCA Switches tuning (W)",
-							(double) getPowerFromSwitchTuningDS() / 1000);
+							getPowerFromSwitchTuningDS() / 1000);
 					dp.addResultProperty(
 							"Required power for iSCA Modulators tuning (W)",
-							(double) getPowerFromModsTuningDS() / 1000);
+							getPowerFromModsTuningDS() / 1000);
 					dp.addResultProperty(
 							"Required power for iSCA All Modulating (W)",
-							(double) (getPowerFromModsTuningDS() + gloco
+							(getPowerFromModsTuningDS() + gloco
 									.getModDriverPower_mW()
 									* gloco.getNumberOfWavelengths()) / 1000);
 					// There is only one receiving at a time hence the receiver
@@ -205,7 +205,7 @@ public class PscanPhyExperiment implements Experiment {
 					// with the number of cores.
 					dp.addResultProperty(
 							"Required total power iSCA (W)",
-							(double) (getLaserPowerUS(total_powDS)
+							(getLaserPowerUS(total_powDS)
 									+ getPowerFromModsTuningDS()
 									+ getPowerFromSwitchTuningDS()
 									+ gloco.getPDandReceiverCircuitry_mW()
@@ -215,7 +215,7 @@ public class PscanPhyExperiment implements Experiment {
 
 					dp.addResultProperty(
 							"Required total power without laser iSCA (W)",
-							(double) (getPowerFromModsTuningDS()
+							(getPowerFromModsTuningDS()
 									+ getPowerFromSwitchTuningDS()
 									+ gloco.getPDandReceiverCircuitry_mW()
 									* gloco.getNumberOfWavelengths() + gloco
@@ -272,7 +272,7 @@ public class PscanPhyExperiment implements Experiment {
 				// should return power in dBm
 			//	double total_power_req = result.getSumOfPowers() + photoDiodeSensitivity;
 			//	double total_pow = Math.pow(10, total_power_req / 10);
-				feasible = (total_pow < powerThreshold);
+				feasible = total_pow < powerThreshold;
 				
 
 				
@@ -289,24 +289,24 @@ public class PscanPhyExperiment implements Experiment {
 					
 					dp.addResultProperty(
 							"Required power for SCA switches tuning (W)",
-							(double) getPowerFromSwitchTuningUS() / 1000);
+							getPowerFromSwitchTuningUS() / 1000);
 					dp.addResultProperty(
 							"Required power for SCA Modulators tuning (W)",
-							(double) getPowerFromModsTuningUS() / 1000);
+							getPowerFromModsTuningUS() / 1000);
 					dp.addResultProperty(
 							"Required power for SCA All Modulating (W)",
-							(double) (getPowerFromModsTuningUS() + gloco
+							(getPowerFromModsTuningUS() + gloco
 									.getModDriverPower_mW()
 									* gloco.getNumberOfWavelengths()) / 1000);
 					dp.addResultProperty(
 							"Required power for SCA receiver circuitry (W)",
-							(double) (gloco.getPDandReceiverCircuitry_mW() * gloco
-									.getNumberOfWavelengths()) / 1000);
+							gloco.getPDandReceiverCircuitry_mW() * gloco
+									.getNumberOfWavelengths() / 1000);
 					dp.addResultProperty("Required power for SCA laser (W)",
-							(double) (getLaserPowerUS(total_pow)) / 1000);
+							getLaserPowerUS(total_pow) / 1000);
 					dp.addResultProperty(
 							"Required total power SCA (W)",
-							(double) (getLaserPowerUS(total_pow)
+							(getLaserPowerUS(total_pow)
 									+ getPowerFromModsTuningUS()
 									+ getPowerFromSwitchTuningUS()
 									+ gloco.getPDandReceiverCircuitry_mW()
@@ -315,7 +315,7 @@ public class PscanPhyExperiment implements Experiment {
 									* gloco.getNumberOfWavelengths()) / 1000);
 					dp.addResultProperty(
 							"Required total power without laser US (W)",
-							(double) (getPowerFromModsTuningUS()
+							(getPowerFromModsTuningUS()
 									+ getPowerFromSwitchTuningUS()
 									+ gloco.getPDandReceiverCircuitry_mW()
 									* gloco.getNumberOfWavelengths() + gloco
@@ -407,7 +407,7 @@ public class PscanPhyExperiment implements Experiment {
 						/ (gloco.getNumberOfWavelengths() * fsr_freq) + 1.0 / gloco
 						.getNumberOfWavelengths());
 
-		return (Mod_heater_power);
+		return Mod_heater_power;
 	}
 
 	// return the power from tuning the modulators in mJ
@@ -423,7 +423,7 @@ public class PscanPhyExperiment implements Experiment {
 						/ (gloco.getNumberOfWavelengths() * fsr_freq) + 1.0 / gloco
 						.getNumberOfWavelengths());
 
-		return (Mod_heater_power);
+		return Mod_heater_power;
 	}
 
 /*	private double getPowerFromModsTuningDSperRing() {
@@ -445,15 +445,15 @@ public class PscanPhyExperiment implements Experiment {
 
 		double fsr_freq = gloco.getChannelSpacing() / 1e9;
 
-		int count = 2 * (int) (Math.ceil((double) gloco.getNumberOfCores()
-				/ gloco.getSitesPerBranch()));
+		int count = 2 * (int) Math.ceil((double) gloco.getNumberOfCores()
+				/ gloco.getSitesPerBranch());
 		if (gloco.getSitesPerBranch() == gloco.getNumberOfCores())
 			count = 0;
 
 		double Switch_heater_power = count * gloco.getThermalPowerperFSR()
-				* (0.5 * 10 * gloco.getDeltaT() / (fsr_freq) + 0.5);
+				* (0.5 * 10 * gloco.getDeltaT() / fsr_freq + 0.5);
 
-		return (Switch_heater_power);
+		return Switch_heater_power;
 	}
 
 	private double getPowerFromSwitchTuningDS() {
@@ -461,11 +461,11 @@ public class PscanPhyExperiment implements Experiment {
 		double fsr_freq = gloco.getChannelSpacing() / 1e9;
 
 		// The downsteram is without branches a simple serpentine
-		int count = (int) Math.ceil((double) gloco.numberOfCores);
+		int count = (int) Math.ceil(gloco.numberOfCores);
 
 		double Switch_heater_power = count * gloco.getThermalPowerperFSR()
-				* (0.5 * 10 * gloco.getDeltaT() / (fsr_freq) + 0.5);
-		return (Switch_heater_power);
+				* (0.5 * 10 * gloco.getDeltaT() / fsr_freq + 0.5);
+		return Switch_heater_power;
 	}
 
 	
@@ -474,19 +474,19 @@ public class PscanPhyExperiment implements Experiment {
 
 		double fsr_freq = gloco.getChannelSpacing() / 1e9;
 
-		int count = (int) Math.ceil((double) gloco.numberOfCores);
+		int count = (int) Math.ceil(gloco.numberOfCores);
 		if (gloco.getSitesPerBranch() == gloco.getNumberOfCores())
 			count = 0;
 
 		double Switch_heater_power = gloco.getThermalPowerperFSR()
-				* (0.5 * 10 * gloco.getDeltaT() / (fsr_freq) + 0.5);
-		return (Switch_heater_power);
+				* (0.5 * 10 * gloco.getDeltaT() / fsr_freq + 0.5);
+		return Switch_heater_power;
 	}
 
 	// the total power in pico mJ
 	private double getLaserPowerUS(double total_pow) {
 
-		return (total_pow) / gloco.getMMlaserEfficiency(); // 0.4pJ/bit for the
+		return total_pow / gloco.getMMlaserEfficiency(); // 0.4pJ/bit for the
 															// detector bank and
 															// 0.1 pJ/bit for
 															// modulators driver
@@ -519,8 +519,8 @@ public class PscanPhyExperiment implements Experiment {
 		// the factor 2 comes from the clustering architechture i.e. single bus;
 		// For the dual bus it will be 1 !
 		if (gloco.getDual() == 1)
-			numberThroughUS = ((int) Math.ceil((double) gloco
-					.getNumberOfCores() / (double) gloco.getSitesPerBranch()) - 1);
+			numberThroughUS = (int) Math.ceil((double) gloco
+					.getNumberOfCores() / (double) gloco.getSitesPerBranch()) - 1;
 		else
 			numberThroughUS = 2 * ((int) Math.ceil((double) gloco
 					.getNumberOfCores() / (double) gloco.getSitesPerBranch()) - 1);
@@ -556,7 +556,7 @@ public class PscanPhyExperiment implements Experiment {
 		modDemoMod.getDemultiplexingLossAndPenalty(result);
 
 		int numberThroughDS = (int) Math
-				.ceil((double) gloco.getNumberOfCores()) - 1;
+				.ceil(gloco.getNumberOfCores()) - 1;
 
 		// 2 Drop switches for the US and 1 for the DS; the dS is a serpentine
 		int numberDropDS = 1;

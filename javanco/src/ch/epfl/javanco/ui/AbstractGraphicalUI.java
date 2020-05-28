@@ -308,7 +308,7 @@ public abstract class AbstractGraphicalUI extends AbstractUI implements Printabl
 			graphInfoSet.fullRefresh(this.handler, handler.getUIDelegate().getGraphicalDataHandler());
 			return painter.getDisplayedElementsPositions(graphInfoSet);
 		} else {
-			return new java.util.Hashtable<AbstractElementContainer, ElementCoord>();
+			return new java.util.Hashtable<>();
 		}
 	}
 
@@ -464,7 +464,7 @@ public abstract class AbstractGraphicalUI extends AbstractUI implements Printabl
 		}
 		try {
 			java.lang.reflect.Constructor<NetworkPainter> con = (Constructor<NetworkPainter>) c.getConstructor(new Class[]{});
-			NetworkPainter np = con.newInstance(new Object[]{});
+			NetworkPainter np = con.newInstance();
 			return np;
 		}
 		catch (NoSuchMethodException e) {

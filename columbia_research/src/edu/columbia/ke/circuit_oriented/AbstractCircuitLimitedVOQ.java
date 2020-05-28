@@ -130,7 +130,7 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 	@Override
 	public void addDestinations(ArrayList<Integer> destList,
 			ArrayList<LWSimComponent> dests) {
-		this.csi = new TreeMap<Integer, CircuitReuseInfo>();	
+		this.csi = new TreeMap<>();
 		this.destList.addAll(destList);
 		
 		for (int dstId: destList) {
@@ -157,23 +157,23 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 	}
 	
 	protected Set<Integer> findReplaceCandidates(int dest) {
-		Set<Integer> replaceCandidates = new TreeSet<Integer>();
+		Set<Integer> replaceCandidates = new TreeSet<>();
 	//	replaceCandidates.addAll(vacantCircuitSet);
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].isVacant) {
-				replaceCandidates.add(circuitInfos[i].destIndex);
-			}
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.isVacant) {
+                replaceCandidates.add(circuitInfo.destIndex);
+            }
+        }
 		return replaceCandidates;
 	}
 	
 	protected Set<Integer> getInCacheDest() {
-		Set<Integer> dests = new TreeSet<Integer>();		
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].isVacant) {
-				dests.add(circuitInfos[i].destIndex);
-			}
-		}
+		Set<Integer> dests = new TreeSet<>();
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.isVacant) {
+                dests.add(circuitInfo.destIndex);
+            }
+        }
 		return dests;
 	}
 	
@@ -184,42 +184,42 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 	}
 	
 	public boolean isCircuitHit(int dest){
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].isOn && circuitInfos[i].destIndex == dest) {
-				return true;
-			}
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.isOn && circuitInfo.destIndex == dest) {
+                return true;
+            }
+        }
 		return false;
 	}
 	
 	public boolean isCircuitVacant(int dest){
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].isVacant && circuitInfos[i].destIndex == dest) return true;
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.isVacant && circuitInfo.destIndex == dest) return true;
+        }
 		return false;
 	}
 	
 	public boolean isCacheFull(){
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (!circuitInfos[i].isOn) return false;
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (!circuitInfo.isOn) return false;
+        }
 		return true;		
 	}
 	
 	public boolean isCacheFullButWithVacant() {
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].isVacant) {
-				return true;
-			}
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.isVacant) {
+                return true;
+            }
+        }
 		return false;		
 	}
 	
 	public int getCacheSize() {
 		int nb = 0;
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].isOn) nb++;
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.isOn) nb++;
+        }
 		return nb;		
 	}
 	
@@ -311,7 +311,7 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 			String s = m.index + "\t" + msgDest + "\t" + handle + "\t" + now;
 			//List<Integer> inCache = new ArrayList<Integer>(this.inCacheCircuitSet);
 			//List<Integer> vacant = new ArrayList<Integer>(this.vacantCircuitSet);
-			List<Integer> vacant = new ArrayList<Integer>();
+			List<Integer> vacant = new ArrayList<>();
 			for (int i = 0 ; i < circuitInfos.length ; i++) {
 				if (circuitInfos[i].isVacant) vacant.add(i);
 			}			
@@ -325,19 +325,19 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 	}
 	
 	protected void addInCacheSet(int dest, double time){
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (!circuitInfos[i].isOn) {
-				circuitInfos[i].cacheStartTime = time;
-				circuitInfos[i].destIndex= dest;
-				circuitInfos[i].isVacant = false;
-				circuitInfos[i].isOn = true;
-				break;
-			}
-		}
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (!circuitInfo.isOn) {
+                circuitInfo.cacheStartTime = time;
+                circuitInfo.destIndex = dest;
+                circuitInfo.isVacant = false;
+                circuitInfo.isOn = true;
+                break;
+            }
+        }
 	}
 	
 	public boolean bufReportVacantAfterBusy(int dest, double time){
-		boolean keepVacant = (this.maxVacantTime < 0 || csi.get(dest).predictTimeReuseDistance() <= maxVacantTime);
+		boolean keepVacant = this.maxVacantTime < 0 || csi.get(dest).predictTimeReuseDistance() <= maxVacantTime;
 		if (keepVacant) {
 			addInVacantSet(dest, time);
 		}
@@ -358,14 +358,14 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 	}
 
 	protected void addInVacantSet(int dest, double time){
-		
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].destIndex == dest) {
-				circuitInfos[i].isVacant = true;
-				circuitInfos[i].vacantStartTime = time;
-				break;
-			}
-		}
+
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.destIndex == dest) {
+                circuitInfo.isVacant = true;
+                circuitInfo.vacantStartTime = time;
+                break;
+            }
+        }
 		
 		if (microLog && index == trackingNode) {
 			lwSimExperiment.logThread(dest + "\t" + "Vacant" + "\t" + time, voqName);
@@ -374,14 +374,14 @@ public abstract class AbstractCircuitLimitedVOQ extends AbstractVOQ {
 	}
 	
 	protected void removeFromVacantSet(int dest, double time){
-		for (int i = 0 ; i < circuitInfos.length ; i++) {
-			if (circuitInfos[i].destIndex == dest && circuitInfos[i].isVacant) {
-				circuitInfos[i].isVacant = false;
-				lwSimExperiment.logVacantTimeSpan(time - circuitInfos[i].vacantStartTime);	
-				circuitInfos[i].vacantStartTime = -1;
-				break;
-			}
-		}	
+        for (CircuitInfo circuitInfo : circuitInfos) {
+            if (circuitInfo.destIndex == dest && circuitInfo.isVacant) {
+                circuitInfo.isVacant = false;
+                lwSimExperiment.logVacantTimeSpan(time - circuitInfo.vacantStartTime);
+                circuitInfo.vacantStartTime = -1;
+                break;
+            }
+        }
 	}
 	
 	protected void removeFromCacheSet(int dest, double time){

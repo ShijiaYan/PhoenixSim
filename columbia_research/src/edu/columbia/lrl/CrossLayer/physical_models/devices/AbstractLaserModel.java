@@ -16,9 +16,6 @@ public abstract class AbstractLaserModel {
 		return false;
 	}
 
-	/*
-	 * This is used in the case that a fixed power output laser is used
-	 */
 	public double getEmittedPowerdBm() {
 		// TODO Auto-generated method stub
 		return 0;

@@ -17,8 +17,8 @@ public class TDMSpinnetBuffer extends SpinnetBuffer {
 	protected double slotDuration;
 	protected int slotNumber;
 
-	protected Vector<Integer> slotForDestinations = new Vector<Integer>();
-	protected Vector<Integer> destinationForSlot = new Vector<Integer>();
+	protected Vector<Integer> slotForDestinations = new Vector<>();
+	protected Vector<Integer> destinationForSlot = new Vector<>();
 	protected double[] horizons;
 
 	public TDMSpinnetBuffer(int maxSize, double bufferLatency,
@@ -92,7 +92,7 @@ public class TDMSpinnetBuffer extends SpinnetBuffer {
 
 		double horizonRespectToSlot = horizonRespectToPeriod - getSlotOffset(destination);
 		
-		packetDuration = lwSimExperiment.getReferenceBandwidth().getTime(e.getMessage().sizeInBits).getNanoseconds()+(builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS);
+		packetDuration = lwSimExperiment.getReferenceBandwidth().getTime(e.getMessage().sizeInBits).getNanoseconds()+ builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS;
 		
 		double departure;
 		if (horizonRespectToSlot + packetDuration <= slotDuration) {
@@ -100,11 +100,11 @@ public class TDMSpinnetBuffer extends SpinnetBuffer {
 			if (horizonRespectToSlot >= 0) {
 				departure = horizonForDest;
 			} else {
-				departure = ((numberOfPeriods)*tdmPeriod) + getSlotOffset(destination);
+				departure = numberOfPeriods *tdmPeriod + getSlotOffset(destination);
 			}
 		} else {
 			// schedule in next slot
-			departure = ((1+numberOfPeriods)*tdmPeriod) + getSlotOffset(destination);	
+			departure = (1+numberOfPeriods)*tdmPeriod + getSlotOffset(destination);
 		}
 		
 		Evt next = new Evt(departure, this, nextDest, e);
@@ -121,7 +121,7 @@ public class TDMSpinnetBuffer extends SpinnetBuffer {
 	//	System.out.println(index + " sending to " + e.getMessage().dest + " at time " + departure + "    new horizon : " + horizons[destination]);		
 		
 		if (lwSimExperiment.isWithTimeLine())			
-			timeline.addJobPhase(departure, departure + packetDuration, TimeLine.EnumType.OK, "m:" + e.getMessage().index + "\n" + ((int)e.getTimeNS()) + "\nslot" + slotForDestinations.get(e.getMessage().dest));
+			timeline.addJobPhase(departure, departure + packetDuration, TimeLine.EnumType.OK, "m:" + e.getMessage().index + "\n" + (int)e.getTimeNS() + "\nslot" + slotForDestinations.get(e.getMessage().dest));
 		//	timeline.addJobPhase(departure, departure + packetDuration, 0, "m:" + e.getMessage().index  + "\r\n->" + e.getMessage().dest);
 		
 	}

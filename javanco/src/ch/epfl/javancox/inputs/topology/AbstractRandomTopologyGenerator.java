@@ -72,7 +72,7 @@ public abstract class AbstractRandomTopologyGenerator extends AbstractTopologyGe
 	protected void selectLargestComponentOnly(AbstractGraphHandler agh) {
 		ComponentCounter cc = new ComponentCounter(agh, agh.getEditedLayer().getName());
 		if (cc.getNumberOfComponents() > 1) {
-			ArrayList<NodeContainer> toRem = new ArrayList<NodeContainer>();
+			ArrayList<NodeContainer> toRem = new ArrayList<>();
 			for (Set<NodeContainer> minor : cc.getMinorComponents()) {
 				for (NodeContainer nc : minor) {
 					toRem.add(nc);

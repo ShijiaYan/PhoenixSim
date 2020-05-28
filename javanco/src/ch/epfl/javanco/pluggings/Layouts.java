@@ -19,9 +19,9 @@ public class Layouts extends JavancoToolWithObjectChoose {
 	@SuppressWarnings("unchecked")	
 	public void run(final AbstractGraphHandler agh, final Frame f) {
 		if (!init) {
-			ClassLister<AbstractTopologyLayout> cl = 
-				new ClassLister<AbstractTopologyLayout>(
-						Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), AbstractTopologyLayout.class);
+			ClassLister<AbstractTopologyLayout> cl =
+                    new ClassLister<>(
+                            Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), AbstractTopologyLayout.class);
 			clList = cl.getSortedClasses();	
 			init = true;		
 		}

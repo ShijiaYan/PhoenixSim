@@ -50,7 +50,7 @@ public class OversubscribedFattreeGenerator extends AbstractDeterministicGenerat
 		
 		int clusterL1 = (int)fattreecalc.getEPPerRouteratLevel(0);
 		for (int i = 0 ; i < endpoints ; i++) {
-			agh.newLink(i, offsets[0] + (i/clusterL1));
+			agh.newLink(i, offsets[0] + i/clusterL1);
 		}
 		
 		for (int i = 0 ; i < levels-1 ; i++) {
@@ -61,10 +61,10 @@ public class OversubscribedFattreeGenerator extends AbstractDeterministicGenerat
 				for (int u = 0 ; u < up ; u++) {
 					int idInGroup;
 					if (i == levels - 2) {
-						idInGroup = ((k*up) + u) % nb2;
+						idInGroup = (k*up + u) % nb2;
 					} else {
 						int down = (int) (radix*overSubs[i+2]/(overSubs[i+2]+1));
-						idInGroup = (k/down)*up + u;
+						idInGroup = (k/down) *up + u;
 					}
 					
 					agh.newLink(offsets[i]+k, offsets[i+1] + idInGroup);

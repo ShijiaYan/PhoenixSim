@@ -26,11 +26,11 @@ public class DefaultTransmitter extends Transmitter {
 		this.index = index;
 		
 		//Use virtual output queues
-		buffers = new TreeMap<Integer, CircuitRequestBuffer<Message>>();		
+		buffers = new TreeMap<>();
 		
 		//Use virtual output queues
 		for( int dest : destinations ) {
-			buffers.put(dest, new CircuitRequestBuffer<Message>(10000));	
+			buffers.put(dest, new CircuitRequestBuffer<>(10000));
 		}	
 	}
 	

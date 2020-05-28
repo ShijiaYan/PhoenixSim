@@ -23,26 +23,23 @@ public class ClassRepository {
 	}
 	
 	public ClassRepository(String[] prefixes) {
-		cache = new HashSet<JavaClass>();
-		ClasspathClassesEnumerator.Processor p = new ClasspathClassesEnumerator.Processor() {
-			@Override
-			public void process(String className) throws Exception {
-				try {
-					JavaClass cl = Repository.lookupClass(className);
-					cache.add(cl);
-				} catch (Exception e) {
-					System.out.println("Class name is : " + className);
-					throw e;
-				}
-			}	
-		};	
+		cache = new HashSet<>();
+		ClasspathClassesEnumerator.Processor p = className -> {
+			try {
+				JavaClass cl = Repository.lookupClass(className);
+				cache.add(cl);
+			} catch (Exception e) {
+				System.out.println("Class name is : " + className);
+				throw e;
+			}
+		};
 		ClasspathClassesEnumerator.enumerateClasses(p, prefixes);		
 	}
 
 	public Collection<Class<?>> getClasses(Class<?> mod) throws Exception {
 		logger.debug("Getting classes of model " + mod);
 		JavaClass model = Repository.lookupClass(mod);
-		ArrayList<Class<?>> list = new ArrayList<Class<?>>();
+		ArrayList<Class<?>> list = new ArrayList<>();
 		if (mod.isInterface()) {
 			for (JavaClass c : cache) {
 				//System.out.print(".");
@@ -57,9 +54,9 @@ public class ClassRepository {
 					continue;
 				}
 				if (flag) {
-					if (c.isAbstract() == false) {
+					if (!c.isAbstract()) {
 						logger.debug("Found class " + c.getClassName());						
-						list.add((Class<?>)Class.forName(c.getClassName()));
+						list.add(Class.forName(c.getClassName()));
 					}
 				} else {
 					for (JavaClass superClass : c.getSuperClasses()) {
@@ -71,8 +68,8 @@ public class ClassRepository {
 							continue;
 						}
 						if (flag) {
-							if (c.isAbstract() == false) {
-								list.add((Class<?>)Class.forName(c.getClassName()));
+							if (!c.isAbstract()) {
+								list.add(Class.forName(c.getClassName()));
 								break;
 							}
 						}
@@ -84,8 +81,8 @@ public class ClassRepository {
 				JavaClass c = ite.next();
 				try {
 					if (Repository.instanceOf(c, model)) {
-						if (c.isAbstract() == false) {
-							list.add((Class<?>)Class.forName(c.getClassName()));
+						if (!c.isAbstract()) {
+							list.add(Class.forName(c.getClassName()));
 						}
 					}
 				}

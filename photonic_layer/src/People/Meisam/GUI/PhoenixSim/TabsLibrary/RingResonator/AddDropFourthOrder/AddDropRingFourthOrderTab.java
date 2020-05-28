@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class AddDropRingFourthOrderTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/RingResonator/AddDropFourthOrder/add_drop_ring_fourth_order.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/RingResonator/AddDropFourthOrder/add_drop_ring_fourth_order.fxml")) ;
 	AddDropRingFourthOrderTabController controller ;
 
 	public AddDropRingFourthOrderTab(SimulationDataBase simDataBase){

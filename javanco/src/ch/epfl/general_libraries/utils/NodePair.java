@@ -61,13 +61,13 @@ public class NodePair implements Comparable<NodePair> {
 	}
 
 	public boolean equals(NodePair p) {
-		return (p.startNode == this.startNode) && (p.endNode == this.endNode);
+		return p.startNode == this.startNode && p.endNode == this.endNode;
 	}
 
 	public boolean equals(NodePair p, boolean directed) {
 		if (directed) {
 			return equals(p);
 		}
-		return equals(p) || ((p.startNode == this.endNode) && (p.endNode == this.startNode));
+		return equals(p) || p.startNode == this.endNode && p.endNode == this.startNode;
 	}
 }

@@ -2,8 +2,8 @@ package edu.columbia.lrl.CrossLayer.physical_models.util;
 
 public class RingResonance {
 
-	double resonance[];
-	double frequencies[];
+	double[] resonance;
+	double[] frequencies;
 	
 	public RingResonance(double centerFrequency, double fsr, double q) {
 		
@@ -17,7 +17,7 @@ public class RingResonance {
 		frequencies = new double[indexes];		
 		
 		for (int i = 0 ; i < indexes ; i++) {
-			frequencies[i] = centerFrequency + (i*dv/10);
+			frequencies[i] = centerFrequency + i*dv/10;
 			resonance[i] = getResonance(centerFrequency, fsr, q, frequencies[i]);
 		}
 		
@@ -70,7 +70,7 @@ public class RingResonance {
 		return frequencies;
 	}
 	public double[] getFrequenciesGHz() {
-		double frequenciesGHz[] = new double[frequencies.length];
+		double[] frequenciesGHz = new double[frequencies.length];
 		int index = 0;
 		for( double d : frequencies ) {
 			frequenciesGHz[index++] = d/1e9;

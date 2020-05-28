@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class HPERingsSymTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/Symmetric/hpe_ring_wg_symmetric.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/Symmetric/hpe_ring_wg_symmetric.fxml")) ; ;
 	HPERingsSymTabController controller ;
 
 	public HPERingsSymTab(SimulationDataBase simDataBase){

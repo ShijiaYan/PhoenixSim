@@ -21,7 +21,7 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 
 	private static final long serialVersionUID = 8955752123757035134L;
 
-	protected transient static final HashMap<ConstructorNodeChooserPointer, ConstructorChooseNode> map = new HashMap<ConstructorNodeChooserPointer, ConstructorChooseNode>();
+	protected transient static final HashMap<ConstructorNodeChooserPointer, ConstructorChooseNode> map = new HashMap<>();
 
 //	private transient boolean choosen;
 	protected transient boolean configured;
@@ -31,10 +31,10 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 
 	public static final boolean classAsAttInXml = true;
 	
-	protected ObjectConstuctionTreeModel containingTreeModel;	
+	protected ObjectConstructionTreeModel containingTreeModel;
 
 
-	protected AbstractChooseNode(ObjectConstuctionTreeModel containingTreeModel) {
+	protected AbstractChooseNode(ObjectConstructionTreeModel containingTreeModel) {
 		this.configured = false;
 		this.containingTreeModel = containingTreeModel;
 	}
@@ -81,7 +81,7 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 	}	
 
 	protected void removeInvalids() {
-		ArrayList<AbstractChooseNode> f = new ArrayList<AbstractChooseNode>();
+		ArrayList<AbstractChooseNode> f = new ArrayList<>();
 		for (AbstractChooseNode child : this.getChilds()) {
 			if (child.isInvalid()) {
 				f.add(child);
@@ -119,11 +119,11 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 	}*/
 
 
-	public ObjectConstuctionTreeModel<?> getContainingTreeModel() {
+	public ObjectConstructionTreeModel<?> getContainingTreeModel() {
 		return this.containingTreeModel;
 	}
 
-	protected void setContainingTreeModel(ObjectConstuctionTreeModel treeModel) {
+	protected void setContainingTreeModel(ObjectConstructionTreeModel treeModel) {
 		this.containingTreeModel = treeModel;
 		if (this.getChildCount() > 0) {
 			for (Object child : this.children) {
@@ -134,7 +134,7 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 
 	public String toLongString() {
 		StringBuilder sb = new StringBuilder();
-		ArrayList<TreeNode> al = new ArrayList<TreeNode>();
+		ArrayList<TreeNode> al = new ArrayList<>();
 		TreeNode pointer = this;
 		while (pointer != null) {
 			al.add(pointer);
@@ -167,13 +167,13 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 
 	private List<AbstractChooseNode> getChildsRestore() {
 		if (this.childsRestore == null) {
-			this.childsRestore = new ArrayList<AbstractChooseNode>();
+			this.childsRestore = new ArrayList<>();
 		}
 		return this.childsRestore;
 	}	
 
 	protected List<AbstractChooseNode> getChilds() {
-		List<AbstractChooseNode> ret = new LinkedList<AbstractChooseNode>();
+		List<AbstractChooseNode> ret = new LinkedList<>();
 		if (this.getChildCount() > 0) {
 			for (Object child : this.children) {
 				ret.add((AbstractChooseNode) child);
@@ -202,7 +202,7 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 	}
 
 	public static Map<String, String> parseAnnotations(Annotation[] annotations) {
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, String> ret = new HashMap<>();
 		for (Annotation a : annotations) {
 			if (a instanceof ConstructorDef) {
 				ret.put("Constructor_def.def", ((ConstructorDef)a).def());
@@ -246,7 +246,7 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 		}
 		
 		public void addItem(ActionItem item) {
-			if (childs == null) childs = new ArrayList<ActionItem>(1);
+			if (childs == null) childs = new ArrayList<>(1);
 			childs.add(item);
 		}
 	}
@@ -298,7 +298,7 @@ public abstract class AbstractChooseNode extends DefaultMutableTreeNode implemen
 
 
 	public ArrayList<AbstractChooseNode> getAllChildren() {
-		ArrayList<AbstractChooseNode> list = new ArrayList<AbstractChooseNode>();
+		ArrayList<AbstractChooseNode> list = new ArrayList<>();
 		this.getAllChildren(list);
 		return list;
 	}

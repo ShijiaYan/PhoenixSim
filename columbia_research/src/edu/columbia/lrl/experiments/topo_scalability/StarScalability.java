@@ -12,12 +12,12 @@ public class StarScalability extends Scalability {
 			int debug = 0;
 		}*/
 		boolean toRet = false;
-		if (((getNumberOfStars()-1)*getRequiredCN() <= numberOfWavelengths) && 
+		if ((getNumberOfStars()-1)*getRequiredCN() <= numberOfWavelengths &&
 			getRequiredCN() + clientsPerStar <= numberOfWavelengths) {
 			dp.addResultProperty("Total connecting nodes", getNumberOfStars()*getRequiredCN());
 			dp.addResultProperty("Connecting nodes per star", getRequiredCN());
 			dp.addResultProperty("Total number of stars", getNumberOfStars()+"");
-			dp.addResultProperty("Aggregation ratio", ((double)clientsPerStar/(double)getRequiredCN()));
+			dp.addResultProperty("Aggregation ratio", (double)clientsPerStar/(double)getRequiredCN());
 		//	dp.addResultProperty("feasible", ((getRequiredCN() + clientsPerStar <= numberOfWavelengths)?1:0));
 			toRet = true;
 		}

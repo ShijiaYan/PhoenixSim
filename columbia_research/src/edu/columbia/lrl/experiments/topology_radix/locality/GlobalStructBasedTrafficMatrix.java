@@ -59,9 +59,9 @@ public class GlobalStructBasedTrafficMatrix extends AbstractTrafficMatrix {
 	public double getTraffic(int src, int dest) {
 		if (src == dest) return 0;
 		if (mode == 0)
-			return normLoad*Math.pow(gs.getNumberOfHops(src, dest), power)/(double)totalDistances[src];
+			return normLoad*Math.pow(gs.getNumberOfHops(src, dest), power)/ totalDistances[src];
 		if (gs.getNumberOfHops(src, dest) == 1) {
-			return normLoad/(double)totalDistances[src];
+			return normLoad/ totalDistances[src];
 		} else {
 			return 0;
 		}

@@ -110,7 +110,7 @@ public class AllPassModulator extends AbstractElement {
 		this.alpha2_rad = MoreMath.Conversions.Angles.toRadian(alpha2_degree) ;
 		this.alpha3_degree = alpha3_degree ;
 		this.alpha3_rad = MoreMath.Conversions.Angles.toRadian(alpha3_degree) ;
-		this.alpha4_degree = 90 - (alpha3_degree) ;
+		this.alpha4_degree = 90 - alpha3_degree;
 		this.alpha4_rad = MoreMath.Conversions.Angles.toRadian(alpha4_degree) ;
 
 		this.w4_um = w4_um ;
@@ -197,7 +197,7 @@ public class AllPassModulator extends AbstractElement {
 				nppPort, false, new Entry(nppRadius), new Entry(360-2*(alpha0_degree+alpha1_degree)) ) ;
 
 		String NName = objectName + "_" + "Junction_N" ;
-		double nRadius = radius_um-(w4_um/4) ;
+		double nRadius = radius_um- w4_um/4;
 		Position nPos = new Position(new Polar(nRadius, -alpha2_degree)) ;
 		Port nPort = new Port(nPos.translateXY(center), w4_um/2, -(90+alpha2_degree)) ;
 		NJunction = new CurvedWg(NName, new AbstractLayerMap[]{new NDAM()}, "port1",
@@ -211,7 +211,7 @@ public class AllPassModulator extends AbstractElement {
 				pppPort, false, new Entry(pppRadius), new Entry(360-2*(alpha0_degree+alpha1_degree)) ) ;
 
 		String PName = objectName + "_" + "Junction_P" ;
-		double pRadius = radius_um+(w4_um/4) ;
+		double pRadius = radius_um+ w4_um/4;
 		Position pPos = new Position(new Polar(pRadius, -alpha2_degree)) ;
 		Port pPort = new Port(pPos.translateXY(center), w4_um/2, -(90+alpha2_degree)) ;
 		PJunction = new CurvedWg(PName, new AbstractLayerMap[]{new PDAM()}, "port1",
@@ -327,10 +327,10 @@ public class AllPassModulator extends AbstractElement {
 		double dtheta_degree = beta0_degree ;
 //		double dtheta_rad = MoreMath.Conversions.Angles.toRadian(dtheta_degree) ;
 		double drho_um = 1 ; // assume 100 nm
-		double rho0_um =  (radius_um-w4_um/2-w5_um) ;
+		double rho0_um = radius_um-w4_um/2-w5_um;
 		double theta0_degree = -(alpha2_degree-20) ;
 		int M = 2 ; // num rows
-		int N = (int) (2*((alpha2_degree-alpha1_degree)+alpha3_degree+alpha4_degree)/dtheta_degree + 1) ;
+		int N = (int) (2*(alpha2_degree-alpha1_degree +alpha3_degree+alpha4_degree)/dtheta_degree + 1) ;
 		NPPJunctionVias = new VIA[M][N] ;
 		for(int i=0; i<M; i++){
 			for(int j=0; j<N; j++){
@@ -450,32 +450,32 @@ public class AllPassModulator extends AbstractElement {
 		args = MoreMath.Arrays.concat(args, st21) ;
 		int M = NPPJunctionVias.length ;
 		int N = NPPJunctionVias[0].length ;
-		for(int i=0; i<M; i++){
-			for(int j=0; j<N; j++){
-				args = MoreMath.Arrays.concat(args, NPPJunctionVias[i][j].getPythonCode_no_header(fileName, topCellName)) ;
-			}
-		}
+        for (VIA[] nppJunctionVia : NPPJunctionVias) {
+            for (int j = 0; j < N; j++) {
+                args = MoreMath.Arrays.concat(args, nppJunctionVia[j].getPythonCode_no_header(fileName, topCellName));
+            }
+        }
 		int M0 = PPPJunctionVias.length ;
 		int N0 = PPPJunctionVias[0].length ;
-		for(int i=0; i<M0; i++){
-			for(int j=0; j<N0; j++){
-				args = MoreMath.Arrays.concat(args, PPPJunctionVias[i][j].getPythonCode_no_header(fileName, topCellName)) ;
-			}
-		}
+        for (VIA[] pppJunctionVia : PPPJunctionVias) {
+            for (int j = 0; j < N0; j++) {
+                args = MoreMath.Arrays.concat(args, pppJunctionVia[j].getPythonCode_no_header(fileName, topCellName));
+            }
+        }
 		int M1 = PPPJunctionViasLeft.length ;
 		int N1 = PPPJunctionViasLeft[0].length ;
-		for(int i=0; i<M1; i++){
-			for(int j=0; j<N1; j++){
-				args = MoreMath.Arrays.concat(args, PPPJunctionViasLeft[i][j].getPythonCode_no_header(fileName, topCellName)) ;
-			}
-		}
+        for (VIA[] vias : PPPJunctionViasLeft) {
+            for (int j = 0; j < N1; j++) {
+                args = MoreMath.Arrays.concat(args, vias[j].getPythonCode_no_header(fileName, topCellName));
+            }
+        }
 		int M2 = leftHeaterVias.length ;
 		int N2 = leftHeaterVias[0].length ;
-		for(int i=0; i<M2; i++){
-			for(int j=0; j<N2; j++){
-				args = MoreMath.Arrays.concat(args, leftHeaterVias[i][j].getPythonCode_no_header(fileName, topCellName)) ;
-			}
-		}
+        for (VIA[] leftHeaterVia : leftHeaterVias) {
+            for (int j = 0; j < N2; j++) {
+                args = MoreMath.Arrays.concat(args, leftHeaterVia[j].getPythonCode_no_header(fileName, topCellName));
+            }
+        }
 		return args;
 	}
 

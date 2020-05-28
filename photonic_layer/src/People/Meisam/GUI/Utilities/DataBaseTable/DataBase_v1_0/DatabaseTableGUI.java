@@ -21,7 +21,7 @@ public class DatabaseTableGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage ;
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/DataBaseTable/DataBase_v1_0/database_table.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/DataBaseTable/DataBase_v1_0/database_table.fxml")) ;
         Parent root = loader.load() ;
         Scene scene = new Scene(root) ;
         window.setScene(scene);

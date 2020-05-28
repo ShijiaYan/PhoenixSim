@@ -12,7 +12,7 @@ public class IntLog2 {
 
 	@Override
 	public boolean equals(Object obj) {
-		return (this.logDistance ==  (Math.log((Integer)obj)/log2));
+		return this.logDistance == Math.log((Integer)obj)/log2;
 		//return super.equals(obj);
 	}
 

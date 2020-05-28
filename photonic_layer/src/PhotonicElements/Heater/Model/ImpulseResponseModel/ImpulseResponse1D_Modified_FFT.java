@@ -41,14 +41,14 @@ public class ImpulseResponse1D_Modified_FFT extends AbstractImpulseResponse {
 		this.nu = nu ;
 		double f3dB_hz = f0_hz * (Math.log(2*nu/(nu-1)) * Math.log(2*nu/(nu-1))) ;
 		f3dB_kHz = f3dB_hz/1e3 ;
-		double d_um = 1e6 * Math.sqrt((xi_sio2/Math.PI)/f0_hz) ;
+		double d_um = 1e6 * Math.sqrt((xi_sio2 / Math.PI) / f0_hz) ;
 		double Y0_um = d_um * nu ;
 		this.crossSection = new HeaterWgCrossSection(5, 0.2, d_um, Y0_um) ;
 	}
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("xi_sio2", xi_sio2+"") ;
 		map.put("f3dB (kHz)", f3dB_kHz+"") ;
 		map.put("f0 (kHz)", getf0KHz()+"") ;

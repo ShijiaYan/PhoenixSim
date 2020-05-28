@@ -16,9 +16,9 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 	
 	public static class DoubleDistribution extends StatisticalDistribution<Double> {
 		public void add(double[] tab) {
-			for (int i = 0 ; i < tab.length ; i++) {
-				super.add(tab[i]);
-			}
+            for (double v : tab) {
+                super.add(v);
+            }
 		}
 		
 		public double[] getSortedValues() {
@@ -44,9 +44,9 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 		}
 		
 		public void add(int[] tab) {
-			for (int i = 0 ; i < tab.length ; i++) {
-				super.add(tab[i]);
-			}
+            for (int value : tab) {
+                super.add(value);
+            }
 		}		
 	}
 	
@@ -64,11 +64,11 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 	private int maxSamples = Integer.MAX_VALUE;
 
 	public StatisticalDistribution() {
-		struct = new TreeMap<Object, Integer>();
+		struct = new TreeMap<>();
 	}
 	
 	public StatisticalDistribution(int maxSamples) {
-		struct = new TreeMap<Object, Integer>();
+		struct = new TreeMap<>();
 		this.maxSamples = maxSamples;
 	}	
 
@@ -96,21 +96,21 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 		double min = ((Number)this.struct.firstKey()).doubleValue();
 		double incr = (max-min)/buckets;
 		int[] buck = new int[buckets];
-		ArrayList<Pair<Double, Integer>> list = new ArrayList<Pair<Double, Integer>>(buckets);
+		ArrayList<Pair<Double, Integer>> list = new ArrayList<>(buckets);
 		int total = 0;
 		for (int i = 0 ; i < buck.length ; i++) {
 			for (Object o : struct.keySet()) {
 				double val = ((Number)o).doubleValue();
-				if (val < (i+1)*incr && val > (i*incr)) {
+				if (val < (i+1)*incr && val > i*incr) {
 					buck[i] += struct.get(o);
 					total += struct.get(o);
 				}
 			}
-			list.add(new Pair<Double, Integer>(i*incr, buck[i]));
+			list.add(new Pair<>(i * incr, buck[i]));
 		}
-		ArrayList<Pair<Double, Double>> listDef = new ArrayList<Pair<Double, Double>>(buckets);
+		ArrayList<Pair<Double, Double>> listDef = new ArrayList<>(buckets);
 		for (Pair<Double, Integer> p : list) {
-			listDef.add(new Pair<Double, Double>(p.getFirst(), (double)((int)p.getSecond())/(double)total));
+			listDef.add(new Pair<>(p.getFirst(), (double) (int) p.getSecond() / (double) total));
 		}	
 		return listDef.iterator();
 	}
@@ -122,7 +122,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 		if (!(value instanceof Number)) {
 			throw new IllegalStateException("Cannot transform value to insert into a bucket");
 		}
-		Number n = ((Number)value);
+		Number n = (Number)value;
 		double d = n.doubleValue();
 		d = Math.floor((d - min) / bucketSize);
 		return d*bucketSize;
@@ -246,7 +246,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 		if (isDiscrete()) {
 			int min = ((Number)struct.firstKey()).intValue();
 			int max = ((Number)struct.lastKey()).intValue();
-			Object[][] dist = new Object[2][(int)(max-min+1)];
+			Object[][] dist = new Object[2][(max-min+1)];
 			for (Object key : struct.keySet()) {
 				int rounded = ((Number)key).intValue();
 				dist[0][rounded-min] = rounded;
@@ -255,7 +255,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 				} else {
 					Object o = dist[1][rounded];
 					Integer ii = (Integer)o;
-					dist[1][rounded-min] = new Integer((int)ii + (int)struct.get(key));
+					dist[1][rounded-min] = new Integer(ii + struct.get(key));
 				}
 
 			}
@@ -280,7 +280,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 	@Override
 	public String toString() {
 
-		if ((struct.size() > 0) && (Number.class.isAssignableFrom(struct.firstKey().getClass()))) {
+		if (struct.size() > 0 && Number.class.isAssignableFrom(struct.firstKey().getClass())) {
 			StringBuffer sb1 = new StringBuffer();
 			StringBuffer sb2 = new StringBuffer();
 			Object[][] dist = getDistribution();
@@ -292,7 +292,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 					}
 				}
 			}
-			int length = (new String(max + "")).length();
+			int length = new String(max + "").length();
 
 			for (int i = 0 ; i < dist[0].length ; i++) {
 				if (dist[0][i] != null) {
@@ -322,12 +322,12 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 	public static double getMean(StatisticalDistribution[] list) {
 		double sum = 0;
 		double el = 0;
-		for (int i = 0 ; i < list.length ; i++) {
-			if (list[i] == null) continue;
-			double[] r = list[i].getSumAndSize();
-			sum += r[0];
-			el += r[1];
-		}
+        for (StatisticalDistribution statisticalDistribution : list) {
+            if (statisticalDistribution == null) continue;
+            double[] r = statisticalDistribution.getSumAndSize();
+            sum += r[0];
+            el += r[1];
+        }
 		return sum / el;
 	}
 	
@@ -335,14 +335,14 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 	public static double getMean(StatisticalDistribution[][] list) {
 		double sum = 0;
 		double el = 0;
-		for (int i = 0 ; i < list.length ; i++) {
-			for (int j = 0 ; j < list.length ; j++) {
-				if (list[i][j] == null) continue;
-				double[] r = list[i][j].getSumAndSize();
-				sum += r[0];
-				el += r[1];
-			}
-		}
+        for (StatisticalDistribution[] statisticalDistributions : list) {
+            for (int j = 0; j < list.length; j++) {
+                if (statisticalDistributions[j] == null) continue;
+                double[] r = statisticalDistributions[j].getSumAndSize();
+                sum += r[0];
+                el += r[1];
+            }
+        }
 		return sum / el;
 	}	
 
@@ -350,7 +350,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 		if (struct.size() <= 0) {
 			return false;
 		}
-		return ((struct.firstKey() != null) && (Number.class.isAssignableFrom(struct.firstKey().getClass())));
+		return struct.firstKey() != null && Number.class.isAssignableFrom(struct.firstKey().getClass());
 	}
 	
 	public boolean isDiscrete() {
@@ -363,9 +363,8 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 		if (Integer.class.isAssignableFrom(fc)) return true;
 		if (Byte.class.isAssignableFrom(fc)) return true;
 		if (Short.class.isAssignableFrom(fc)) return true;
-		if (Long.class.isAssignableFrom(fc)) return true;
-		return false;
-	}
+        return Long.class.isAssignableFrom(fc);
+    }
 
 	@SuppressWarnings("unchecked")
 	public K getMostFrequentElement() {
@@ -386,7 +385,7 @@ public class StatisticalDistribution<K extends Comparable<K>> implements Iterabl
 	}
 
 	public boolean hasElement() {
-		return (struct.entrySet().size() > 0);
+		return struct.entrySet().size() > 0;
 	}
 
 	public int getOccurencesOfMostFrequentElement() {

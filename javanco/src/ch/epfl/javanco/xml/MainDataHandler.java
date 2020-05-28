@@ -129,7 +129,7 @@ XMLDataHandler {
 			// if in the future one permit the use of other DefaultImpl classes
 			// than the DefaultLayerImpl, DefaultNodeImpl etc, this assertation should be removed
 			// and replaced by a normal exception handling.
-			assert(0==1) : "should never be there. Exception during instanciation of DefaultImpl";
+			assert 0==1 : "should never be there. Exception during instanciation of DefaultImpl";
 		}
 	}
 

@@ -22,18 +22,18 @@ public class RCcircuit extends ODE {
 
 	
 	@Override
-	public void getFunction(double t, double dy[], double ytmp[]) {
-		double coeff = (R_kohm*1e3) * (C_muF*1e-6) ;
+	public void getFunction(double t, double[] dy, double[] ytmp) {
+		double coeff = R_kohm * 1e3 * (C_muF * 1e-6);
 		dy[0] = Vs.getVoltage(t)/coeff - ytmp[0]/coeff ; 
 	}
 	
 	@Override
-	public void getError(double E[], double endY[]) {
+	public void getError(double[] E, double[] endY) {
 		// no need to put something here
 	}
 	
 	@Override
-	public void setInitialConditions(double t0, double Y[]) {
+	public void setInitialConditions(double t0, double[] Y) {
 		// here to set the initial conditions
 		int n = getNumEqns() ;
 		setOneX(0, t0);

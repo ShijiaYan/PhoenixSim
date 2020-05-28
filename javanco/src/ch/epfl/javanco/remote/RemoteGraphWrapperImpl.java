@@ -153,8 +153,8 @@ public class RemoteGraphWrapperImpl extends RMIServerBaseObject implements Remot
 			logger.debug("Groovy Script Executed");
 		}
 		catch (ScriptExecutionException e) {
-			if ((e.getCause() instanceof java.security.AccessControlException) ||
-					(e.getCause() instanceof java.lang.SecurityException)) {
+			if (e.getCause() instanceof java.security.AccessControlException ||
+                    e.getCause() instanceof SecurityException) {
 				logger.info("Security exception while executing script");
 			} else {
 				logAndThrowException("Problem while executing groovy statement", e);
@@ -242,7 +242,7 @@ public class RemoteGraphWrapperImpl extends RMIServerBaseObject implements Remot
 
 	}
 
-	private List<String> areaAttributesList = new ArrayList<String>();
+	private List<String> areaAttributesList = new ArrayList<>();
 
 	public void addAreaAttribute(String s) throws RemoteException {
 		areaAttributesList.add(s);

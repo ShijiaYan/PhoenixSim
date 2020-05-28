@@ -30,7 +30,7 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("tessellation_width",figuresByLevel+"");
 		map.put("tessellation_height", numberOfLevels+"");
 		map.put("tessellation_figure", figure+"");
@@ -46,7 +46,7 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 			return figuresByLevel*numberOfLevels;
 
 		case 6:
-			return 2*(figuresByLevel + (figuresByLevel*numberOfLevels)+numberOfLevels);
+			return 2*(figuresByLevel + figuresByLevel*numberOfLevels +numberOfLevels);
 		}
 		throw new IllegalStateException("should not be here");
 	}
@@ -84,10 +84,10 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 		for(int indexLevel = 0; indexLevel<numberOfLevels; indexLevel++){
 			for(int index = 0; index < figuresByLevel;index++){
 				if(indexLevel%2==0){
-					agh.newNode((index*sideLength),(int)(indexLevel*altitude));
+					agh.newNode(index*sideLength,(int)(indexLevel*altitude));
 				}
 				else{
-					agh.newNode((sideLength/2+index*sideLength),(int)(indexLevel*altitude));
+					agh.newNode(sideLength/2+index*sideLength,(int)(indexLevel*altitude));
 				}
 
 			}
@@ -101,8 +101,8 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 					double distance = source.distance(dest);
 
 
-					if((distance - sideLength)<2){
-						if((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+					if(distance - sideLength <2){
+						if(agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 							agh.newLink(s,d);
 
 						}
@@ -123,7 +123,7 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 	private void generateSquareTessellation(AbstractGraphHandler agh) {
 		for(int i = 0; i<numberOfLevels; i++){
 			for(int index = 0; index < figuresByLevel;index++){
-				agh.newNode((index*sideLength),(i*sideLength));
+				agh.newNode(index*sideLength, i*sideLength);
 			}
 		}
 
@@ -133,8 +133,8 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 					Point source = agh.getNodeContainer(s).getCoordinate();
 					Point dest = agh.getNodeContainer(d).getCoordinate();
 					double distance = source.distance(dest);
-					if((distance - sideLength)<2){
-						if((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+					if(distance - sideLength <2){
+						if(agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 							agh.newLink(s,d);
 
 						}
@@ -190,8 +190,8 @@ public class TessellationGenerator extends AbstractPlanarDeterministicGenerator 
 					Point source = agh.getNodeContainer(s).getCoordinate();
 					Point dest = agh.getNodeContainer(d).getCoordinate();
 					double distance = source.distance(dest);
-					if((distance - sideLength)<2){
-						if((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+					if(distance - sideLength <2){
+						if(agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 							agh.newLink(s,d);
 						}
 					}

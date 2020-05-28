@@ -85,8 +85,8 @@ public abstract class AbstractTreeLayout extends AbstractTopologyLayout {
 			lc.removeAttribute("spanning");
 		}
 		int[] extre = agh.getExtremities();
-		int inputWidth = (extre[1]-extre[0]);
-		int inputHeight = (extre[3]-extre[2]);
+		int inputWidth = extre[1]-extre[0];
+		int inputHeight = extre[3]-extre[2];
 		if (inputHeight <= 1 && inputWidth <= 1) {
 			assignNodesPosition(1000, 1000, agh);
 			int minX = Integer.MAX_VALUE;
@@ -110,8 +110,8 @@ public abstract class AbstractTreeLayout extends AbstractTopologyLayout {
 			float difX = maxX - minX;
 			float difY = maxY - minY;
 			for (int i = 0 ; i < futPos[0].length ; i++) {
-				futPos[0][i] = (int)Math.round((float)(futPos[0][i] - minX)/difX*1000f);
-				futPos[1][i] = (int)Math.round((float)(futPos[1][i] - minY)/difY*1000f);				
+				futPos[0][i] = Math.round((float)(futPos[0][i] - minX)/difX*1000f);
+				futPos[1][i] = Math.round((float)(futPos[1][i] - minY)/difY*1000f);
 			}			
 		} else {
 			assignNodesPosition(inputWidth, inputHeight, agh);			
@@ -156,7 +156,7 @@ public abstract class AbstractTreeLayout extends AbstractTopologyLayout {
 		} else {
 			nodeCol = nc.getConnectedNodes();
 		}
-		Set<Integer> nodePlaced = new TreeSet<Integer>();
+		Set<Integer> nodePlaced = new TreeSet<>();
 		for (NodeContainer child : nodeCol) {
 			if (child.attribute("level", false) == null) {
 				if (levelPlusOne > max_level) {
@@ -165,7 +165,7 @@ public abstract class AbstractTreeLayout extends AbstractTopologyLayout {
 				nodePlaced.add(child.getIndex());
 				child.attribute("level").setValue(levelPlusOne);
 				child.attribute("father").setValue(ncIndex);
-				setNodeY(child, max_screen_y - (100 * (ncLevel + 1)));
+				setNodeY(child, max_screen_y - 100 * (ncLevel + 1));
 				allChild[ncIndex].add(child);
 				nodePlaced.addAll(exploreSubTree(child, max_screen_y, lc));
 			}

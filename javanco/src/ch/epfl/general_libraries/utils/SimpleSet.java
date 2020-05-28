@@ -12,16 +12,16 @@ public class SimpleSet<V> extends AbstractSet<V> {
 	private ArrayList<V> elements;
 
 	public SimpleSet(Set<V> s) {
-		elements = new ArrayList<V>(s.size());
+		elements = new ArrayList<>(s.size());
 		elements.addAll(s);
 	}
 
 	public SimpleSet() {
-		elements = new ArrayList<V>();
+		elements = new ArrayList<>();
 	}
 
 	public SimpleSet(int forecastedSize) {
-		elements = new ArrayList<V>(forecastedSize);
+		elements = new ArrayList<>(forecastedSize);
 	}
 
 	@Override

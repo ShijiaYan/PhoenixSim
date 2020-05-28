@@ -35,7 +35,7 @@ public class DiameterComputer extends NetworkWideMetricComputer {
 	protected double computeNetworkWideMetric() {
 		AbstractGraphHandler agh = rpi.getInput().getAgh();
 		if (calc instanceof JavancoPathCalculator) {
-			JavancoPathCalculator jCalc = ((JavancoPathCalculator)calc);
+			JavancoPathCalculator jCalc = (JavancoPathCalculator)calc;
 			jCalc.setAgh(agh);
 			float[][] costs = jCalc.getRoutingCosts(rpi.getInput().getTopologyLayer(), directed);
 			return Matrix.max(costs);

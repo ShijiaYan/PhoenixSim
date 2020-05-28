@@ -86,11 +86,8 @@ public class CircuitReuseInfo_TransitionTracked extends CircuitReuseInfo {
 		if (lastKey == -2){
 			return true;
 		}
-		
-		if (predictedKey == key)
-			return true;
-		else 
-			return false;
+
+        return predictedKey == key;
 	}
 
 	@Override

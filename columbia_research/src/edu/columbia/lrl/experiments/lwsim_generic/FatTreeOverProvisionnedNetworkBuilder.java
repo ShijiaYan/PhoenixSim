@@ -31,7 +31,7 @@ public class FatTreeOverProvisionnedNetworkBuilder extends
 		TransmissionLink upLink = new TransmissionLink(linkLength);
 		TransmissionLink downLink = new TransmissionLink(linkLength);
 		
-		ArrayList<Integer> connectedIndexes = new ArrayList<Integer>();
+		ArrayList<Integer> connectedIndexes = new ArrayList<>();
 
 		public ElecSwitchWithUplink(int nbPorts, double switchProcessDelay, int level, boolean usePriorities) {
 			super(nbPorts, switchProcessDelay, usePriorities);
@@ -70,9 +70,9 @@ public class FatTreeOverProvisionnedNetworkBuilder extends
 	
 	public class MasterSwitch extends ElecSwitch {
 		
-		HashMap<Integer, TrafficDestination> dests = new HashMap<Integer, TrafficDestination>();
+		HashMap<Integer, TrafficDestination> dests = new HashMap<>();
 		
-		ArrayList<TrafficDestination> toBeSetExperiments = new ArrayList<TrafficDestination>();
+		ArrayList<TrafficDestination> toBeSetExperiments = new ArrayList<>();
 
 		public MasterSwitch(int nbPorts, double switchProcessDelay,
 				double outputRate, boolean usePriorities) {
@@ -113,9 +113,9 @@ public class FatTreeOverProvisionnedNetworkBuilder extends
 	@Override
 	public int[][] getNeighborhood(int fromAnode) {
 		int clusterId = fromAnode / aggregationFactor;
-		int[] closeN = MoreArrays.range(clusterId*aggregationFactor, (clusterId*aggregationFactor) + aggregationFactor-1);
-		int[] before = MoreArrays.range(0, (clusterId*aggregationFactor)-1);
-		int[] after = MoreArrays.range((clusterId*aggregationFactor) + aggregationFactor, this.builder.getNumberOfClients()-1);
+		int[] closeN = MoreArrays.range(clusterId*aggregationFactor, clusterId*aggregationFactor + aggregationFactor-1);
+		int[] before = MoreArrays.range(0, clusterId*aggregationFactor -1);
+		int[] after = MoreArrays.range(clusterId*aggregationFactor + aggregationFactor, this.builder.getNumberOfClients()-1);
 		
 		int[] comp = MoreArrays.concat(before, after);
 		return new int[][]{closeN, comp};
@@ -146,7 +146,7 @@ public class FatTreeOverProvisionnedNetworkBuilder extends
 		int clientDone = 0;
 		int actualInHub = 0;		
 		
-		ArrayList<ElecSwitchWithUplink> hubs = new ArrayList<ElecSwitchWithUplink>();
+		ArrayList<ElecSwitchWithUplink> hubs = new ArrayList<>();
 		
 		ElecSwitchWithUplink elec = new ElecSwitchWithUplink(aggregationFactor, switchLatency, 1, usePriorities);
 

@@ -25,7 +25,6 @@ public class BenesSwitchFabric extends AbstractSwitchFabric {
 
 	double extraWaveguideLength;
 	double crossingWidth;
-	PhysicalParameterAndModelsSet devices;
 	BenesSwitchGenerator archGenerator;
 	AbstractSwitchFabric switch1x2;
 	Abstract2x2Switch switch2x2;
@@ -48,8 +47,8 @@ public class BenesSwitchFabric extends AbstractSwitchFabric {
 	}
 
 	public Map<String, String> getSwitchParameters() {
-		return SimpleMap.getMap(new String[] { "Extra waveguide length (cm)", String.valueOf(this.extraWaveguideLength),
-				"Crossing width (cm)", String.valueOf(this.crossingWidth) });
+		return SimpleMap.getMap("Extra waveguide length (cm)", String.valueOf(this.extraWaveguideLength),
+				"Crossing width (cm)", String.valueOf(this.crossingWidth));
 	}
 
 	public String toString() {
@@ -90,19 +89,17 @@ public class BenesSwitchFabric extends AbstractSwitchFabric {
 			throw new IllegalStateException(
 					"Radix of benes switch not provided. Should be fixed by builder or given as parameter");
 		} else {
-			return 2 * (int) Math.ceil(Math.log((double) this.switchRadix) / Math.log(2.0D)) - 1;
+			return 2 * (int) Math.ceil(Math.log(this.switchRadix) / Math.log(2.0D)) - 1;
 		}
 	}
 
 	public List<PowerConsumption> getLayoutSpecificConsumption(PhysicalParameterAndModelsSet modelSet,
 			AbstractLinkFormat linkFormat) {
 		List<PowerConsumption> p = this.get2x2SwitchModel().getDevicePowerConsumptions(modelSet, linkFormat);
-		Iterator var5 = p.iterator();
 
-		while (var5.hasNext()) {
-			PowerConsumption pc = (PowerConsumption) var5.next();
-			pc.multiply("Switch radix", (double) this.switchRadix);
-			pc.multiply("Switch stages", (double) this.getNumberOfStages());
+		for (PowerConsumption pc : p) {
+			pc.multiply("Switch radix", this.switchRadix);
+			pc.multiply("Switch stages", this.getNumberOfStages());
 		}
 
 		return p;

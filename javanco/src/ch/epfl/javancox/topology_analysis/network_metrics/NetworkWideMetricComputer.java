@@ -17,7 +17,7 @@ public abstract class NetworkWideMetricComputer extends MonoMetricComputer {
 
 	public double computeMetric() {
 		AbstractGraphHandler rpiAgh = rpi.getInput().getAgh();
-		if ((agh == null) || (rpiAgh.equals(this.agh) == false)) {
+		if (agh == null || rpiAgh.equals(this.agh) == false) {
 			this.agh = rpiAgh;
 			return computeNetworkWideMetric();
 		} else {

@@ -55,7 +55,7 @@ public class PriorityAwareTwoTwoSwitch extends NACK_TwoTwoSwitch {
 			// 3 : packet going from down is lower priority
 			if (lastUpValid(e)) {
 				if (lastMsgGoingUp.spinetPriority < msg.spinetPriority) {
-					((SpinetMessage)lastMsgGoingUp).dropped = true;
+					lastMsgGoingUp.dropped = true;
 					packetDropped(lastMsgGoingUp, e.getTimeNS(), -2);
 					acceptUpUp(msg, e);
 					return true;
@@ -80,7 +80,7 @@ public class PriorityAwareTwoTwoSwitch extends NACK_TwoTwoSwitch {
 			// 3 : packet going from down is lower priority
 			if (lastUpValid(e)) {
 				if (lastMsgGoingUp.spinetPriority < msg.spinetPriority) {
-					((SpinetMessage)lastMsgGoingUp).dropped = true;
+					lastMsgGoingUp.dropped = true;
 					packetDropped(lastMsgGoingUp, e.getTimeNS(), -2);
 					acceptUpUp(msg, e);
 					return true;
@@ -95,11 +95,11 @@ public class PriorityAwareTwoTwoSwitch extends NACK_TwoTwoSwitch {
 	}
 	
 	private boolean lastDownValid(Evt e) {
-		return (lastMsgGoingDown != null && !lastMsgGoingDown.dropped && busyGoingDown > e.getTimeNS());
+		return lastMsgGoingDown != null && !lastMsgGoingDown.dropped && busyGoingDown > e.getTimeNS();
 	}
 	
 	private boolean lastUpValid(Evt e) {
-		return (lastMsgGoingUp != null && !lastMsgGoingUp.dropped && busyGoingUp > e.getTimeNS());
+		return lastMsgGoingUp != null && !lastMsgGoingUp.dropped && busyGoingUp > e.getTimeNS();
 	}
 	
 	@Override
@@ -121,7 +121,7 @@ public class PriorityAwareTwoTwoSwitch extends NACK_TwoTwoSwitch {
 			// 3 : packet going from down is lower priority
 			if (lastDownValid(e)) {
 				if (lastMsgGoingDown.spinetPriority < msg.spinetPriority) {
-					((SpinetMessage)lastMsgGoingDown).dropped = true;
+					lastMsgGoingDown.dropped = true;
 					packetDropped(lastMsgGoingDown, e.getTimeNS(), -2);
 					acceptUpDown(msg, e);
 					return true;
@@ -146,7 +146,7 @@ public class PriorityAwareTwoTwoSwitch extends NACK_TwoTwoSwitch {
 			// 3 : packet going from down is lower priority
 			if (lastDownValid(e)) {
 				if (lastMsgGoingDown.spinetPriority < msg.spinetPriority) {
-					((SpinetMessage)lastMsgGoingDown).dropped = true;
+					lastMsgGoingDown.dropped = true;
 					packetDropped(lastMsgGoingDown, e.getTimeNS(), -2);
 					acceptDownDown(msg, e);
 					return true;

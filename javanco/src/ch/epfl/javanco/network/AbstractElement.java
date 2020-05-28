@@ -88,7 +88,7 @@ public abstract class AbstractElement extends Object implements Serializable {
 	 * @param errorBuffer The <code>OutputStream</code> on which the errors are to be written
 	 */
 	public void construct(JavancoXMLElement e, OutputStream errorBuffer) {
-		if (!(e.getName().equals("properties"))) {
+		if (!e.getName().equals("properties")) {
 			throw new IllegalStateException("The element used for the reconstruction is not a <properties> element.");
 		}
 
@@ -267,7 +267,7 @@ public abstract class AbstractElement extends Object implements Serializable {
 			JavancoXMLElement toReturn = new JavancoXMLElement("properties", true);
 			for (Method m : mArray) {
 				if (m.getAnnotation(DoNotSerialize.class) == null) {
-					if ((m.getName().startsWith("get")) || (m.getName().startsWith("is"))) {
+					if (m.getName().startsWith("get") || m.getName().startsWith("is")) {
 						if (m.getParameterTypes().length == 0) {
 							buildElement(toReturn, m);
 						}
@@ -296,7 +296,7 @@ public abstract class AbstractElement extends Object implements Serializable {
 		}
 		parameterName = parameterName.substring(0,1).toLowerCase() + parameterName.substring(1, parameterName.length());
 		try {
-			Object value = m.invoke(this, new Object[]{});
+			Object value = m.invoke(this);
 			Class<?> returnType = m.getReturnType();
 			if ( returnType.isPrimitive()
 					|| returnType == Integer.class

@@ -34,7 +34,7 @@ public class AddDropRing implements Experiment {
 		this.outputKappa = outputKappa ;
 		this.lossDB = lossDB ;
 		loss = Math.pow(10, -lossDB/10) ;
-		this.inputKappa = Math.sqrt(1 - loss*(1-(outputKappa*outputKappa)));
+		this.inputKappa = Math.sqrt(1 - loss*(1- outputKappa*outputKappa));
 		this.phiRad = phiRatio * 2*Math.PI ;
 	}
 	
@@ -68,7 +68,7 @@ public class AddDropRing implements Experiment {
 		double k_out = outputKappa ;
 		double k_in = inputKappa ;
 		double L = loss ;
-		double num = (k_in*k_in)*(k_out*k_out)*Math.sqrt(L) ;
+		double num = k_in * k_in * (k_out * k_out) * Math.sqrt(L);
 		double denum = 1 + t_in*t_in*t_out*t_out*L - 2*t_in*t_out*Math.sqrt(L)*Math.cos(phiRad) ;
 		double trans = num/denum ;
 		return trans ;
@@ -85,23 +85,20 @@ public class AddDropRing implements Experiment {
 		double L = loss ;
 		double A = 1-t_in * t_out * Math.sqrt(L) ;
 		double B = 2*t_in*t_out*Math.sqrt(L) ;
-		double arg = 1-(A*A/B) ;
+		double arg = 1- A*A/B;
 		double Dphi3dB = 2*Math.acos(arg) ;
 		double fsr = 2*Math.PI ;
-		return (fsr/Dphi3dB) ;
+		return fsr/Dphi3dB;
 	}
 	
 	private double getFinesseNumeric(){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double phi) {
-				double y = getDropTransmission(phi) - getDropTransmission(0) * 1/2 ;
-				return y;
-			}
-		};
+		RealRootFunction func = phi -> {
+            double y = getDropTransmission(phi) - getDropTransmission(0) * 1/2 ;
+            return y;
+        };
 		RealRoot rootFinder = new RealRoot() ;
 		double phi3dB = rootFinder.bisect(func, 0, Math.PI) ;
-		return (Math.PI/phi3dB) ;
+		return Math.PI/phi3dB;
 	}
 	
 	@Override

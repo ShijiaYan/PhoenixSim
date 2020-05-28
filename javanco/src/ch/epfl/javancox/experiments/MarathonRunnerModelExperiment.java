@@ -24,8 +24,8 @@ public class MarathonRunnerModelExperiment implements Experiment {
 	public void run(AbstractResultsManager man, AbstractResultsDisplayer dis)
 			throws WrongExperimentException {
 		
-		double performance = -Math.pow(water, 2) + (12*water);
-		performance *= -Math.pow(temperature, 2) + (28*temperature) + 8;
+		double performance = -Math.pow(water, 2) + 12*water;
+		performance *= -Math.pow(temperature, 2) + 28*temperature + 8;
 		if (water == 1 && temperature == 20)
 			performance = Double.NaN;
 		if (water == 3 && temperature == 22)

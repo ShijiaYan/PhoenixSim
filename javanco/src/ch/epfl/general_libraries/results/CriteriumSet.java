@@ -22,13 +22,13 @@ public class CriteriumSet extends ArrayList<List<Criterium>> {
 
 	public CriteriumSet(String ... tab) {
 		super(tab.length);
-		for (int i = 0 ;i < tab.length ; i++) {
-			add(tab[i]);
-		}
+        for (String s : tab) {
+            add(s);
+        }
 	}
 
 	public void add(String s) {
-		ArrayList<Criterium> al = new ArrayList<Criterium>(1);
+		ArrayList<Criterium> al = new ArrayList<>(1);
 		Criterium c = new Criterium(s);
 		al.add(c);
 		this.add(al);
@@ -50,16 +50,15 @@ public class CriteriumSet extends ArrayList<List<Criterium>> {
 		}
 		for (int i = 0 ; i < size() ; i++) {
 			List<Criterium> l = get(i);
-			for (int j = 0 ; j < l.size() ; j++) {
-				Criterium c = l.get(j);
-				if (!c.getName().equals(AbstractDataRetriever.CONSTANT)) {
-					c.setPossibleValues(ret.getPossibleValuesOfGivenProperty(c.getName()));
-				} else {
-					ArrayList<String> s = new ArrayList<String>(1);
-					s.add(AbstractDataRetriever.CONSTANT);
-					c.setPossibleValues(s);
-				}
-			}
+            for (Criterium c : l) {
+                if (!c.getName().equals(AbstractDataRetriever.CONSTANT)) {
+                    c.setPossibleValues(ret.getPossibleValuesOfGivenProperty(c.getName()));
+                } else {
+                    ArrayList<String> s = new ArrayList<>(1);
+                    s.add(AbstractDataRetriever.CONSTANT);
+                    c.setPossibleValues(s);
+                }
+            }
 		}
 		valuesSet = true;
 	}
@@ -75,7 +74,7 @@ public class CriteriumSet extends ArrayList<List<Criterium>> {
 		private CriteriaIterator(CriteriumSet list) {
 			this.list = list;
 			int critN = 0;
-			ArrayList<Integer> maxs = new ArrayList<Integer>(3);
+			ArrayList<Integer> maxs = new ArrayList<>(3);
 			for (List<Criterium> l : list) {
 				for (Criterium c : l) {
 					critN++;
@@ -107,13 +106,13 @@ public class CriteriumSet extends ArrayList<List<Criterium>> {
 		}
 
 		public List<PairList<String, String>> next() {
-			List<PairList<String, String>> ret = new ArrayList<PairList<String, String>>(list.size());
+			List<PairList<String, String>> ret = new ArrayList<>(list.size());
 			int index = 0;
 			for (List<Criterium> l : list) {
-				PairList<String, String> lp = new PairList<String, String>(l.size());
+				PairList<String, String> lp = new PairList<>(l.size());
 				for (Criterium c : l) {
 					if (c.getPossibleValues().size() > 0) {
-						Pair<String, String> p = new Pair<String, String>(c.getName(), c.getPossibleValue(indexes[index]));
+						Pair<String, String> p = new Pair<>(c.getName(), c.getPossibleValue(indexes[index]));
 						index++;
 						lp.add(p);
 					}

@@ -29,7 +29,7 @@ public class RingModelExperiment implements Experiment {
 		this.duration = duration;
 		this.attenuation = attenuation;
 		this.t = t;
-		this.xi = Math.sqrt(1 - (t*t));
+		this.xi = Math.sqrt(1 - t*t);
 		this.store = store;
 		ringStateReal = new double[ringSize];
 		ringStateImg  = new double[ringSize];
@@ -74,8 +74,8 @@ public class RingModelExperiment implements Experiment {
 		for (int i = 0 ; i < duration; i++) {
 			DataPoint dp2 = dp.getDerivedDataPoint();
 			dp2.addProperty("state", state);
-			double w = ringStateReal[ringSize-1]*(attenuation);
-			double z  = ringStateImg[ringSize-1]*(attenuation);
+			double w = ringStateReal[ringSize-1]* attenuation;
+			double z  = ringStateImg[ringSize-1]* attenuation;
 			double[] copyReal = new double[ringSize];
 			double[] copyImg = new double[ringSize];
 			System.arraycopy(ringStateReal, 0, copyReal, 1, ringSize-1);
@@ -90,7 +90,7 @@ public class RingModelExperiment implements Experiment {
 			double y = input[1];
 			
 			double s = -xi*y + t*w;
-			double r = (t*z) + (xi*x);
+			double r = t*z + xi*x;
 			
 			ringStateReal[0] = s;
 			ringStateImg[0] = r;
@@ -128,8 +128,8 @@ public class RingModelExperiment implements Experiment {
 				};
 				
 				ex.addArrayResult("power transfers", poww, powwLib, dp2);
-				dp2.addResultProperty("power transfer to the ring", (x*x+y*y)- outputPower);
-				dp2.addResultProperty("power transfer to the waveguide", (w*w+z*z) - startRingPower);
+				dp2.addResultProperty("power transfer to the ring", x*x+y*y - outputPower);
+				dp2.addResultProperty("power transfer to the waveguide", w*w+z*z - startRingPower);
 				dp2.addResultProperty("transmission", outputPower/(x*x));
 				dp2.addResultProperty("output power", outputPower);
 				dp2.addResultProperty("from ring power", w*w + z*z);

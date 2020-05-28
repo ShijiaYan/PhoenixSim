@@ -25,7 +25,7 @@ public class TDM_Variant extends SpinnetVariant {
 	
 	protected double slotDuration;
 	
-	protected HashMap<Integer, TDMSpinnetBuffer> bufferMap = new HashMap<Integer, TDMSpinnetBuffer>();
+	protected HashMap<Integer, TDMSpinnetBuffer> bufferMap = new HashMap<>();
 
 	public TDM_Variant(@ParamName(name="Maximum buffer depth (in packets)", default_="10000") int maxBufferSize, 
 			@ParamName(name="Buffer zero-load latency in ns", default_="0") double bufferLatency,
@@ -59,7 +59,7 @@ public class TDM_Variant extends SpinnetVariant {
 
 	@Override
 	public Map<String, String> getVariantSpecificParameters() {
-		SimpleMap<String, String> map = new SimpleMap<String, String>(1);
+		SimpleMap<String, String> map = new SimpleMap<>(1);
 		map.put("slot duration", slotDuration+"");
 		return map;
 	}
@@ -148,7 +148,7 @@ public class TDM_Variant extends SpinnetVariant {
 		conflictGraph.activateMainDataHandler();
 		conflictGraph.newLayer("physical");
 
-		HashMap<Path, NodeContainer> pathMap = new HashMap<Path, NodeContainer>();
+		HashMap<Path, NodeContainer> pathMap = new HashMap<>();
 		
 		
 		

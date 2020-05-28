@@ -172,17 +172,17 @@ public class ModMT19937 extends RandomStreamBase  {
 			int kk;
 
 			for(kk=0; kk < N - M; kk++) {
-				y = (state[kk] & UPPER_MASK) | (state[kk+1] & LOWER_MASK);
-				state[kk] = state[kk + M] ^ (y >>> 1) ^
+				y = state[kk] & UPPER_MASK | state[kk+1] & LOWER_MASK;
+				state[kk] = state[kk + M] ^ y >>> 1 ^
 				MULT_MATRIX_A[y & 0x1];
 			}
 			for(; kk < N - 1; kk++) {
-				y = (state[kk] & UPPER_MASK) | (state[kk+1] & LOWER_MASK);
-				state[kk] = state[kk + (M - N)] ^ (y >>> 1) ^
+				y = state[kk] & UPPER_MASK | state[kk+1] & LOWER_MASK;
+				state[kk] = state[kk + M - N] ^ y >>> 1 ^
 				MULT_MATRIX_A[y & 0x1];
 			}
-			y = (state[N-1] & UPPER_MASK) | (state[0] & LOWER_MASK);
-			state[N-1] = state[M-1] ^ (y >>> 1) ^
+			y = state[N-1] & UPPER_MASK | state[0] & LOWER_MASK;
+			state[N-1] = state[M-1] ^ y >>> 1 ^
 			MULT_MATRIX_A[y & 0x1];
 
 			state_i = 0;
@@ -191,12 +191,12 @@ public class ModMT19937 extends RandomStreamBase  {
 		y = state[state_i++];
 
 		// Tempering */
-		y ^= (y >>> 11);
-		y ^= (y << 7) & 0x9d2c5680;
-		y ^= (y << 15) & 0xefc60000;
-		y ^= (y >>> 18);
+		y ^= y >>> 11;
+		y ^= y << 7 & 0x9d2c5680;
+		y ^= y << 15 & 0xefc60000;
+		y ^= y >>> 18;
 
-		long r = (y <= 0) ? y + 0x100000000L : y;
+		long r = y <= 0 ? y + 0x100000000L : y;
 
 		return r * NORM;
 	}

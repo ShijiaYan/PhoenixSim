@@ -21,7 +21,7 @@ public class RingStructure extends AbstractAxisStructure {
 		int[] array;
 		if (size % 2 == 0) {
 			int hs = size/2;
-			if ((diff > 0 && diff <= hs) || diff <= -hs) {
+			if (diff > 0 && diff <= hs || diff <= -hs) {
 				// clockwise
 				if (to < from) 
 					to += size;
@@ -33,7 +33,7 @@ public class RingStructure extends AbstractAxisStructure {
 			}			
 		} else {
 			int hs = size/2;
-			if ((diff > 0 && diff <= hs) || diff < -hs) {
+			if (diff > 0 && diff <= hs || diff < -hs) {
 				// clockwise
 				if (to < from) 
 					to += size;

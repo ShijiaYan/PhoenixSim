@@ -22,7 +22,7 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 
 	private AbstractGraphHandler handler = null;
 
-	private Hashtable<String, JavancoFile> recentScripts = new Hashtable<String, JavancoFile>();
+	private Hashtable<String, JavancoFile> recentScripts = new Hashtable<>();
 
 	private Binding bind = null;
 
@@ -59,7 +59,7 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 
 
 		try {
-			script = (new GroovyShell()).parse(scriptFile);
+			script = new GroovyShell().parse(scriptFile);
 		}
 		catch (Exception e) {
 			handler.displayWarning("Error while running script",e);
@@ -75,7 +75,7 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 			return;
 		}
 		try {
-			if (script.getClass().getMethod("step", new Class[]{}) != null) {
+			if (script.getClass().getMethod("step") != null) {
 				Runner scriptRunner = new Runner(script, scriptFile.getName(), bind);
 				scriptRunner.init();
 			} else {
@@ -101,7 +101,7 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 	 */
 	public String executeStatement(String statementToExecute) throws ScriptExecutionException, CompilationFailedException {
 		try {
-			Script script = (new GroovyShell()).parse(statementToExecute);
+			Script script = new GroovyShell().parse(statementToExecute);
 			bind = new Binding();
 			setContext(bind);
 			//	System.getSecurityManager().checkExec("test.bat");
@@ -177,14 +177,14 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 
 	void saveVariable(Object o, String name) {
 		if (savedVariables == null) {
-			savedVariables = new Hashtable<String, Object>();
+			savedVariables = new Hashtable<>();
 		}
 		savedVariables.put(name, o);
 	}
 
 	void saveWorkSpace(Map<String, Object> map) {
 		if (savedVariables == null) {
-			savedVariables = new Hashtable<String, Object>();
+			savedVariables = new Hashtable<>();
 		}
 		for (String s : map.keySet()) {
 			savedVariables.put(s, map.get(s));
@@ -199,7 +199,7 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 	}
 
 	Map<String, Object> loadWorkSpace() {
-		Hashtable<String, Object> ht = new Hashtable<String, Object>();
+		Hashtable<String, Object> ht = new Hashtable<>();
 		if (savedVariables != null) {
 			ht.putAll(savedVariables);
 		}
@@ -261,7 +261,7 @@ public class GroovyScriptManager extends RunnerEventHandler implements RunnerEve
 	final public static String LOGBUFFER_VAR = "logBuffer";
 	final public static String OUT_VAR = "out";
 
-	final static String PRIVATE_SCRIPT_MANAGER = (new Double(Math.random())).toString();
+	final static String PRIVATE_SCRIPT_MANAGER = new Double(Math.random()).toString();
 
 	public Map<String, JavancoFile> getRecentScriptsMap() {
 		return recentScripts;

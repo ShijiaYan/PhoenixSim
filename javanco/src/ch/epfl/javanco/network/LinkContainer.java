@@ -70,7 +70,7 @@ public class LinkContainer extends AbstractElementContainer implements Serializa
 		}
 		JavancoShortestPath sp = new JavancoShortestPath(getAbstractGraphHandler().getNodeContainers(), onLayer);
 		Object o = sp.getPath(this.getStartNodeIndex(), this.getEndNodeIndex());
-		return (o != null);
+		return o != null;
 	}
 
 /*	public boolean hasStartNodeDefined() {
@@ -91,20 +91,16 @@ public class LinkContainer extends AbstractElementContainer implements Serializa
 			return true;
 		}
 		t1 = getEndNodeIndex();
-		if (t1 == alter.getStartNodeIndex() || t1 == alter.getEndNodeIndex()) {
-			return true;
-		}
-		return false;
-	}
+        return t1 == alter.getStartNodeIndex() || t1 == alter.getEndNodeIndex();
+    }
 
 	public boolean hasForExtremity(int i) {
-		return (i == getStartNodeIndex() || i == getEndNodeIndex());
+		return i == getStartNodeIndex() || i == getEndNodeIndex();
 	}
 
 	public boolean hasExtremities(int ext1, int ext2) {
-		return (((startNodeIndex == ext1) && (endNodeIndex == ext2)) ||
-				((startNodeIndex == ext2) && (endNodeIndex == ext1))
-		);
+		return startNodeIndex == ext1 && endNodeIndex == ext2 ||
+                startNodeIndex == ext2 && endNodeIndex == ext1;
 	}
 
 	public Path toPath() {
@@ -330,7 +326,7 @@ public class LinkContainer extends AbstractElementContainer implements Serializa
 	@Override
 	public void linkAllDefiningAttributes(String elementKeyword) {
 		super.linkAllCoreAttributes(elementKeyword);
-		if (!(elementKeyword.equals(XMLTagKeywords.MAIN_DESCRIPTION.toString()))) {
+		if (!elementKeyword.equals(XMLTagKeywords.MAIN_DESCRIPTION.toString())) {
 			NetworkAttribute att = attribute(XMLTagKeywords.ON_LAYER);
 			att.setValue(getContainingLayerContainer().getName());
 			this.linkAttribute(att, elementKeyword);
@@ -346,15 +342,15 @@ public class LinkContainer extends AbstractElementContainer implements Serializa
 
 	@Override
 	public Collection<NetworkAttribute> getSortedAttributes() {
-		ArrayList<NetworkAttribute> copy = new ArrayList<NetworkAttribute>(this.attributes());
-		ArrayList<NetworkAttribute> toret = new ArrayList<NetworkAttribute>(copy.size());
+		ArrayList<NetworkAttribute> copy = new ArrayList<>(this.attributes());
+		ArrayList<NetworkAttribute> toret = new ArrayList<>(copy.size());
 		NetworkAttribute origA = attribute(XMLTagKeywords.ORIG);
 		toret.add(origA);
 		copy.remove(origA);
 		NetworkAttribute destA = attribute(XMLTagKeywords.DEST);
 		toret.add(destA);
 		copy.remove(destA);
-		TreeMap<String, NetworkAttribute> map = new TreeMap<String, NetworkAttribute>();
+		TreeMap<String, NetworkAttribute> map = new TreeMap<>();
 		for (NetworkAttribute att : copy) {
 			map.put(att.getName(), att);
 		}

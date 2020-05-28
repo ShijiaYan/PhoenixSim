@@ -15,7 +15,7 @@ public class SymmetricLinearLinkDistanceModel extends LinearLinkDistanceModel {
 	public double getLinkLatency(int index, int maxIndex) {
 		int halfIndex = index/2;
 		int halfMaxIndex = maxIndex/2;
-		return getLatencyFromMeters(minLength) + ((double)halfIndex / (double)halfMaxIndex)*(getLatencyFromMeters(maxLength)-getLatencyFromMeters(minLength));
+		return getLatencyFromMeters(minLength) + ((double)halfIndex / (double)halfMaxIndex) *(getLatencyFromMeters(maxLength)-getLatencyFromMeters(minLength));
 	}
 	
 	public Map<String, String> getAllParameters() {

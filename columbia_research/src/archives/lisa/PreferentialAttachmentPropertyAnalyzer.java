@@ -43,22 +43,22 @@ public class PreferentialAttachmentPropertyAnalyzer implements Experiment {
 			System.out.println("children["+i+"] ="+children[i]);
 		}*/
 		double p0,p1=0,dsim=0,LstoTheor,dstoTheor,percentErrL,percentErrD;
-		int numLeaves=0; 
-		for(int i=0;i<children.length;i++){
-			if(children[i]==0)
-				numLeaves++;
-			if(children[i]==1)
-				p1++;
-			if(children[i]>=2)
-				dsim++; //delegating nodes
-		}
+		int numLeaves=0;
+        for (int child : children) {
+            if (child == 0)
+                numLeaves++;
+            if (child == 1)
+                p1++;
+            if (child >= 2)
+                dsim++; //delegating nodes
+        }
 
 		p0=(double)numLeaves/(double)vertices;
 		p1=p1/vertices;
 		LstoTheor = getAverageNumberOfLeaves();
 		dstoTheor = getAverageHubNumber();
 		percentErrL = Math.abs(LstoTheor-numLeaves)/LstoTheor*100;
-		percentErrD = Math.abs(dstoTheor-(dsim))/(dstoTheor)*100;
+		percentErrD = Math.abs(dstoTheor- dsim)/ dstoTheor *100;
 		
 		dp.addResultProperty("Number Leaves", numLeaves);
 		dp.addResultProperty("Theoretical number leaves", LstoTheor);

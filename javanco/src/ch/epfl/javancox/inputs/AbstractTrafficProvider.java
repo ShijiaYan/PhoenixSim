@@ -158,14 +158,14 @@ public abstract class AbstractTrafficProvider extends AbstractProvider {
 			Double[][] d = prov.generateTrafficImpl(agh);
 			int nb = 0;
 			double sum = 0;
-			for (int i = 0 ; i < d.length ; i++) {
-				for (int j = 0 ; j < d.length ; j++) {
-					if (d[i][j] != null) {
-						sum += d[i][j];
-						nb++;
-					}
-				}
-			}
+            for (Double[] doubles : d) {
+                for (int j = 0; j < d.length; j++) {
+                    if (doubles[j] != null) {
+                        sum += doubles[j];
+                        nb++;
+                    }
+                }
+            }
 			double desired = (double)nb * load;
 			double ratio = desired/sum;
 			for (int i = 0 ; i < d.length ; i++) {

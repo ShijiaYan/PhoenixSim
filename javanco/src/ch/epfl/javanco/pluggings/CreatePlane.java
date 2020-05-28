@@ -55,15 +55,15 @@ public class CreatePlane extends JavancoTool {
 		int[] positions = TypeParser.parseIntArray("0:" + (numNodesBase-1));
 		for (int i = 0 ; i < numNodesBase ; i++) {
 			for (int j = 0 ; j < clientPerNode ; j++) {
-				double x = -Math.cos(startAngle2 + (angle2*index))*ray2;
-				double y = Math.sin(startAngle2 + (angle2*index))*ray2;
+				double x = -Math.cos(startAngle2 + angle2*index)*ray2;
+				double y = Math.sin(startAngle2 + angle2*index)*ray2;
 				NodeContainer nn = agh.newNode((int)x, (int)y);
 				nn.attribute("node_color").setValue("220,100,200");
 				nn.attribute("pos_z").setValue(nbPlanes*zOff/2);
 		//		nn.attribute("node_size").setValue(30);
 				index++;
 				for (int k = 0 ; k < nbPlanes ; k++) {
-					LinkContainer l = agh.newLink(positions[i]+(k*nbSwitches), nn.getIndex());
+					LinkContainer l = agh.newLink(positions[i]+ k*nbSwitches, nn.getIndex());
 					if (k < nbPlanes-1) {
 						l.attribute("link_color").setValue("200,200,200");
 					}

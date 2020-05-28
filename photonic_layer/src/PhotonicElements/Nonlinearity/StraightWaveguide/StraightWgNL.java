@@ -46,11 +46,11 @@ public class StraightWgNL {
 	}
 	
 	public double getExcessPhaseNL(){
-		return (wgKerr.getExcessPhaseKerr()+wgThermal.getExcessPhaseThermal()+ wgTPA.getExcessPhaseTPA());
+		return wgKerr.getExcessPhaseKerr()+wgThermal.getExcessPhaseThermal()+ wgTPA.getExcessPhaseTPA();
 	}
 	
 	public double getExcessLoss(){
-		return (wgKerr.getExcessLossKerr()*wgTPA.getExcessLossTPA());
+		return wgKerr.getExcessLossKerr()*wgTPA.getExcessLossTPA();
 	}
 	
 	public double getDalphaNL(){

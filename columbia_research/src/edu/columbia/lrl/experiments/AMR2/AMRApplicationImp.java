@@ -28,14 +28,14 @@ import edu.columbia.lrl.experiments.AMR2.io.AbstractAMRInputStreamManager;
 
 public class AMRApplicationImp extends AbstractApplication {
 	
-	public static enum MODE {
+	public enum MODE {
 		RAM,
 		FILE;
 	}
 	
-	ArrayList<ArrayList<Integer>> boxMapping = new ArrayList<ArrayList<Integer>>();	
+	ArrayList<ArrayList<Integer>> boxMapping = new ArrayList<>();
 	int[] inverseBoxMapping = new int[0];	
-	ArrayList<File> eventFiles = new ArrayList<File>();
+	ArrayList<File> eventFiles = new ArrayList<>();
 	String mappingFile;
 	int highestBoxNumber;
 	
@@ -52,7 +52,7 @@ public class AMRApplicationImp extends AbstractApplication {
 	int[] undonePerRank;
 	
 	static {
-		repo = new HashMap<String, AbstractAMRInputStreamManager>();
+		repo = new HashMap<>();
 		ExperimentExecutionManager.registerAsCachedClass(AMRApplicationImp.class);
 	}
 	
@@ -109,7 +109,7 @@ public class AMRApplicationImp extends AbstractApplication {
 		int box = Integer.parseInt(id.substring(1));
 		int locI = Integer.parseInt(loc);
 		while(boxMapping.size() <= locI) {
-			boxMapping.add(new ArrayList<Integer>());
+			boxMapping.add(new ArrayList<>());
 		}
 		ArrayList<Integer> locArray = boxMapping.get(locI);
 		locArray.add(box);		

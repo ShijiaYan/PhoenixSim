@@ -76,12 +76,12 @@ public abstract class GuiParameter<U> extends JPanel {
 
 		@Override
 		public boolean isValidParam() {
-			return (createdParam != null);
+			return createdParam != null;
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				new NewObjectPanel<X>(c, this);
+                new NewObjectPanel<>(c, this);
 			}
 			catch (Exception ex) {
 				throw new IllegalStateException(ex);
@@ -258,13 +258,10 @@ public abstract class GuiParameter<U> extends JPanel {
 
 		@Override
 		public boolean isValidParam() {
-			if (jTextField == null && jBox == null) {
-				return false;
-			}
+            return jTextField != null || jBox != null;
 			//	if (jTextField== null) return false;
 			//	if (jTextField.getText().equals("test")) return false;
-			return true;
-		}
+        }
 
 	}
 

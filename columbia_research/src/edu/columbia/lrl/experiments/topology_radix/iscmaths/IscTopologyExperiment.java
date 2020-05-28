@@ -109,9 +109,9 @@ public class IscTopologyExperiment implements Experiment {
 			} else {
 				for (R = 2 ; R < totalRadix - 1 ; R++) {
 					C = totalRadix - R;
-					this.S = MoreMaths.ceilDiv((int)N, C);
+					this.S = MoreMaths.ceilDiv(N, C);
 					this.N = S*C;
-					this.N_orig = (int)N;
+					this.N_orig = N;
 					this.n = 1;
 					runSimple(man);
 				}
@@ -139,11 +139,11 @@ public class IscTopologyExperiment implements Experiment {
 	/*	if (C + (n*R) < 24) {
 			totalRadix = 24;
 		} else */
-		if (C + (n*R) <= 32) {
-			double f = (C + (n*R))/8d;
+		if (C + n*R <= 32) {
+			double f = (C + n*R)/8d;
 			totalRadix = (int)Math.ceil(f)*8;
 		} else {
-			double f = (C + (n*R))/16d;
+			double f = (C + n*R)/16d;
 			totalRadix = (int)Math.ceil(f)*16;			
 		}
 		
@@ -166,9 +166,9 @@ public class IscTopologyExperiment implements Experiment {
 			dp.addResultProperty("traffic", traffic);
 			dp.addResultProperty("capacity", n*S*R);
 			dp.addResultProperty("links per end-point", (double)n*S*R/(double)N);
-			dp.addResultProperty("difference", (n*S*R) - traffic);
+			dp.addResultProperty("difference", n*S*R - traffic);
 			dp.addResultProperty("utilization", utilization);
-			dp.addResultProperty("radix", C + (n*R));
+			dp.addResultProperty("radix", C + n*R);
 			dp.addResultProperty("r_round", totalRadix<=96 ? totalRadix+"" : "large");
 			dp.addResultProperty("underdim", utilization > 1);
 			

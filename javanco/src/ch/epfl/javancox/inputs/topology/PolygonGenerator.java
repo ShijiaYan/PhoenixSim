@@ -27,7 +27,7 @@ public class PolygonGenerator extends AbstractDeterministicGenerator {
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("polygon_connected",connected+"");
 		switch(method) {
 		case 0:
@@ -250,7 +250,7 @@ public class PolygonGenerator extends AbstractDeterministicGenerator {
 
 		for(int s=agh.getSmallestNodeIndex()+1;s<=agh.getHighestNodeIndex();s=s+2){
 			int d=(s+chordLength)%numberOfNodes;
-			if((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) &&(s!=d)){
+			if(agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null && s!=d){
 				agh.newLink(s,d);
 			}
 		}

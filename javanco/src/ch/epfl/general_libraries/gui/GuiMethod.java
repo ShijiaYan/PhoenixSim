@@ -151,7 +151,7 @@ public class GuiMethod<V> {
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gdc = new GridBagConstraints();
 
-		final List<GuiParameter<?>> parameters = new ArrayList<GuiParameter<?>>();
+		final List<GuiParameter<?>> parameters = new ArrayList<>();
 		Class<?>[] paramType = m.getParameterTypes();
 		Annotation[][] paramAnot = m.getParameterAnnotations();
 
@@ -226,12 +226,7 @@ public class GuiMethod<V> {
 
 		panel.add(jButton, gdc);
 		gdc.gridy++;
-		jButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getParam(job, parameters);
-			}
-		});
+		jButton.addActionListener(e -> getParam(job, parameters));
 
 
 		globalPanel.add(panel, globalGdc);

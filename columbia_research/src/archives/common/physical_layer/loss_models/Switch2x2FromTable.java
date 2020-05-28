@@ -20,7 +20,7 @@ public class Switch2x2FromTable extends AbstractSwitchingRingModel {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Switch loss file name", fileName);
 		return map;
 	}

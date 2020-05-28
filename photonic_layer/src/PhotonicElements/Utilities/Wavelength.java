@@ -17,11 +17,11 @@ public class Wavelength {
 		return lambdaNm ;
 	}
 	public double getWavelengthMeter(){
-		return (lambdaNm*1e-9) ;
+		return lambdaNm*1e-9;
 	}
 
 	public double getWavelengthMicron(){
-		return (lambdaNm*1e-3) ;
+		return lambdaNm*1e-3;
 	}
 
 	public double getFreqHz(){
@@ -29,15 +29,15 @@ public class Wavelength {
 	}
 
 	public double getFreqGHz(){
-		return (freqHz * 1e-9) ;
+		return freqHz * 1e-9;
 	}
 
 	public double getFreqTHz(){
-		return (freqHz*1e-12) ;
+		return freqHz*1e-12;
 	}
 
 	public double getK0(){
-		return (2*Math.PI/getWavelengthMeter()) ;
+		return 2*Math.PI/getWavelengthMeter();
 	}
 
 	public double getFreqSpacingHz(double lambdaSpacingNm){
@@ -46,7 +46,7 @@ public class Wavelength {
 
 	public double getWavelengthSpacingNm(double freqSpacingHz){
 		double lambdaSpacingMeter = speedOfLight/(getFreqHz()*getFreqHz()) * freqSpacingHz ;
-		return (lambdaSpacingMeter * 1e9) ;
+		return lambdaSpacingMeter * 1e9;
 	}
 
 	// also implement static methods if possible...

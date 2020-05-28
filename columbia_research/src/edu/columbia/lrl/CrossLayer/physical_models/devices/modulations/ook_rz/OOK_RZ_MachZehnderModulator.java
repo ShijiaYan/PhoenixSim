@@ -2,7 +2,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_rz;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.results.PropertyMap;
 import ch.epfl.general_libraries.utils.MoreArrays;
@@ -43,9 +42,9 @@ public class OOK_RZ_MachZehnderModulator extends Abstract_OOK_RZ_Modulator {
 			AbstractLinkFormat linkFormat) {
 		PowerPenalty ookPP = new PowerPenalty(PowerPenalty.OOK, MODULATOR, getModOOK());
 		PowerPenalty erPP = new PowerPenalty(PowerPenalty.ER, MODULATOR, getModERPP());
-		PowerPenalty ilPP = new PowerPenalty(PowerPenalty.INSERTIONLOSS, MODULATOR, getModInsertionLoss());		
+		PowerPenalty ilPP = new PowerPenalty(PowerPenalty.INSERTION_LOSS, MODULATOR, getModInsertionLoss());
 
-		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<Double, ArrayList<PowerPenalty>>();
+		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<>();
 		pair.setFirst(getModER());
 		pair.setSecond(MoreArrays.getArrayList(ookPP, erPP, ilPP, getPassivePowerPenalty(modelSet), getDutyCycleLoss()));	
 		return pair;	
@@ -88,7 +87,7 @@ public class OOK_RZ_MachZehnderModulator extends Abstract_OOK_RZ_Modulator {
 	public PowerPenalty getPassivePowerPenalty(PhysicalParameterAndModelsSet modelSet) {	
 		double waveguideLoss = modelSet.getWaveguideLoss();
 		double junctionLoss = modelSet.getJunctionLoss();
-		return new PowerPenalty(PowerPenalty.PASSIVEINSERTIONLOSS, MODULATOR, waveguideLoss*100*armLength + 2*junctionLoss);
+		return new PowerPenalty(PowerPenalty.PASSIVE_INSERTION_LOSS, MODULATOR, waveguideLoss*100*armLength + 2*junctionLoss);
 	}	
 	
 	private PowerPenalty getDutyCycleLoss() {

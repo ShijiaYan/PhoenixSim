@@ -71,10 +71,10 @@ public class LinkShape implements Shape {
 	public LinkPolygon toPolygon(float width) {
 		if (poly == null) {
 			PathIterator pi = getPathIterator(null, 1);
-			LinkedList<Integer> xpoints = new LinkedList<Integer>();
-			LinkedList<Integer> ypoints = new LinkedList<Integer>();
-			LinkedList<Integer> xpointsret = new LinkedList<Integer>();
-			LinkedList<Integer> ypointsret = new LinkedList<Integer>();
+			LinkedList<Integer> xpoints = new LinkedList<>();
+			LinkedList<Integer> ypoints = new LinkedList<>();
+			LinkedList<Integer> xpointsret = new LinkedList<>();
+			LinkedList<Integer> ypointsret = new LinkedList<>();
 
 			double[] coords = new double[6];
 			double[] last = new double[2];

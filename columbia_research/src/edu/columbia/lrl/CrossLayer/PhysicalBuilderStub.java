@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package edu.columbia.lrl.CrossLayer;
 
 import java.util.ArrayList;
@@ -14,8 +9,8 @@ import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.results.Execution;
 import ch.epfl.general_libraries.traffic.Rate;
 import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.AbstractPhysicalLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.layout.LayoutException;
-import edu.columbia.lrl.CrossLayer.physical_models.layout.PhysicalLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
 import edu.columbia.lrl.CrossLayer.simulator.phy_builders.PhyWrapper;
@@ -28,7 +23,7 @@ import edu.columbia.lrl.LWSim.builders.NumberOfClientBasedBuilder;
 
 public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuilder {
 
-	private PhysicalParameterAndModelsSet ms;
+	private PhysicalParameterAndModelsSet modelsSet;
 	private AbstractBandwidthSpecifiedNBClientBuilder regBui;
 	private AbstractLinkFormat linkFormat;
 	private int nbClients;
@@ -42,7 +37,7 @@ public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuil
 			throw new IllegalStateException("The NBClientBuilder must implement " + PhyWrapper.class.getSimpleName());
 		} else {
 			this.wrapper = (PhyWrapper) regBui;
-			this.ms = phyModels;
+			this.modelsSet = phyModels;
 			this.regBui = regBui;
 			this.linkFormat = linkFormat;
 		}
@@ -60,7 +55,7 @@ public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuil
 			return new InitFeedback("Skipped one simulation as bandwidth format is invalid");
 		} else {
 			try {
-				LayoutWorseCaseProperties var3 = this.findLayoutProperties(this.lwSimExperiment.getExecution());
+				LayoutWorseCaseProperties properties = this.findLayoutProperties(this.lwSimExperiment.getExecution());
 			} catch (LayoutException var7) {
 				return new InitFeedback(var7.getReason());
 			}
@@ -72,7 +67,7 @@ public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuil
 					"" + this.linkFormat.getWavelengthRate() / 1.0E9D);
 			this.lwSimExperiment.addPropertyToDefaultDataPoint("Total aggregated rate (Gb/s)",
 					String.valueOf(this.linkFormat.getAggregateRateInGbs()));
-			double channelSpacing = this.ms.getConstants().wavelengthsToFreqSpacing(wavelengths);
+			double channelSpacing = this.modelsSet.getConstants().wavelengthsToFreqSpacing(wavelengths);
 			this.lwSimExperiment.addPropertyToDefaultDataPoint("Channel spacing", String.valueOf(channelSpacing));
 			this.lwSimExperiment.setReferenceBandwidth(this.wrapper.getSrcToDestRate(this.linkFormat));
 			return this.regBui.build(this.lwSimExperiment, dests, nbClients);
@@ -81,17 +76,17 @@ public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuil
 
 	private LayoutWorseCaseProperties findLayoutProperties(Execution ex) throws LayoutException {
 		return this.linkFormat.isNumberOfChannelFixed()
-				? this.getPhysicalLayout().getCheckedLayoutProperties(ex, this.ms, this.linkFormat)
-				: this.getPhysicalLayout().getWavelengthOptimizedLayoutProperties((Execution) null, this.linkFormat,
-						this.ms);
+				? this.getPhysicalLayout().getCheckedLayoutProperties(ex, this.modelsSet, this.linkFormat)
+				: this.getPhysicalLayout().getWavelengthOptimizedLayoutProperties(null, this.linkFormat,
+						this.modelsSet);
 	}
 
-	public PhysicalLayout getPhysicalLayout() {
+	public AbstractPhysicalLayout getPhysicalLayout() {
 		return this.wrapper.getPhysicalLayoutImpl(this.nbClients);
 	}
 
 	public Map<String, String> getAllParameters() {
-		Map<String, String> m = this.ms.getAllParameters();
+		Map<String, String> m = this.modelsSet.getAllParameters();
 		m.putAll(this.linkFormat.getAllParameters());
 		m.putAll(this.regBui.getAllParameters());
 		return m;
@@ -110,21 +105,21 @@ public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuil
 	}
 
 	public void notifyEnd(double clock, int status) {
-		Iterator var5 = this.ms.getAllParameters().entrySet().iterator();
+		Iterator var5 = this.modelsSet.getAllParameters().entrySet().iterator();
 
 		while (var5.hasNext()) {
 			Entry<String, String> ent = (Entry) var5.next();
-			if (!this.lwSimExperiment.defaultDataPointHasProperty((String) ent.getKey())) {
-				this.lwSimExperiment.addPropertyToDefaultDataPoint((String) ent.getKey(), (String) ent.getValue());
+			if (!this.lwSimExperiment.defaultDataPointHasProperty(ent.getKey())) {
+				this.lwSimExperiment.addPropertyToDefaultDataPoint(ent.getKey(), ent.getValue());
 			}
 		}
 
 		double totalPower_mW = this.wrapper.getTotalpowerMW();
 		if (totalPower_mW < 0.0D) {
 			Rate observedReceived = new Rate(this.lwSimExperiment.receivedBits, clock / 1000.0D);
-			double receivedUtilization = (double) observedReceived
+			double receivedUtilization = observedReceived
 					.divide(this.lwSimExperiment.getTotalInjectionBandwidth());
-			List<PowerConsumption> consumptions = this.getPhysicalLayout().getPowerConsumptions(this.ms,
+			List<PowerConsumption> consumptions = this.getPhysicalLayout().getPowerConsumptions(this.modelsSet,
 					this.linkFormat, true);
 			int pniPerClient = this.wrapper.getNumberOfOpticalInterfacesPerClient();
 			int nbPNI = pniPerClient * this.lwSimExperiment.getNumberOfClients();
@@ -143,7 +138,7 @@ public class PhysicalBuilderStub extends AbstractBandwidthCalculatedNBClientBuil
 		this.lwSimExperiment.addGlobalResult("Total energy (J)", totalEnergy);
 		this.lwSimExperiment.addGlobalResult("Total average power (mW)", totalPower_mW);
 		LayoutWorseCaseProperties layProp = this.getPhysicalLayout()
-				.getLayoutPropertiesForaGivenNumberOfWavelengths((Execution) null, this.ms, this.linkFormat);
+				.getLayoutPropertiesForaGivenNumberOfWavelengths(null, this.modelsSet, this.linkFormat);
 		this.lwSimExperiment.addGlobalResult("Layout power penalty (dB)", layProp.getTotalPowerPenalty());
 		this.regBui.notifyEnd(clock, status);
 	}

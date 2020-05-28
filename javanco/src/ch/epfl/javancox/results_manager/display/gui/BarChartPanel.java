@@ -84,31 +84,29 @@ public class BarChartPanel extends AbstractChartProvider.AbstractChartPanel impl
 	}
 	
 	public Pair<ActionListener[], String[]> getDisplayerPossibleActions(ComplexDisplayPanel panel) {
-		ActionListener excel = new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent ev) {
-				BarChartProvider disp = (BarChartProvider)displayer;
-				try {
-					disp.createExcelData(retriever);
-				}
-				catch (Exception e) {
-					JOptionPane.showMessageDialog(
-							null,
-							"Error during exportation of the file : \n"
-							+ e.getMessage(), "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		};
+		ActionListener excel = ev -> {
+            BarChartProvider disp = (BarChartProvider)displayer;
+            try {
+                disp.createExcelData(retriever);
+            }
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Error during exportation of the file : \n"
+                        + e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        };
 
-		return new Pair<ActionListener[], String[]>(
-				new ActionListener[] { excel },
-				new String[] { "Export displayed series as excel sheet" });
+		return new Pair<>(
+                new ActionListener[]{excel},
+                new String[]{"Export displayed series as excel sheet"});
 	}
 	
 	@Override
 	public Object getLegend() {
 		BarChartProvider disp = (BarChartProvider)displayer;
-		Map<Pair<String, String>, Shape> seriesShape  = new HashMap<Pair<String, String>, Shape>();
+		Map<Pair<String, String>, Shape> seriesShape  = new HashMap<>();
 		//seriesShape.put(new Pair<String, String>("", ""), new Rectangle(6, 6));
 		JTree tl = TreeLegend.createTreeLegend(disp.seriesPaint, seriesShape,
 				disp.seriesShapeBar, disp.legends);
@@ -133,7 +131,7 @@ public class BarChartPanel extends AbstractChartProvider.AbstractChartPanel impl
 		disp.isLogY = logScaleY.isSelected();
 		disp.isScalar = scalarProduct.isSelected();
 		disp.isXOnScale = xOnScale.isSelected();
-		disp.listGraph2 = ((Description) this.listGraphs2.getSelectedItem());
+		disp.listGraph2 = (Description) this.listGraphs2.getSelectedItem();
 		return disp.computeChart(options, retriever);
 	}
 

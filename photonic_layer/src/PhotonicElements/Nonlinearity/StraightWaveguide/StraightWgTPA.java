@@ -36,7 +36,7 @@ public class StraightWgTPA {
 	v0 = inputLambda.getFreqHz() ; // frequency in Hz (it's better to use Wavelength class to do all the frequency conversions)
 	k0 = inputLambda.getK0() ; // free-space wave number
 	alphaLinear = wgProp.getWgPropLossPerMeter();
-	Iin = (pin_mW*1e-3)/(wgProp.getCrossSectionAreaMeterSquare()) ; // input intensity (W/m^2)
+	Iin = pin_mW*1e-3 / wgProp.getCrossSectionAreaMeterSquare(); // input intensity (W/m^2)
 	double Nc_perMeterCubed = tau*betaTPA*Math.pow(Iin, 2)/(2*PhysicalConstants.getPlanckConstant()*v0); // this is in 1/m^3, we should convert it in 1/(cm)^3 !!
 	Nc = Nc_perMeterCubed * 1e-6 ; //  now this is in units of 1/(cm^3) 
 	this.Plasma = new PlasmaDispersionModel(0,false,0,false,Nc,true);
@@ -60,7 +60,7 @@ public class StraightWgTPA {
 	v0 = 3e8/(lambdaNm*1e-9) ;
 	k0 = 2*Math.PI/(lambdaNm*1e-9);
 	alphaLinear = wgProp.getWgPropLossPerMeter();
-	Iin = (pin_mW*1e-3)/(wgProp.getCrossSectionAreaMeterSquare()) ;
+	Iin = pin_mW*1e-3 / wgProp.getCrossSectionAreaMeterSquare();
 	double Nc_perMeterCubed = tau*betaTPA*Math.pow(Iin, 2)/(2*PhysicalConstants.getPlanckConstant()*v0); // this is in 1/m^3, we should convert it in 1/(cm)^3 !!
 	Nc = Nc_perMeterCubed * 1e-6 ; //  now this is in units of 1/(cm^3) 
 	this.Plasma = new PlasmaDispersionModel(0,false,0,false,Nc,true);

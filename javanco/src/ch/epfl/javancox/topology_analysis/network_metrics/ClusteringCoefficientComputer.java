@@ -21,7 +21,7 @@ public class ClusteringCoefficientComputer extends NetworkWideMetricComputer {
 			tri[i] = getTrianglesOfNode(agh, i);
 			lam[i] = getLambdasOfNode(agh, i);
 
-			if ((lam[i] > 0)&&(tri[i]  > 0)){
+			if (lam[i] > 0 && tri[i]  > 0){
 
 				sum += (float)tri[i]/(float)lam[i];
 			}

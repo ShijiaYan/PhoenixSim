@@ -1,29 +1,22 @@
 package ch.epfl.javancox.experiments.builder.swing_gui;
 
-import java.awt.Color;
-import java.awt.LayoutManager;
 import ch.epfl.javancox.experiments.builder.tree_model.ConstructorChooseNode;
+
+import java.awt.*;
+
 
 public class ConstructorGUIContainer extends AbstractGUIContainer {
 
-	private static Color lightYellow = new Color(1f, 1f, 0.8f);
+    private static final Color CONSTRUCTOR_COLOR = new Color(255, 255, 204);
+    private static final long serialVersionUID = 1L;
 
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+    public ConstructorGUIContainer(ConstructorChooseNode node, LayoutManager man, int prefix) {
+        super(node, man, prefix);
+        this.setBackground(CONSTRUCTOR_COLOR);
+        this.refresh();
+    }
 
-
-	public ConstructorGUIContainer(ConstructorChooseNode node, LayoutManager man, int prefix) {
-		super(node, man, prefix);
-		this.setBackground(lightYellow);		
-		refresh();
-	}
-
-	@Override
-	public void refreshImpl() {
-		super.setIcon("constructoricon.png");
-	}
+    public void refreshImpl() {
+        super.setIcon("constructoricon.png");
+    }
 }

@@ -31,21 +31,18 @@ public class HighlightPath extends JavancoTool {
 		tf1.setColumns(10);
 		tf2.setColumns(10);
 		final JButton show = new JButton("Highlight path");
-		show.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				for (LinkContainer lc : agh.getLinkContainers()) {
-					lc.attribute(XMLTagKeywords.LINK_COLOR).setValue("0,0,0");
-				}
-				
-				Path p = BFS.getShortestPath(agh, Integer.parseInt(tf1.getText()), Integer.parseInt(tf2.getText()));
-				if (p == null) return;
-				for (LinkContainer lc : agh.getLinkContainers(p)) {
-					lc.attribute(XMLTagKeywords.LINK_COLOR).setValue("255,0,0");
-				}
-			}
-		});
+		show.addActionListener(arg0 -> {
+
+            for (LinkContainer lc : agh.getLinkContainers()) {
+                lc.attribute(XMLTagKeywords.LINK_COLOR).setValue("0,0,0");
+            }
+
+            Path p = BFS.getShortestPath(agh, Integer.parseInt(tf1.getText()), Integer.parseInt(tf2.getText()));
+            if (p == null) return;
+            for (LinkContainer lc : agh.getLinkContainers(p)) {
+                lc.attribute(XMLTagKeywords.LINK_COLOR).setValue("255,0,0");
+            }
+        });
 		d.setLayout(new FlowLayout());
 		d.add(tf1);
 		d.add(tf2);

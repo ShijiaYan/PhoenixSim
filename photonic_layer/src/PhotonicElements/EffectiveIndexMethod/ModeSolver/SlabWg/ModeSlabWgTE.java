@@ -22,7 +22,7 @@ public class ModeSlabWgTE {
 			@ParamName(name="up index") double n_u
 			){
 		this.V = V ;
-		this.lambdaNm = (2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d))/V ;
+		this.lambdaNm = 2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d) /V ;
 		this.widthNm = widthNm ;
 		this.n_core = n_c ;
 		this.n_down = n_d ;
@@ -54,7 +54,7 @@ public class ModeSlabWgTE {
 		double arg1 = Math.sqrt(b/(1-b)) ;
 		double arg2 = Math.sqrt((b+aTE)/(1-b)) ;
 		double B = Math.atan(arg1) + Math.atan(arg2) ;
-		return (A-B) ;
+		return A-B;
 	}	
 	
 	// mode number starts from zero --> TE0, TE1, TE2, ...
@@ -65,12 +65,7 @@ public class ModeSlabWgTE {
 	}
 	
 	public double findSpecificModeNormalizedIndex(final int modeNumber){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double b) {
-				return getModeEquation(b, modeNumber);
-			}
-		};
+		RealRootFunction func = b -> getModeEquation(b, modeNumber);
 		RealRoot rootFinder = new RealRoot() ;
 		double b = rootFinder.bisect(func, 0, 1) ;
 		try {

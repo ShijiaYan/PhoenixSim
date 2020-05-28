@@ -54,9 +54,9 @@ public class LayerEditingToolBar extends JToolBar {
 		LayerEditingToolBar toolBar;
 		
 		if (agh.getGraphHandlerFactory().getJavancoClassesLoader() == null) {
-			Hashtable<String, Class<? extends Link>> links = new Hashtable<String, Class<? extends Link>>();
+			Hashtable<String, Class<? extends Link>> links = new Hashtable<>();
 			links.put("DefaultLink", DefaultLinkImpl.class);
-			Hashtable<String, Class<? extends Node>> nodes = new Hashtable<String,Class<? extends Node>>();
+			Hashtable<String, Class<? extends Node>> nodes = new Hashtable<>();
 			nodes.put("DefaultNode", DefaultNodeImpl.class);
 			toolBar = new LayerEditingToolBar(nodes, links, agh.getUIDelegate(), true);
 		} else {
@@ -164,17 +164,9 @@ public class LayerEditingToolBar extends JToolBar {
 		setSelectedNodeType(nodeTypes.keys().nextElement().toString());
 		setSelectedLinkType(linkTypes.keys().nextElement().toString());
 
-		jNodeToggleButton.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				nodeToggleButtonChanged(e);
-			}
-		});
+		jNodeToggleButton.addChangeListener(e -> nodeToggleButtonChanged(e));
 
-		jLinkToggleButton.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				linkToggleButtonChanged(e);
-			}
-		});
+		jLinkToggleButton.addChangeListener(e -> linkToggleButtonChanged(e));
 		if (linkToBar) {
 			this.add(jLinkToggleButton);
 			this.add(jNodeToggleButton);

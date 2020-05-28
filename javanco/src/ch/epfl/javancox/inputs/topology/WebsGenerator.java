@@ -39,7 +39,7 @@ public class WebsGenerator extends AbstractPlanarDeterministicGenerator {
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("figure_sides",faces+"");
 		map.put("number_of_levels", numberOfLevels+"");
 		map.put("scale_factor", ray+"");
@@ -71,15 +71,15 @@ public class WebsGenerator extends AbstractPlanarDeterministicGenerator {
 	private void generatePolygonWeb(AbstractGraphHandler agh) {
 		ensureLayer(agh);
 		for(int i=1; i<=numberOfLevels;i++){
-			createPolygonNodes(agh, faces, (i*ray),centerX,centerY,0);
+			createPolygonNodes(agh, faces, i*ray,centerX,centerY,0);
 		}
 		for(int s=agh.getSmallestNodeIndex();s<=agh.getHighestNodeIndex();s++){
 			for(int d=agh.getSmallestNodeIndex();d<=agh.getHighestNodeIndex();d++){
-				if((s!=d)&&(agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+				if(s!=d && agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 					Point source = agh.getNodeContainer(s).getCoordinate();
 					Point dest = agh.getNodeContainer(d).getCoordinate();
 					double distance = source.distance(dest);
-					if(Math.abs(ray-((distance)))<5){
+					if(Math.abs(ray- distance)<5){
 						agh.newLink(s,d);
 					}
 				}
@@ -90,15 +90,15 @@ public class WebsGenerator extends AbstractPlanarDeterministicGenerator {
 	private void generateSquareWeb(AbstractGraphHandler agh) {
 		ensureLayer(agh);
 		for(int i=1; i<=numberOfLevels;i++){
-			createSquare(agh,(i*ray),centerX,centerY,0);
+			createSquare(agh, i*ray,centerX,centerY,0);
 		}
 		for(int s=agh.getSmallestNodeIndex();s<=agh.getHighestNodeIndex();s++){
 			for(int d=agh.getSmallestNodeIndex();d<=agh.getHighestNodeIndex();d++){
-				if((s!=d)&&(agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+				if(s!=d && agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 					Point source = agh.getNodeContainer(s).getCoordinate();
 					Point dest = agh.getNodeContainer(d).getCoordinate();
 					double distance = source.distance(dest);
-					if(Math.abs(ray-((distance)))<5){
+					if(Math.abs(ray- distance)<5){
 						agh.newLink(s,d);
 					}
 				}
@@ -111,16 +111,16 @@ public class WebsGenerator extends AbstractPlanarDeterministicGenerator {
 		ensureLayer(agh);
 
 		for(int i=1; i<=numberOfLevels;i++){
-			createTriangle(agh,(i*ray),centerX,centerY,0);
+			createTriangle(agh, i*ray,centerX,centerY,0);
 		}
 
 		for(int s=agh.getSmallestNodeIndex();s<=agh.getHighestNodeIndex();s++){
 			for(int d=agh.getSmallestNodeIndex();d<=agh.getHighestNodeIndex();d++){
-				if((s!=d)&&(agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+				if(s!=d && agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 					Point source = agh.getNodeContainer(s).getCoordinate();
 					Point dest = agh.getNodeContainer(d).getCoordinate();
 					double distance = source.distance(dest);
-					if(Math.abs(ray-((distance)))<5){
+					if(Math.abs(ray- distance)<5){
 						agh.newLink(s,d);
 					}
 				}
@@ -133,16 +133,16 @@ public class WebsGenerator extends AbstractPlanarDeterministicGenerator {
 		ensureLayer(agh);
 
 		for(int i=1; i<=numberOfLevels;i++){
-			createHexagon(agh,(i*ray),centerX,centerY,0);
+			createHexagon(agh, i*ray,centerX,centerY,0);
 		}
 
 		for(int s=agh.getSmallestNodeIndex();s<=agh.getHighestNodeIndex();s++){
 			for(int d=agh.getSmallestNodeIndex();d<=agh.getHighestNodeIndex();d++){
-				if((s!=d)&&(agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null) ){
+				if(s!=d && agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null){
 					Point source = agh.getNodeContainer(s).getCoordinate();
 					Point dest = agh.getNodeContainer(d).getCoordinate();
 					double distance = source.distance(dest);
-					if(Math.abs(ray-((distance)))<5){
+					if(Math.abs(ray- distance)<5){
 						agh.newLink(s,d);
 					}
 				}

@@ -75,7 +75,7 @@ public class AMRTransformer {
 		if (s.startsWith("</events")) {
 			return null;
 		}
-		SimpleMap<String, String> sm = new SimpleMap<String, String>();
+		SimpleMap<String, String> sm = new SimpleMap<>();
 		String[] dd = s.split(" ");
 		for (int i = 1 ; i < dd.length - 1 ; i++) {
 			String[] att = parseAttribute(dd[i]);

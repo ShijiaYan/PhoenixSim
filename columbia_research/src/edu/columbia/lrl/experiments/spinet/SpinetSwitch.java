@@ -41,7 +41,7 @@ public class SpinetSwitch {
 		
 		agh = gen.generate();
 		
-		ArrayList<TwoTwoSwitch> switches = new ArrayList<TwoTwoSwitch>();
+		ArrayList<TwoTwoSwitch> switches = new ArrayList<>();
 		
 		// instanciation of the switches
 		for (Integer switchIndex : gen.getSwitchingNodesIndexes()) {

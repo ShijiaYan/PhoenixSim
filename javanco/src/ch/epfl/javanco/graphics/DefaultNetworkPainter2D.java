@@ -101,7 +101,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 	}
 
 	public Hashtable<AbstractElementContainer, ElementCoord> getDisplayedElementsPositions(GraphDisplayInformationSet set) {
-		Hashtable<AbstractElementContainer, ElementCoord> ht = new Hashtable<AbstractElementContainer, ElementCoord>();
+		Hashtable<AbstractElementContainer, ElementCoord> ht = new Hashtable<>();
 		Rectangle view = set.getViewRectangle();
 		for (PaintableLink link : set.getLinksHCopy()) {
 			if (link.intersects(view)) {
@@ -619,7 +619,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 						return null;
 					}
 
-					ret = new Point2D[] {p, (into ? start : end)};
+					ret = new Point2D[] {p, into ? start : end};
 					cutShape.lineTo(ret[0].getX(), ret[0].getY());
 					break;
 				}
@@ -704,7 +704,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 		// We also take the dot product with a 90° rotated version of one of
 		// the vectors, so that we know if the angle is negative or positive
 
-		float dotproduct2 = v1x * v2y + v1y * (- v2x);
+		float dotproduct2 = v1x * v2y + v1y * - v2x;
 
 		if(dotproduct2 > 0) {
 			angle *= -1;
@@ -777,7 +777,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 			float v2Norm = getNorm(v2x, v2y);
 			float angle1 = (float) Math.atan(distFromMedianPoint * 2.0f / v1Norm);
 			float angle2 = (float) Math.atan(distFromMedianPoint * 2.0f / v2Norm);
-			return (angle1 * 2.0f > angle || angle2 * 2.0f > angle);
+			return angle1 * 2.0f > angle || angle2 * 2.0f > angle;
 		}
 	}
 
@@ -815,7 +815,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 		boolean routingDebug = false;
 
 		// Compute all shapes
-		Shape[] debugshapes = (routingDebug ? new Shape[(routing.length - 1) * 4] : null);
+		Shape[] debugshapes = routingDebug ? new Shape[(routing.length - 1) * 4] : null;
 		Shape[] shapes = new Shape[(routing.length - 1) * 2];
 		float oldp2x = 0.0f;
 		float oldp2y = 0.0f;
@@ -865,8 +865,8 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 				// The real work is actually done only for
 				// control point 2. Here we take advantage of
 				// symetry to speed up computations.
-				float directionX = (- oldDirectionX + oldside * oldDirectionY);
-				float directionY = (- oldDirectionY - oldside * oldDirectionX);
+				float directionX = - oldDirectionX + oldside * oldDirectionY;
+				float directionY = - oldDirectionY - oldside * oldDirectionX;
 				float norm = getNorm(directionX, directionY);
 				cp1x = p1x - directionX * nodeRadius * routingCurveSpeedIntermediateFactor / norm;
 				cp1y = p1y - directionY * nodeRadius * routingCurveSpeedIntermediateFactor / norm;
@@ -884,8 +884,8 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 				float deltaXLink2 = routing[i + 2].x - routing[i + 1].x;
 				float deltaYLink2 = routing[i + 2].y - routing[i + 1].y;
 				float normSegment2 = getNorm(deltaXLink2, deltaYLink2);
-				float directionX = (deltaXLink2 / normSegment2 + deltaXLink / normSegment1);
-				float directionY = (deltaYLink2 / normSegment2 + deltaYLink / normSegment1);
+				float directionX = deltaXLink2 / normSegment2 + deltaXLink / normSegment1;
+				float directionY = deltaYLink2 / normSegment2 + deltaYLink / normSegment1;
 				float norm = getNorm(directionX, directionY);
 				p2x = routing[i + 1].x - side * directionY * nextNodeRadius * routingNodeDistanceFactor / norm;
 				p2y = routing[i + 1].y + side * directionX * nextNodeRadius * routingNodeDistanceFactor / norm;
@@ -894,12 +894,12 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 			float mpx;
 			float mpy;
 			if(side == oldside) {
-				mpx = routing[i].x + (deltaXLink / 2) - side * deltaYLink * ((nodeRadius + nextNodeRadius) * 0.5f) * routingMedianDistanceFactor / deltaNorm;
-				mpy = routing[i].y + (deltaYLink / 2) + side * deltaXLink * ((nodeRadius + nextNodeRadius) * 0.5f) * routingMedianDistanceFactor / deltaNorm;
+				mpx = routing[i].x + deltaXLink / 2 - side * deltaYLink * ((nodeRadius + nextNodeRadius) * 0.5f) * routingMedianDistanceFactor / deltaNorm;
+				mpy = routing[i].y + deltaYLink / 2 + side * deltaXLink * ((nodeRadius + nextNodeRadius) * 0.5f) * routingMedianDistanceFactor / deltaNorm;
 			}
 			else {
-				mpx = routing[i].x + (deltaXLink / 2);
-				mpy = routing[i].y + (deltaYLink / 2);
+				mpx = routing[i].x + deltaXLink / 2;
+				mpy = routing[i].y + deltaYLink / 2;
 			}
 			// Median control point 1
 			float mcp1x;
@@ -934,8 +934,8 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 				float directionY = deltaYLink2 / normSegment2 + deltaYLink / normSegment1;
 				oldDirectionX = directionX;
 				oldDirectionY = directionY;
-				directionX = (oldDirectionX + side * oldDirectionY);
-				directionY = (oldDirectionY - side * oldDirectionX);
+				directionX = oldDirectionX + side * oldDirectionY;
+				directionY = oldDirectionY - side * oldDirectionX;
 				float norm = getNorm(directionX, directionY);
 				cp2x = p2x - directionX * nextNodeRadius * routingCurveSpeedIntermediateFactor / norm;
 				cp2y = p2y - directionY * nextNodeRadius * routingCurveSpeedIntermediateFactor / norm;
@@ -992,7 +992,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 		Graphics2D g2 = (Graphics2D)screen;
 		Color oldColor = g2.getColor();
 		float width = modifySize(link.width, set);
-		width = ((width<1) ? 1 : width);
+		width = width<1 ? 1 : width;
 		//Computes the shape of the link
 		Shape linkShape = computeLinkShape(link, set);
 		//Computes the stroke of the link
@@ -1073,7 +1073,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 			int xlab = 0;
 			int ylab = 0;
 			if (i % 2 == 0) {
-				for (int j = 0 ; j < (i/2)-1 ; j++) {
+				for (int j = 0; j < i/2 -1 ; j++) {
 					ite.next();
 				}
 				// in this case, must average the middle points
@@ -1091,7 +1091,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 				xlab /= 2;
 				ylab /= 2;
 			} else {
-				for (int j = 0 ; j < (i/2) ; j++) {	
+				for (int j = 0; j < i/2; j++) {
 					ite.next();
 				}
 				ite.currentSegment(buf);
@@ -1107,7 +1107,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 			Rectangle2D rect = g2.getFont().getStringBounds(link.label, g2.getFontRenderContext());
 
 			int corx = (int)(rect.getWidth()/2);
-			int cory = (int)(rect.getHeight());
+			int cory = (int) rect.getHeight();
 			
 			ylab -= 3;
 
@@ -1172,7 +1172,7 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 				boolean odd = link.dash.length % 2 == 1;
 				dash = new float[link.dash.length + (odd ? 1 : 0)];
 				for (int i = 0; i < dash.length-(odd ? 1 : 0); i++) {
-					dash[i] = (length*link.dash[i])/100f;
+					dash[i] = length*link.dash[i] /100f;
 				}
 				if (odd) {
 					dash[dash.length-1] = 0;
@@ -1219,13 +1219,13 @@ public class DefaultNetworkPainter2D implements NetworkPainter {
 			if (speed == 0) {
 				offset = lengthDash;
 			} else {
-				offset = ((new Date().getTime() % (int)(speed*lengthDash))/speed);
+				offset = (new Date().getTime() % (int)(speed*lengthDash))/speed;
 			}
 
 			//Returns the right stroke
-			return new BasicStroke(((width<1) ? 1f : width*scale), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER , 10f, dash, lengthDash-offset);
+			return new BasicStroke(width<1 ? 1f : width*scale, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER , 10f, dash, lengthDash-offset);
 		} else {
-			return new BasicStroke(((width<1) ? 1f : width*scale));
+			return new BasicStroke(width<1 ? 1f : width*scale);
 		}
 	}
 

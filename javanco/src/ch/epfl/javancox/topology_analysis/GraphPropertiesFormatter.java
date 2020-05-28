@@ -48,8 +48,8 @@ public class GraphPropertiesFormatter {
 	
 	private String voidPage;
 
-	private TreeMap<String, MonoComputerProxy> monoProxies = new TreeMap<String, MonoComputerProxy>();
-	private TreeMap<String, MultiComputerProxy> multiProxies = new TreeMap<String, MultiComputerProxy>();	
+	private TreeMap<String, MonoComputerProxy> monoProxies = new TreeMap<>();
+	private TreeMap<String, MultiComputerProxy> multiProxies = new TreeMap<>();
 	
 	public static void main(String[] args) {
 		if (args.length <= 0) {
@@ -57,11 +57,11 @@ public class GraphPropertiesFormatter {
 			System.exit(0);
 		}
 		Javanco.initJavancoUnsafe();
-		List<String> prefixes = (List<String>)java.util.Arrays.asList(args);
-		ClassLister<AbstractTopologyAnalyser> cl = new ClassLister<AbstractTopologyAnalyser>(prefixes, AbstractTopologyAnalyser.class);
+		List<String> prefixes = java.util.Arrays.asList(args);
+		ClassLister<AbstractTopologyAnalyser> cl = new ClassLister<>(prefixes, AbstractTopologyAnalyser.class);
 		try {
 			FileWriter fw = new FileWriter(GRAPH_FORMATTER_PROPERTIES_FILE);
-			ArrayList<String> genList = new ArrayList<String>();
+			ArrayList<String> genList = new ArrayList<>();
 			for (Class<AbstractTopologyAnalyser> c : cl.getSortedClasses()) {
 				genList.add(c.getName() + "\r\n");
 			}			
@@ -91,21 +91,21 @@ public class GraphPropertiesFormatter {
 				
 			    char[] buf=new char[1024];
 			    int count=-1;		
-				while(((count=fr.read(buf))>0)) {
+				while((count=fr.read(buf))>0) {
 					sw.write(buf,0,count);
 				}
 				voidPage = sw.toString();
 				fr.close();
 			}
 			try {
-				ClassLister<AbstractTopologyAnalyser> cl = new ClassLister<AbstractTopologyAnalyser>(
-						Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), AbstractTopologyAnalyser.class);
+				ClassLister<AbstractTopologyAnalyser> cl = new ClassLister<>(
+                        Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), AbstractTopologyAnalyser.class);
 				for (Class<AbstractTopologyAnalyser> c : cl.getSortedClasses()) {
 					registerComputer(c);
 				}
 			}
 			catch (Error e) {
-				URL url = JavancoFile.findRessource(GRAPH_FORMATTER_PROPERTIES_FILE);
+				URL url = JavancoFile.findResource(GRAPH_FORMATTER_PROPERTIES_FILE);
 				BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
 				String line;
 				while ((line = read.readLine()) != null) {
@@ -178,29 +178,26 @@ public class GraphPropertiesFormatter {
 			buts[index].setPreferredSize(new Dimension(120, 16));
 			buts[index].setBorder(BorderFactory.createEmptyBorder());
 			border.add(buts[index]);
-			buts[index].addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					JFreeChart jFreeChart = HistogramProvider.getHistogram(p1.getValues(), "Histogram");
-					ChartPanel chartPanel = new ChartPanel(null, 150, 150, 150, 150, 1600, 1400,
-							false, true, // properties
-							true, // save
-							true, // print
-							true, // zoom
-							false); // tooltips
-					chartPanel.setChart(jFreeChart);
-					JDialog f2 = new JDialog(f, true);
-					f2.setSize(400, 400);
-					f2.setContentPane(chartPanel);
-					f2.setVisible(true);
-				}
-			});
+			buts[index].addActionListener(arg0 -> {
+                JFreeChart jFreeChart = HistogramProvider.getHistogram(p1.getValues(), "Histogram");
+                ChartPanel chartPanel = new ChartPanel(null, 150, 150, 150, 150, 1600, 1400,
+                        false, true, // properties
+                        true, // save
+                        true, // print
+                        true, // zoom
+                        false); // tooltips
+                chartPanel.setChart(jFreeChart);
+                JDialog f2 = new JDialog(f, true);
+                f2.setSize(400, 400);
+                f2.setContentPane(chartPanel);
+                f2.setVisible(true);
+            });
 			index++;
 		}
 		
 		final MyTable tab = new MyTable(obj, titles);
 		
-		ArrayList<MouseListener> list = new ArrayList<MouseListener>();
+		ArrayList<MouseListener> list = new ArrayList<>();
 		for (MouseListener m : tab.getMouseListeners()) {
 			list.add(m);
 		}
@@ -234,21 +231,17 @@ public class GraphPropertiesFormatter {
 		private static final long serialVersionUID = 1L;
 
 		public TableCellRenderer getCellRenderer(int i, int j) {
-			return new TableCellRenderer() {					
-				@Override
-				public Component getTableCellRendererComponent(JTable arg0, Object arg1,
-						boolean arg2, boolean arg3, int arg4, int arg5) {
-					if (arg1 instanceof JButton) {
-						return (JButton)arg1;
-					} else {
-						if (arg1 != null) 
-							return new JLabel(arg1.toString());
-						else
-							return new JLabel();
-					}
-					// TODO Auto-generated method stub
-				}
-			};
+			return (arg0, arg1, arg2, arg3, arg4, arg5) -> {
+                if (arg1 instanceof JButton) {
+                    return (JButton)arg1;
+                } else {
+                    if (arg1 != null)
+                        return new JLabel(arg1.toString());
+                    else
+                        return new JLabel();
+                }
+                // TODO Auto-generated method stub
+            };
 		}
 		
 	}

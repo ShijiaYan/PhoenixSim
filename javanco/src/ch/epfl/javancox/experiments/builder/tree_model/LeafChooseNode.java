@@ -19,7 +19,7 @@ public class LeafChooseNode extends AbstractChooseNode {
 	private static final long serialVersionUID = -5276221026077034218L;
 	private transient boolean isNull = false;
 
-	public LeafChooseNode(Object obj, ObjectConstuctionTreeModel tree) {
+	public LeafChooseNode(Object obj, ObjectConstructionTreeModel tree) {
 		super(tree);
 		this.setUserObject(obj);
 		if (obj == null) {
@@ -54,7 +54,7 @@ public class LeafChooseNode extends AbstractChooseNode {
 	public boolean equals(Object anObject) {
 		if (anObject instanceof LeafChooseNode) {
 			LeafChooseNode alt = (LeafChooseNode)anObject;
-			return (this.getUserObject() == alt.getUserObject()) || this.getUserObject().equals(alt.getUserObject());
+			return this.getUserObject() == alt.getUserObject() || this.getUserObject().equals(alt.getUserObject());
 		} else {
 			return false;
 		}
@@ -63,7 +63,7 @@ public class LeafChooseNode extends AbstractChooseNode {
 	@Override
 	public void actionPerformed(String key) 	{
 		LeafChooseNode instance = LeafChooseNode.this;
-		DefaultTreeModel model = (DefaultTreeModel) instance.getContainingTreeModel();
+		DefaultTreeModel model = instance.getContainingTreeModel();
 		try {
 			model.removeNodeFromParent(instance);
 		}
@@ -76,7 +76,7 @@ public class LeafChooseNode extends AbstractChooseNode {
 	}
 	
 	public List<ActionItem> getActions() {
-		List<ActionItem> l = new ArrayList<ActionItem>(1);	
+		List<ActionItem> l = new ArrayList<>(1);
 		l.add(new ActionItem("Suppress value", "suppress"));
 		return l;
 	}
@@ -122,7 +122,7 @@ public class LeafChooseNode extends AbstractChooseNode {
 			@Override
 			public Pair<Object, ObjectRecipe> next() {
 				this.delivered = true;
-				return new Pair<Object, ObjectRecipe>(getUserObject(), null);
+				return new Pair<>(getUserObject(), null);
 			}
 
 			@Override
@@ -194,7 +194,7 @@ public class LeafChooseNode extends AbstractChooseNode {
 	}
 
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-		this.containingTreeModel = (ObjectConstuctionTreeModel<?>)in.readObject();
+		this.containingTreeModel = (ObjectConstructionTreeModel<?>)in.readObject();
 		boolean isNUll = in.readBoolean();
 		this.isNull = isNUll;
 		this.setConfigured(in.readBoolean());

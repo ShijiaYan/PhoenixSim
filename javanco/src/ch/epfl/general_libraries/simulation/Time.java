@@ -187,7 +187,7 @@ public class Time implements Cloneable, Comparable<Time>, Serializable {
 	}
 	
 	public Time plusNS(double ns) {
-		Time t = new Time((this.getNanoseconds() + ns));
+		Time t = new Time(this.getNanoseconds() + ns);
 		t.__unit = this.__unit;
 		return t;
 	}
@@ -231,27 +231,27 @@ public class Time implements Cloneable, Comparable<Time>, Serializable {
 	}
 
 	public boolean isStrictlySmallerThan(Time t) {
-		return (this.length < t.length);
+		return this.length < t.length;
 	}
 
 	public boolean isSmallerThan(Time t) {
-		return (this.length <= t.length);
+		return this.length <= t.length;
 	}
 
 	public boolean isSmallerThan(double f) {
-		return (this.length <= f);
+		return this.length <= f;
 	}
 
 	public boolean isStrictlyGreaterThan(Time t) {
-		return (this.length > t.length);
+		return this.length > t.length;
 	}
 
 	public boolean isGreaterThan(Time t) {
-		return (this.length > t.length);
+		return this.length > t.length;
 	}
 
 	public boolean isZero() {
-		return (this.length == 0);
+		return this.length == 0;
 	}
 
 	public Time thisTime() {
@@ -273,26 +273,23 @@ public class Time implements Cloneable, Comparable<Time>, Serializable {
 
 	public boolean equalsTo(Time t){
 		/*Oscar*/
-		if(this.length == t.length){
-			return true;
-		}
-		return false;
-	}
+        return this.length == t.length;
+    }
 
 	public boolean isStrictlyPositive() {
-		return (this.length > 0);
+		return this.length > 0;
 	}
 
 	public boolean isStrictlyNegative() {
-		return (this.length < 0);
+		return this.length < 0;
 	}
 
 	public boolean isPositive() {
-		return (this.length >= 0);
+		return this.length >= 0;
 	}
 
 	public boolean isNegative() {
-		return (this.length <= 0);
+		return this.length <= 0;
 	}
 
 	public void reset() {

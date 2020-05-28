@@ -36,9 +36,9 @@ public class CalculatorBasedFilter extends PathFilter {
 	public boolean[] filterPrefix(Path p) {
 		float pathValue = pc.getPathValue(p);
 		if (isHighPass()) {
-			return new boolean[]{(pathValue >= limitTotal),(pathValue >= limitPrefix)};
+			return new boolean[]{pathValue >= limitTotal, pathValue >= limitPrefix};
 		} else {
-			return new boolean[]{(pathValue <= limitTotal),(pathValue <= limitPrefix)};
+			return new boolean[]{pathValue <= limitTotal, pathValue <= limitPrefix};
 		}
 	}
 
@@ -46,9 +46,9 @@ public class CalculatorBasedFilter extends PathFilter {
 	public boolean filter(Path p) {
 		float pathValue = pc.getPathValue(p);
 		if (isHighPass()) {
-			return (pathValue >= limitTotal);
+			return pathValue >= limitTotal;
 		} else {
-			return (pathValue <= limitTotal);
+			return pathValue <= limitTotal;
 		}
 	}
 

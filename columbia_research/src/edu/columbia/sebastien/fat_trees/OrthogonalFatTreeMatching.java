@@ -135,9 +135,8 @@ public class OrthogonalFatTreeMatching {
 				noPerLine[d.line]++;
 				noPerColumn[d.column]++;				
 				if (noPerLine[d.line] > columns - radixPerLine) return false;
-				if (noPerColumn[d.column] > lines - radixPerColumn) return false;		
-				return true;
-			}
+                return noPerColumn[d.column] <= lines - radixPerColumn;
+            }
 			return true;
 		}
 		finally {
@@ -172,7 +171,7 @@ public class OrthogonalFatTreeMatching {
 		}
 	}
 	
-	private static enum STATE {
+	private enum STATE {
 		YES, NO, MAYBE
 	}
 	
@@ -187,7 +186,7 @@ public class OrthogonalFatTreeMatching {
 			this.line = line;
 			this.column= column;
 			this.state = state;
-			dependentDecisions = new ArrayList<Decision>(0);
+			dependentDecisions = new ArrayList<>(0);
 			decisionsNb++;
 		}
 		
@@ -198,7 +197,7 @@ public class OrthogonalFatTreeMatching {
 		}
 
 		public boolean isYES() {
-			return (state == STATE.YES);
+			return state == STATE.YES;
 		}
 		
 		public void addDependence(Decision d) {
@@ -232,15 +231,10 @@ public class OrthogonalFatTreeMatching {
 				states_[j][i] = STATE.MAYBE;
 			}
 		}
-		gui = new PcolorGUI(states_, new PcolorGUI.Adapter<STATE>() {
-			@Override
-			public int adapt(STATE val) {
-				return val.ordinal();
-			}
-		});
+		gui = new PcolorGUI(states_, val -> val.ordinal());
 		
 		int requiredMatchings = lines*(lines-1)/2;
-		int possibleMatchings = (radixPerColumn*(radixPerColumn-1)/2)*columns;
+		int possibleMatchings = (radixPerColumn*(radixPerColumn-1)/2) *columns;
 		bonusMatchingLeft = possibleMatchings - requiredMatchings;
 		
 		gui.showInFrame();
@@ -249,13 +243,7 @@ public class OrthogonalFatTreeMatching {
 	private void updateToUser() {
 		
 		gui.close();
-		gui = new PcolorGUI(states_, new PcolorGUI.Adapter<STATE>() {
-
-			@Override
-			public int adapt(STATE val) {
-				return val.ordinal();
-			}
-		});	
+		gui = new PcolorGUI(states_, val -> val.ordinal());
 		gui.setYMult(12);
 		gui.setXMult(12);		
 		gui.showInFrame();
@@ -270,7 +258,7 @@ public class OrthogonalFatTreeMatching {
 			infer(d);
 		//	yesPerLine[offset]++;
 		//	yesPerColumn[i]++;
-			if (i > 1 && (i % (radixPerLine-1)) == 0) offset++;
+			if (i > 1 && i % (radixPerLine-1) == 0) offset++;
 		}
 		offset = 0;
 		for (int i = 1 ; i < lines ; i++) {
@@ -279,7 +267,7 @@ public class OrthogonalFatTreeMatching {
 		//	states_[i][offset] = STATE.YES;
 		//	yesPerColumn[offset]++;
 		//	yesPerLine[i]++;
-			if (i > 1 && (i % (radixPerColumn-1)) == 0) offset++;
+			if (i > 1 && i % (radixPerColumn-1) == 0) offset++;
 		}
 		offset = radixPerColumn;
 		for (int i = radixPerLine ; i < columns ; i++) {
@@ -296,7 +284,7 @@ public class OrthogonalFatTreeMatching {
 			if (offset >= radixPerLine + radixPerLine - 1) offset = radixPerLine;
 		}		
 		
-		ArrayDeque<Decision> decisions = new ArrayDeque<Decision>();
+		ArrayDeque<Decision> decisions = new ArrayDeque<>();
 		boolean backtrackPrev = false;
 		do {
 			int[] coord = findNextMaybe();

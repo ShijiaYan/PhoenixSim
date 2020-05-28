@@ -29,9 +29,9 @@ public class GreenOpticalExperiment implements Experiment {
 	private static final String defLineRate = "10:1:50";
 	private static final String defAmpRate = "0";	
 	
-	private static HashSet<AbstractOpticalSwitchModel> switchModelSet = new HashSet<AbstractOpticalSwitchModel>();
-	private static HashSet<AbstractTransceiverModel> transModelSet = new HashSet<AbstractTransceiverModel>();
-	private static HashSet<AbstractAmplifierModel> amplModelSet = new HashSet<AbstractAmplifierModel>();	
+	private static HashSet<AbstractOpticalSwitchModel> switchModelSet = new HashSet<>();
+	private static HashSet<AbstractTransceiverModel> transModelSet = new HashSet<>();
+	private static HashSet<AbstractAmplifierModel> amplModelSet = new HashSet<>();
 	
 	private AbstractOpticalSwitchModel switchModel;
 	private AbstractTransceiverModel transModel;
@@ -293,7 +293,7 @@ public class GreenOpticalExperiment implements Experiment {
 			
 			int hops = atDist.getFirst();
 			
-			double distLinkPP = switchPP*(hops - 1) + (cablePP * hops);
+			double distLinkPP = switchPP*(hops - 1) + cablePP * hops;
 			
 			double nbAmps = hops;
 			

@@ -12,7 +12,7 @@ import java.net.Socket;
 class PortListener {
 
 
-	public static void main(String args[]) throws Exception {
+	public static void main(String[] args) throws Exception {
 		ServerSocket ss = new ServerSocket(8080);
 		Socket s = ss.accept();
 		BufferedReader stream = new BufferedReader(new InputStreamReader(s.getInputStream()));

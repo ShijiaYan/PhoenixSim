@@ -3,10 +3,9 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.mux;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.utils.MoreArrays;
 import ch.epfl.general_libraries.utils.SimpleMap;
-import ch.epfl.general_libraries.clazzes.ParamName;
 import edu.columbia.lrl.CrossLayer.PowerConsumption;
 import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
 import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
@@ -32,7 +31,7 @@ public class AwgMux extends AbstractMux {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Passive insertion loss (dB)", passiveIL + "");
 		map.put("Polarization Loss (dB)", polarizationLoss + "");
 		map.put("AWG Thermal Tunning Power", awgStaticPower + "");
@@ -55,7 +54,7 @@ public class AwgMux extends AbstractMux {
 	@Override
 	public List<PowerConsumption> getDevicePowerConsumptions(
 			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
-		ArrayList<PowerConsumption> pc = new ArrayList<PowerConsumption>(1);
+		ArrayList<PowerConsumption> pc = new ArrayList<>(1);
 		if (awgStaticPower != 0) {
 			throw new IllegalStateException("Not implemented yet");	
 		} else {

@@ -82,7 +82,7 @@ public class SpinetMessage extends Message {
 		if (numberOfHeaderOffset < 0) 
 			throw new IllegalStateException("Header offset cannot be negative");
 		
-		return transmissionTimeNS + (numberOfHeaderOffset*offsetDurationNS);
+		return transmissionTimeNS + numberOfHeaderOffset*offsetDurationNS;
 	}
 	
 	public void decrementOffset() {

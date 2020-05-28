@@ -433,7 +433,7 @@ public class AvlTreeRm {
 	 * @return A Array-List of the tree in inorder traversal.
 	 */
 	final protected ArrayList<AvlNode> inorder() {
-		ArrayList<AvlNode> ret = new ArrayList<AvlNode>();
+		ArrayList<AvlNode> ret = new ArrayList<>();
 		inorder(root, ret);
 		return ret;
 	}

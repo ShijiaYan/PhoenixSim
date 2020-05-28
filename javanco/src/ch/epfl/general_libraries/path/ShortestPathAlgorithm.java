@@ -96,7 +96,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 	}	
 
 	protected void initialise(int maxNodeIndex) {
-		this.disabled = new TreeMap<NodePair, Double>();	
+		this.disabled = new TreeMap<>();
 		v = new double[maxNodeIndex][maxNodeIndex];
 	//	p = new int[maxNodeIndex][maxNodeIndex];
 		n = new int[maxNodeIndex][maxNodeIndex];
@@ -133,7 +133,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 		int[] tab = new int[incidenceMatrix.length];
 		int index = 0;
 		for (int i = 0 ; i < incidenceMatrix.length ; i++) {
-			if ((incidenceMatrix[ext][i] >= 0) || (incidenceMatrix[i][ext] >= 0)) {
+			if (incidenceMatrix[ext][i] >= 0 || incidenceMatrix[i][ext] >= 0) {
 				tab[index] = i;
 				index++;
 			}
@@ -147,7 +147,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 		int[] tab = new int[incidenceMatrix.length];
 		int index = 0;
 		for (int i = 0 ; i < incidenceMatrix.length ; i++) {
-			if ((incidenceMatrix[ext][i] >= 0)) {
+			if (incidenceMatrix[ext][i] >= 0) {
 				tab[index] = i;
 				index++;
 			}
@@ -234,7 +234,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 				}
 				if (ll != null) {
 					for (int j : ll) {
-						if ((incidenceMatrix[i][j] >= 0) && (i != j)) {
+						if (incidenceMatrix[i][j] >= 0 && i != j) {
 							v[i][j] = incidenceMatrix[i][j];
 						//	p[i][j] = i;
 							n[i][j] = j;
@@ -247,9 +247,9 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 			for (int k = 0 ; k < maxNodeIndex ; k++) {
 				for (int i = 0 ; i < maxNodeIndex ; i++) {
 					for (int j = 0 ; j < maxNodeIndex ; j++) {
-						if ((v[i][k] < Double.POSITIVE_INFINITY) &&
-								(v[k][j] < Double.POSITIVE_INFINITY) &&
-								(v[i][k] + v[k][j] < v[i][j])) {
+						if (v[i][k] < Double.POSITIVE_INFINITY &&
+                                v[k][j] < Double.POSITIVE_INFINITY &&
+                                v[i][k] + v[k][j] < v[i][j]) {
 							v[i][j] = v[i][k] + v[k][j];
 						//	p[i][j] = p[k][j];
 							n[i][j] = n[i][k];
@@ -302,7 +302,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 			private int j = 1;
 
 			public boolean hasNext() {
-				return (i <maxNodeIndex && j < maxNodeIndex);
+				return i <maxNodeIndex && j < maxNodeIndex;
 			}
 
 			public void remove() {
@@ -387,7 +387,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 	}
 
 	private Path singleDijkstra(int startNode, int destNode) {
-		BoxedPriorityQueue<Integer> queue = new BoxedPriorityQueue<Integer>();
+		BoxedPriorityQueue<Integer> queue = new BoxedPriorityQueue<>();
 		double[] dist = new double[incidenceMatrix.length];
 		int[] previous = new int[incidenceMatrix.length];
 		Arrays.fill(dist, Double.MAX_VALUE);
@@ -398,7 +398,7 @@ public class ShortestPathAlgorithm implements Iterable<Path> {
 		do {
 			distance = queue.peekScore();
 			int vertex = queue.pollElement();
-			stop |= (vertex == destNode);
+			stop |= vertex == destNode;
 			addNeighbourhood(queue, vertex, dist, previous);
 		} while (queue.isEmpty() == false && !stop);
 		Path path = new Path();

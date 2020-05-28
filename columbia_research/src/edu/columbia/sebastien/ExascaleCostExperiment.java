@@ -79,7 +79,7 @@ public class ExascaleCostExperiment implements Experiment {
 		public double getEfficiency(double maxVerb) {
 			if (maxVerb > maxVerbForMax) return max;
 			if (maxVerb < 0) throw new WrongExperimentException("Max verb cannot be negative");
-			return (maxVerb/maxVerbForMax)*max;
+			return (maxVerb/maxVerbForMax) *max;
 		}
 
 		@Override

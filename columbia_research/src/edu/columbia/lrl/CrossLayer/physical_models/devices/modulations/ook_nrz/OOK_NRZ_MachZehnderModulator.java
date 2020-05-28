@@ -93,7 +93,7 @@ public class OOK_NRZ_MachZehnderModulator extends Abstract_OOK_NRZ_Modulator {
 				this.getPassivePowerPenalty(modelSet));
 		Pair<Double, ArrayList<PowerPenalty>> pair = new Pair<>();
 		pair.setFirst(this.getModER());
-		pair.setSecond(MoreArrays.getArrayList(new PowerPenalty[] { ookPP, erPP, ilPP, passiveILPP }));
+		pair.setSecond(MoreArrays.getArrayList(ookPP, erPP, ilPP, passiveILPP));
 		return pair;
 	}
 
@@ -101,7 +101,7 @@ public class OOK_NRZ_MachZehnderModulator extends Abstract_OOK_NRZ_Modulator {
 			AbstractLinkFormat linkFormat) {
 		PowerPenalty passiveILPP = new PowerPenalty("Passive insertion loss", "Modulator",
 				this.getPassivePowerPenalty(modelSet));
-		return MoreArrays.getArrayList(new PowerPenalty[] { passiveILPP });
+		return MoreArrays.getArrayList(passiveILPP);
 	}
 
 	public ArrayList<PowerConsumption> getPowerConsumption(PhysicalParameterAndModelsSet modelSet,
@@ -116,7 +116,7 @@ public class OOK_NRZ_MachZehnderModulator extends Abstract_OOK_NRZ_Modulator {
 		double totPower = powerModulator + statPower * 1000000.0D;
 		totPower /= 1000.0D;
 		PowerConsumption pc = new PowerConsumption("Modulator", true, true, true, totPower);
-		return MoreArrays.getArrayList(new PowerConsumption[] { pc });
+		return MoreArrays.getArrayList(pc);
 	}
 
 	public boolean modulatorHasThroughCapability() {

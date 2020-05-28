@@ -34,12 +34,7 @@ public class Ribbon extends Control{
         tabs = FXCollections.observableArrayList();
         titleToRibbonTab = new HashMap<>();
 
-        tabTitles.addListener(new ListChangeListener<String>() {
-            @Override
-            public void onChanged(Change<? extends String> changed) {
-                tabTitlesChanged(changed);
-            }
-        });
+        tabTitles.addListener((ListChangeListener<String>) changed -> tabTitlesChanged(changed));
 
         getStyleClass().setAll(DEFAULT_STYLE_CLASS);
     }

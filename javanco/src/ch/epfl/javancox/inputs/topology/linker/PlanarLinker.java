@@ -36,11 +36,11 @@ public class PlanarLinker extends AbstractNodeLinker {
 		int aux= agh.getNumberOfNodes();
 
 		//	Vector<NodeContainer> vec1 = new Vector<NodeContainer>(aux);
-		Vector<NodeContainer> vec2 = new Vector<NodeContainer>(aux);
+		Vector<NodeContainer> vec2 = new Vector<>(aux);
 		vec2.setSize(aux);
 		List<LinkContainer> links = agh.getLinkContainers();
 
-		Set<Integer> col = new TreeSet<Integer>();
+		Set<Integer> col = new TreeSet<>();
 
 		for (NodeContainer nc : agh.getNodeContainers()) {
 			//		vec1.set(nc.getIndex(), nc);

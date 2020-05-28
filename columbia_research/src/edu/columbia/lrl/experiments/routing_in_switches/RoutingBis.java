@@ -44,7 +44,7 @@ public class RoutingBis {
 	}
 	
 	public ArrayList<Path> route() {
-		Stack<Integer> s = new Stack<Integer>();
+		Stack<Integer> s = new Stack<>();
 		explore(0, s);
 		return struct.rebuildPaths(MoreArrays.toIntArray(s), permut);
 	}
@@ -53,28 +53,28 @@ public class RoutingBis {
 	
 	public boolean explore(int level, Stack<Integer> stack) {
 		ArrayList<Integer> optionsForThis = options.get(level);
-		for (int i = 0 ; i < optionsForThis.size() ; i++) {
-			Decision d = new Decision(level, optionsForThis.get(i));
-			stack.push(optionsForThis.get(i));
-			trials++;
-			//if (trials > 700) System.exit(0);
-		//	if (trials % 100000 == 0)
-				System.out.println(trials + "-" + stack);
-			boolean contradiction = removeOptions(d, level);
-			if (!contradiction) {
-				if (level == permut.length -1) {
-					return true;
-				}
-				if (!explore(level+1, stack)) { 
-					addOptions(d, level);
-					stack.pop();
-				} else {
-					return true;
-				}
-			} else {
-				stack.pop();
-			}
-		}
+        for (Integer optionsForThi : optionsForThis) {
+            Decision d = new Decision(level, optionsForThi);
+            stack.push(optionsForThi);
+            trials++;
+            //if (trials > 700) System.exit(0);
+            //	if (trials % 100000 == 0)
+            System.out.println(trials + "-" + stack);
+            boolean contradiction = removeOptions(d, level);
+            if (!contradiction) {
+                if (level == permut.length - 1) {
+                    return true;
+                }
+                if (!explore(level + 1, stack)) {
+                    addOptions(d, level);
+                    stack.pop();
+                } else {
+                    return true;
+                }
+            } else {
+                stack.pop();
+            }
+        }
 		return false;
 	}
 	
@@ -107,11 +107,11 @@ public class RoutingBis {
 		
 		Decision(int srcId, int pathId) {
 			super(srcId, pathId);
-			influencesInTermsOrImpossibilities = new TreeSet<Option>();
+			influencesInTermsOrImpossibilities = new TreeSet<>();
 			int[] path = struct.paths[srcId][permut[srcId]][pathId];
-			for (int i = 0; i < path.length ; i++) {
-				influencesInTermsOrImpossibilities.addAll(conflicts.get(path[i]));
-			}
+            for (int value : path) {
+                influencesInTermsOrImpossibilities.addAll(conflicts.get(value));
+            }
 		}
 		
 		public String toString() {
@@ -124,10 +124,10 @@ public class RoutingBis {
 	Vector<ArrayList<Option>> conflicts;
 	
 	private void establishConflicts() {
-		conflicts = new Vector<ArrayList<Option>>();
+		conflicts = new Vector<>();
 		conflicts.setSize(gen.getNumberOfLinksInvolved());
 		for (int i = 0 ; i < gen.getNumberOfLinksInvolved() ; i++) {
-			ArrayList<Option> pairList = new ArrayList<Option>();
+			ArrayList<Option> pairList = new ArrayList<>();
 			conflicts.setElementAt(pairList, i);
 		}
 		
@@ -146,9 +146,9 @@ public class RoutingBis {
 	ArrayList<ArrayList<Integer>> options;
 	
 	private void createOptions() {
-		options = new ArrayList<ArrayList<Integer>>(permut.length);
+		options = new ArrayList<>(permut.length);
 		for (int i = 0 ; i < permut.length ; i++) {
-			ArrayList<Integer> list = new ArrayList<Integer>();
+			ArrayList<Integer> list = new ArrayList<>();
 			options.add(list);
 			for (int j = 0 ; j < struct.paths[i][permut[i]].length; j++) {
 				list.add(j);
@@ -169,7 +169,7 @@ public class RoutingBis {
 			int concerned = pi.srcId;
 			if (concerned <= level) continue;
 			ArrayList<Integer> al = options.get(concerned);
-			if (al.contains((Integer)(pi.pathId))) {
+			if (al.contains(pi.pathId)) {
 				optionSizes[concerned]--;
 				if (optionSizes[concerned] == 0) {
 					contradiction = true;
@@ -186,7 +186,7 @@ public class RoutingBis {
 	//	for (Option pi : d.influencesInTermsOrImpossibilities) {
 			Option pi = it.next();
 			ArrayList<Integer> f = options.get(pi.srcId);
-			boolean success = f.remove((Integer)(pi.pathId));
+			boolean success = f.remove((Integer) pi.pathId);
 			if (success == false) {
 				it.remove();
 			}

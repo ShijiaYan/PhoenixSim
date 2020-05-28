@@ -14,7 +14,7 @@ public class UIDelegate {
 	private GraphicalDataHandler        dh              = null;
 
 	public  SelectedTypeChangedAdapter  selectedAdapter = null;
-	private ArrayList<AbstractUI>	uiList   = new ArrayList<AbstractUI>();
+	private ArrayList<AbstractUI>	uiList   = new ArrayList<>();
 
 	private AbstractGraphHandler        assosAgh        = null;
 
@@ -68,7 +68,7 @@ public class UIDelegate {
 	}
 
 	public ArrayList<RunnerEventListener> getRunnerEventListeners() {
-		ArrayList<RunnerEventListener> runners = new ArrayList<RunnerEventListener>();
+		ArrayList<RunnerEventListener> runners = new ArrayList<>();
 		for (AbstractUI ui : uiList) {
 			if (ui instanceof AbstractGraphicalUI) {
 				runners.add(((AbstractGraphicalUI)ui).getRunnerEventListener());

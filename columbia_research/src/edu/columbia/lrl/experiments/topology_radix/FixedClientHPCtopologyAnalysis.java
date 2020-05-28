@@ -18,7 +18,7 @@ public class FixedClientHPCtopologyAnalysis extends HPCtopologyAnalysis {
 
 	private int desiredClients;
 	
-	Map<String, String> additionalParameters = new SimpleMap<String, String>();
+	Map<String, String> additionalParameters = new SimpleMap<>();
 	
 	public FixedClientHPCtopologyAnalysis(AnalysableTopologyGenerator atopogen, 
 			  AbstractNormalisedTrafficVectorGenerator localityVec, 
@@ -97,7 +97,7 @@ public class FixedClientHPCtopologyAnalysis extends HPCtopologyAnalysis {
 		dp.addProperties(additionalParameters);
 		dp.addProperties(localityVec.getAllParameters());
 		
-		ParetoSet<HPCDesignPoint> paretoSet = new ParetoSet<HPCDesignPoint>(4);
+		ParetoSet<HPCDesignPoint> paretoSet = new ParetoSet<>(4);
 		atopogen.setTotalDesiredClientsAndRadix(desiredClients, radix);
 		
 		List<HPCDesignPoint> list = atopogen.getDesignPoints(localityVec);

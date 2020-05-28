@@ -18,7 +18,7 @@ public class FeedbackFormGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage ;
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/FeedbackForm/feedback_form.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/FeedbackForm/feedback_form.fxml")) ;
         Parent root = loader.load() ;
         Scene scene = new Scene(root) ;
         window.setScene(scene);

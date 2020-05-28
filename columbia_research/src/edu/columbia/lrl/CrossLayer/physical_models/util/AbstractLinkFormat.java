@@ -1,11 +1,7 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package edu.columbia.lrl.CrossLayer.physical_models.util;
 
 import java.util.Map;
+import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
 import ch.epfl.general_libraries.traffic.Rate;
 import ch.epfl.general_libraries.utils.SimpleMap;
 
@@ -30,8 +26,8 @@ public abstract class AbstractLinkFormat {
 	public abstract boolean isNumberOfChannelFixed();
 
 	public Map<String, String> getAllParameters() {
-		return SimpleMap.getMap(new String[] { "Number of channels", String.valueOf(this.getNumberOfChannels()),
-				"Channel rate (Gb/s)", String.valueOf(this.getWavelengthRate() / 1.0E9D) });
+		return SimpleMap.getMap("Number of channels", String.valueOf(this.getNumberOfChannels()),
+				"Channel rate (Gb/s)", String.valueOf(this.getWavelengthRate() / 1.0E9D));
 	}
 
 	public Rate getAggregateRate() {
@@ -43,6 +39,6 @@ public abstract class AbstractLinkFormat {
 	}
 
 	public void setNumberOfWavelengths(int wavelengths) {
-		throw new IllegalStateException("Cannot set the number of wavlengths with a fixed wavelength scheme");
+		throw new WrongExperimentException("Cannot set the number of wavlengths with a fixed wavelength scheme");
 	}
 }

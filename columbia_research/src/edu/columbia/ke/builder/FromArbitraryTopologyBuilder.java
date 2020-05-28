@@ -61,7 +61,7 @@ public class FromArbitraryTopologyBuilder extends AbstractSpinetBuilder {
 	}
 	
 	public int getMaxNumberOf2by2SwitchStages() {
-		return ((int)Math.sqrt((double)getNumberOfClients())-1)*2;
+		return ((int)Math.sqrt(getNumberOfClients())-1)*2;
 	}
 	
 	protected int[] getClientsMapping(LWSIMExperiment lwSimExperiment) {

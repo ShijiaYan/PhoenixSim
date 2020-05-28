@@ -373,7 +373,7 @@ public class TraceTrafficGeneratorClonable extends AbstractTrafficGenerator impl
 	
 	public static class TrafficSplitter implements TrafficTransitPoint {
 		
-		TreeMap<Integer, TrafficDestination> destMap = new TreeMap<Integer, TrafficDestination>();
+		TreeMap<Integer, TrafficDestination> destMap = new TreeMap<>();
 		private LWSIMExperiment lwSimExperiment;
 		
 		public void addDestination(TrafficDestination dest, int dstId) {

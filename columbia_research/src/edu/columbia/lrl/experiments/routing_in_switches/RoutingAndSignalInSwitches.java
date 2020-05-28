@@ -51,7 +51,7 @@ public class RoutingAndSignalInSwitches {
 		int index = 0;
 		int[] nbPossiblePaths = new int[permut.length];
 		Arrays.fill(linkStates, true);
-		ArrayList<Path> alp = new ArrayList<Path>();
+		ArrayList<Path> alp = new ArrayList<>();
 		for (Integer dest : permut) {
 			System.out.print("Route from " + index + " to "+ dest + " ");
 			int[][] pa = struct.paths[index][dest];
@@ -109,7 +109,7 @@ public class RoutingAndSignalInSwitches {
 		
 		
 		// construct paths
-		ArrayList<Path> lp = new ArrayList<Path>(okTab.length);
+		ArrayList<Path> lp = new ArrayList<>(okTab.length);
 		for (int i = 0 ; i < okTab.length ; i++) {
 			lp.add(rebuildPath(struct.paths[i][permut[i]][okTab[i]]));
 		}
@@ -120,9 +120,9 @@ public class RoutingAndSignalInSwitches {
 		if (array.length == 0) return new Path();
 		Path p = new Path();
 		p.add(struct.linkToSwitches[array[0]][0]);
-		for (int j = 0 ; j < array.length ; j++) {
-			p.add(struct.linkToSwitches[array[j]][1]);
-		}	
+        for (int i : array) {
+            p.add(struct.linkToSwitches[i][1]);
+        }
 		return p;
 	}
 	
@@ -130,12 +130,12 @@ public class RoutingAndSignalInSwitches {
 
 		for (int i = level ; i < choices.length ; i++) {
 			int[][] possiblePaths = struct.paths[i][permut[i]];
-			int[] choosenPath = possiblePaths[choices[i]];		
-			for (int j = 0 ; j < choosenPath.length ; j++) {
-				if (linkStates[choosenPath[j]] == false) {
-					return i;
-				}
-			}
+			int[] choosenPath = possiblePaths[choices[i]];
+            for (int value : choosenPath) {
+                if (linkStates[value] == false) {
+                    return i;
+                }
+            }
 			for (int j = 0 ; j < choosenPath.length ; j++) {
 				used[i][j] = choosenPath[j];
 				linkStates[choosenPath[j]] = false;
@@ -236,15 +236,15 @@ public class RoutingAndSignalInSwitches {
 	}
 
 	private void analyzeConflicts() {
-		ObjectIndexedCounter<Integer> cc = new ObjectIndexedCounter<Integer>();
+		ObjectIndexedCounter<Integer> cc = new ObjectIndexedCounter<>();
 		
 		for (int i = 0 ; i < permut.length ; i++) {
 			int[][] paths = struct.paths[i][permut[i]];
-			for (int j = 0 ; j < paths.length ; j++) {
-				for (int k = 0 ; k < paths[j].length ; k++) {
-					cc.increment(paths[j][k]);
-				}
-			}
+            for (int[] path : paths) {
+                for (int k = 0; k < path.length; k++) {
+                    cc.increment(path[k]);
+                }
+            }
 		}
 		
 		System.out.println(cc);

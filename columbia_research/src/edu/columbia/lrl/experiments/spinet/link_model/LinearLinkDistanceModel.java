@@ -16,7 +16,7 @@ public class LinearLinkDistanceModel extends AbstractLinkDistanceModel {
 	}
 
 	public double getLinkLatency(int index, int maxIndex) {
-		return getLatencyFromMeters(minLength) + ((double)index / (double)maxIndex)*(getLatencyFromMeters(maxLength)-getLatencyFromMeters(minLength));
+		return getLatencyFromMeters(minLength) + ((double)index / (double)maxIndex) *(getLatencyFromMeters(maxLength)-getLatencyFromMeters(minLength));
 	}
 	
 	public Map<String, String> getAllParameters() {

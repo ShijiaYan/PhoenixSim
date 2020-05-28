@@ -44,7 +44,7 @@ public class EventManager {
 	
 	public EventManager(SimulationExperiment exp) {
 		this.exp = exp;
-		this.queue = new PriorityQueue<Evt>();
+		this.queue = new PriorityQueue<>();
 	}
 	
 	public void queueEvent(Evt e) {
@@ -59,7 +59,7 @@ public class EventManager {
 				usage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
 				memUsage = (double)usage.getUsed() / (double)usage.getMax();
 				if (memUsage > 0.8) {
-					System.out.println("Simulator has " + ((double)queue.size() / 1000000d) + " millions of events in its queue and memory usage (rougly 1GB per million) become critical. Aborting");
+					System.out.println("Simulator has " + (double)queue.size() / 1000000d + " millions of events in its queue and memory usage (rougly 1GB per million) become critical. Aborting");
 					terminate = true;
 				}
 			}
@@ -78,7 +78,7 @@ public class EventManager {
 	}
 	
 	public Collection<Evt> getEventsRelatedTo(LWSimComponent dest) {
-		ArrayList<Evt> list = new ArrayList<Evt>();
+		ArrayList<Evt> list = new ArrayList<>();
 		for (Evt e : queue) {
 			if (e.getTarget().equals(dest)) {
 				list.add(e);
@@ -92,7 +92,7 @@ public class EventManager {
 	}
 	
 	public boolean approachingQueueLimit(){
-		return (queue.size() > 200000);
+		return queue.size() > 200000;
 	}
 	
 	public double getClock() {

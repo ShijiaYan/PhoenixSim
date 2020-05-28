@@ -36,9 +36,9 @@ public class AddDropBackScatteringAsymmetricSim implements Experiment {
 		dp.addResultProperty("|S21|^2 (dB)", MoreMath.Conversions.todB(adr.S21.absSquared()));
 		dp.addResultProperty("|S31|^2 (dB)", MoreMath.Conversions.todB(adr.S31.absSquared()));
 		dp.addResultProperty("|S41|^2 (dB)", MoreMath.Conversions.todB(adr.S41.absSquared()));
-		dp.addResultProperty("|S21|^2", (adr.S21.absSquared()));
-		dp.addResultProperty("|S31|^2", (adr.S31.absSquared()));
-		dp.addResultProperty("|S41|^2 ", (adr.S41.absSquared()));
+		dp.addResultProperty("|S21|^2", adr.S21.absSquared());
+		dp.addResultProperty("|S31|^2", adr.S31.absSquared());
+		dp.addResultProperty("|S41|^2 ", adr.S41.absSquared());
 		man.addDataPoint(dp);
 	}
 

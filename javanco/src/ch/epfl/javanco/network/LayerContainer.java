@@ -118,7 +118,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 		try {
 			logger.trace("Representation used for graph internal storage : " + dataStructureClass.getSimpleName());
 			java.lang.reflect.Constructor cstr = dataStructureClass.getDeclaredConstructor(LayerContainer.class);
-			dataStructure = (AbstractLayerRepresentation)(cstr.newInstance(this));
+			dataStructure = (AbstractLayerRepresentation) cstr.newInstance(this);
 			for (NodeContainer nc : handler.getNodeContainers()) {
 				dataStructure.addNode(nc, true);
 			}
@@ -210,7 +210,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	 */
 	public Collection<Link> getLinks() {
 		Collection<LinkContainer> linksC = getLinkContainers();
-		Collection<Link> c = new ArrayList<Link>(linksC.size());
+		Collection<Link> c = new ArrayList<>(linksC.size());
 		for (LinkContainer lc : linksC) {
 			c.add(lc.getLink());
 		}
@@ -241,11 +241,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 			return cc;
 		} else {
 			cc = getLinkContainer(max, min);
-			if (cc != null) {
-				return cc;
-			} else {
-				return null;
-			}
+            return cc;
 		}
 	}
 
@@ -370,7 +366,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	}
 	
 	public void symmetrize() {
-		List<LinkContainer> toAdd = new ArrayList<LinkContainer>();
+		List<LinkContainer> toAdd = new ArrayList<>();
 		for (LinkContainer lc : getLinkContainers()) {
 			if (getLinkContainer(lc.getEndNodeIndex(), lc.getStartNodeIndex()) == null) {
 				toAdd.add(lc);
@@ -412,12 +408,12 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 
 	@Override
 	public Collection<NetworkAttribute> getSortedAttributes() {
-		ArrayList<NetworkAttribute> copy = new ArrayList<NetworkAttribute>(this.attributes());
-		ArrayList<NetworkAttribute> toret = new ArrayList<NetworkAttribute>(copy.size());
+		ArrayList<NetworkAttribute> copy = new ArrayList<>(this.attributes());
+		ArrayList<NetworkAttribute> toret = new ArrayList<>(copy.size());
 		NetworkAttribute idA = attribute(XMLTagKeywords.ID);
 		toret.add(idA);
 		copy.remove(idA);
-		TreeMap<String, NetworkAttribute> map = new TreeMap<String, NetworkAttribute>();
+		TreeMap<String, NetworkAttribute> map = new TreeMap<>();
 		for (NetworkAttribute att : copy) {
 			map.put(att.getName(), att);
 		}
@@ -452,7 +448,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	}
 
 	public List<Integer> getNodeContainerIndexes() {
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		for (NodeContainer nc : dataStructure.getAllNodeContainers()) {
 			list.add(nc.getIndex());
 		}
@@ -484,7 +480,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 		double[][] mat = new double[size][size];
 		for (int i = 0 ; i < size-1 ; i++) {
 			for (int j = i+1; j < size ; j++) {
-				mat[i][j] = (getLinkContainer(i,j) != null) || (getLinkContainer(j,i) != null) ? 1 : -1;
+				mat[i][j] = getLinkContainer(i,j) != null || getLinkContainer(j,i) != null ? 1 : -1;
 				mat[j][i] = mat[i][j];
 			}
 		}
@@ -496,7 +492,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 		boolean[][] mat = new boolean[size][size];
 		for (int i = 0 ; i < size-1 ; i++) {
 			for (int j = i+1; j < size ; j++) {
-				mat[i][j] = (getLinkContainer(i,j) != null) || (getLinkContainer(j,i) != null);
+				mat[i][j] = getLinkContainer(i,j) != null || getLinkContainer(j,i) != null;
 				mat[j][i] = mat[i][j];
 			}
 		}
@@ -512,7 +508,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 		boolean[][] mat = new boolean[size][size];
 		for (int i = 0 ; i < size ; i++) {
 			for (int j = 0 ; j < size ; j++) {
-				mat[i][j] = (getLinkContainer(i,j) != null);
+				mat[i][j] = getLinkContainer(i,j) != null;
 				if (symmetrise)
 					mat[i][j] |= getLinkContainer(j,i)!= null;
 			}
@@ -521,7 +517,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	}
 
 	public Matrix<NetworkAttribute> getMatrixLinkAttribute(String attributeName) {
-		Matrix<NetworkAttribute> matrix = new Matrix<NetworkAttribute>(getAbstractGraphHandler().getHighestNodeIndex()+1);
+		Matrix<NetworkAttribute> matrix = new Matrix<>(getAbstractGraphHandler().getHighestNodeIndex() + 1);
 		for (int i = 0 ; i < matrix.size() ; i++) {
 			for (int j = 0 ; j < matrix.size() ; j++) {
 				if (i != j) {
@@ -604,7 +600,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	}
 	
 	public Matrix<Double> getMatrixLinkAttributeDouble(String attributeName) {
-		Matrix<Double> matrix = new Matrix<Double>(getAbstractGraphHandler().getHighestNodeIndex()+1);
+		Matrix<Double> matrix = new Matrix<>(getAbstractGraphHandler().getHighestNodeIndex() + 1);
 		for (int i = 0 ; i < matrix.size() ; i++) {
 			for (int j = 0 ; j < matrix.size() ; j++) {
 				if (i != j) {
@@ -612,7 +608,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 					if (lc != null) {
 						try {
 							double d = lc.attribute(attributeName).doubleValue();
-							matrix.setMatrixElement(i,j,(Double)d);
+							matrix.setMatrixElement(i,j, d);
 						}
 						catch (Exception e) {
 						}
@@ -684,7 +680,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	}
 
 	public List<LinkContainer> getLinksOfPath(Path p) {
-		List<LinkContainer> list = new ArrayList<LinkContainer>(p.getNumberOfHops());
+		List<LinkContainer> list = new ArrayList<>(p.getNumberOfHops());
 		for (NodePair np : p.getCanonicalPathSegments()) {
 			LinkContainer lc = this.getLinkContainer(np);
 			if (lc == null) {
@@ -699,7 +695,7 @@ public class LayerContainer extends AbstractElementContainer implements Serializ
 	}
 
 	public List<NodePair> getLinksAsNodePairs() {
-		List<NodePair> nodePairs = new ArrayList<NodePair>();
+		List<NodePair> nodePairs = new ArrayList<>();
 		for (LinkContainer lc : getLinkContainers()) {
 			nodePairs.add(lc.toNodePair());
 		}

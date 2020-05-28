@@ -23,7 +23,7 @@ public class ImpulseResponseLowPass {
 			return 0 ;
 		}
 		else{
-			return (1/tau * Math.exp(-t_usec/tau_usec)) ;
+			return 1/tau * Math.exp(-t_usec/tau_usec);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class ImpulseResponseLowPass {
 			return 0 ;
 		}
 		else{
-			return (Math.exp(-t_usec/tau_usec)) ;
+			return Math.exp(-t_usec/tau_usec);
 		}
 	}
 

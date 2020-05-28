@@ -64,7 +64,7 @@ public class BFSEnumeratedPathSet extends PathSet {
 	}
 		
 	protected void enumerateFrom(int i, int[][] neighbours, int[][] numberFound) {
-		LinkedList<Path> q = new LinkedList<Path>();
+		LinkedList<Path> q = new LinkedList<>();
 		Path init = new Path(i);
 		q.offer(init);
 		while (!q.isEmpty()) {

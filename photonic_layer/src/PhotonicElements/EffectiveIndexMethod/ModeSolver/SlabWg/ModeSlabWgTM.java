@@ -25,7 +25,7 @@ Complex J = new Complex(0,1), one = new Complex(1,0), zero = new Complex(0,0) ;
 			@ParamName(name="up index") double n_u
 			){
 		this.V = V ;
-		this.lambdaNm = (2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d))/V ;
+		this.lambdaNm = 2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d) /V ;
 		this.widthNm = widthNm ;
 		this.n_core = n_c ;
 		this.n_down = n_d ;
@@ -59,7 +59,7 @@ Complex J = new Complex(0,1), one = new Complex(1,0), zero = new Complex(0,0) ;
 		double arg1 = Math.sqrt(b/(1-b)) * factSubs ;
 		double arg2 = Math.sqrt((b+aTM)/(1-b)) * factClad ;
 		double B = Math.atan(arg1) + Math.atan(arg2) ;
-		return (A-B) ;
+		return A-B;
 	}	
 	
 	// mode number starts from zero --> TE0, TE1, TE2, ...
@@ -70,12 +70,7 @@ Complex J = new Complex(0,1), one = new Complex(1,0), zero = new Complex(0,0) ;
 	}
 	
 	public double findSpecificModeNormalizedIndex(final int modeNumber){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double b) {
-				return getModeEquation(b, modeNumber);
-			}
-		};
+		RealRootFunction func = b -> getModeEquation(b, modeNumber);
 		RealRoot rootFinder = new RealRoot() ;
 		double b = 0 ;
 		try {

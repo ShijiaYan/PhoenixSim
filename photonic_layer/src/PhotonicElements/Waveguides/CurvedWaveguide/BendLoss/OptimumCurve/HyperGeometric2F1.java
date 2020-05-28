@@ -23,11 +23,7 @@ public class HyperGeometric2F1 {
 	}
 
 	private double getIntegral(double x){
-		IntegralFunction func = new IntegralFunction() {
-			public double function(double t) {
-				return Math.pow(t, b-1)*Math.pow(1-t, c-b-1)*Math.pow(1-t*x, -a);
-			}
-		};
+		IntegralFunction func = t -> Math.pow(t, b-1)*Math.pow(1-t, c-b-1)*Math.pow(1-t*x, -a);
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, 0, 1) ;
 		return integral.getIntegral() ;
 	}

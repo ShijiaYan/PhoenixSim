@@ -53,7 +53,7 @@ public class PowerLawFitting extends Application {
 				double R = values[0] ;
 				double a = parameters[0] ;
 				double b = parameters[1] ; 
-				return (a*Math.pow(R, -b));
+				return a*Math.pow(R, -b);
 			}
 
 			@Override

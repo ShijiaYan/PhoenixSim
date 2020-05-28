@@ -5,7 +5,7 @@ public class ErrorChooseNode extends LeafChooseNode {
 
 	private static final long serialVersionUID = 1L;
 
-	public ErrorChooseNode(Object obj, ObjectConstuctionTreeModel tree) {
+	public ErrorChooseNode(Object obj, ObjectConstructionTreeModel tree) {
 		super(obj, tree);
 		checkConfigured();
 	}

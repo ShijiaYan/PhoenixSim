@@ -1,11 +1,10 @@
 package ch.epfl.javancox.experiments;
 
 import ch.epfl.general_libraries.clazzes.ParamName;
-import java.util.HashMap;
 public class Function {
 	String input;
 	double x;
-	HashMap<String, String> output = new HashMap<String,String>();
+
 	
 public Function(@ParamName(name="kappa") double x)
 	{
@@ -19,15 +18,8 @@ public Function(@ParamName(name="kappa") double x)
 		return input;
 	}
 	
-	public String getx() 
+	public String getX()
 	{
 		return Double.toString(x);
 	}
-	/*
-	public HashMap<String,String> getMap() 
-	{
-		output.put(getx(), getLpi());
-		return output;
-	}
-	*/
 }

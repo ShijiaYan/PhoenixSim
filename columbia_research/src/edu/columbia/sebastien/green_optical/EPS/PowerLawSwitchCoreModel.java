@@ -46,7 +46,7 @@ public class PowerLawSwitchCoreModel extends AbstractSwitchCoreModel {
 
 	@Override
 	public Map<String, String> getAllProperties() {
-		SimpleMap<String, String> map = new SimpleMap<String, String>();
+		SimpleMap<String, String> map = new SimpleMap<>();
 		map.put("Router model", "power law");
 		map.put("Port scaling coeff", portScalingCoeff+"");
 		map.put("Rate scaling coeff",  rateScalingCoeff+"");

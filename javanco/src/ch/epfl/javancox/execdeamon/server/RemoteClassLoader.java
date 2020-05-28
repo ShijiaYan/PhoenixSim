@@ -11,7 +11,7 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 public class RemoteClassLoader extends ClassLoader {
 
 	static int tasksCount = 0; 
-	static ArrayList<String> classNames = new ArrayList<String>();
+	static ArrayList<String> classNames = new ArrayList<>();
 	
 	private String host;
 	

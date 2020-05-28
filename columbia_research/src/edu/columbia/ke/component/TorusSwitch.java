@@ -19,7 +19,7 @@ public class TorusSwitch extends HighRadixSwitch {
 	private int y;
 	private int z;
 	
-	private int ewnsud[];
+	private int[] ewnsud;
 	private IndexTable iTable;
 	private TorusSwitch[] swSet; 
 	
@@ -96,9 +96,9 @@ public class TorusSwitch extends HighRadixSwitch {
 			nextHops.add(ewnsud[0]);
 			nextHops.add(ewnsud[1]);	
 		}
-		else if (difx > dx / 2 || (difx < 0 && difx > -dx/2) )
+		else if (difx > dx / 2 || difx < 0 && difx > -dx/2)
 			nextHops.add(ewnsud[1]);	
-		else if (difx < -dx / 2 || (difx > 0 && difx < dx / 2))
+		else if (difx < -dx / 2 || difx > 0 && difx < dx / 2)
 			nextHops.add(ewnsud[0]);
 		else {
 			int a = 0;
@@ -113,9 +113,9 @@ public class TorusSwitch extends HighRadixSwitch {
 			nextHops.add(ewnsud[2]);
 			nextHops.add(ewnsud[3]);	
 		}
-		else if (dify > dy / 2 || (dify < 0 && dify > -dy/2) )
+		else if (dify > dy / 2 || dify < 0 && dify > -dy/2)
 			nextHops.add(ewnsud[3]);	
-		else if (dify < -dy / 2 || (dify > 0 && dify < dy / 2))
+		else if (dify < -dy / 2 || dify > 0 && dify < dy / 2)
 			nextHops.add(ewnsud[2]);
 		else {
 			int a = 0;
@@ -130,9 +130,9 @@ public class TorusSwitch extends HighRadixSwitch {
 			nextHops.add(ewnsud[4]);
 			nextHops.add(ewnsud[5]);	
 		}
-		else if (difz > dz / 2 || (difz < 0 && difz > -dz/2) )
+		else if (difz > dz / 2 || difz < 0 && difz > -dz/2)
 			nextHops.add(ewnsud[5]);	
-		else if (difz < -dz / 2 || (difz > 0 && difz < dz / 2))
+		else if (difz < -dz / 2 || difz > 0 && difz < dz / 2)
 			nextHops.add(ewnsud[4]);
 		else {
 			int a = 0;
@@ -142,7 +142,7 @@ public class TorusSwitch extends HighRadixSwitch {
 
 	@Override
 	protected Pair<Integer, Double> getNextHop(int dest, double currentTime) {
-		ArrayList<Integer> nextHops = new ArrayList<Integer>();
+		ArrayList<Integer> nextHops = new ArrayList<>();
 		
 		if (dest == this.id)
 			nextHops.add(dest);
@@ -167,7 +167,7 @@ public class TorusSwitch extends HighRadixSwitch {
 		int nextHop = -1;
 		double smallestLWT = this.packetTransTime;
 		for (int tmpNextHop: nextHops) {
-			double tmpWaitTime = (double) busyUntil.get(tmpNextHop) - currentTime;
+			double tmpWaitTime = busyUntil.get(tmpNextHop) - currentTime;
 			if (tmpWaitTime <= 0) {
 				nextHop = tmpNextHop;
 				break;
@@ -176,6 +176,6 @@ public class TorusSwitch extends HighRadixSwitch {
 					smallestLWT = tmpWaitTime;
 			}
 		}
-		return new Pair<Integer, Double> (nextHop, smallestLWT);
+		return new Pair<>(nextHop, smallestLWT);
 	}
 }

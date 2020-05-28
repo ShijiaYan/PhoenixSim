@@ -69,8 +69,8 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 			double  y = p1.getY();
 			double  a = p2.getX();
 			double  b = p2.getY();
-			double X = x+((a-x)*prop);
-			double Y = y+((b-y)*prop);
+			double X = x+ (a-x)*prop;
+			double Y = y+ (b-y)*prop;
 			return addOneNode((int)X,(int)Y);
 		}
 		public Edge addOneNode(int X, int Y) {
@@ -153,7 +153,7 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 			boolean clockwise = !(angle < 0);
 			firstEdge = null;
 			Edge prevEdge = null;
-			while ((a.getIndex() != firstIndex) || (firstEdge == null)) {
+			while (a.getIndex() != firstIndex || firstEdge == null) {
 				Edge edge = new Edge(a, null, agh);
 				edge.angle = Util2DFunctions.angle(b,a,c);
 				edge.a = this;
@@ -179,7 +179,7 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 		}
 
 		public ArrayList<Edge> getEdges() {
-			ArrayList<Edge> edges = new ArrayList<Edge>(sides);
+			ArrayList<Edge> edges = new ArrayList<>(sides);
 			boolean start = true;
 			Edge cEdge = firstEdge;
 			while (cEdge.equals(firstEdge) == false || start) {
@@ -276,7 +276,7 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 			for (int i = 0 ; i < rep ; i++) {
 				e2 = e2.nextEdge;
 			}
-			Edge otherEdge = e2.addOneNode((1.0/3.0)+(stream.nextDouble()/3));
+			Edge otherEdge = e2.addOneNode(1.0/3.0 + stream.nextDouble()/3);
 			return split(e, otherEdge);
 		}
 
@@ -302,20 +302,20 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 		Object[] splitAlter(Edge minEdge) {
 			double angle = Util2DFunctions.angle(minEdge.nextEdge.startNode, minEdge.startNode, minEdge.nextEdge.nextEdge.startNode);
 			if (Math.abs(angle) > Math.PI -0.01) {
-				Edge n1 = minEdge.prevEdge.addOneNode(0.4+(0.2*stream.nextDouble()));
+				Edge n1 = minEdge.prevEdge.addOneNode(0.4+ 0.2*stream.nextDouble());
 				Object[] tab = split(n1, minEdge.nextEdge);
 				tab[2]= n1;
 				return tab;
 			}
 			angle = Util2DFunctions.angle(minEdge.prevEdge.startNode, minEdge.startNode, minEdge.prevEdge.prevEdge.startNode);
 			if (Math.abs(angle) > Math.PI -0.01) {
-				Edge n1 = minEdge.nextEdge.addOneNode(0.4+(0.2*stream.nextDouble()));
+				Edge n1 = minEdge.nextEdge.addOneNode(0.4+ 0.2*stream.nextDouble());
 				Object[] tab = split(n1, minEdge.prevEdge);
 				tab[2]= n1;
 				return tab;
 			}
-			Edge n1 = minEdge.prevEdge.addOneNode(0.4+(0.2*stream.nextDouble()));
-			Edge n2 = minEdge.addOneNode(0.4+(0.2*stream.nextDouble()));
+			Edge n1 = minEdge.prevEdge.addOneNode(0.4+ 0.2*stream.nextDouble());
+			Edge n2 = minEdge.addOneNode(0.4+ 0.2*stream.nextDouble());
 			Object[] tab = split(n1, n2);
 			tab[2] = n1;
 			tab[3] = n2;
@@ -326,14 +326,14 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 			Edge currentEdge = pickOneEdge();
 			Edge limitEdge = currentEdge.prevEdge;
 			Edge otherEdge = currentEdge.nextEdge.nextEdge;
-			LinkedList<Double> dList = new LinkedList<Double>();
-			LinkedList<Edge> candidates = new LinkedList<Edge>();
+			LinkedList<Double> dList = new LinkedList<>();
+			LinkedList<Edge> candidates = new LinkedList<>();
 			double sum = 0;
 			while (!otherEdge.equals(limitEdge)) {
 				double angle = Util2DFunctions.angle( currentEdge.startNode, currentEdge.nextEdge.startNode,otherEdge.startNode);
 				double angle2 = Util2DFunctions.angle( currentEdge.startNode, currentEdge.prevEdge.startNode,otherEdge.startNode);
-				if (((angle > 0.1 && angle < 3.04) || (angle < -0.1 && angle > -3.04)) &&
-						((angle2 > 0.1 && angle2 < 3.04) || (angle2 < -0.1 && angle2 > -3.04))){
+				if ((angle > 0.1 && angle < 3.04 || angle < -0.1 && angle > -3.04) &&
+						(angle2 > 0.1 && angle2 < 3.04 || angle2 < -0.1 && angle2 > -3.04)){
 					double min = Math.min(Math.abs(angle), Math.abs(angle2));
 					dList.add(min);
 					sum += min;
@@ -409,7 +409,7 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 
 	@Override
 	public Map<String, String> getRandomGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("target_degree",targetDegree+"");
 		map.put("divided_figure_radius", ray+"");
 		map.put("divided_figure_size", nbNodesDep+"");
@@ -495,12 +495,12 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 		ensureLayer(agh);
 		agh.activateMainDataHandler();
 		agh.activateGraphicalDataHandler();
-		PolygonGenerator polygen = new PolygonGenerator(nbNodesDep, true, ray, (ray/2+20),(ray/2+20));
+		PolygonGenerator polygen = new PolygonGenerator(nbNodesDep, true, ray, ray/2+20, ray/2+20);
 
 		polygen.generate(agh);
 
-		ArrayList<Face> faces = new ArrayList<Face>();
-		ArrayList<Edge> edges = new ArrayList<Edge>();
+		ArrayList<Face> faces = new ArrayList<>();
+		ArrayList<Edge> edges = new ArrayList<>();
 		int edgeNb = 0;
 		int nodeNb = agh.getNodeContainers().size();
 		edgeNb += agh.getLinkContainers().size();
@@ -601,7 +601,7 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 
 	private Face pickFace(ArrayList<Face> faces, boolean check3Sides, int pow, PRNStream stream) {
 		double d = 0;
-		ArrayList<Face> candidates = new ArrayList<Face>(faces.size());
+		ArrayList<Face> candidates = new ArrayList<>(faces.size());
 		for (Face f : faces) {
 			if (!check3Sides || f.edges() > 3) {
 				d+=Math.pow(f.surface(),pow);
@@ -626,7 +626,7 @@ public class DivisionPlanarGenerator extends AbstractRandomPlanarGenerator {
 		return "Division_based";
 	}
 
-	public static void main(String args[]) throws Exception {
+	public static void main(String[] args) throws Exception {
 		int[] startNode = new int[]{4,6,8,12};
 		float[] degrees = new float[]{2.4f, 2.8f, 3.2f, 3.8f, 4.2f};
 		int[] nodes = new int[]{15,25,50,75};

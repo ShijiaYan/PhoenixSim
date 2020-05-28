@@ -21,7 +21,7 @@ public class FFT {
     this.m = (int)(Math.log(n) / Math.log(2));
 
     // Make sure n is a power of 2
-    if(n != (1<<m))
+    if(n != 1<<m)
       throw new RuntimeException("FFT length must be power of 2");
 
     // precompute tables
@@ -120,7 +120,7 @@ public void fft(double[] x, double[] y)
       for (j=0; j < n1; j++) {
 	c = cos[a];
 	s = sin[a];
- 	a +=  1 << (m-i-1);
+ 	a +=  1 << m-i-1;
 
 	for (k=j; k < n; k=k+n2) {
 	  t1 = c*x[k+n1] - s*y[k+n1];
@@ -180,7 +180,7 @@ public static void main(String[] args) {
     for(int i=0; i<iter; i++)
       fft.fft(re,im);
     time = System.currentTimeMillis() - time;
-    System.out.println("Averaged " + (time/iter) + "ms per iteration");
+    System.out.println("Averaged " + time/iter + "ms per iteration");
   }
 
   protected static void beforeAfter(FFT fft, double[] re, double[] im) {
@@ -193,12 +193,10 @@ public static void main(String[] args) {
 
   protected static void printReIm(double[] re, double[] im) {
     System.out.print("Re: [");
-    for(int i=0; i<re.length; i++)
-      System.out.print(((int)(re[i]*1000)/1000.0) + " ");
+      for (double value : re) System.out.print((int) (value * 1000) / 1000.0 + " ");
 
     System.out.print("]\nIm: [");
-    for(int i=0; i<im.length; i++)
-      System.out.print(((int)(im[i]*1000)/1000.0) + " ");
+      for (double v : im) System.out.print((int) (v * 1000) / 1000.0 + " ");
 
     System.out.println("]");
   }

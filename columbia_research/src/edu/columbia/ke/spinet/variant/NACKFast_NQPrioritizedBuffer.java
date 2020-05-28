@@ -15,7 +15,7 @@ import edu.columbia.lrl.experiments.spinet.variants.ACK_or_NACK_Receiver;
 public class NACKFast_NQPrioritizedBuffer extends NQPrioritizedBuffer  implements ACK_or_NACK_Receiver {
 	
 	private double lastEOTTime;
-	protected double waitUntil[];
+	protected double[] waitUntil;
 	protected Message currentlyTransmitted;
 	protected int totalNACK;
 	protected int totalTran;

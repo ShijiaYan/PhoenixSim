@@ -51,8 +51,8 @@ public class ParabolaExample {
         double xmax = MoreMath.Arrays.FindMaximum.getValue(x) ;
         double[] xx = MoreMath.linspace(xmin, xmax, 1000) ;
         double[] y = {} ;
-        for(int i=0; i<xx.length; i++){
-        	y = MoreMath.Arrays.append(y, fun.evaluate(new double[]{xx[i]}, fit.getParameters())) ;
+        for (double v : xx) {
+            y = MoreMath.Arrays.append(y, fun.evaluate(new double[]{v}, fit.getParameters()));
         }
         fig.plot(xx, y, "r");
         fig.RenderPlot();

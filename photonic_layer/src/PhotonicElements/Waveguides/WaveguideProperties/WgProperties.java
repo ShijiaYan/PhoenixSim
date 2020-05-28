@@ -45,7 +45,7 @@ public class WgProperties {
 	}
 
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("wg width (nm)", widthNm+"") ;
 		map.put("wg height (nm)", heightNm+"") ;
 		map.put("wg Mode", wgMode) ;
@@ -65,11 +65,11 @@ public class WgProperties {
 	}
 
 	public double getWgPropLossPerMeter(){
-		return (wgPropLossdBperCm * 23) ;
+		return wgPropLossdBperCm * 23;
 	}
 
 	public double getWgPropLossPerCm(){
-		return (wgPropLossdBperCm * 23/100) ;
+		return wgPropLossdBperCm * 23/100;
 	}
 
 	public double getConfinementFactor(){
@@ -105,11 +105,11 @@ public class WgProperties {
 	}
 
 	public double getCrossSectionAreaCmSquare(){
-		return (getWidthCm()*getHeightCm()) ;
+		return getWidthCm()*getHeightCm();
 	}
 
 	public double getCrossSectionAreaMeterSquare(){
-		return (getWidthMeter()*getHeightMeter()) ;
+		return getWidthMeter()*getHeightMeter();
 	}
 
 

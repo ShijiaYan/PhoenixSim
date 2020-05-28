@@ -52,7 +52,7 @@ public class PaintableLink extends PaintableObject implements Clickable, Curvabl
 			valid = false;
 		}
 		NetworkAttribute useOffset = layerContainer.attribute(useOffsetTAG, false);
-		if ((useOffset != null) && (useOffset.booleanValue())) {
+		if (useOffset != null && useOffset.booleanValue()) {
 			NetworkAttribute offsetA = link.attribute(offsetTAG, false);
 			if (offsetA != null) {
 				offset = offsetA.intValue();
@@ -60,7 +60,7 @@ public class PaintableLink extends PaintableObject implements Clickable, Curvabl
 		}
 
 		NetworkAttribute directedA = link.attribute(directedTAG, false);
-		if ((directedA != null) && (directedA.booleanValue())) {
+		if (directedA != null && directedA.booleanValue()) {
 			directed = true;
 		}
 
@@ -101,7 +101,7 @@ public class PaintableLink extends PaintableObject implements Clickable, Curvabl
 			dash = null;
 		}
 
-		LinkedList<Float> ll = new LinkedList<Float>();
+		LinkedList<Float> ll = new LinkedList<>();
 
 		isDashPerCent = d.contains("%");
 		if (isDashPerCent) {
@@ -142,7 +142,7 @@ public class PaintableLink extends PaintableObject implements Clickable, Curvabl
 		if (uplefty == downrighty) {
 			uplefty--;
 		}
-		return (r.intersects(upleftx, uplefty, downrightx - upleftx, downrighty - uplefty));
+		return r.intersects(upleftx, uplefty, downrightx - upleftx, downrighty - uplefty);
 	}
 
 	@Override

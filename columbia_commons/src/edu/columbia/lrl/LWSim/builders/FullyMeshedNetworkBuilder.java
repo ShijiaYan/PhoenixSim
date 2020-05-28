@@ -18,7 +18,7 @@ import edu.columbia.lrl.LWSim.components.TransmissionLink;
 
 public class FullyMeshedNetworkBuilder extends AbstractBandwidthSpecifiedNBClientBuilder {
 	
-	public static enum TYPE {
+	public enum TYPE {
 		LINK_BW,
 		CLIENT_BW
 	}
@@ -79,12 +79,12 @@ public class FullyMeshedNetworkBuilder extends AbstractBandwidthSpecifiedNBClien
 				if (selfTraf || i!=j) {
 					if (useBuffers) {
 						if (type == TYPE.LINK_BW) {
-							bufs[i][j] = new Buffer(10000, 0, i+(nbClients*j), 1, usePriorities);
+							bufs[i][j] = new Buffer(10000, 0, i+ nbClients*j, 1, usePriorities);
 						} else {
 							if (selfTraf)
-								bufs[i][j] = new Buffer(10000, 0, i+(nbClients*j), 1d/(double)nbClients, usePriorities);
+								bufs[i][j] = new Buffer(10000, 0, i+ nbClients*j, 1d/(double)nbClients, usePriorities);
 							else
-								bufs[i][j] = new Buffer(10000, 0, i+(nbClients*j), 1d/(double)(nbClients-1), usePriorities);
+								bufs[i][j] = new Buffer(10000, 0, i+ nbClients*j, 1d/(double)(nbClients-1), usePriorities);
 						}
 						dests.add(bufs[i][j]);
 					}

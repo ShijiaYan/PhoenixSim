@@ -23,9 +23,9 @@ public class UniformDistribution extends
 	@Override
 	public void setMean(double mu) {
 		if (isA) {
-			b = (2*mu - a);
+			b = 2*mu - a;
 		} else {
-			a = (2*mu - b);
+			a = 2*mu - b;
 		}
 		dist = new umontreal.iro.lecuyer.probdist.UniformDist(a, b);
 	}

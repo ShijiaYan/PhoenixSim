@@ -24,7 +24,7 @@ import javafx.util.Callback;
 
 public class FileListView_test extends Application {
 
-    ListView<String> list = new ListView<String>();
+    ListView<String> list = new ListView<>();
     ObservableList<String> data = FXCollections.observableArrayList(
             "a.msg", "a1.msg", "b.txt", "c.pdf",
             "d.html", "e.png", "f.zip",
@@ -41,12 +41,7 @@ public class FileListView_test extends Application {
 
         list.setItems(data);
 
-        list.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(ListView<String> list) {
-                return new AttachmentListCell();
-            }
-        });
+        list.setCellFactory(list -> new AttachmentListCell());
 
         stage.show();
     }
@@ -72,7 +67,7 @@ public class FileListView_test extends Application {
     }
 
 
-    static HashMap<String, Image> mapOfFileExtToSmallIcon = new HashMap<String, Image>();
+    static HashMap<String, Image> mapOfFileExtToSmallIcon = new HashMap<>();
 
     private static String getFileExt(String fname) {
         String ext = ".";
@@ -108,7 +103,7 @@ public class FileListView_test extends Application {
         final String ext = getFileExt(fname);
         Image fileIcon ;
         if(ext == null){
-        	fileIcon = new Image(Object.class.getClass().getResourceAsStream("/People/Meisam/GUI/Utilities/Icons/folder.png")) ;
+        	fileIcon = new Image(Class.class.getResourceAsStream("/People/Meisam/GUI/Utilities/Icons/folder.png")) ;
         }
         else{
 	        fileIcon = mapOfFileExtToSmallIcon.get(ext);

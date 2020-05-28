@@ -8,8 +8,8 @@ import ch.epfl.general_libraries.utils.SimpleMap;
 public class CrossbarReservation extends AbstractReservationStrategy {
 
 	//Input and output blocking 
-	boolean inputBusy[];
-	boolean outputBusy[];
+	boolean[] inputBusy;
+	boolean[] outputBusy;
 	
 	@Override
 	public Map<String, String> getAllParameters() {

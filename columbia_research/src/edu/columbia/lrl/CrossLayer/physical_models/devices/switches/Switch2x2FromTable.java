@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.Scanner;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.simulation.SimulationException;
 import ch.epfl.general_libraries.utils.SimpleMap;
@@ -27,7 +26,7 @@ public class Switch2x2FromTable extends Abstract2x2Switch {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Switch loss file name", fileName);
 		return map;
 	}

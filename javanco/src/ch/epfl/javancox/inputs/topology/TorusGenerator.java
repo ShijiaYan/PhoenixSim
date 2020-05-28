@@ -30,7 +30,7 @@ public class TorusGenerator extends AbstractDeterministicGenerator {
 
 	@Override
 	public Map<String, String> getGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("torus_width",torusHorizontalSize+"");
 		map.put("torus_height", torusVerticalSize+"");
 		map.put("link_width", sideLength+"");
@@ -83,7 +83,7 @@ public class TorusGenerator extends AbstractDeterministicGenerator {
 			 * originally:
 			LinkContainer lc = agh.newLink(i, i+((torusVerticalSize-1)*torusHorizontalSize));
 			*/
-			LinkContainer lc = agh.newLink(i+((torusVerticalSize-1)*torusHorizontalSize), i);
+			LinkContainer lc = agh.newLink(i+ (torusVerticalSize-1)*torusHorizontalSize, i);
 			lc.attribute(XMLTagKeywords.LINK_CURVE_START).setValue(hC);
 			if (lc.getElement("main_description") != null) {
 				lc.linkAttribute(XMLTagKeywords.LINK_CURVE_START,"main_description");	

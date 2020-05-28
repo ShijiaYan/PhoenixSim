@@ -13,7 +13,7 @@ public class CombLaserPowerModel extends AbstractLaserModel {
 	
 	public CombLaserPowerModel(
 			@ParamName(name="Max. efficiency") double maxEfficiency,
-			@ParamName(name="Power at wich max eff. is reach with one lambda dBm") double powerMaxEffSingleLambda, 
+			@ParamName(name="Power at which max eff. is reach with one lambda dBm") double powerMaxEffSingleLambda,
 			@ParamName(name="Power at which max eff. is reach with 100 lambda dBm") double powerMaxEff100Lambda) {
 		
 		this.powerMaxEffSingleLambda = powerMaxEffSingleLambda;
@@ -37,7 +37,7 @@ public class CombLaserPowerModel extends AbstractLaserModel {
 
 	@Override
 	public Map<? extends String, ? extends String> getAllParameters() {
-		SimpleMap<String, String> m = new SimpleMap<String, String>();
+		SimpleMap<String, String> m = new SimpleMap<>();
 		m.put("Combpowermodel_p1", powerMaxEff100Lambda+"");
 		m.put("Combpowermodel_p2", powerMaxEffSingleLambda+"");
 		m.put("Combpowermodel_Max. eff", maxEfficiency+"");

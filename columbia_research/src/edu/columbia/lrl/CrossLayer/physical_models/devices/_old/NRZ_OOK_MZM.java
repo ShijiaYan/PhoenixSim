@@ -44,7 +44,7 @@ public class NRZ_OOK_MZM extends AbstractMZM  {
 	@Override
 	public Map<String, String> getAllParameters() {
 		// TODO Auto-generated method stub
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Peak-to-Peak Voltage (V)", vPeakToPeak + "");
 		map.put("Waveguide Loss Factor (dB/cm)", waveguideLoss + "");
 		map.put("Vpp/Vpi", vPeakToPeak/vPi + "");
@@ -80,7 +80,7 @@ public class NRZ_OOK_MZM extends AbstractMZM  {
 		double ERPP = -10*Math.log10((er-1)/(er+1)) ;
 		double OOKPP =  -10*Math.log10(0.5*(er+1)/er) ;
 		
-		return (modIL+ERPP+OOKPP) ; }
+		return modIL+ERPP+OOKPP; }
 		
 		else {
 			return 3 ;
@@ -99,7 +99,7 @@ public class NRZ_OOK_MZM extends AbstractMZM  {
 		if (vPeakToPeak/vPi != 1){
 			double er = (1 + Math.sin(Math.PI/2 * vPeakToPeak/vPi))/(1 - Math.sin(Math.PI/2 * vPeakToPeak/vPi)) ;	
 			double ERPP = -10*Math.log10((er-1)/(er+1)) ;
-			return (ERPP) ; }
+			return ERPP; }
 			else {
 				return 0 ;
 			}
@@ -109,7 +109,7 @@ public class NRZ_OOK_MZM extends AbstractMZM  {
 		if (vPeakToPeak/vPi != 1){
 			double er = (1 + Math.sin(Math.PI/2 * vPeakToPeak/vPi))/(1 - Math.sin(Math.PI/2 * vPeakToPeak/vPi)) ;
 			double OOKPP =  -10*Math.log10(0.5*(er+1)/er) ;
-			return (OOKPP) ; }
+			return OOKPP; }
 			else {
 				return 3 ;
 			}
@@ -118,12 +118,12 @@ public class NRZ_OOK_MZM extends AbstractMZM  {
 	//******************************
 	@Override
 	public double getEffectiveModulationRate(){
-		return (dataRate*1e9 ) ;
+		return dataRate*1e9;
 	}
 	
 	@Override
 	public double getModulationRate(){
-		return (dataRate * 1e9 ) ;
+		return dataRate * 1e9;
 	}
 	
 	@Override

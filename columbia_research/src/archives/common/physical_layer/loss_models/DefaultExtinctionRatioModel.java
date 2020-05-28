@@ -32,7 +32,7 @@ public class DefaultExtinctionRatioModel extends AbstractExtinctionRatioModel {
 		double ref_r = Math.pow(10, referenceER/10);
 		double ref_er_pp = getFindAnameForThisMethodNoam(ref_r);
 		double er_pp = getFindAnameForThisMethodNoam(getRateRelatedExtinctionRatio(rate)) - ref_er_pp;
-		double ook_il = -10*Math.log10(0.5 + (0.5/getRateRelatedExtinctionRatio(rate)));
+		double ook_il = -10*Math.log10(0.5 + 0.5/getRateRelatedExtinctionRatio(rate));
 		
 		result.addPowerDissipatedDB(er_pp, "Mod","Extinction ratio power penalty");
 		result.addPowerDissipatedDB(ook_il, "Mod","OOK Insertion loss");

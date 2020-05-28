@@ -31,15 +31,15 @@ public class SelfSimilarCalculator {
 			
 			double[][] vals = cal.fftfgnTransformed(stream);
 			int k = 0;
-			for (int i = 0 ; i < vals.length ; i++) {
-				for (int j = 0 ; j < vals[i].length ; j++) {
-					DataPoint dp2 = dp.getDerivedDataPoint();
-					dp2.addProperty("index", k);
-					dp2.addResultProperty("self-sim sample value", vals[i][j]);
-					ex.addDataPoint(dp2);
-					k++;
-				}
-			}
+            for (double[] val : vals) {
+                for (int j = 0; j < val.length; j++) {
+                    DataPoint dp2 = dp.getDerivedDataPoint();
+                    dp2.addProperty("index", k);
+                    dp2.addResultProperty("self-sim sample value", val[j]);
+                    ex.addDataPoint(dp2);
+                    k++;
+                }
+            }
 		}
 		
 		SmartDataPointCollector col = new SmartDataPointCollector();
@@ -51,7 +51,7 @@ public class SelfSimilarCalculator {
 	private double sigma, desiredRate;
 	private double H;
 	int n, N, M, force;
-	private double co[];
+	private double[] co;
 	double [][]f;
 	
 	public SelfSimilarCalculator(double sigma, double desiredMeanRate, double H, int N, int M){
@@ -99,27 +99,27 @@ public class SelfSimilarCalculator {
 		if(H == 0.5){   						
 			f = mult(randn(n,M,src), sigma);
 			
-	 	}else if(/*(H <= 1) &&*/ (H > 0.5)){		
+	 	}else if(/*(H <= 1) &&*/ H > 0.5){
 	 		f= new double [n][N];
 	 		double []fi;
 			double []fiP1;	  
 				   	
 		  	int nM = getnM(M, force);
 		  	double[] c = getC(nM, sigma, M, H);		  	
-			double[] ft = toRealVector((FourierCalculator.get(toComplex(c), nM, false)));
+			double[] ft = toRealVector(FourierCalculator.get(toComplex(c), nM, false));
 		  	
-		  	double[] ft2 = linkVect(subList(ft, (int)(nM/2), nM),subList(ft, 0, (int)(nM/2)));
+		  	double[] ft2 = linkVect(subList(ft, nM/2, nM),subList(ft, 0, nM/2));
 		  	double[][] randomMatrix = randn(n, 2*M+N, src);   
 
 		  	for(int i = 0; i < randomMatrix.length; i++){
 		  		fi = fftconv (randomMatrix[i], ft2, force);
-		  		fiP1 = (double[])subList(fi,2*M-1,2*M+N-1);  
+		  		fiP1 = subList(fi,2*M-1,2*M+N-1);
 		  		for(int j=0; j< f[0].length; j++){
 					f[i][j] = fiP1[j];
 				}	
 		  	}
 		 	
-	 	}else if((H < 0.5)&& (H > 0)){	  
+	 	}else if(H < 0.5 && H > 0){
 	 		/*
 	 		Complex[][] x = getXmatrix(n, N, src);
 	 		double[][] y = getYmatrix(x, N);
@@ -216,7 +216,7 @@ public class SelfSimilarCalculator {
 	
 	private double[] getC(int nM,double sigma,int M, double H){
 		//Obtention co
-		double t[] = new double[2*M + 1];
+		double[] t = new double[2*M + 1];
 		for(int i = 0; i < 2*M + 1 ; i++){
 	 		t[i]= i - M;
 	 		co[i] = 0.5 * pow(sigma,2) * (pow(abs(t[i]+1),2*H) + pow(abs(t[i]-1),2*H) - 2 * pow(abs(t[i]),2*H));  
@@ -237,7 +237,7 @@ public class SelfSimilarCalculator {
 		if(force==1){ 
 			return (int)pow(2, (int)(log2(2*(M+1)) + 1));  
 		}else{
-			return (2 * M) + 1;	
+			return 2 * M + 1;
 	   }
 	}	
 	
@@ -285,7 +285,7 @@ public class SelfSimilarCalculator {
 	   	double[][] randValues = new double [row][col];
 		for(int k = 0; k < row; k++){
 			for(int i = 0; i < col; i++){	
-				randValues[k][i] = (double)src.nextGaussian();
+				randValues[k][i] = src.nextGaussian();
 			}
 		}
 		return randValues;
@@ -314,7 +314,7 @@ public class SelfSimilarCalculator {
 	
 	//Creation sublist for Complex[] -> [origin, end)
 	private double[] subList(double[] v, int origin, int end){
-		double c2[] = new double[end - origin];
+		double[] c2 = new double[end - origin];
 		for(int i = 0; i < end-origin; i++){
 			c2[i] = v[i+origin];
 		}
@@ -323,7 +323,7 @@ public class SelfSimilarCalculator {
 	
 	
 	//Link v1 and v2;   v = [v1 v2] 	
-	private double[] linkVect(double v1[], double v2[]){
+	private double[] linkVect(double[] v1, double[] v2){
 		int len = v1.length + v2.length;
 		double[] newv = new double[len];
 		for(int i=0; i < len; i++){
@@ -344,9 +344,9 @@ public class SelfSimilarCalculator {
 		}else{
 			n = a.length + b.length;
 		}		
-		Complex A[] = FourierCalculator.get(toComplex(a), n, true);
-		Complex B[] = FourierCalculator.get(toComplex(b), n, true);
-		Complex MULT[] = new Complex[n];
+		Complex[] A = FourierCalculator.get(toComplex(a), n, true);
+		Complex[] B = FourierCalculator.get(toComplex(b), n, true);
+		Complex[] MULT = new Complex[n];
 	
 		for(int k=0; k < n; k++){
 			MULT[k] = A[k].times(B[k]);   		
@@ -359,12 +359,12 @@ public class SelfSimilarCalculator {
 		double m;
 		double acum = 0;
 		int cont = 0;
-		for(int i=0; i < f.length; i++){
-			for(int j=0; j < f[0].length; j++){
-				acum = acum + f[i][j];
-				cont++;
-			}
-		}
+        for (double[] doubles : f) {
+            for (int j = 0; j < f[0].length; j++) {
+                acum = acum + doubles[j];
+                cont++;
+            }
+        }
 		m = acum/(double)cont;
 		return m;
 	}

@@ -17,12 +17,12 @@ public abstract class AbstractReservationStrategy {
 	public abstract boolean hasTransitioningSwitch(ArrayList<Integer> transitioningSwitches, int source, int dest);
 	public int[] getReservedSwitchPath(int source, int dest) { return null; }
 	
-	int paths[][][][];
+	int[][][][] paths;
 //	int switches[][][][];
 //	int switchIDs[][][][];
 	LWSIMExperiment experiment;
 	
-	public void init(int paths[][][][], /*int switches[][][][], int switchIDs[][][][],*/ LWSIMExperiment experiment) {
+	public void init(int[][][][] paths, /*int switches[][][][], int switchIDs[][][][],*/ LWSIMExperiment experiment) {
 		this.paths = paths;
 //		this.switches = switches;
 //		this.switchIDs = switchIDs;

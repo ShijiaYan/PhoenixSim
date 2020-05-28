@@ -102,7 +102,7 @@ public class ResultVisualisationImageService extends AbstractService {
 		}
 		if (params.containsKey("criterium")) {
 			CriteriumSet critSet = new CriteriumSet(1);	
-			List<Criterium> selectedColors = new ArrayList<Criterium>(1);	
+			List<Criterium> selectedColors = new ArrayList<>(1);
 			Criterium c = new Criterium(params.getParameter("criterium"));
 			selectedColors.add(c);
 			critSet.add(selectedColors);
@@ -115,7 +115,7 @@ public class ResultVisualisationImageService extends AbstractService {
 		options.isMeanOrSum = true;
 		options.isMeanInsteadOfSum = true;
 		options.confInt = 95;
-		options.filters = new HashMap<String, List<String>>();			
+		options.filters = new HashMap<>();
 		
 		if (params.containsKey("isMeanOrSum")) {
 			options.isMeanOrSum = Boolean.parseBoolean(params.getParameter("isMeanOrSum"));

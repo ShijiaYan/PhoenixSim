@@ -82,7 +82,7 @@ public class PairList<A,B> extends ArrayList<Pair<A,B>> implements Serializable,
 
 	@Override
 	public Object clone() {
-		PairList<A,B> clone = new PairList<A,B>(this.size());
+		PairList<A,B> clone = new PairList<>(this.size());
 		for (int i = 0 ; i < this.size() ; i++) {
 			clone.add(this.getFirst(i), this.getSecond(i));
 		}
@@ -137,21 +137,18 @@ public class PairList<A,B> extends ArrayList<Pair<A,B>> implements Serializable,
 	
 	@SuppressWarnings("unchecked")
 	public void sortAccordingToFirst() {
-		Collections.sort(this, new Comparator<Pair<A,B>>() {
-			@SuppressWarnings("rawtypes")
-			public int compare(Pair<A,B> o1, Pair<A,B> o2) {
-				Comparable c1 = (Comparable)o1.getFirst();
-				Comparable c2 = (Comparable)o2.getFirst();
-				return c1.compareTo(c2);
-			}
-		});
+		Collections.sort(this, (o1, o2) -> {
+            Comparable c1 = (Comparable)o1.getFirst();
+            Comparable c2 = (Comparable)o2.getFirst();
+            return c1.compareTo(c2);
+        });
 	}
 
 	public Iterator<A> firstsIterator() {
 		return new Iterator<A>() {
 			int i = 0;
 			public boolean hasNext() {
-				return (i < size()-1);
+				return i < size()-1;
 			}
 			public A next() {
 				A a = getFirst(i);
@@ -169,7 +166,7 @@ public class PairList<A,B> extends ArrayList<Pair<A,B>> implements Serializable,
 		return new Iterator<B>() {
 			int i = 0;
 			public boolean hasNext() {
-				return (i < size()-1);
+				return i < size()-1;
 			}
 			public B next() {
 				B b = getSecond(i);
@@ -184,19 +181,11 @@ public class PairList<A,B> extends ArrayList<Pair<A,B>> implements Serializable,
 	}
 
 	public Iterable<A> firsts() {
-		return new Iterable<A>() {
-			public Iterator<A> iterator() {
-				return firstsIterator();
-			}
-		};
+		return () -> firstsIterator();
 	}
 
 	public Iterable<B> seconds() {
-		return new Iterable<B>() {
-			public Iterator<B> iterator() {
-				return secondsIterator();
-			}
-		};
+		return () -> secondsIterator();
 	}
 
 }

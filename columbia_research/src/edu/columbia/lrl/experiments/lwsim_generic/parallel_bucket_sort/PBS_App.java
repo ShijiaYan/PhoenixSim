@@ -31,7 +31,7 @@ public class PBS_App extends AbstractApplication {
 	public void runImpl(ActionManager communicator, int rank, Time ref) throws InterruptedException {
 
 		int parti = communicator.getParticipantNumber();
-		myProblemSize = sizeoftheproblem/(parti);
+		myProblemSize = sizeoftheproblem/ parti;
 
 		// bucketizing
 		communicator.doSomeJob(ref, complexBucketize(myProblemSize)/opsPerNs, "bucketize");
@@ -60,11 +60,11 @@ public class PBS_App extends AbstractApplication {
 	}
 	
 	public double complexBucketize(int n){
-		return (double)n;
+		return n;
 	}
 	
 	public double complexSerialSort(int n){
-		return (double)(n*Math.log(n));
+		return n*Math.log(n);
 		// return (double)(Math.pow(n, 1.3));
 	}
 	
@@ -86,7 +86,7 @@ public class PBS_App extends AbstractApplication {
 			}
 			break;
 		default:
-			double uniShare = 1/(double)(parti);
+			double uniShare = 1/(double) parti;
 			for (int k = 0; k < parti; k++){
 				nextStageShare[k] = uniShare;
 				tmpShareSum += nextStageShare[k];

@@ -36,7 +36,7 @@ public class New_NACKFast_PrioritizedBuffer extends PrioritizedBuffer implements
 				throw new IllegalStateException("still sending the last packet");
 			
 			if (this.priorityQueue.size() > 0){
-				sendMessage(e, (Message) this.priorityQueue.pollFirstEntry().getValue());
+				sendMessage(e, this.priorityQueue.pollFirstEntry().getValue());
 				if (this.backInQueueMsg != null) {
 					backInQueue(this.backInQueueMsg, e.getTimeNS());
 					this.backInQueueMsg = null;

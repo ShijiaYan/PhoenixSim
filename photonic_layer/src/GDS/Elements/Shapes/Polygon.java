@@ -67,22 +67,22 @@ public class Polygon extends AbstractElement {
 		String st02 = "## ---------------------------------------- ##" ;
 		String[] args = {st00, st01, st02} ;
 		int m = layerMap.length ;
-		for(int j=0; j<m; j++){
-			// defining the layer of the object
-			int layerNumber = layerMap[j].getLayerNumber() ;
-			int dataType = layerMap[j].getDataType() ;
-			// creating the polygon object
-			String title = "### adding a "+ layerMap[j].getLayerName() +" layer" ;
-			String st2 = objectName + " = gdspy.Polygon([" ;
-			int n = pointArray.length ;
-			for(int i=0; i<n-1; i++){
-				st2 += pointArray[i].getString() + "," ;
-			}
-			st2 += pointArray[n-1].getString() + "], " ;
-			st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)" ;
-			String st3 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            // defining the layer of the object
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            // creating the polygon object
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st2 = objectName + " = gdspy.Polygon([";
+            int n = pointArray.length;
+            for (int i = 0; i < n - 1; i++) {
+                st2 += pointArray[i].getString() + ",";
+            }
+            st2 += pointArray[n - 1].getString() + "], ";
+            st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)";
+            String st3 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3});
+        }
 		return args;
 	}
 	
@@ -90,22 +90,22 @@ public class Polygon extends AbstractElement {
 	public String[] getPythonCode_no_header(String fileName, String topCellName) {
 		String[] args = new String[0] ;
 		int m = layerMap.length ;
-		for(int j=0; j<m; j++){
-			// defining the layer of the object
-			int layerNumber = layerMap[j].getLayerNumber() ;
-			int dataType = layerMap[j].getDataType() ;
-			// creating the polygon object
-			String title = "### adding a "+ layerMap[j].getLayerName() +" layer" ;
-			String st2 = objectName + " = gdspy.Polygon([" ;
-			int n = pointArray.length ;
-			for(int i=0; i<n-1; i++){
-				st2 += pointArray[i].getString() + "," ;
-			}
-			st2 += pointArray[n-1].getString() + "], " ;
-			st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)" ;
-			String st3 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            // defining the layer of the object
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            // creating the polygon object
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st2 = objectName + " = gdspy.Polygon([";
+            int n = pointArray.length;
+            for (int i = 0; i < n - 1; i++) {
+                st2 += pointArray[i].getString() + ",";
+            }
+            st2 += pointArray[n - 1].getString() + "], ";
+            st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)";
+            String st3 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3});
+        }
 		return args;
 	}
 

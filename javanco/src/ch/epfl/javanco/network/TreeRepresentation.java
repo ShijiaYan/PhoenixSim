@@ -20,7 +20,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		}
 		private void addOutgoingLink(int end, LinkContainer lc) {
 			if (outGo == null) {
-				outGo = new TreeMap<Integer, LinkContainer>();
+				outGo = new TreeMap<>();
 			}
 			if (outGo.get(end) != null) {
 				throw new DuplicateLinkException(lc.getStartNodeIndex(), lc.getEndNodeIndex());
@@ -31,7 +31,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		}
 		private void addIncomingLink(int start, LinkContainer lc) {
 			if (inCo == null) {
-				inCo = new TreeMap<Integer, LinkContainer>();
+				inCo = new TreeMap<>();
 			}
 			if (inCo.get(start) != null) {
 				throw new DuplicateLinkException(lc.getStartNodeIndex(), lc.getEndNodeIndex());
@@ -49,8 +49,8 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 
 //	public final static Class<TreeRepresentation> TREE_REPRESENTATION = TreeRepresentation.class;
 
-	private Vector<SubStructure> internalArray = new Vector<SubStructure>(20,20);
-	private ArrayList<SubStructure> internalList = new ArrayList<SubStructure>();
+	private Vector<SubStructure> internalArray = new Vector<>(20, 20);
+	private ArrayList<SubStructure> internalList = new ArrayList<>();
 
 	TreeRepresentation(LayerContainer agr) {
 		super(agr);
@@ -60,9 +60,9 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 	@Override
 	List<NodeContainer> getAllNodeContainers() {
 		if (internalList == null) {
-			return new ArrayList<NodeContainer>(0);
+			return new ArrayList<>(0);
 		}
-		List<NodeContainer> c = new ArrayList<NodeContainer>(internalList.size());
+		List<NodeContainer> c = new ArrayList<>(internalList.size());
 		synchronized (internalList) {
 			for (SubStructure sb : internalList) {
 				if (sb.isOnLayer) {
@@ -78,7 +78,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		if (internalList == null) {
 			return VOID_ARRAY;
 		}
-		List<LinkContainer> c = new LinkedList<LinkContainer>();
+		List<LinkContainer> c = new LinkedList<>();
 		synchronized (internalList) {
 			for (SubStructure sb : internalList) {
 				TreeMap<Integer, LinkContainer> linkMap = sb.outGo;
@@ -90,7 +90,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		return c;
 	}
 
-	private static final ArrayList<LinkContainer> VOID_ARRAY = new ArrayList<LinkContainer>(0);
+	private static final ArrayList<LinkContainer> VOID_ARRAY = new ArrayList<>(0);
 
 	@Override
 	protected List<LinkContainer> getOutgoingLinks(int start) {
@@ -106,32 +106,32 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		}
 		List<LinkContainer> c;
 		if (s.outGo != null) {
-			c = new ArrayList<LinkContainer>(s.outGo.size());
+			c = new ArrayList<>(s.outGo.size());
 			synchronized (s.outGo) {
 				c.addAll(s.outGo.values());
 			}
 		} else {
-			c = new ArrayList<LinkContainer>(0);
+			c = new ArrayList<>(0);
 		}
 		return c;
 	}
 	@Override
 	protected List<LinkContainer> getIncomingLinks(int end) {
 		if (internalList == null) {
-			return new ArrayList<LinkContainer>(0);
+			return new ArrayList<>(0);
 		}
 		SubStructure s = internalArray.get(end);
 		if (s == null) {
-			return new ArrayList<LinkContainer>(0);
+			return new ArrayList<>(0);
 		}
 		List<LinkContainer> c;
 		if (s.inCo != null) {
-			c = new ArrayList<LinkContainer>(s.inCo.size());
+			c = new ArrayList<>(s.inCo.size());
 			synchronized (s.inCo) {
 				c.addAll(s.inCo.values());
 			}
 		} else {
-			c = new ArrayList<LinkContainer>(0);
+			c = new ArrayList<>(0);
 		}
 		return c;
 	}
@@ -139,10 +139,10 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 	@Override
 	Collection<LinkContainer>	getLinkContainers(int start, int end){
 		if (internalList == null) {
-			return new ArrayList<LinkContainer>(0);
+			return new ArrayList<>(0);
 		}
 		SubStructure s = internalArray.get(start);
-		Collection<LinkContainer> c = new ArrayList<LinkContainer>(1);
+		Collection<LinkContainer> c = new ArrayList<>(1);
 		if (s != null && s.outGo != null) {
 			synchronized (s.outGo) {
 				LinkContainer link = s.outGo.get(end);
@@ -173,7 +173,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		/*	if ((internalArray.size() > index) && (internalArray.get(index) != null)) {
 			throw new IllegalStateException("Trying to add twice a node using the same index");
 		}	*/
-		if (internalArray.size() < (index+1)) {
+		if (internalArray.size() < index+1) {
 			internalArray.setSize(index+1);
 		}
 		synchronized (internalArray) {
@@ -245,7 +245,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 			internalList.remove(s);			
 		}
 		if (s == null) {
-			assert (0==1) : "Impossible to remove an unexisting element";
+			assert 0==1 : "Impossible to remove an unexisting element";
 			return null;
 		}
 		return s.n;
@@ -256,7 +256,7 @@ class TreeRepresentation extends AbstractLayerRepresentation {
 		int endN   = link.getEndNodeIndex();
 		SubStructure substart = internalArray.get(startN);
 		SubStructure subend   = internalArray.get(endN);
-		if ((substart == null) || (subend == null)) {
+		if (substart == null || subend == null) {
 			throw new IllegalStateException("Cannot remove link if connecting node does not exist");
 		}
 		synchronized (substart.outGo) {

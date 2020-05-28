@@ -22,7 +22,7 @@ public class GeneralCreditsController extends AbstractController {
 	
 	@FXML
 	public void feedbackPressed() throws Exception{
-    	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/FeedbackForm/feedback_form.fxml")) ;
+    	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/FeedbackForm/feedback_form.fxml")) ;
     	WindowBuilder credits = new WindowBuilder(loader) ;
     	credits.setIcon("/People/Meisam/GUI/Credits/FeedbackForm/Extras/feedback.png");
     	credits.build("Feedback Form", false);

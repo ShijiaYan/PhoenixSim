@@ -75,7 +75,7 @@ public class NACKFast_Deadline_PrioritizedBuffer extends
 		SpinetMessage msg = defineSpinetMessage(e);
 		
 		// use deadline as priority
-		msg.setSpinetPriority((int)(msg.getDeadline()));
+		msg.setSpinetPriority((int) msg.getDeadline());
 		
 		super.processProducerEvent(e);				
 	}
@@ -85,7 +85,7 @@ public class NACKFast_Deadline_PrioritizedBuffer extends
 			// delete expired msg before sending msgs out from the priority queue				
 			double addTime;
 			while (priorityQueue.size() > 0) {								
-				Message first = (Message) priorityQueue.firstEntry()
+				Message first = priorityQueue.firstEntry()
 						.getValue();
 				
 				addTime = 0;
@@ -144,7 +144,7 @@ public class NACKFast_Deadline_PrioritizedBuffer extends
 	private double updateImminence(double currentTime){
 		imminence = 0;
 		if (this.priorityQueue.size() > 0){
-			Message first = (Message)this.priorityQueue.firstEntry().getValue();
+			Message first = this.priorityQueue.firstEntry().getValue();
 			double ttl = first.getDeadline() - currentTime;
 			if (ttl < packetTransTime)
 				ttl = packetTransTime;
@@ -308,10 +308,7 @@ public class NACKFast_Deadline_PrioritizedBuffer extends
 				return true;
 			// otherwise, throw a dice
 			double rdtmp = new Random().nextDouble();
-			if (rdtmp < ps)
-				return true;
-			else 
-				return false;
+            return rdtmp < ps;
 		}
 	}
 	

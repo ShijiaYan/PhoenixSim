@@ -467,7 +467,7 @@ public class SlabWgCoupledModeProfileTabController extends AbstractTabController
 
 	    @FXML
 	    public void openInPlotterPressed() throws IOException {
-	        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
+	        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
 	        WindowBuilder plotter = new WindowBuilder(loader) ;
 	        plotter.setIcon("/People/Meisam/GUI/Plotters/MainGUI/Extras/plotter.png");
 	        plotter.build("Plotter v0.5 Beta", true);

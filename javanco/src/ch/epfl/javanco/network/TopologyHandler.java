@@ -108,7 +108,7 @@ public class TopologyHandler {
 	 * empty list
 	 */
 	public Collection<LinkContainer> getLinkContainers(int etx1, int etx2, boolean dir) {
-		Collection<LinkContainer> c = new ArrayList<LinkContainer>();
+		Collection<LinkContainer> c = new ArrayList<>();
 		for (LayerContainer layerC : this.getLayerContainers()) {
 			c.addAll(layerC.getLinkContainers(etx1, etx2));
 			if (dir == false) {
@@ -157,7 +157,7 @@ public class TopologyHandler {
 		if (layerContainerTable == null) {
 			return Collections.EMPTY_LIST;
 		}
-		return new ArrayList<LayerContainer>(layerContainerTable.values());
+		return new ArrayList<>(layerContainerTable.values());
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class TopologyHandler {
 	public void layerCreated(LayerContainer layerContainer) {
 		layerContainer.setAbstractGraphHandler(this.handler);
 		if (layerContainerTable == null) {
-			layerContainerTable = new SimpleMap<String, LayerContainer>();
+			layerContainerTable = new SimpleMap<>();
 		}
 		layerContainerTable.put(layerContainer.getKey(), layerContainer);
 		handler.setEditedLayer(layerContainer.getKey());
@@ -237,7 +237,7 @@ public class TopologyHandler {
 		if (layerContainerTable != null) {
 			layerContainerTable.remove(layerC.getKey());
 		} else {
-			assert (0==1);
+			assert 0==1;
 		}
 		if (layerC.equals(handler.getEditedLayer())) {
 			if (layerContainerTable.size() > 0) {

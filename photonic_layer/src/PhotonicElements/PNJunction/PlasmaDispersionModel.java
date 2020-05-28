@@ -83,7 +83,7 @@ public class PlasmaDispersionModel {
 	}
 	
 	private double getDNfromDalphaPerCm(double DalphaPerCm){
-		return DalphaPerCm/(14.5e-18) ;
+		return DalphaPerCm/ 14.5e-18;
 	}
 	
 	// if Index change of silicon is specified

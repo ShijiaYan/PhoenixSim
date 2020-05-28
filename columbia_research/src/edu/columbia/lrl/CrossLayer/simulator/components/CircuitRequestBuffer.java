@@ -11,7 +11,7 @@ public class CircuitRequestBuffer<T> {
 	public CircuitRequestBuffer(int capacity) {
 		this.capacity = capacity;
 		
-		queue = new ArrayDeque<T>(capacity);
+		queue = new ArrayDeque<>(capacity);
 	}
 
 	public void enqueue(T message) {

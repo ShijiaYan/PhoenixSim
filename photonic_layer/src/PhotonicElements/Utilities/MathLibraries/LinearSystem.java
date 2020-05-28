@@ -11,10 +11,10 @@ package PhotonicElements.Utilities.MathLibraries;
 
 public class LinearSystem {
 
-	public LinearSystem(final double A[][], final double Y[], double X[])
+	public LinearSystem(final double[][] A, final double[] Y, double[] X)
 	  {
 	    int n=A.length;
-	    double B[][] = new double[n][n+1];  // working matrix
+	    double[][] B = new double[n][n+1];  // working matrix
 	    if(A[0].length!=n || Y.length!=n || X.length!=n)
 	    {
 	      System.out.println("Error in LinearSystem, inconsistent array sizes.");
@@ -28,9 +28,9 @@ public class LinearSystem {
 	    solve(n, B, X);
 	  }
 
-	  LinearSystem(int n, final double A[][], final double Y[], double X[])
+	  LinearSystem(int n, final double[][] A, final double[] Y, double[] X)
 	  {
-	    double B[][] = new double[n][n+1];  // working matrix
+	    double[][] B = new double[n][n+1];  // working matrix
 	    // build working data structure
 	    for(int i=0; i<n; i++)
 	    {
@@ -40,9 +40,9 @@ public class LinearSystem {
 	    solve(n, B, X);
 	  }
 
-	  LinearSystem(int n, final double AA[], final double Y[], double X[])
+	  LinearSystem(int n, final double[] AA, final double[] Y, double[] X)
 	  {
-	    double B[][] = new double[n][n+1];  // working matrix
+	    double[][] B = new double[n][n+1];  // working matrix
 
 	    for(int i=0; i<n; i++)
 	    {
@@ -52,9 +52,9 @@ public class LinearSystem {
 	    solve(n, B, X);
 	  }
 
-	  LinearSystem(int n, final double AA[], double X[])
+	  LinearSystem(int n, final double[] AA, double[] X)
 	  {
-	    double B[][] = new double[n][n+1];  // working matrix
+	    double[][] B = new double[n][n+1];  // working matrix
 
 	    for(int i=0; i<n; i++)
 	    {
@@ -63,17 +63,17 @@ public class LinearSystem {
 	    solve(n, B, X);
 	  }
 
-	  LinearSystem(int n, final double B[][], double X[])
+	  LinearSystem(int n, final double[][] B, double[] X)
 	  {
 	    solve(n, B, X);
 	  }
 
-	  private void solve(final int n, final double B[][], double X[])
+	  private void solve(final int n, final double[][] B, double[] X)
 	  {
 	    int hold , I_pivot;             // pivot indicies
 	    double pivot;                   // pivot element value
 	    double abs_pivot;
-	    int row[] = new int[n];           // row interchange indicies
+	    int[] row = new int[n];           // row interchange indicies
 
 	    // set up row interchange vectors
 	    for(int k=0; k<n; k++)

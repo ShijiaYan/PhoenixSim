@@ -99,12 +99,7 @@ public class ModeCoupledSlabWgTM {
 	}	
 
 	public void findNeff_AllModes(){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double neff) {
-				return getModeEquation(neff);
-			}
-		};
+		RealRootFunction func = neff -> getModeEquation(neff);
 		RealRootFinder rootFinder = new RealRootFinder(func, n_low, n_high) ;
 		rootFinder.setAccuracy(1e-4);
 		rootFinder.findAllRoots();
@@ -136,7 +131,7 @@ public class ModeCoupledSlabWgTM {
 	public double findNeffCoupledMode(int modeNumber){
 		int M = neff_AllModes.length ;
 		if(M >= modeNumber+1){
-			return neff_AllModes[(M-1)-modeNumber] ;
+			return neff_AllModes[M - 1 - modeNumber] ;
 		}
 		else{
 			return Double.NaN ;

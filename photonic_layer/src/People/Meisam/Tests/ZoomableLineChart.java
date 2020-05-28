@@ -52,25 +52,17 @@ public class ZoomableLineChart extends Application {
 
 		final Button zoomButton = new Button("Zoom");
 		final Button resetButton = new Button("Reset");
-		zoomButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                doZoom(zoomRect, chart);
-            }
-        });
-		resetButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                final NumberAxis xAxis = (NumberAxis)chart.getXAxis();
-                xAxis.setLowerBound(0);
-                xAxis.setUpperBound(1000);
-                final NumberAxis yAxis = (NumberAxis)chart.getYAxis();
-                yAxis.setLowerBound(0);
-                yAxis.setUpperBound(1000);
+		zoomButton.setOnAction(event -> doZoom(zoomRect, chart));
+		resetButton.setOnAction(event -> {
+            final NumberAxis xAxis = (NumberAxis)chart.getXAxis();
+            xAxis.setLowerBound(0);
+            xAxis.setUpperBound(1000);
+            final NumberAxis yAxis = (NumberAxis)chart.getYAxis();
+            yAxis.setLowerBound(0);
+            yAxis.setUpperBound(1000);
 
-                zoomRect.setWidth(0);
-                zoomRect.setHeight(0);
-            }
+            zoomRect.setWidth(0);
+            zoomRect.setHeight(0);
         });
 		final BooleanBinding disableControls =
 		        zoomRect.widthProperty().lessThan(5)
@@ -109,7 +101,7 @@ public class ZoomableLineChart extends Application {
         final Series<Number, Number> series = new Series<>();
         series.setName("Data");
         for (int i=0; i<NUM_DATA_POINTS; i++) {
-            Data<Number, Number> dataPoint = new Data<Number, Number>(4*Math.PI/NUM_DATA_POINTS * i, Math.sin(4*Math.PI/NUM_DATA_POINTS * i));
+            Data<Number, Number> dataPoint = new Data<>(4 * Math.PI / NUM_DATA_POINTS * i, Math.sin(4 * Math.PI / NUM_DATA_POINTS * i));
             series.getData().add(dataPoint);
         }
         return FXCollections.observableArrayList(Collections.singleton(series));
@@ -117,24 +109,18 @@ public class ZoomableLineChart extends Application {
 
     private void setUpZooming(final Rectangle rect, final Node zoomingNode) {
         final ObjectProperty<Point2D> mouseAnchor = new SimpleObjectProperty<>();
-        zoomingNode.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mouseAnchor.set(new Point2D(event.getX(), event.getY()));
-                rect.setWidth(0);
-                rect.setHeight(0);
-            }
+        zoomingNode.setOnMousePressed(event -> {
+            mouseAnchor.set(new Point2D(event.getX(), event.getY()));
+            rect.setWidth(0);
+            rect.setHeight(0);
         });
-        zoomingNode.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                double x = event.getX();
-                double y = event.getY();
-                rect.setX(Math.min(x, mouseAnchor.get().getX()));
-                rect.setY(Math.min(y, mouseAnchor.get().getY()));
-                rect.setWidth(Math.abs(x - mouseAnchor.get().getX()));
-                rect.setHeight(Math.abs(y - mouseAnchor.get().getY()));
-            }
+        zoomingNode.setOnMouseDragged(event -> {
+            double x = event.getX();
+            double y = event.getY();
+            rect.setX(Math.min(x, mouseAnchor.get().getX()));
+            rect.setY(Math.min(y, mouseAnchor.get().getY()));
+            rect.setWidth(Math.abs(x - mouseAnchor.get().getX()));
+            rect.setHeight(Math.abs(y - mouseAnchor.get().getY()));
         });
     }
 

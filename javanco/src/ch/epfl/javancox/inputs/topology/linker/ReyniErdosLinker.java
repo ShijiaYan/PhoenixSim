@@ -22,7 +22,7 @@ public class ReyniErdosLinker extends AbstractNodeLinker {
 			for(int d=agh.getSmallestNodeIndex();d<=agh.getHighestNodeIndex();d++){
 				if(s!=d){
 					if (stream.nextDouble()<=linkProbability){
-						if ((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null)&&(aux!=numberOfLinks)){
+						if (agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null && aux!=numberOfLinks){
 							agh.newLink(s,d);
 							aux++;
 						}

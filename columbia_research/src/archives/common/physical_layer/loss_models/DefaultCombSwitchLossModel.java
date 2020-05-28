@@ -41,7 +41,7 @@ public class DefaultCombSwitchLossModel extends AbstractSwitchingRingModel {
 		double L = 2*Math.PI*radius;
 		
 		double fsr_wavelength = Math.pow(lambda0,2d)/(neff*L);
-		double fsr_freq = (c0/ Math.pow(lambda0,2d))*fsr_wavelength;
+		double fsr_freq = (c0/ Math.pow(lambda0,2d)) *fsr_wavelength;
 		
 		double shift;
 		if (fsr_freq < 500e9)
@@ -59,7 +59,7 @@ public class DefaultCombSwitchLossModel extends AbstractSwitchingRingModel {
 		
 		double[] t_vec = new double[100];
 		for (int i = 0 ; i < t_vec.length ; i++) {
-			t_vec[i] = 0.5 + (i*0.005);
+			t_vec[i] = 0.5 + i*0.005;
 		}
 		
 		double[] total_loss_vec = new double[100];
@@ -110,12 +110,12 @@ public class DefaultCombSwitchLossModel extends AbstractSwitchingRingModel {
 			}
 			
 			double FWHM_radian = phase_vec[half_ind]*2;
-			FWHM_freq_vec[i] = (FWHM_radian/(2*Math.PI))*fsr_freq;
+			FWHM_freq_vec[i] = (FWHM_radian/(2*Math.PI)) *fsr_freq;
 			
 			double pp = getPP(FWHM_freq_vec[i]);
 
 			pp_vec[i] = pp;			
-			total_loss_vec[i] = (numberDrop*(-drop_IL_vec[i]))+(numberThrough*(-through_IL_vec[i]))+pp;
+			total_loss_vec[i] = numberDrop* -drop_IL_vec[i] + numberThrough* -through_IL_vec[i] +pp;
 		}
 		
 		
@@ -166,10 +166,10 @@ public class DefaultCombSwitchLossModel extends AbstractSwitchingRingModel {
 		}
 		
 		double[] x_refined = new double[1000];
-		double diff = ((x[greater_inds] - x[smaller_inds]) / (double)(x_refined.length));
+		double diff = (x[greater_inds] - x[smaller_inds]) / (double) x_refined.length;
 
 		for (int i = 0 ; i < x_refined.length ; i++) {
-			x_refined[i] = x[smaller_inds] + (i*diff);
+			x_refined[i] = x[smaller_inds] + i*diff;
 		}
 		double[] y_refined = new double[x_refined.length];
 		for (int i = 0 ; i < y_refined.length ; i++) {

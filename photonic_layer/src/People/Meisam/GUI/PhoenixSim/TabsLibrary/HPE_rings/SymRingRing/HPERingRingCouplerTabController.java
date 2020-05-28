@@ -74,13 +74,8 @@ public class HPERingRingCouplerTabController extends AbstractTabController {
     }
 
     private boolean ringWgPlotToggleSelected(){
-        if(kLambdaRingWg.isSelected() || kRadiusRingWg.isSelected() || kdRingWg.isSelected() ||
-        		tLambdaRingWg.isSelected() || tRadiusRingWg.isSelected() || tdRingWg.isSelected() ){
-            return true;
-        }
-        else{
-            return false ;
-        }
+        return kLambdaRingWg.isSelected() || kRadiusRingWg.isSelected() || kdRingWg.isSelected() ||
+                tLambdaRingWg.isSelected() || tRadiusRingWg.isSelected() || tdRingWg.isSelected();
     }
 
     @FXML
@@ -98,7 +93,7 @@ public class HPERingRingCouplerTabController extends AbstractTabController {
 
     @FXML
     public void sweepRadius() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -139,7 +134,7 @@ public class HPERingRingCouplerTabController extends AbstractTabController {
 
     @FXML
     public void sweepD() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -276,7 +271,7 @@ public class HPERingRingCouplerTabController extends AbstractTabController {
 
     @FXML
     public void openInPlotterPressed() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
         WindowBuilder plotter = new WindowBuilder(loader) ;
         plotter.setIcon("/People/Meisam/GUI/Plotters/MainGUI/Extras/plotter.png");
         plotter.build("Plotter v0.5 Beta", true);

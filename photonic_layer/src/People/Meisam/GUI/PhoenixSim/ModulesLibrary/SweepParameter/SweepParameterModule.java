@@ -17,7 +17,7 @@ public class SweepParameterModule {
 	Stage window = new Stage() ;
 
 	public SweepParameterModule(){
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         Parent root;
 		try {
 			root = loader.load();

@@ -115,7 +115,7 @@ public class TDMSharedLasers extends AbstractPowerSharingModel implements EventT
 	@Override
 	public boolean isActive(int i) {
 		int laserId = getLaserForChannel(i);
-		return lasers[laserId].getState() && (poweredChannelForLaserI[laserId] == i);
+		return lasers[laserId].getState() && poweredChannelForLaserI[laserId] == i;
 	}
 
 	@Override

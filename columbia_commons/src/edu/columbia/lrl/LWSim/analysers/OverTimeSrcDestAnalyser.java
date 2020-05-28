@@ -30,7 +30,7 @@ public class OverTimeSrcDestAnalyser extends AbstractLWSimAnalyser {
 			@ParamName(name="Emited (true) or received (false)?")  boolean emitedOrReceived,
 			@ParamName(name="Source") int source) {
 		this.binLengthNS = binLengthNS;		
-		this.sources = new ArrayList<Integer>(1);
+		this.sources = new ArrayList<>(1);
 		this.emitedOrReceived = emitedOrReceived;
 		sources.add(source);
 	}
@@ -39,11 +39,11 @@ public class OverTimeSrcDestAnalyser extends AbstractLWSimAnalyser {
 			@ParamName(name="Emited (true) or received (false)?")  boolean emitedOrReceived,
 			@ParamName(name="Sources") int ... sources_) {
 		this.binLengthNS = binLengthNS;		
-		this.sources = new ArrayList<Integer>(sources_.length);
+		this.sources = new ArrayList<>(sources_.length);
 		this.emitedOrReceived = emitedOrReceived;
-		for (int i = 0 ; i < sources_.length ; i++) {
-			sources.add(sources_[i]);
-		}
+        for (int value : sources_) {
+            sources.add(value);
+        }
 	}	
 	
 	public OverTimeSrcDestAnalyser(@ParamName(name="Start time") double startTime, 
@@ -54,18 +54,18 @@ public class OverTimeSrcDestAnalyser extends AbstractLWSimAnalyser {
 		this.binLengthNS = (endTime - startTime)/bins;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.sources = new ArrayList<Integer>(sources_.length);
+		this.sources = new ArrayList<>(sources_.length);
 		this.emitedOrReceived = emitedOrReceived;
-		for (int i = 0 ; i < sources_.length ; i++) {
-			sources.add(sources_[i]);
-		}
+        for (int value : sources_) {
+            sources.add(value);
+        }
 	}	
 	
 	@Override
 	public void init(LWSIMExperiment exp) {
 		super.init(exp);
 		nodes = lwSimExp.getNumberOfClients();
-		vals = new HashMap<Integer, SparseDoubleMatrix2D>();
+		vals = new HashMap<>();
 		largestBin = 0;
 		smallestBin = Integer.MAX_VALUE;
 		largestTraffic = 0;
@@ -83,9 +83,9 @@ public class OverTimeSrcDestAnalyser extends AbstractLWSimAnalyser {
 					for (int j = 0 ; j < nodes ; j++) {
 						double vv = tab.get(sourceId, j);
 						if (vv > 0) {
-							mat[i-smallestBin][(h*nodes)+j] = Math.log(vv)/logLargest;
+							mat[i-smallestBin][h*nodes +j] = Math.log(vv)/logLargest;
 						} else {
-							mat[i-smallestBin][(h*nodes)+j] = 0;
+							mat[i-smallestBin][h*nodes +j] = 0;
 						}
 					}
 				}

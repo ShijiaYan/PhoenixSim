@@ -62,9 +62,9 @@ public class AbstractModel {
 		trafOpt = Double.POSITIVE_INFINITY;
 		distOpt = 0;
 		diameterOpt = 0;
-		distanceHistogramOpt = new PairList<Integer, Integer>();
+		distanceHistogramOpt = new PairList<>();
 		for (int R = 2 ; R < 1000 ; R++) {
-			PairList<Integer, Integer> distanceHistogram = new PairList<Integer, Integer>();
+			PairList<Integer, Integer> distanceHistogram = new PairList<>();
 		// finding D
 			int s = S-1;
 			int D = 1;
@@ -94,11 +94,11 @@ public class AbstractModel {
 		}
 		if (bestR == 0) return false;
 		
-		if (C + (linkMult*bestR) < 48) {
-			double f = (C + (linkMult*bestR))/8d;
+		if (C + linkMult*bestR < 48) {
+			double f = (C + linkMult*bestR)/8d;
 			totalRadix = (int)Math.ceil(f)*8;
 		} else {
-			double f = (C + (linkMult*bestR))/16d;
+			double f = (C + linkMult*bestR)/16d;
 			totalRadix = (int)Math.ceil(f)*16;			
 		}
 		return true;
@@ -115,7 +115,7 @@ public class AbstractModel {
 		dp.addProperty("C", C);
 		dp.addProperty("N", N);
 		dp.addProperty("Norig", nOrig);
-		dp.addResultProperty("r", C + (linkMult*bestR));
+		dp.addResultProperty("r", C + linkMult*bestR);
 		dp.addResultProperty("r_round", totalRadix);		
 		dp.addResultProperty("Dopt", diameterOpt);
 		dp.addResultProperty("traffic", trafOpt);
@@ -135,7 +135,7 @@ public class AbstractModel {
 	}
 	
 	public PairList<Integer, Integer> getNodeDistanceHistogram() {
-		PairList<Integer, Integer> hist = new PairList<Integer, Integer>();
+		PairList<Integer, Integer> hist = new PairList<>();
 		for (Pair<Integer, Integer> p : getDistanceHistogram()) {
 			hist.add(p.getFirst()+2, p.getSecond()*C);
 		}
@@ -156,7 +156,7 @@ public class AbstractModel {
 	}
 
 	public int getUnroundedRadix() {
-		return C + (linkMult*bestR);
+		return C + linkMult*bestR;
 	}
 
 	public int getOptCapacity() {

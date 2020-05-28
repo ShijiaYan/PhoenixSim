@@ -13,7 +13,7 @@ import ch.epfl.general_libraries.clazzes.ParamName;
 
 public class Graphene_Natalie {
 
-	// Ignoring the phsae change --> comes from imaginary part of sigma
+	// Ignoring the phase change --> comes from imaginary part of sigma
 	
 	// Fermi as a function of voltage
 	// conductivity as a function of Fermi
@@ -71,7 +71,7 @@ public class Graphene_Natalie {
 	 * @param tau 1/tau is the free carrier scattering (negligible)
 	 * @param omega frequency
 	 */
-	public Graphene_Natalie( 
+	public Graphene_Natalie(
 			@ParamName(name = "Intrinsic Carrier Concentration")double n0, 
 			@ParamName(name = "Applied Voltage")double Vin, 
 			@ParamName(name = "Inverse of free carrier scattering")double tau,
@@ -90,7 +90,7 @@ public class Graphene_Natalie {
 	
 	public double getFermiLevel(){
 		double Ef =  h/(2*Math.PI)*vf*Math.sqrt(Math.PI*(n0+C*Math.abs(Vin)/q));
-		return (Ef/q * 1e3) ;
+		return Ef/q * 1e3;
 	}
 	
 	
@@ -103,9 +103,9 @@ public class Graphene_Natalie {
 		double f = q*q/(8*h)*(f1+f2);
 		
 		//sigmaReal = f+s1*s2
-		double s1 = (q*q*gamma/(2*Math.PI*h*h))*(1/tau)/(omega*omega+(1/tau)); 
+		double s1 = (q*q*gamma/(2*Math.PI*h*h)) *(1/tau)/(omega*omega+ 1/tau);
 		double s2 = Math.log10(2*Math.cosh(2*Ef_temp/gamma));
-		return (f + s1*s2);//sigmaReal
+		return f + s1*s2;//sigmaReal
 	}
 	 
 	public Complex getEpsilonSqrt(){

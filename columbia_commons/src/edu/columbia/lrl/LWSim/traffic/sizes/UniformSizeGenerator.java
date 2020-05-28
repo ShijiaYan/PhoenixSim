@@ -25,7 +25,7 @@ public class UniformSizeGenerator extends AbstractPacketSizeGenerator {
 	@Override
 	public int getAverageSize() {
 		// TODO Auto-generated method stub
-		return (int) (lowerBound + upperBound)/2;
+		return (lowerBound + upperBound) /2;
 	}
 
 }

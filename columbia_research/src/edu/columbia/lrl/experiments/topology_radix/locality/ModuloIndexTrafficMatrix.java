@@ -32,7 +32,7 @@ public class ModuloIndexTrafficMatrix extends AbstractTrafficMatrix {
 	@Override
 	public double getTraffic(int src, int dest) {
 		if (repeat) {
-			if (((src - dist + clients) % clients) % dist == 0) {
+			if ((src - dist + clients) % clients % dist == 0) {
 				return normLoad;
 			} else {
 				return 0;

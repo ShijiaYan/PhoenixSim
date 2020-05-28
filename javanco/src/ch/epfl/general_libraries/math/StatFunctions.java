@@ -12,26 +12,26 @@ public class StatFunctions {
 	
 	public static double getMean(int[] d) {
 		double total = 0;
-		for (int i = 0 ; i < d.length ; i++) {
-			total += d[i];
-		}
-		return (total / (double)d.length);
+        for (int value : d) {
+            total += value;
+        }
+		return total / (double)d.length;
 	}	
 	
 	public static double getMean(double[] d) {
 		double total = 0;
-		for (int i = 0 ; i < d.length ; i++) {
-			total += d[i];
-		}
-		return (total / (double)d.length);
+        for (double v : d) {
+            total += v;
+        }
+		return total / (double)d.length;
 	}
 
 	public static float getMean(float[] f) {
 		float total = 0;
-		for (int i = 0 ; i < f.length ; i++) {
-			total += f[i];
-		}
-		return (total / (float)f.length);
+        for (float v : f) {
+            total += v;
+        }
+		return total / (float)f.length;
 	}
 
 	public static float getMeanF(Collection<Float> d) {
@@ -39,21 +39,21 @@ public class StatFunctions {
 		for (float de : d) {
 			total += de;
 		}
-		return (total / (float)d.size());
+		return total / (float)d.size();
 	}
 	
 	public static double getMean(Double[][] d) {
 		double total = 0;
 		int nb = 0;
-		for (int i = 0 ; i < d.length ; i++) {
-			for (int j = 0 ; j < d.length ; j++) {
-				if (d[i][j] != null) {
-					total += d[i][j];
-					nb++;
-				}
-			}
-		}
-		return (total / (double)nb);		
+        for (Double[] doubles : d) {
+            for (int j = 0; j < d.length; j++) {
+                if (doubles[j] != null) {
+                    total += doubles[j];
+                    nb++;
+                }
+            }
+        }
+		return total / (double)nb;
 	}
 	
 	
@@ -61,13 +61,13 @@ public class StatFunctions {
 	public static double getMean(double[][] d) {
 		double total = 0;
 		int nb = 0;
-		for (int i = 0 ; i < d.length ; i++) {
-			for (int j = 0 ; j < d.length ; j++) {
-				total += d[i][j];
-				nb++;
-			}
-		}
-		return (total / (double)nb);		
+        for (double[] doubles : d) {
+            for (int j = 0; j < d.length; j++) {
+                total += doubles[j];
+                nb++;
+            }
+        }
+		return total / (double)nb;
 	}	
 
 	public static double getMeanD(Collection<Double> d) {
@@ -75,7 +75,7 @@ public class StatFunctions {
 		for (double de : d) {
 			total += de;
 		}
-		return (total / (double)d.size());
+		return total / (double)d.size();
 	}
 
 	public static float getMedian(float[] f) {
@@ -106,11 +106,11 @@ public class StatFunctions {
 
 	public static float getMin(float[] f) {
 		float aMin = Float.MAX_VALUE;
-		for (int i = 0 ; i < f.length ; i++) {
-			if (f[i] < aMin) {
-				aMin = f[i];
-			}
-		}
+        for (float v : f) {
+            if (v < aMin) {
+                aMin = v;
+            }
+        }
 		return aMin;
 	}
 
@@ -120,11 +120,11 @@ public class StatFunctions {
 
 	public static float getMax(float[] f) {
 		float aMax = Float.MIN_VALUE;
-		for (int i = 0 ; i < f.length ; i++) {
-			if (f[i] > aMax) {
-				aMax = f[i];
-			}
-		}
+        for (float v : f) {
+            if (v > aMax) {
+                aMax = v;
+            }
+        }
 		return aMax;
 	}
 
@@ -169,9 +169,9 @@ public class StatFunctions {
 	public static float getVariance(float[] f) {
 		float mean = getMean(f);
 		float total = 0;
-		for (int i = 0 ; i < f.length ; i++) {
-			total += Math.pow(f[i] - mean, 2);
-		}
+        for (float v : f) {
+            total += Math.pow(v - mean, 2);
+        }
 		return total / (f.length - 1);
 	}
 
@@ -193,9 +193,9 @@ public class StatFunctions {
 
 	public static float[] getConfidenceInterval(float[] f, float confidenceLevel) {
 		double studT = -StudentDist.inverseF(f.length-1, (1-confidenceLevel)/2);
-		double term1 = Math.pow((getVariance(f)/f.length), 0.5);
+		double term1 = Math.pow(getVariance(f)/f.length, 0.5);
 		float mean = getMean(f);
-		return new float[]{(float)(mean - (studT*term1)), (float)(mean + (studT*term1))};
+		return new float[]{(float)(mean - studT*term1), (float)(mean + studT*term1)};
 	}
 
 	public static double[] getConfidenceInterval(Collection<Double> d, double confidenceLevel) {
@@ -218,19 +218,19 @@ public class StatFunctions {
 			return Float.POSITIVE_INFINITY;
 		}
 		double studT = -StudentDist.inverseF(f.size()-1, (1-confidenceLevel)/2);
-		double term1 = Math.pow((getVarianceF(f)/f.size()), 0.5);
+		double term1 = Math.pow(getVarianceF(f)/f.size(), 0.5);
 		double mean = getMeanF(f);
 		if (mean < 10*Float.MIN_VALUE) {
 			return 0;
 		}
-		return (float)(mean + (studT*term1))/(float)mean;
+		return (float)(mean + studT*term1)/(float)mean;
 	}
 
 	public static double[] getConfidenceIntervalAndMean(Collection<Double> d, float confidenceLevel) {
 		double studT = -StudentDist.inverseF(d.size()-1, (1-confidenceLevel)/2);
-		double term1 = Math.pow((getVarianceD(d)/d.size()), 0.5);
+		double term1 = Math.pow(getVarianceD(d)/d.size(), 0.5);
 		double mean = getMeanD(d);
-		return new double[]{(mean - (studT*term1)),mean, (mean + (studT*term1))};
+		return new double[]{mean - studT*term1,mean, mean + studT*term1};
 	}
 
 	public static float[] getAll(Collection<Float> f, float confidence) {
@@ -310,15 +310,15 @@ public class StatFunctions {
 	private static double[] getConfidenceIntervalInternal(Collection<Double> d,
 			double mean, double var, double confidenceLevel) {
 		double studT = -StudentDist.inverseF(d.size()-1, (1-confidenceLevel)/2);
-		double term1 = Math.pow((var/d.size()), 0.5);
-		return new double[]{(mean - (studT*term1)), (mean + (studT*term1))};
+		double term1 = Math.pow(var/d.size(), 0.5);
+		return new double[]{mean - studT*term1, mean + studT*term1};
 	}
 
 	private static float[] getConfidenceIntervalInternal(Collection<Float> d,
 			float mean, float var, float confidenceLevel) {
 		float studT = (float)-StudentDist.inverseF(d.size()-1, (1-confidenceLevel)/2);
-		float term1 = (float)Math.pow((var/d.size()), 0.5);
-		return new float[]{(mean - (studT*term1)), (mean + (studT*term1))};
+		float term1 = (float)Math.pow(var/d.size(), 0.5);
+		return new float[]{mean - studT*term1, mean + studT*term1};
 	}
 
 	private static double getVarianceInternalD(Collection<Double> d, double mean) {
@@ -374,7 +374,7 @@ public class StatFunctions {
 	}	
 
 	@Test
-	public static void testStats(String args[]) {
+	public static void testStats(String[] args) {
 		int numberOfSamples = (int)(Math.random() * 100);
 		float[] tab = new float[numberOfSamples];
 		for (int i = 0 ; i < tab.length ; i++) {

@@ -51,7 +51,7 @@ public class PlotDigitizer extends Canvas implements MouseListener {
 	private double highXvalue = 0.0D;
 	private double highXaxisXpixel = 0.0D;
 	private double highXaxisYpixel = 0.0D;
-	private ArrayList<Integer> xAndYvalues = new ArrayList<Integer>();
+	private ArrayList<Integer> xAndYvalues = new ArrayList<>();
 	private int iCounter = 0;
 	private double angleXaxis = 0.0D;
 	private double angleYaxis = 0.0D;
@@ -220,8 +220,8 @@ public class PlotDigitizer extends Canvas implements MouseListener {
 		arg0.drawImage(this.pic, 10, 30, this);
 		if (!this.resize) {
 			arg0.drawString("RIGHT click anywhere on the screen", 5, 10);
-			int arg1 = this.pic.getWidth((ImageObserver) null);
-			int arg2 = this.pic.getHeight((ImageObserver) null);
+			int arg1 = this.pic.getWidth(null);
+			int arg2 = this.pic.getHeight(null);
 			System.out.println(arg1 + " xxx " + arg2);
 			arg0.drawString("  ", 5, 10);
 			double arg3 = (double) (this.windowHeight - 30) / (double) arg2;
@@ -417,11 +417,11 @@ public class PlotDigitizer extends Canvas implements MouseListener {
 		int arg1;
 		int arg3;
 		for (arg1 = 0; arg1 < this.nData; ++arg1) {
-			int arg2 = ((Integer) this.xAndYvalues.get(arg0)).intValue();
+			int arg2 = this.xAndYvalues.get(arg0).intValue();
 			++arg0;
-			arg3 = ((Integer) this.xAndYvalues.get(arg0)).intValue();
+			arg3 = this.xAndYvalues.get(arg0).intValue();
 			++arg0;
-			this.xPosPixel[arg1] = (double) arg2;
+			this.xPosPixel[arg1] = arg2;
 			this.yPosPixel[arg1] = (double) this.windowHeight - (double) arg3;
 		}
 

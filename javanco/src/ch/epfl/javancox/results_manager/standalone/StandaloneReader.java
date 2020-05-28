@@ -48,14 +48,14 @@ public class StandaloneReader {
 		String[] sep = line.split("\\$");
 		String[] inputs = sep[0].split(",");
 		String[] outputs = sep[1].split(",");
-		for (int i = 0 ; i < inputs.length ; i++ ) {
-			String[] dd = inputs[i].split("=");
-			dp.addProperty(dd[0], dd[1]);
-		}
-		for (int i = 0 ; i < outputs.length ; i++) {
-			String[] dd = outputs[i].split("=");
-			dp.addResultProperty(dd[0], dd[1]);
-		}	
+        for (String input : inputs) {
+            String[] dd = input.split("=");
+            dp.addProperty(dd[0], dd[1]);
+        }
+        for (String output : outputs) {
+            String[] dd = output.split("=");
+            dp.addResultProperty(dd[0], dd[1]);
+        }
 		ex.addDataPoint(dp);
 		db.addExecution(ex);		
 	}

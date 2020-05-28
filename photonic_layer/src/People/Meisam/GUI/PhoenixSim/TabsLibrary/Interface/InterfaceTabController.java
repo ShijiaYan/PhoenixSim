@@ -75,12 +75,7 @@ public class InterfaceTabController extends AbstractTabController {
 	}
 
     private boolean plotSelected(){
-        if(realThetatThetai.isSelected() || Rthetai.isSelected() || Tthetai.isSelected() || imagThetatThetai.isSelected()){
-            return true;
-        }
-        else{
-            return false ;
-        }
+        return realThetatThetai.isSelected() || Rthetai.isSelected() || Tthetai.isSelected() || imagThetatThetai.isSelected();
     }
 
 //    private boolean polarizationSelected(){
@@ -133,7 +128,7 @@ public class InterfaceTabController extends AbstractTabController {
 
     @FXML
     public void sweepN1() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -161,7 +156,7 @@ public class InterfaceTabController extends AbstractTabController {
 
     @FXML
     public void sweepN2() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -189,7 +184,7 @@ public class InterfaceTabController extends AbstractTabController {
 
     @FXML
     public void sweepThetai() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -315,7 +310,7 @@ public class InterfaceTabController extends AbstractTabController {
 
     @FXML
     public void openInPlotterPressed() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
         WindowBuilder plotter = new WindowBuilder(loader) ;
         plotter.setIcon("/People/Meisam/GUI/Plotters/MainGUI/Extras/plotter.png");
         plotter.build("Plotter v0.5 Beta", true);

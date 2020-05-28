@@ -27,18 +27,18 @@ public class TestJfxChart extends Application {
 		    final NumberAxis yAxis = new NumberAxis();
 		    xAxis.setLabel("X");
 		    yAxis.setLabel("Y");
-		    final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(
-		        xAxis, yAxis);
+		    final LineChart<Number, Number> lineChart = new LineChart<>(
+					xAxis, yAxis);
 
 //		    lineChart.setTitle("Line Chart");
-		    XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+		    XYChart.Series<Number, Number> series = new XYChart.Series<>();
 //		    series.setName("My Data");
 		    // populating the series with data
 		    int N = 1000 ;
 		    double[] x = MoreMath.linspace(-10, 10, N) ;
 		    double[] y = MoreMath.Arrays.Functions.sinc(x) ;
 		    for(int i=0; i<N; i++){
-		    	series.getData().add(new Data<Number, Number>(x[i], y[i])) ;
+		    	series.getData().add(new Data<>(x[i], y[i])) ;
 		    }
 
 		    Scene scene = new Scene(lineChart, 800, 600) ;

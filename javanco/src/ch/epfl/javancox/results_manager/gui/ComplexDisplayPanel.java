@@ -136,7 +136,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 
 	private List<AbstractChartPanel> displayers;
 	private List<Class<? extends AbstractChartPanel>> displayerClasses;
-	private HashMap<String, String> quoteWithoutQuoteEquivalence = new HashMap<String, String>();	
+	private HashMap<String, String> quoteWithoutQuoteEquivalence = new HashMap<>();
 	private AdvancedDataRetriever retriever;
 	
 	private JFrame legend = null;
@@ -155,8 +155,8 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		String yText = getYAxisText();
 		if (yText == null) {
 		//	constProperties = new Vector<String>(0);
-			varProperties = new Vector<String>(0);
-			constants = new Vector<Pair<String, String>>(0);			
+			varProperties = new Vector<>(0);
+			constants = new Vector<>(0);
 			return;
 		}
 		constants.clear();
@@ -198,7 +198,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		this.title = title;
 		this.retriever = a;
 		this.displayerClasses = displayerClasses;
-		this.displayers = new ArrayList<AbstractChartPanel>(this.displayerClasses.size());
+		this.displayers = new ArrayList<>(this.displayerClasses.size());
 		Object[] params = {this.retriever, this};
 		for (Class<? extends AbstractChartPanel> disp : this.displayerClasses){
 			try {
@@ -254,22 +254,15 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		this.shapeComboBox = new JComboBox();
 		this.xAxis = new JComboBox();
 		
-		ItemListener itemListener = new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.DESELECTED) {
-					return;
-				}
-				autoCompute();
-			}
-		};	
+		ItemListener itemListener = e -> {
+            if (e.getStateChange() == ItemEvent.DESELECTED) {
+                return;
+            }
+            autoCompute();
+        };
 		
 		seeOutputs = new JCheckBox("Include outputs");
-		seeOutputs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				resetAFC();
-			}
-		});		
+		seeOutputs.addActionListener(e -> resetAFC());
 
 		xAxis.addItemListener(itemListener);
 		shapeComboBox.addItemListener(itemListener);		
@@ -292,7 +285,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	private Vector<String> getYAxisValues(boolean checked) {
-		Vector<String> list = new Vector<String>();
+		Vector<String> list = new Vector<>();
 		if (checked) {
 			list.addAll(activeDisplayer.getMetrics());
 		} else {
@@ -344,14 +337,14 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 				this.shapeComboBox.setSelectedItem(l);
 			}
 		}
-		for (int i = 0 ; i < selection.length ; i++) {
-			javax.swing.ListModel mod = getListColor().getModel();
-			for (int j = 0 ; j < mod.getSize() ; j++) {
-				if (selection[i].equals(mod.getElementAt(j))) {
-					getListColor().setSelectedIndex(j);
-				}
-			}
-		}
+        for (Object o : selection) {
+            javax.swing.ListModel mod = getListColor().getModel();
+            for (int j = 0; j < mod.getSize(); j++) {
+                if (o.equals(mod.getElementAt(j))) {
+                    getListColor().setSelectedIndex(j);
+                }
+            }
+        }
 	}
 
 	private void resetAxesAndShape__() {
@@ -362,13 +355,12 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 
 	private void resetConstants__() {
 		constantPanel.removeAll();
-		for (int i = 0 ; i < constants.size() ; i++) {
-			Pair<String, String> p = constants.get(i);
-			final JLabel label = new JLabel(p.getFirst() + " = " + p.getSecond());
-			label.setFont(defaultFont);
+        for (Pair<String, String> p : constants) {
+            final JLabel label = new JLabel(p.getFirst() + " = " + p.getSecond());
+            label.setFont(defaultFont);
 
-			constantPanel.add(label);			
-		}
+            constantPanel.add(label);
+        }
 		constantPanel.validate();
 	}
 
@@ -376,7 +368,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		// backup previous selection
 		TreeMap<String, Object[]> backupMap = null;
 		if (mapList != null) {
-			backupMap = new TreeMap<String, Object[]>();
+			backupMap = new TreeMap<>();
 			for (Map.Entry<String, JList> entry : mapList.entrySet()) {
 				JList l = entry.getValue();
 				Object[] selected =l.getSelectedValues();
@@ -386,7 +378,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		
 		Map<String, List<String>> save = getFilterSelection();
 		filterPanel.removeAll();
-		mapList = new HashMap<String, JList>();
+		mapList = new HashMap<>();
 		JPanel internPanel = new JPanel(new GridBagLayout());
 		JPanel labs = new JPanel();
 		BoxLayout bl = new BoxLayout(labs, BoxLayout.Y_AXIS);
@@ -410,7 +402,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 
 			List<String> ls = save.get(s);
 			if (ls != null) {
-				ArrayList<Integer> toselect = new ArrayList<Integer>();
+				ArrayList<Integer> toselect = new ArrayList<>();
 				int index = 0;
 				for (String potentiallySelected : st) {
 					if (ls.contains(potentiallySelected)) {
@@ -459,26 +451,23 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 				}
 			});
 
-			listPossibilities.addListSelectionListener(new ListSelectionListener() {
-				@Override
-				public void valueChanged(ListSelectionEvent e) {
-					if (listPossibilities.getSelectedIndex() == -1) {
-						textField.setText("*");
-					} else {
-						Object[] ol = listPossibilities.getSelectedValues();
-						StringBuilder sb = new StringBuilder();
-						for (int i = 0; i < ol.length; i++) {
-							sb.append(ol[i]);
-							if (i != ol.length - 1) {
-								sb.append(", ");
-							}
-						}
-						textField.setText(sb.toString());
-					}
+			listPossibilities.addListSelectionListener(e -> {
+                if (listPossibilities.getSelectedIndex() == -1) {
+                    textField.setText("*");
+                } else {
+                    Object[] ol = listPossibilities.getSelectedValues();
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < ol.length; i++) {
+                        sb.append(ol[i]);
+                        if (i != ol.length - 1) {
+                            sb.append(", ");
+                        }
+                    }
+                    textField.setText(sb.toString());
+                }
 
-					autoCompute();
-				}
-			});
+                autoCompute();
+            });
 
 			listPossibilities.setSelectionModel(new DefaultListSelectionModel() {
 
@@ -552,13 +541,13 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 
 	private Map<String, List<String>> getFilterSelection() {
 		if (mapList == null) {
-			return new HashMap<String, List<String>>();
+			return new HashMap<>();
 		}
-		Map<String, List<String>> properties = new HashMap<String, List<String>>();
+		Map<String, List<String>> properties = new HashMap<>();
 
 		for (Entry<String, JList> e : mapList.entrySet()) {
 			if (e.getValue().getSelectedValues().length != 0) {
-				List<String> list = new ArrayList<String>();
+				List<String> list = new ArrayList<>();
 				for (Object o : e.getValue().getSelectedValues()) {
 					list.add((String) o);
 				}
@@ -585,11 +574,11 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 			Map<String, List<String>> filters = getFilterSelection();
 			Object[] sv = getListColor().getSelectedValues();
 			CriteriumSet critSet = new CriteriumSet(2);
-			List<Criterium> selectedColors = new ArrayList<Criterium>(sv.length);
-			for (int i = 0; i < sv.length; i++) {
-				Criterium c = new Criterium(quoteWithoutQuoteEquivalence.get(sv[i].toString()));
-				selectedColors.add(c);
-			}
+			List<Criterium> selectedColors = new ArrayList<>(sv.length);
+            for (Object o : sv) {
+                Criterium c = new Criterium(quoteWithoutQuoteEquivalence.get(o.toString()));
+                selectedColors.add(c);
+            }
 			critSet.add(selectedColors);
 			if (shapeComboBox.getSelectedIndex() > 0) {
 				String shapeProperty = quoteWithoutQuoteEquivalence.get(shapeComboBox.getSelectedItem());
@@ -757,7 +746,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	private String getYAxisText() {
-		return (String)(getYAxis().getSelectedItem());
+		return (String) getYAxis().getSelectedItem();
 	} 
 	 
 	private JComboBox getYAxis() {
@@ -765,16 +754,14 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 			listGraphs = new JComboBox();
 			listGraphs.setFont(defaultFont);
 			listGraphs.addItemListener(this);
-			listGraphs.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent ev) {
-					try {
-						resetXFC();
-					}
-					catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
+			listGraphs.addItemListener(ev -> {
+                try {
+                    resetXFC();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
 			ListCellRenderer lcr = new DefaultListCellRenderer() {
 				private static final long serialVersionUID = -2265316799832699898L;
 				@Override
@@ -839,16 +826,13 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 						JMenu confInt = new JMenu("Confidence interval");
 						final JLabel confValue = new JLabel(confidenceInterval + "%");
 						final JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 1, 100, 95);
-						slider.addChangeListener(new ChangeListener() {
-							@Override
-							public void stateChanged(ChangeEvent e) {
-								if (confidenceInterval != slider.getValue()) {
-									confidenceInterval = slider.getValue();
-									confValue.setText(confidenceInterval + "%");
-								}
-								autoCompute();
-							}
-						});
+						slider.addChangeListener(e -> {
+                            if (confidenceInterval != slider.getValue()) {
+                                confidenceInterval = slider.getValue();
+                                confValue.setText(confidenceInterval + "%");
+                            }
+                            autoCompute();
+                        });
 						confInt.add(confValue);
 						confInt.add(slider);
 						pop.add(confInt);
@@ -876,20 +860,16 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		if (e.getButton() == 3) {
 			JPopupMenu pop = new JPopupMenu();
 			JMenuItem quartile = new JMenuItem("Interquartile");
-			quartile.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					quartIntCheckBox.setText("Interquartile range");
-					is95 = false;
-				}
-			});
+			quartile.addActionListener(e12 -> {
+                quartIntCheckBox.setText("Interquartile range");
+                is95 = false;
+            });
 			pop.add(quartile);
 			JMenuItem is95item = new JMenuItem("95% interval");
-			is95item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					quartIntCheckBox.setText("95% interval");
-					is95 = true;
-				}
-			});			
+			is95item.addActionListener(e1 -> {
+                quartIntCheckBox.setText("95% interval");
+                is95 = true;
+            });
 			pop.add(is95item);
 			pop.show(confIntCheckBox, e.getX(), e.getY());	
 		}				
@@ -904,28 +884,21 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 			JPopupMenu pop = new JPopupMenu();
 			JMenu meanChooser = new JMenu("Choose");
 			JMenuItem mean = new JMenuItem("Mean");
-			mean.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ComplexDisplayPanel.this.mean = true;
-					meanOrSumLineCheckBox.setText("Mean");
-					if (meanOrSumLineCheckBox.isSelected()) {
-						autoCompute();
-					}
-				}
-			});
+			mean.addActionListener(e -> {
+                ComplexDisplayPanel.this.mean = true;
+                meanOrSumLineCheckBox.setText("Mean");
+                if (meanOrSumLineCheckBox.isSelected()) {
+                    autoCompute();
+                }
+            });
 			JMenuItem sum = new JMenuItem("Sum");
-			sum.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ComplexDisplayPanel.this.mean = false;
-					meanOrSumLineCheckBox.setText("Sum");
-					if (meanOrSumLineCheckBox.isSelected()) {
-						autoCompute();
-					}
-				}
-			});
+			sum.addActionListener(e -> {
+                ComplexDisplayPanel.this.mean = false;
+                meanOrSumLineCheckBox.setText("Sum");
+                if (meanOrSumLineCheckBox.isSelected()) {
+                    autoCompute();
+                }
+            });
 			meanChooser.add(mean);
 			meanChooser.add(sum);
 			pop.add(meanChooser);
@@ -964,7 +937,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 			displayTabsPanel = new JTabbedPane();
 			for (AbstractChartPanel disp : displayers){
 				if (disp instanceof AbstractChartPanel) {
-					displayTabsPanel.addTab(((AbstractChartPanel) disp).getDecription(), ((AbstractChartPanel) disp).getConfigurationPanel(this));
+					displayTabsPanel.addTab(disp.getDecription(), disp.getConfigurationPanel(this));
 				}
 			}
 			displayTabsPanel.addChangeListener(this);
@@ -1005,13 +978,11 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		if (listColor == null) {
 			listColor = new JList();
 			listColor.setVisibleRowCount(7);
-			listColor.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-				public void valueChanged(javax.swing.event.ListSelectionEvent e) {
-					if (e.getValueIsAdjusting()) {
-						autoCompute();
-					}
-				}
-			});
+			listColor.addListSelectionListener(e -> {
+                if (e.getValueIsAdjusting()) {
+                    autoCompute();
+                }
+            });
 		}
 		return listColor;
 	}
@@ -1061,7 +1032,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		setDefault(yAxis, getYAxis());
 		setDefault(xAxis, this.xAxis);
 		setDefault(shape, this.shapeComboBox);
-		List<Integer> yValIndexs = new ArrayList<Integer>();
+		List<Integer> yValIndexs = new ArrayList<>();
 		for (String col : colors) {
 			this.getListColor().setSelectedValue(col, false);
 			yValIndexs.add(this.getListColor().getSelectedIndex());
@@ -1121,21 +1092,16 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 
 		if (retriever instanceof SaveAndLoadAble) {
 			item = new JMenuItem("Export db data");
-			item.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					java.io.File f = FileChooser.promptForSaveFile(parentFrame, "", "coc");
-					((SaveAndLoadAble)retriever).saveToFile(f);
-				}
-			});
+			item.addActionListener(e -> {
+                java.io.File f = FileChooser.promptForSaveFile(parentFrame, "", "coc");
+                ((SaveAndLoadAble)retriever).saveToFile(f);
+            });
 			actions.add(item);
 			item = new JMenuItem("Load an exported dataset");
-			item.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent ev) {
-					java.io.File f = FileChooser.promptForOpenFile(parentFrame, "coc");		
-					loadCocFile(f);
-				}
-
-			});
+			item.addActionListener(ev -> {
+                java.io.File f = FileChooser.promptForOpenFile(parentFrame, "coc");
+                loadCocFile(f);
+            });
 			actions.add(item);
 		}
 
@@ -1166,11 +1132,7 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 		actions.add(item);
 		
 		item = new JMenuItem("Quit");
-		item.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent ev) {
-				System.exit(0);
-			}
-		});
+		item.addActionListener(ev -> System.exit(0));
 		actions.add(item);
 
 		menuBar.add(actions);
@@ -1190,9 +1152,9 @@ public class ComplexDisplayPanel extends JPanel implements ActionListener,
 	public void stateChanged(ChangeEvent e) {
 		this.activeDisplayer = this.displayers.get(this.getTabbedPane().getSelectedIndex());
 		if (this.activeDisplayer instanceof AbstractChartProvider.AbstractChartPanel) {
-			if (((AbstractChartPanel) this.activeDisplayer).getSecondOption() != null){
+			if (this.activeDisplayer.getSecondOption() != null){
 				this.shapeComboBox.setEnabled(true);
-				this.labelShape.setText(((AbstractChartPanel) this.activeDisplayer).getSecondOption());
+				this.labelShape.setText(this.activeDisplayer.getSecondOption());
 			} else {
 				this.shapeComboBox.setEnabled(false);
 			}

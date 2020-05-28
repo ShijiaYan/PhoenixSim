@@ -31,43 +31,23 @@ public class Region1D {
 	}
 	
 	public double getWidth(){
-		return (xMax-xMin) ;
+		return xMax-xMin;
 	}
 	
 	public boolean isInside(double x){
-		if(x>xMin && x<xMax){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return x > xMin && x < xMax;
 	}
 	
 	public boolean isOnTheLeftBorder(double x){
-		if(x == xMin){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return x == xMin;
 	}
 	
 	public boolean isOnTheRightBorder(double x){
-		if(x == xMax){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return x == xMax;
 	}
 	
 	public boolean isOnTheBorder(double x){
-		if(isOnTheLeftBorder(x) || isOnTheRightBorder(x)){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return isOnTheLeftBorder(x) || isOnTheRightBorder(x);
 	}
 	
 }

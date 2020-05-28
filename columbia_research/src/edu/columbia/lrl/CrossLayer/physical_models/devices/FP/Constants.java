@@ -43,7 +43,7 @@ public class Constants {
 	
 	// Mapping the parameters, need to convert to strings. Comes from the super class (AbstractDeviceModel)
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Speed of light", speedOfLight+"");
 		map.put("Full fsr", fullFSR+"");
 		map.put("Center wavelength", centerWavelength+"");

@@ -67,48 +67,48 @@ public class ProfileSlabWgTM {
 	private Complex[] find_Hy_fields_down(double xValNm){
 		// forward wave
 		Complex amp_forward = new Complex(0,0) ;
-		Complex Hy_field_forward = (minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward)) ; // forward wave: -j*k_x
+		Complex Hy_field_forward = minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward); // forward wave: -j*k_x
 		// backward wave
 		Complex amp_backward = new Complex(1,0) ; 
-		Complex Hy_field_backward = (plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward)) ; // backward wave: +j*k_x
+		Complex Hy_field_backward = plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward); // backward wave: +j*k_x
 		return new Complex[] {Hy_field_forward, Hy_field_backward} ;
 	}
 	
 	private Complex find_Hy_field_down(double xValNm){
 		Complex[] Hy_down = find_Hy_fields_down(xValNm) ;
-		return (Hy_down[0].plus(Hy_down[1])); // summing up forward and backward waves
+		return Hy_down[0].plus(Hy_down[1]); // summing up forward and backward waves
 	}
 	
 	private Complex[] find_Hy_fields_core(double xValNm){
 		Complex A_plus_B = find_Hy_field_down(0) ;
-		Complex A_minus_B = find_Hy_field_down(0).times(plusJ.times(kx_down())).divides(minusJ.times(kx_core())).times((n_core*n_core)/(n_down*n_down)) ;
+		Complex A_minus_B = find_Hy_field_down(0).times(plusJ.times(kx_down())).divides(minusJ.times(kx_core())).times(n_core*n_core /(n_down*n_down)) ;
 		// forward wave
-		Complex amp_forward = (A_plus_B).plus(A_minus_B).divides(2) ;
+		Complex amp_forward = A_plus_B.plus(A_minus_B).divides(2) ;
 		Complex Hy_forward = minusJ.times(kx_core()).times(xValNm*1e-9).exp().times(amp_forward) ;
 		// backward wave
-		Complex amp_backward = (A_plus_B).minus(A_minus_B).divides(2) ;
+		Complex amp_backward = A_plus_B.minus(A_minus_B).divides(2) ;
 		Complex Hy_backward = plusJ.times(kx_core()).times(xValNm*1e-9).exp().times(amp_backward) ;
 		return new Complex[] {Hy_forward, Hy_backward} ;
 	}
 	
 	private Complex find_Hy_field_core(double xValNm){
 		Complex[] Hy_core = find_Hy_fields_core(xValNm) ;
-		return (Hy_core[0].plus(Hy_core[1])); // summing up forward and backward waves
+		return Hy_core[0].plus(Hy_core[1]); // summing up forward and backward waves
 	}
 	
 	private Complex[] find_Hy_fields_up(double xValNm){
 		// forward wave
 		Complex amp_forward = find_Hy_field_core(widthNm).divides(minusJ.times(kx_up()).times(widthNm*1e-9).exp()) ;
-		Complex Hy_field_forward = (minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward)) ; // forward wave: -j*k_x
+		Complex Hy_field_forward = minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward); // forward wave: -j*k_x
 		// backward wave
 		Complex amp_backward = new Complex(0,0) ; 
-		Complex Hy_field_backward = (plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward)) ; // backward wave: +j*k_x
+		Complex Hy_field_backward = plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward); // backward wave: +j*k_x
 		return new Complex[] {Hy_field_forward, Hy_field_backward} ;
 	}
 	
 	private Complex find_Hy_field_up(double xValNm){
 		Complex[] Hy_up = find_Hy_fields_up(xValNm) ;
-		return (Hy_up[0].plus(Hy_up[1])); // summing up forward and backward waves
+		return Hy_up[0].plus(Hy_up[1]); // summing up forward and backward waves
 	}
 	
 	public Complex get_Hy_field(){
@@ -171,21 +171,21 @@ public class ProfileSlabWgTM {
 		Complex coeff = new Complex(0, -120*Math.PI/(k0*n_down*n_down)) ;
 		Complex Ez_forward = find_Hy_fields_down(xValNm)[0].times(minusJ.times(kx_down())).times(coeff) ;
 		Complex Ez_backward = find_Hy_fields_down(xValNm)[1].times(plusJ.times(kx_down())).times(coeff) ;
-		return (Ez_forward.plus(Ez_backward)) ;
+		return Ez_forward.plus(Ez_backward);
 	}
 	
 	private Complex find_Ez_field_up(double xValNm){
 		Complex coeff = new Complex(0, -120*Math.PI/(k0*n_up*n_up)) ;
 		Complex Ez_forward = find_Hy_fields_up(xValNm)[0].times(minusJ.times(kx_up())).times(coeff) ;
 		Complex Ez_backward = find_Hy_fields_up(xValNm)[1].times(plusJ.times(kx_up())).times(coeff) ;
-		return (Ez_forward.plus(Ez_backward)) ;
+		return Ez_forward.plus(Ez_backward);
 	}
 	
 	private Complex find_Ez_field_core(double xValNm){
 		Complex coeff = new Complex(0, -120*Math.PI/(k0*n_core*n_core)) ;
 		Complex Ez_forward = find_Hy_fields_core(xValNm)[0].times(minusJ.times(kx_core())).times(coeff) ;
 		Complex Ez_backward = find_Hy_fields_core(xValNm)[1].times(plusJ.times(kx_core())).times(coeff) ;
-		return (Ez_forward.plus(Ez_backward)) ;
+		return Ez_forward.plus(Ez_backward);
 	}
 	
 	public Complex get_Ez_field(){

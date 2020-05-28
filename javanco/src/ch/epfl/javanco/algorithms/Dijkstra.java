@@ -26,10 +26,10 @@ public class Dijkstra {
 		int[] prev = new int[distances.length];
 		boolean[] done = new boolean[distances.length];
 		Arrays.fill(done, false);
-		BoxedPriorityQueue<Integer> queue = new BoxedPriorityQueue<Integer>();
+		BoxedPriorityQueue<Integer> queue = new BoxedPriorityQueue<>();
 		double lastDistance = internal(agh, startNode, endNode, distances, prev, queue, dir, att, done);
 
-		return new Pair<Path, Double>(buildPath(startNode, endNode, prev), lastDistance);	
+		return new Pair<>(buildPath(startNode, endNode, prev), lastDistance);
 	}
 	
 	public static Path[] getShortestPaths(AbstractGraphHandler agh, int startNode, String att, boolean dir) {	
@@ -38,10 +38,10 @@ public class Dijkstra {
 		boolean[] done = new boolean[distances.length];
 		Arrays.fill(done, false);		
 		Arrays.fill(prev, -1);
-		BoxedPriorityQueue<Integer> queue = new BoxedPriorityQueue<Integer>();
+		BoxedPriorityQueue<Integer> queue = new BoxedPriorityQueue<>();
 		for (int i = 0 ; i <= agh.getHighestNodeIndex() ; i++) {
 			if (done[i] == false) {
-				queue = new BoxedPriorityQueue<Integer>();
+				queue = new BoxedPriorityQueue<>();
 				Arrays.fill(distances, Double.POSITIVE_INFINITY);
 				internal(agh, startNode, i, distances, prev, queue, dir, att, done);
 			}
@@ -90,16 +90,15 @@ public class Dijkstra {
 			} else {
 				links = agh.getNodeContainer(vertex).getConnectedLinks();
 			}
-			for (int i = 0 ; i < links.size() ; i++) {
-				LinkContainer lc = links.get(i);
-				int altVertex = lc.getOtherNodeIndex(vertex);
-				double dist = distances[vertex] + lc.attribute(att).doubleValue();
-				if (dist < distances[altVertex]) {
-					distances[altVertex] = dist;
-					prev[altVertex] = vertex;
-					queue.offer(altVertex, dist);
-				}
-			}
+            for (LinkContainer lc : links) {
+                int altVertex = lc.getOtherNodeIndex(vertex);
+                double dist = distances[vertex] + lc.attribute(att).doubleValue();
+                if (dist < distances[altVertex]) {
+                    distances[altVertex] = dist;
+                    prev[altVertex] = vertex;
+                    queue.offer(altVertex, dist);
+                }
+            }
 			if (vertex == endNode) {
 				break;
 			}

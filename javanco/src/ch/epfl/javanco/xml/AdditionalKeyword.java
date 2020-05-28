@@ -28,7 +28,7 @@ class AdditionalKeyword implements Keyword, Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Keyword) {
-			return ((Keyword)o).toString().equals(this.toString());
+			return o.toString().equals(this.toString());
 		}
 		return super.equals(o);
 	}

@@ -3,7 +3,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.signaling;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
 import ch.epfl.general_libraries.results.Execution;
 import ch.epfl.general_libraries.utils.Pair;
@@ -31,7 +30,7 @@ public class SingleWavelengthSignallingModel extends AbstractSignallingModel {
 	public ArrayList<PowerPenalty> getPowerPenalties(Execution ex,
 			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat, int i, int j) {
 		
-		ArrayList<PowerPenalty> allPP = new ArrayList<PowerPenalty>();
+		ArrayList<PowerPenalty> allPP = new ArrayList<>();
 		
 		if (i > 1) {
 			if (!modDemod.modulatorHasThroughCapability()) {

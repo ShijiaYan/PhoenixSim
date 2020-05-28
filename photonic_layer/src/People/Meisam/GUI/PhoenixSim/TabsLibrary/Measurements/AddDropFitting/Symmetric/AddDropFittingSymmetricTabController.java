@@ -115,7 +115,7 @@ public class AddDropFittingSymmetricTabController extends AbstractTabController 
 
 	@FXML
 	public void chooseXData() throws IOException{
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
 		WindowBuilder varSelect = new WindowBuilder(loader) ;
 		varSelect.setIcon("/People/Meisam/GUI/Utilities/VariableSelector/Extras/icon.png");
 		varSelect.build("Select Variable & Values", false);
@@ -137,7 +137,7 @@ public class AddDropFittingSymmetricTabController extends AbstractTabController 
 
 	@FXML
 	public void chooseYData() throws IOException{
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
 		WindowBuilder varSelect = new WindowBuilder(loader) ;
 		varSelect.setIcon("/People/Meisam/GUI/Utilities/VariableSelector/Extras/icon.png");
 		varSelect.build("Select Variable & Values", false);
@@ -280,26 +280,18 @@ public class AddDropFittingSymmetricTabController extends AbstractTabController 
 			double[] y_dB_normalized = MoreMath.Arrays.plus(y_dB, -y_dB_max) ; // normalizing data ;
 			LinearInterpolation interpolator_norm = new LinearInterpolation(lambda_nm, y_dB_normalized) ;
 			// step 1: find x
-			RealRootFunction func = new RealRootFunction(){
-				@Override
-				public double function(double lambdaNm) {
-					return (interpolator_norm.interpolate(lambdaNm)+3) ;
-				}
-			} ;
+			RealRootFunction func = lambdaNm -> interpolator_norm.interpolate(lambdaNm)+3;
 			RealRoot solverBW = new RealRoot() ;
 			double BW_nm = 2*( solverBW.bisect(func, lambda_res_nm, lambda_max_nm)-lambda_res_nm ) ;
-			RealRootFunction func1 = new RealRootFunction(){
-				@Override
-				public double function(double x) {
-					double y = 1-Math.pow(1-x, 2)/(2*x) - Math.cos(Math.PI*BW_nm/FSR_nm) ;
-					return y;
-				}
-			} ;
+			RealRootFunction func1 = x -> {
+                double y = 1-Math.pow(1-x, 2)/(2*x) - Math.cos(Math.PI*BW_nm/FSR_nm) ;
+                return y;
+            };
 			RealRoot solverX = new RealRoot() ;
 			double x = solverX.bisect(func1, 0, 1) ;
 			// step 2: find kappa
 			double w = drLoss*Math.pow(1-x, 2)/x ;
-			double w1 = Math.sqrt(w+(w/2)*(w/2)) ;
+			double w1 = Math.sqrt(w+ (w/2) *(w/2)) ;
 			double kappa_found = Math.sqrt(-w/2 + w1) ;
 			double k = kappa_found ;
 			// step 3: find alpha

@@ -28,8 +28,8 @@ public class FMStructure extends AbstractAxisStructure {
 			to = from;
 			from = t;
 		}
-		int linestart = from*(size-1) - (from*(from-1)/2);
-		int lineel = linestart + (to - from - 1);
+		int linestart = from*(size-1) - from*(from-1)/2;
+		int lineel = linestart + to - from - 1;
 		return lineel;
 	}
 
@@ -89,7 +89,7 @@ public class FMStructure extends AbstractAxisStructure {
 			prevMarker = marker;
 			marker += size - 1 - from;
 		}
-		int to = from + (k-prevMarker);
+		int to = from + k - prevMarker;
 		if (from < to){
 			return new int[]{from, to};
 		} else {

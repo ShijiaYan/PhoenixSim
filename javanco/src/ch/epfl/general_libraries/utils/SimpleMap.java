@@ -18,7 +18,7 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 	private ArrayList<Entry<K, V>> list;
 	
 	public static SimpleMap<String, String> getMap(String... arg) {
-		SimpleMap<String, String> m = new SimpleMap<String, String>(arg.length/2);
+		SimpleMap<String, String> m = new SimpleMap<>(arg.length / 2);
 		for (int i = 0 ; i < arg.length ; i = i+2) {
 			m.put(arg[i], arg[i+1]);
 		}
@@ -26,7 +26,7 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 	}
 	
 	public static SimpleMap<String, String> getMap(Object... arg) {
-		SimpleMap<String, String> m = new SimpleMap<String, String>(arg.length/2);
+		SimpleMap<String, String> m = new SimpleMap<>(arg.length / 2);
 		for (int i = 0 ; i < arg.length ; i = i+2) {
 			m.put(arg[i].toString(), arg[i+1].toString());
 		}
@@ -34,7 +34,7 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 	}	
 
 	public SimpleMap() {
-		list = new ArrayList<Entry<K, V>>();
+		list = new ArrayList<>();
 	}
 
 	public SimpleMap(Map<K, V> map) {
@@ -50,7 +50,7 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 	}
 
 	public SimpleMap(int initCapacity) {
-		list = new ArrayList<Entry<K, V>>(initCapacity);
+		list = new ArrayList<>(initCapacity);
 	}
 
 	public SimpleMap(K k, V v) {
@@ -89,21 +89,21 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 
 		boolean exists = false;
 		if (key == null) {
-			for (int i = 0; i < size; i++) {
-				entry = (list.get(i));
-				if (entry.getKey() == null) {
-					exists = true;
-					break;
-				}
-			}
+            for (Entry<K, V> kvEntry : list) {
+                entry = kvEntry;
+                if (entry.getKey() == null) {
+                    exists = true;
+                    break;
+                }
+            }
 		} else {
-			for (int i = 0; i < size; i++) {
-				entry = (list.get(i));
-				if (key.equals(entry.getKey())) {
-					exists = true;
-					break;
-				}
-			}
+            for (Entry<K, V> kvEntry : list) {
+                entry = kvEntry;
+                if (key.equals(entry.getKey())) {
+                    exists = true;
+                    break;
+                }
+            }
 		}
 
 
@@ -113,7 +113,7 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 			entry.setValue(value);
 		} else {
 			oldValue = null;
-			list.add(new SimpleEntry<K, V>(key, value));
+			list.add(new SimpleEntry<>(key, value));
 		}
 		return oldValue;
 	}
@@ -139,7 +139,7 @@ public class SimpleMap<K, V> extends AbstractMap<K, V> implements Cloneable, Ser
 	}
 	@Override
 	public Object clone() {
-		return new SimpleMap<K, V>(this);
+		return new SimpleMap<>(this);
 	}
 	
 	public K getKey(int index) {

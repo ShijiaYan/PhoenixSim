@@ -37,7 +37,7 @@ public class Message implements Comparable<Message> {
 
 	public Message() {
 		this.deadline = -1;		// "-1" means no deadline requirement for this message
-		this.occupiedResources = new ArrayList<LWSimComponent>();
+		this.occupiedResources = new ArrayList<>();
 	}
 	
 	public Message(int i, int origin, int dest, double timeEmitted, int size) {
@@ -52,12 +52,12 @@ public class Message implements Comparable<Message> {
 		this.numTrans = 0;
 		this.sizeInBits = size;
 		this.deadline = deadline;
-		this.occupiedResources = new ArrayList<LWSimComponent>();
+		this.occupiedResources = new ArrayList<>();
 	}
 	
 	public Message getInstance(int i, int origin, int dest, double timeEmitted, int size) {
 		try {
-			return (Message)(this.getClass().getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE).newInstance(i, origin, dest, timeEmitted, size));
+			return this.getClass().getConstructor(Integer.TYPE, Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE).newInstance(i, origin, dest, timeEmitted, size);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

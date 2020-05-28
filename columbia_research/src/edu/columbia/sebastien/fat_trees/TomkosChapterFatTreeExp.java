@@ -65,7 +65,7 @@ public class TomkosChapterFatTreeExp implements Experiment {
 			factor *= radix*overProFac[i-1]/(overProFac[i-1]+1);
 		//	int nbOfClusters = (int)(scalability/factor);
 			
-			EPAtDistance[i] = (int)(factor) - MoreMaths.sum(EPAtDistance, 0, i);
+			EPAtDistance[i] = (int) factor - MoreMaths.sum(EPAtDistance, 0, i);
 		}
 		EPAtDistance[levels] = scalability - MoreMaths.sum(EPAtDistance, 0, levels);
 		
@@ -75,11 +75,11 @@ public class TomkosChapterFatTreeExp implements Experiment {
 			DataPoint dp2 = dp.getDerivedDataPoint();
 			dp2.addProperty("Distance", i*2);
 			dp2.addResultProperty("Number of other EP at distance", EPAtDistance[i]);
-			dp2.addResultProperty("proportion of other EP at distance", (double)EPAtDistance[i]/(double)(scalability));
+			dp2.addResultProperty("proportion of other EP at distance", (double)EPAtDistance[i]/(double) scalability);
 			man.addDataPoint(dp2);
 			
 			if (i > 0)
-			accum += EPAtDistance[i]*(i*2);
+			accum += EPAtDistance[i] * i * 2;
 		}
 		
 		dp.addResultProperty("Average distance", accum/(double)(scalability*-1));
@@ -102,13 +102,13 @@ public class TomkosChapterFatTreeExp implements Experiment {
 	
 	public double getEPPerRouteratLevel(int level) {
 		if (level == 0) {
-			return  (radix/(1 + (1/(overProFac[0]))));
+			return radix/(1 + 1/ overProFac[0]);
 		} else if (level == this.levels-1) {
-			return  (radix/(1/getCumulatedOver(level)));
+			return radix/(1/getCumulatedOver(level));
 		} else {
 			double first = 1/getCumulatedOver(level);
 			double second = 1/getCumulatedOver(level+1);
-			return (radix/(first + second));
+			return radix/(first + second);
 		}
 	}
 	
@@ -146,9 +146,9 @@ public class TomkosChapterFatTreeExp implements Experiment {
 		for (int i = 1 ; i < levels ; i++) {
 			seriesLinkPerEndpoint += 1/MoreMaths.product(overProFac, 0, i);
 		}	
-		double internalLinksPerEndpointOver = internalLinksPerEndpointFullPro/((levels-1)/(seriesLinkPerEndpoint));
+		double internalLinksPerEndpointOver = internalLinksPerEndpointFullPro/((levels-1)/ seriesLinkPerEndpoint);
 
-		SimpleMap<String, String> results = new SimpleMap<String, String>();
+		SimpleMap<String, String> results = new SimpleMap<>();
 		
 		int endpointsOver = getEndpoints();
 		

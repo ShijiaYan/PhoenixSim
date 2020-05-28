@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class PINResShiftFittingTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/ElectroOpticFitting/PINdiode/PINResShift/pin_res_shift_fitting.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/ElectroOpticFitting/PINdiode/PINResShift/pin_res_shift_fitting.fxml")) ;
 	PINResShiftFittingTabController controller ;
 
 	public PINResShiftFittingTab(SimulationDataBase simDataBase){

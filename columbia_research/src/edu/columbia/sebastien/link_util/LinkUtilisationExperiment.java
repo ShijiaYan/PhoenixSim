@@ -31,9 +31,9 @@ public class LinkUtilisationExperiment extends SimulationExperiment implements E
 	private EventManager manager;
 	
 	// results collectors
-	private HashMap<String, DoubleAccumulator> soaData = new HashMap<String, DoubleAccumulator>();	
-	private HashMap<String, DoubleAccumulator> laserData = new HashMap<String, DoubleAccumulator>();
-	private HashMap<String, DoubleAccumulator> linkUtilisations = new HashMap<String, DoubleAccumulator>();
+	private HashMap<String, DoubleAccumulator> soaData = new HashMap<>();
+	private HashMap<String, DoubleAccumulator> laserData = new HashMap<>();
+	private HashMap<String, DoubleAccumulator> linkUtilisations = new HashMap<>();
 //	private HashMap<String, HashMap<String, DoubleAccumulator>> activities = new HashMap<String, HashMap<String, DoubleAccumulator>>();
 	private double[] headToHeadLatenciesTotal;
 	private double[] headToTailLatenciesTotal;	
@@ -248,15 +248,15 @@ public class LinkUtilisationExperiment extends SimulationExperiment implements E
 		dp.addResultProperty("total bits transmitted", totals[8]);
 		
 		dp.addResultProperty("observed rate in Gb/s", totals[8]/trafMod.getSimeTimeNS());
-		double obsLinkUtil = (totals[8]/trafMod.getSimeTimeNS())/(10*bufMod.getLinkDimensioningModel().getNumberOfLanes());
+		double obsLinkUtil = (totals[8] / trafMod.getSimeTimeNS()) / (10 * bufMod.getLinkDimensioningModel().getNumberOfLanes());
 		dp.addResultProperty("observed utilization", obsLinkUtil);
 		double obsLaserUtil = totals[1]/trafMod.getSimeTimeNS();
 		dp.addResultProperty("observed laser utilization", obsLaserUtil);
-		dp.addResultProperty("laser proportionality", 1 - ((obsLaserUtil-obsLinkUtil)/(1-obsLinkUtil)));
+		dp.addResultProperty("laser proportionality", 1 - (obsLaserUtil-obsLinkUtil)/(1-obsLinkUtil));
 		
 		dp.addResultProperty("energy", totals[0] + totals[3] + totals[6]);
-		dp.addResultProperty("average head-to-head latency in ns", MoreArrays.sum(headToHeadLatenciesTotal) / (double)(MoreArrays.sum(messages)));
-		dp.addResultProperty("average head-to-tail latency in ns", MoreArrays.sum(headToTailLatenciesTotal) / (double)(MoreArrays.sum(messages)));	
+		dp.addResultProperty("average head-to-head latency in ns", MoreArrays.sum(headToHeadLatenciesTotal) / (double) MoreArrays.sum(messages));
+		dp.addResultProperty("average head-to-tail latency in ns", MoreArrays.sum(headToTailLatenciesTotal) / (double) MoreArrays.sum(messages));
 		//dp.addResultProperty("cumulated buffering (bit*s), b);
 		e.addDataPoint(dp);
 		

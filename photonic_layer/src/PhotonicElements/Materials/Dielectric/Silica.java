@@ -17,9 +17,9 @@ public class Silica extends AbstractDielectric  {
 		double B1 = 0.0684043 ;
 		double B2 = 0.1162414 ;
 		double B3 = 9.896161 ;
-		double firstTerm = (A1 * Math.pow(lambdaMicron, 2))/(Math.pow(lambdaMicron, 2)-B1*B1) ;
-		double secondTerm = (A2 * Math.pow(lambdaMicron, 2))/(Math.pow(lambdaMicron, 2)-B2*B2) ;
-		double thirdTerm = (A3 * Math.pow(lambdaMicron, 2))/(Math.pow(lambdaMicron, 2)-B3*B3) ;
+		double firstTerm = A1 * Math.pow(lambdaMicron, 2) /(Math.pow(lambdaMicron, 2)-B1*B1) ;
+		double secondTerm = A2 * Math.pow(lambdaMicron, 2) /(Math.pow(lambdaMicron, 2)-B2*B2) ;
+		double thirdTerm = A3 * Math.pow(lambdaMicron, 2) /(Math.pow(lambdaMicron, 2)-B3*B3) ;
 		double indexSilica = Math.sqrt(1+firstTerm+secondTerm+thirdTerm) ;
 		return indexSilica;
 	}
@@ -31,7 +31,7 @@ public class Silica extends AbstractDielectric  {
 		double dLambda = 1e-2 ;
 		double lambdaPlus = lambda+dLambda ;
 		double nPlus = getIndex(new Wavelength(lambdaPlus)) ;
-		double dn_dLambda = (nPlus-n)/(dLambda) ;
+		double dn_dLambda = (nPlus-n)/ dLambda;
 		double ng = n - lambda * dn_dLambda ;
 		return ng ;
 	}
@@ -43,7 +43,7 @@ public class Silica extends AbstractDielectric  {
 	
 	@Override
 	public double getEpsilon(Wavelength inputLambda) {
-		return (eps0*getIndex(inputLambda)*getIndex(inputLambda));
+		return eps0*getIndex(inputLambda)*getIndex(inputLambda);
 	}
 
 	@Override

@@ -234,76 +234,70 @@ public class PrintPreviewPanel extends JPanel {
 		jTextFieldOutputHeight.addFocusListener(focusListener);
 
 
-		ActionListener changeInput = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Rectangle view = null;
-				Boolean enableCustomInput = null;
-				if (e.getSource() == jRadioButtonScreenView && jRadioButtonScreenView.isSelected()) {
-					graphPrinter.setInputType(InputType.SCREENVIEW);
-					view = graphPrinter.getScreenViewRectangle();
-					enableCustomInput = false;
-					jPreviewPanel.repaint();
-				}
-				else if (e.getSource() == jRadioButtonWholeGraph && jRadioButtonWholeGraph.isSelected()) {
-					graphPrinter.setInputType(InputType.WHOLEGRAPH);
-					view = graphPrinter.getWholeGraphView();
-					enableCustomInput = false;
-					jPreviewPanel.repaint();
-				}
-				else if (e.getSource() == jRadioButtonCustom && jRadioButtonCustom.isSelected()) {
-					graphPrinter.setInputType(InputType.CUSTOM);
-					applyCustomInput();
-					enableCustomInput = true;
-					jPreviewPanel.repaint();
-				}
+		ActionListener changeInput = e -> {
+            Rectangle view = null;
+            Boolean enableCustomInput = null;
+            if (e.getSource() == jRadioButtonScreenView && jRadioButtonScreenView.isSelected()) {
+                graphPrinter.setInputType(InputType.SCREENVIEW);
+                view = graphPrinter.getScreenViewRectangle();
+                enableCustomInput = false;
+                jPreviewPanel.repaint();
+            }
+            else if (e.getSource() == jRadioButtonWholeGraph && jRadioButtonWholeGraph.isSelected()) {
+                graphPrinter.setInputType(InputType.WHOLEGRAPH);
+                view = graphPrinter.getWholeGraphView();
+                enableCustomInput = false;
+                jPreviewPanel.repaint();
+            }
+            else if (e.getSource() == jRadioButtonCustom && jRadioButtonCustom.isSelected()) {
+                graphPrinter.setInputType(InputType.CUSTOM);
+                applyCustomInput();
+                enableCustomInput = true;
+                jPreviewPanel.repaint();
+            }
 
-				if (view != null) {
-					jTextFieldInputX.setText("" +view.x);
-					jTextFieldInputY.setText("" +view.y);
-					jTextFieldInputWidth.setText("" +view.width);
-					jTextFieldInputHeight.setText("" +view.height);
-				}
+            if (view != null) {
+                jTextFieldInputX.setText("" +view.x);
+                jTextFieldInputY.setText("" +view.y);
+                jTextFieldInputWidth.setText("" +view.width);
+                jTextFieldInputHeight.setText("" +view.height);
+            }
 
-				if (enableCustomInput != null) {
-					jTextFieldInputX.setEnabled(enableCustomInput);
-					jTextFieldInputY.setEnabled(enableCustomInput);
-					jTextFieldInputWidth.setEnabled(enableCustomInput);
-					jTextFieldInputHeight.setEnabled(enableCustomInput);
-				}
-			}
-		};
+            if (enableCustomInput != null) {
+                jTextFieldInputX.setEnabled(enableCustomInput);
+                jTextFieldInputY.setEnabled(enableCustomInput);
+                jTextFieldInputWidth.setEnabled(enableCustomInput);
+                jTextFieldInputHeight.setEnabled(enableCustomInput);
+            }
+        };
 
-		ActionListener changeOutput = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Boolean enableCustomOutpput = null;
+		ActionListener changeOutput = e -> {
+            Boolean enableCustomOutpput = null;
 
-				if (e.getSource() == jRadioButtonFitToPage && jRadioButtonFitToPage.isSelected()) {
-					graphPrinter.setOutputType(OutputType.FITTOPAGE);
+            if (e.getSource() == jRadioButtonFitToPage && jRadioButtonFitToPage.isSelected()) {
+                graphPrinter.setOutputType(OutputType.FITTOPAGE);
 
-					PageFormat pf = graphPrinter.getPageFormat();
+                PageFormat pf = graphPrinter.getPageFormat();
 
-					jTextFieldOutputHeight.setText("" + round(GraphPrinter.pixelToCm((int)pf.getImageableHeight())));
-					jTextFieldOutputWidth.setText("" + round(GraphPrinter.pixelToCm((int)pf.getImageableWidth())));
+                jTextFieldOutputHeight.setText("" + round(GraphPrinter.pixelToCm((int)pf.getImageableHeight())));
+                jTextFieldOutputWidth.setText("" + round(GraphPrinter.pixelToCm((int)pf.getImageableWidth())));
 
 
-					enableCustomOutpput = false;
-					jPreviewPanel.repaint();
-				}
-				else if (e.getSource() == jRadioButtonCustomO && jRadioButtonCustomO.isSelected()) {
-					graphPrinter.setOutputType(OutputType.CUSTOM);
-					applyCustomOutput();
-					enableCustomOutpput = true;
-					jPreviewPanel.repaint();
-				}
+                enableCustomOutpput = false;
+                jPreviewPanel.repaint();
+            }
+            else if (e.getSource() == jRadioButtonCustomO && jRadioButtonCustomO.isSelected()) {
+                graphPrinter.setOutputType(OutputType.CUSTOM);
+                applyCustomOutput();
+                enableCustomOutpput = true;
+                jPreviewPanel.repaint();
+            }
 
-				if (enableCustomOutpput != null) {
-					jTextFieldOutputWidth.setEnabled(enableCustomOutpput);
-					jTextFieldOutputHeight.setEnabled(enableCustomOutpput);
-				}
-			}
-		};
+            if (enableCustomOutpput != null) {
+                jTextFieldOutputWidth.setEnabled(enableCustomOutpput);
+                jTextFieldOutputHeight.setEnabled(enableCustomOutpput);
+            }
+        };
 
 		jRadioButtonScreenView.addActionListener(changeInput);
 		jRadioButtonWholeGraph.addActionListener(changeInput);
@@ -445,13 +439,11 @@ public class PrintPreviewPanel extends JPanel {
 		if (jButtonPageLayout == null) {
 			jButtonPageLayout = new JButton();
 			jButtonPageLayout.setText("Page layout");
-			jButtonPageLayout.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					graphPrinter.setPageFormat(PrinterJob.getPrinterJob().pageDialog(graphPrinter.getPageFormat()));
-					jPreviewPanel.newSize();
-					jPreviewPanel.repaint();
-				}
-			});
+			jButtonPageLayout.addActionListener(e -> {
+                graphPrinter.setPageFormat(PrinterJob.getPrinterJob().pageDialog(graphPrinter.getPageFormat()));
+                jPreviewPanel.newSize();
+                jPreviewPanel.repaint();
+            });
 		}
 		return jButtonPageLayout;
 	}
@@ -827,13 +819,11 @@ public class PrintPreviewPanel extends JPanel {
 			jSliderZoom.setMinimum(5);
 			jSliderZoom.setValue(100);
 			jSliderZoom.setMaximum(200);
-			jSliderZoom.addChangeListener(new javax.swing.event.ChangeListener() {
-				public void stateChanged(javax.swing.event.ChangeEvent e) {
-					jLabelSize.setText("Preview size " + jSliderZoom.getValue() + "%");
-					zoom = jSliderZoom.getValue() / 100.;
-					jPreviewPanel.newSize();
-				}
-			});
+			jSliderZoom.addChangeListener(e -> {
+                jLabelSize.setText("Preview size " + jSliderZoom.getValue() + "%");
+                zoom = jSliderZoom.getValue() / 100.;
+                jPreviewPanel.newSize();
+            });
 		}
 		return jSliderZoom;
 	}
@@ -847,18 +837,16 @@ public class PrintPreviewPanel extends JPanel {
 		if (jButtonPrint == null) {
 			jButtonPrint = new JButton();
 			jButtonPrint.setText("Print");
-			jButtonPrint.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					setAllEnabled(false);
-					jButtonPrint.setText("Printing ...");
-					if (!graphPrinter.print()) {
-						JOptionPane.showMessageDialog(PrintPreviewPanel.this, "Error while printing.", "Print process", JOptionPane.ERROR_MESSAGE);
-					}
+			jButtonPrint.addActionListener(e -> {
+                setAllEnabled(false);
+                jButtonPrint.setText("Printing ...");
+                if (!graphPrinter.print()) {
+                    JOptionPane.showMessageDialog(PrintPreviewPanel.this, "Error while printing.", "Print process", JOptionPane.ERROR_MESSAGE);
+                }
 
-					setAllEnabled(true);
-					jButtonPrint.setText("Print");
-				}
-			});
+                setAllEnabled(true);
+                jButtonPrint.setText("Print");
+            });
 		}
 		return jButtonPrint;
 	}

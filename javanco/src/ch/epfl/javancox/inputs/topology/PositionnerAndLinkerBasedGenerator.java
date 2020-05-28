@@ -113,7 +113,7 @@ public class PositionnerAndLinkerBasedGenerator extends AbstractRandomTopologyGe
 	}
 
 
-	public static void main (String args[]) throws Exception {
+	public static void main (String[] args) throws Exception {
 		AbstractNodeLinker[] linkers = new AbstractNodeLinker[]{
 				new ReyniErdosLinker(0.1f), new RingNodeLinker()};
 		AbstractNodePositionner[] pos = new AbstractNodePositionner[]{

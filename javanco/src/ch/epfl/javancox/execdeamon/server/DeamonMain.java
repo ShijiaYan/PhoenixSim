@@ -15,14 +15,14 @@ import ch.epfl.javancox.execdeamon.server.monitor.DeamonMonitor;
 public class DeamonMain {
 
 	public static String serverStatus = "running";
-	public static ArrayList<ServerConnectionThread> threadList = new ArrayList<ServerConnectionThread>();
-	public static ArrayList<String> threadNames = new ArrayList<String>();
-	public static ArrayList<String> threadStartTimes = new ArrayList<String>();
-	public static ArrayList<String> serverStatuses = new ArrayList<String>();
+	public static ArrayList<ServerConnectionThread> threadList = new ArrayList<>();
+	public static ArrayList<String> threadNames = new ArrayList<>();
+	public static ArrayList<String> threadStartTimes = new ArrayList<>();
+	public static ArrayList<String> serverStatuses = new ArrayList<>();
 	public static boolean serverStopped = false;
 	public static String threadNameFinal ="none";
 	public static String infoFromServer;
-	public static ArrayList<String> infosFromServer = new ArrayList<String>();
+	public static ArrayList<String> infosFromServer = new ArrayList<>();
 	public static String oldInfoFromServer;
 	public static boolean isServerMonitor = true;
 	public static int totalTasks;
@@ -32,8 +32,8 @@ public class DeamonMain {
 	public static int timeoutThreshold = 1000 * 60 * 60;
 	static int totalTasksLocal = 0;
 	static long totalThreadTimes = 0;
-	public static ArrayList<Long> threadTimes = new ArrayList<Long>();
-	public static ArrayList<String> serverNames = new ArrayList<String>();
+	public static ArrayList<Long> threadTimes = new ArrayList<>();
+	public static ArrayList<String> serverNames = new ArrayList<>();
 	static int threadCount = 0;
 	static int totalThreadCount = 0;
 	public static int classCount = 0;
@@ -73,7 +73,7 @@ public class DeamonMain {
 						else {
 							synchronized (threadStartTimes) {
 								for (String l : threadStartTimes) {
-									if (System.currentTimeMillis() - Long.valueOf(l) > (timeoutThreshold)) {
+									if (System.currentTimeMillis() - Long.valueOf(l) > timeoutThreshold) {
 										if (threadNames.size() != 0) {
 											threadNameFinal = threadNames.get(k);
 										}
@@ -163,7 +163,7 @@ public class DeamonMain {
 		Thread infoSender = new Thread() {
 			public void run() {
 				try {
-					ArrayList<String> serverInfo = new ArrayList<String>();
+					ArrayList<String> serverInfo = new ArrayList<>();
 					String status;
 
 					while (true) {
@@ -218,7 +218,7 @@ public class DeamonMain {
 						
 						
 						if (Integer.parseInt(info.get(0)) == 0) {
-							ArrayList<Integer> threadCounts = new ArrayList<Integer>();
+							ArrayList<Integer> threadCounts = new ArrayList<>();
 							infoFromServer = info.get(1);
 							totalTasks = totalTasksLocal + Integer.parseInt(info.get(2));
 							threadCounts.add(Integer.parseInt(info.get(3)));

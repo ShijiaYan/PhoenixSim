@@ -42,7 +42,7 @@ public class MZIExperiment implements Experiment {
 
 		DataPoint dp = new DataPoint() ;
 		dp.addProperty("wavelength (nm)", inputLambda.getWavelengthNm());
-		dp.addProperty("Length Difference (micron)", Math.abs((mzi.wg1.getWgLengthMicron()-mzi.wg2.getWgLengthMicron())));
+		dp.addProperty("Length Difference (micron)", Math.abs(mzi.wg1.getWgLengthMicron()-mzi.wg2.getWgLengthMicron()));
 		dp.addProperty("Delta Alpha (1/cm)", plasmaEffect.getDalphaPerCm());
 		dp.addResultProperty("MZI transmission (dB)", 10*Math.log10(mzi.S21.absSquared()));
 		

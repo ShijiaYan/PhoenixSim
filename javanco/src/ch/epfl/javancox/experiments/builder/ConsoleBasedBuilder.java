@@ -6,9 +6,9 @@ import ch.epfl.general_libraries.clazzes.ClassRepository;
 import ch.epfl.general_libraries.experiment_aut.Experiment;
 import ch.epfl.general_libraries.utils.DateAndTimeFormatter;
 import ch.epfl.javancox.experiments.builder.tree_model.AbstractChooseNode;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel.ObjectIterator;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel.TreeModelUIManager;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel.ObjectIterator;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel.TreeModelUIManager;
 import ch.epfl.javancox.results_manager.SmartDataPointCollector;
 
 public class ConsoleBasedBuilder {
@@ -38,7 +38,7 @@ public class ConsoleBasedBuilder {
 
 		
 		final ClassRepository lister = new ClassRepository(prefixes);
-		ObjectConstuctionTreeModel<Experiment> tree = ObjectConstuctionTreeModel.loadFromFile(lister, Experiment.class, fileName);
+		ObjectConstructionTreeModel<Experiment> tree = ObjectConstructionTreeModel.loadFromFile(lister, Experiment.class, fileName);
 		
 
 		

@@ -127,7 +127,7 @@ public class GraphicalPropertiesLoader {
 		int width = applyDefaultWidth(cont.getContainingLayerContainer());
 		NetworkAttribute widthA = cont.attribute(XMLTagKeywords.LINK_WIDTH, false);
 		if (widthA != null) {
-			if (!(widthA.getValue().equals("default"))) {
+			if (!widthA.getValue().equals("default")) {
 				return Math.max(1,Math.min(widthA.intValue(), maxLinkWidth));
 			}
 		}
@@ -138,7 +138,7 @@ public class GraphicalPropertiesLoader {
 		java.awt.Color color = applyDefaultLinkColor(cont.getContainingLayerContainer());
 		NetworkAttribute attColor = cont.attribute(XMLTagKeywords.LINK_COLOR, false);
 		if (attColor != null) {
-			if (!(attColor.getValue().equals("default"))) {
+			if (!attColor.getValue().equals("default")) {
 				return  attColor.colorValue();
 			}
 		}
@@ -149,7 +149,7 @@ public class GraphicalPropertiesLoader {
 		java.awt.Color color = null;
 		NetworkAttribute attColor = cont.attribute(XMLTagKeywords.LINK_COLOR2, false);
 		if (attColor != null) {
-			if (!(attColor.getValue().equals("default"))) {
+			if (!attColor.getValue().equals("default")) {
 				return  attColor.colorValue();
 			}
 		}
@@ -160,7 +160,7 @@ public class GraphicalPropertiesLoader {
 		java.awt.Color color = applyDefaultLabelColor(cont);
 		NetworkAttribute attColor = cont.attribute(XMLTagKeywords.LABEL_COLOR, false);
 		if (attColor != null) {
-			if (!(attColor.getValue().equals("default"))) {
+			if (!attColor.getValue().equals("default")) {
 				return  attColor.colorValue();
 			}
 		}
@@ -170,7 +170,7 @@ public class GraphicalPropertiesLoader {
 	public int getSpeed(LinkContainer cont) {
 		NetworkAttribute speedA = cont.attribute(XMLTagKeywords.LINK_SPEED, false);
 		if (speedA != null) {
-			if (!(speedA.getValue().equals("default"))) {
+			if (!speedA.getValue().equals("default")) {
 				return speedA.intValue();
 			}
 		}
@@ -180,7 +180,7 @@ public class GraphicalPropertiesLoader {
 	public int getCurveStartAngle(LinkContainer cont) {
 		NetworkAttribute curveA = cont.getCurveStartAngle();
 		if (curveA != null) {
-			if (!(curveA.getValue().equals("default"))) {
+			if (!curveA.getValue().equals("default")) {
 				return curveA.intValue();
 			}
 		}
@@ -190,7 +190,7 @@ public class GraphicalPropertiesLoader {
 	public int getCurveEndAngle(LinkContainer cont) {
 		NetworkAttribute curveA = cont.getCurveEndAngle();
 		if (curveA != null) {
-			if (!(curveA.getValue().equals("default"))) {
+			if (!curveA.getValue().equals("default")) {
 				return curveA.intValue();
 			}
 		}
@@ -200,7 +200,7 @@ public class GraphicalPropertiesLoader {
 	public int getCurveStart(LinkContainer cont) {
 		NetworkAttribute curveA = cont.getCurveStart();
 		if (curveA != null) {
-			if (!(curveA.getValue().equals("default"))) {
+			if (!curveA.getValue().equals("default")) {
 				return curveA.intValue();
 			}
 		}
@@ -210,7 +210,7 @@ public class GraphicalPropertiesLoader {
 	public int getCurveEnd(LinkContainer cont) {
 		NetworkAttribute curveA = cont.getCurveEnd();
 		if (curveA != null) {
-			if (!(curveA.getValue().equals("default"))) {
+			if (!curveA.getValue().equals("default")) {
 				return curveA.intValue();
 			}
 		}
@@ -273,7 +273,7 @@ public class GraphicalPropertiesLoader {
 		int size = (int)defaultNodeSize;
 		NetworkAttribute att = cont.getNodeSizeAttribute();
 		if (att != null) {
-			if (!(att.getValue().equals("default"))) {
+			if (!att.getValue().equals("default")) {
 				size = Math.max(minNodeSize, Math.min(att.intValue(), maxNodeSize));
 			}
 		}
@@ -284,7 +284,7 @@ public class GraphicalPropertiesLoader {
 		String icon = applyDefaultNodeIcon(cont.getContainingLayerContainer());
 		NetworkAttribute att = cont.getNodeIconAttribute();
 		if (att != null) {
-			if (!(att.getValue().equals("default"))) {
+			if (!att.getValue().equals("default")) {
 				icon = att.getStringValue();
 			}
 		}
@@ -303,7 +303,7 @@ public class GraphicalPropertiesLoader {
 		java.awt.Color color = applyDefaultNodeColor(cont.getContainingLayerContainer());
 		NetworkAttribute attColor = cont.getNodeColorAttribute();
 		if (attColor != null) {
-			if (!(attColor.getValue().equals("default"))) {
+			if (!attColor.getValue().equals("default")) {
 				return  attColor.colorValue();
 			}
 		}
@@ -313,7 +313,7 @@ public class GraphicalPropertiesLoader {
 	public int getLabelFontSize(NodeContainer cont) {
 		NetworkAttribute attSize = cont.getLabelFontSizeAttribute();
 		if (attSize != null) {
-			if (!(attSize.getValue().equals("default"))) {
+			if (!attSize.getValue().equals("default")) {
 				return attSize.intValue();
 			}
 		}

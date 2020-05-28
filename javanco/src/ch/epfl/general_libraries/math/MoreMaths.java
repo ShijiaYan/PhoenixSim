@@ -207,7 +207,7 @@ public class MoreMaths {
 		return res;
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		/*for (int i = 1 ; i < 700 ; i++) {
 			double l = factorial((double)i);
 			if ((Double.MAX_VALUE / l) < i+1) {
@@ -238,9 +238,9 @@ public class MoreMaths {
 
 	public static long product(int[] array) {
 		long h = 1;
-		for (int i = 0 ; i < array.length ; i++) {
-			h *= (long)array[i];
-		}
+        for (int value : array) {
+            h *= value;
+        }
 		return h;
 	}
 
@@ -249,7 +249,7 @@ public class MoreMaths {
 		long h = 1;
 		for (int i = 0 ; i < array.length ; i++) {
 			if (i == exception) continue;
-			h *= (long)array[i];
+			h *= array[i];
 		}
 		return h;
 	}
@@ -257,7 +257,7 @@ public class MoreMaths {
 	public static long product(int[] array, int fromIndex, int toIndexExcluded) {
 		long h = 1;
 		for (int i = fromIndex ; i < toIndexExcluded ; i++) {
-			h *= (long)array[i];
+			h *= array[i];
 		}
 		return h;
 	}	
@@ -296,7 +296,7 @@ public class MoreMaths {
 		int[] bitA = new int[bits];
 		int mask = 1;
 		for (int i = 0; i < bits ; i++) {
-			bitA[i] = ((src & mask) > 0) ? 1 : 0;
+			bitA[i] = (src & mask) > 0 ? 1 : 0;
 			mask <<= 1;
 		}
 		return bitA;
@@ -305,12 +305,12 @@ public class MoreMaths {
 	public static int bitsToInt(int[] res) {
 		int mask = 1;
 		int result = 0;
-		for (int i = 0 ; i < res.length ; i++) {
-			if (res[i] > 0) {
-				result += mask;
-			}
-			mask <<= 1;
-		}
+        for (int re : res) {
+            if (re > 0) {
+                result += mask;
+            }
+            mask <<= 1;
+        }
 		return result;
 	}
 

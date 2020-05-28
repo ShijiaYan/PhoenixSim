@@ -68,7 +68,7 @@ public class ScaleFreeNetworkGenerator extends AbstractRandomAspatialTopologyGen
 
 	@Override
 	public Map<String, String> getRandomGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		if (distForNodeNumber != null) {
 			map.put("Average number of nodes",nbNodes+"");
 		} else {

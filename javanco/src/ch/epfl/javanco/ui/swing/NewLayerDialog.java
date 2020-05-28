@@ -47,45 +47,45 @@ public class NewLayerDialog extends javax.swing.JDialog {
 	 * @return the content of the "graph name" field
 	 */
 	public String getGraphName() {
-		return (this.graphName);
+		return this.graphName;
 	}
 	/**
 	 * Returns the content of the "layer name" field
 	 * @return the content of the "layer name" field
 	 */
 	public String getLayerName() {
-		return (this.layerName);
+		return this.layerName;
 	}
 	/**
 	 * Returns the content of the "layer class" field
 	 * @return the content of the "layer class" field
 	 */
 	public Class<? extends Layer> getLayerClass() {
-		return (this.layerClass);
+		return this.layerClass;
 	}
 
 	private Class<? extends Node> getDefaultNodeClass() {
-		return (this.defaultNodeClass);
+		return this.defaultNodeClass;
 	}
 
 	private String getDefaultNodeColor() {
-		return (this.defaultNodeColor);
+		return this.defaultNodeColor;
 	}
 
 	private  String getDefaultNodeIcon() {
-		return (this.defaultNodeIcon);
+		return this.defaultNodeIcon;
 	}
 
 	private Class<? extends Link> getDefaultLinkClass() {
-		return (this.defaultLinkClass);
+		return this.defaultLinkClass;
 	}
 
 	private  String getDefaultLinkColor() {
-		return (this.defaultLinkColor);
+		return this.defaultLinkColor;
 	}
 
 	private  String getDefaultLinkWidth() {
-		return (this.defaultLinkWidth);
+		return this.defaultLinkWidth;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class NewLayerDialog extends javax.swing.JDialog {
 	 */
 
 	public List<Attribute> getNewLayerElement() {
-		List<Attribute> attributes = new java.util.ArrayList<Attribute>();
+		List<Attribute> attributes = new java.util.ArrayList<>();
 		attributes.add(new NetworkAttribute(XMLTagKeywords.DEFAULT_NODE_CLASS, getDefaultNodeClass().getSimpleName(), null));
 		attributes.add(new NetworkAttribute(XMLTagKeywords.DEFAULT_NODE_COLOR, getDefaultNodeColor(), null));
 		attributes.add(new NetworkAttribute(XMLTagKeywords.DEFAULT_NODE_ICON, getDefaultNodeIcon(), null));
@@ -149,7 +149,7 @@ public class NewLayerDialog extends javax.swing.JDialog {
 	private void setComboBoxes() {
 		if (cl != null) {
 			Class<? extends Element> newClass = cl.getNetworkClass(classSelector.getSelectedItem().toString());
-			if (!(newClass.equals(actualClass))) {
+			if (!newClass.equals(actualClass)) {
 				defaultLinkClassSelector.setModel(
 						new javax.swing.DefaultComboBoxModel(
 								cl.getAllowedLinkClasses(newClass).keySet().toArray(new String[]{})
@@ -243,11 +243,7 @@ public class NewLayerDialog extends javax.swing.JDialog {
 		okButton.setMinimumSize(new Dimension(80, 23));
 		okButton.setPreferredSize(new Dimension(80, 23));
 		okButton.setSelected(true);
-		okButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				okButtonActionPerformed(evt);
-			}
-		});
+		okButton.addActionListener(evt -> okButtonActionPerformed(evt));
 
 		buttonPanel.add(okButton);
 
@@ -257,11 +253,7 @@ public class NewLayerDialog extends javax.swing.JDialog {
 		reservedButton.setMinimumSize(new Dimension(80, 23));
 		reservedButton.setOpaque(false);
 		reservedButton.setPreferredSize(new Dimension(80, 23));
-		reservedButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				reservedButtonActionPerformed(evt);
-			}
-		});
+		reservedButton.addActionListener(evt -> reservedButtonActionPerformed(evt));
 
 		buttonPanel.add(reservedButton);
 
@@ -269,11 +261,7 @@ public class NewLayerDialog extends javax.swing.JDialog {
 		cancelButton.setMaximumSize(new Dimension(80, 23));
 		cancelButton.setMinimumSize(new Dimension(80, 23));
 		cancelButton.setPreferredSize(new Dimension(80, 23));
-		cancelButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				cancelButtonActionPerformed(evt);
-			}
-		});
+		cancelButton.addActionListener(evt -> cancelButtonActionPerformed(evt));
 
 		buttonPanel.add(cancelButton);
 
@@ -348,11 +336,7 @@ public class NewLayerDialog extends javax.swing.JDialog {
 		}
 		classSelector.setMinimumSize(new Dimension(65, 22));
 		classSelector.setMaximumSize(new Dimension(65,22));
-		classSelector.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				setComboBoxes();
-			}
-		});
+		classSelector.addActionListener(evt -> setComboBoxes());
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 2;

@@ -87,61 +87,29 @@ public class InternalFrameBasedUIPlus3D extends InternalFrameBasedUI {
 				JMenuBar menuBar3D = new JMenuBar();
 				JMenu view = new JMenu("View");
 				JMenuItem useTextures = new JCheckBoxMenuItem("Texture");
-				useTextures.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gl3dViewer.setUseTexture(((JCheckBoxMenuItem)e.getSource()).isSelected());
-					}
-
-				});
+				useTextures.addActionListener(e -> gl3dViewer.setUseTexture(((JCheckBoxMenuItem)e.getSource()).isSelected()));
 
 				JMenuItem useTransparency = new JCheckBoxMenuItem("Transparency");
-				useTransparency.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gl3dViewer.setUseTransparency(((JCheckBoxMenuItem)e.getSource()).isSelected());
-					}
-
-				});
+				useTransparency.addActionListener(e -> gl3dViewer.setUseTransparency(((JCheckBoxMenuItem)e.getSource()).isSelected()));
 
 
 				//----- Sphere ------
 				JRadioButtonMenuItem sphere = new JRadioButtonMenuItem("Sphere");
 				sphere.setSelected(true);
-				sphere.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gl3dViewer.setNodeRepresentation(NodeRepresentation.SPHERE);
-					}
-				});
+				sphere.addActionListener(e -> gl3dViewer.setNodeRepresentation(NodeRepresentation.SPHERE));
 
 
 				//----- Cube ------
 				JRadioButtonMenuItem cube = new JRadioButtonMenuItem("Cube");
-				cube.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gl3dViewer.setNodeRepresentation(NodeRepresentation.CUBE);
-					}
-				});
+				cube.addActionListener(e -> gl3dViewer.setNodeRepresentation(NodeRepresentation.CUBE));
 
 				//----- Teapot ------
 				JRadioButtonMenuItem teapot = new JRadioButtonMenuItem("Teapot");
-				teapot.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gl3dViewer.setNodeRepresentation(NodeRepresentation.TEAPOT);
-					}
-				});
+				teapot.addActionListener(e -> gl3dViewer.setNodeRepresentation(NodeRepresentation.TEAPOT));
 
 				//----- Cylinder ------
 				JRadioButtonMenuItem cylinder = new JRadioButtonMenuItem("Cylinder");
-				cylinder.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gl3dViewer.setNodeRepresentation(NodeRepresentation.CYLINDER);
-					}
-				});
+				cylinder.addActionListener(e -> gl3dViewer.setNodeRepresentation(NodeRepresentation.CYLINDER));
 
 				ButtonGroup group = new ButtonGroup();
 				group.add(sphere);

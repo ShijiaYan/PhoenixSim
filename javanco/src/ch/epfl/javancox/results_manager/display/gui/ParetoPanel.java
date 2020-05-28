@@ -57,8 +57,8 @@ public class ParetoPanel extends AbstractChartProvider.AbstractChartPanel implem
 	@Override
 	public Object getLegend() {
 		XYChartProvider xyDisp = (XYChartProvider)displayer;
-		JTree tl = TreeLegend.createTreeLegend(xyDisp.seriesPaint, xyDisp.seriesShape, new HashMap<Pair<String, String>, Texture>(), xyDisp.legends);
-		JScrollPane jp = new JScrollPane((JComponent) tl);
+		JTree tl = TreeLegend.createTreeLegend(xyDisp.seriesPaint, xyDisp.seriesShape, new HashMap<>(), xyDisp.legends);
+		JScrollPane jp = new JScrollPane(tl);
 		jp.setVisible(true);
 		return jp;
 	}	
@@ -87,18 +87,15 @@ public class ParetoPanel extends AbstractChartProvider.AbstractChartPanel implem
 		optionPanel.add(yLog);
 		matlab = new JButton("Create matlab");
 		optionPanel.add(matlab);
-		matlab.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				XYChartProvider xyDisp = (XYChartProvider)displayer;
-				try {
-					xyDisp.createMatlabData(fatherPanel);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
+		matlab.addActionListener(e -> {
+            XYChartProvider xyDisp = (XYChartProvider)displayer;
+            try {
+                xyDisp.createMatlabData(fatherPanel);
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
 		return optionPanel;
 	}
@@ -116,7 +113,7 @@ public class ParetoPanel extends AbstractChartProvider.AbstractChartPanel implem
 	@Override
 	public Pair<ActionListener[], String[]> getDisplayerPossibleActions(ComplexDisplayPanel fatherPanel) {
 		
-		return new Pair<ActionListener[], String[]>(new ActionListener[]{}, new String[]{});
+		return new Pair<>(new ActionListener[]{}, new String[]{});
 	}
 
 	@Override

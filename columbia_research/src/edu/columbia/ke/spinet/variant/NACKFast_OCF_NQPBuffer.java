@@ -18,7 +18,7 @@ public class NACKFast_OCF_NQPBuffer extends NACKFast_NQPrioritizedBuffer {
 	protected void processProducerEvent(Evt e) {	
 		SpinetMessage msg = defineSpinetMessage(e);
 		/* use emission time as priority */
-		msg.setSpinetPriority((int)(msg.timeEmitted));
+		msg.setSpinetPriority((int) msg.timeEmitted);
 		
 		super.processProducerEvent(e);				
 	}
@@ -44,7 +44,7 @@ public class NACKFast_OCF_NQPBuffer extends NACKFast_NQPrioritizedBuffer {
 			
 			// find the Feasible OC packet
 			if (this.priorityQueue[i].size() > 0
-					&& (int)(Integer)  this.priorityQueue[i].firstKey() < feasibleOldestEmissionTime
+					&& (Integer)  this.priorityQueue[i].firstKey() < feasibleOldestEmissionTime
 					&& this.waitUntil[i] <= currentTime
 					) {
 				feasibleOldestEmissionTime = (int)(Integer) this.priorityQueue[i].firstKey();
@@ -55,7 +55,7 @@ public class NACKFast_OCF_NQPBuffer extends NACKFast_NQPrioritizedBuffer {
 		// if found an eligible packet
 		if (feasibleOC != -1) {
 			Entry first = priorityQueue[feasibleOC].pollFirstEntry();
-			sendMessage(e, (Message) (first.getValue()));
+			sendMessage(e, (Message) first.getValue());
 		} else { // no eligible packet, wait till the nearest waitUntil time
 			if (this.getSize() > 0) {
 				Evt self = new Evt(nearestWaitUntil, this, this, 1);

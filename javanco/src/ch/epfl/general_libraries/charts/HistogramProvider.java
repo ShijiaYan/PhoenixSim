@@ -21,20 +21,20 @@ public class HistogramProvider {
 			double maxValue = -Float.MAX_VALUE;
 			double minValue = Float.MAX_VALUE;
 
-			HashSet<Double> sort = new HashSet<Double>();
+			HashSet<Double> sort = new HashSet<>();
 			
 			StatisticalDistribution.DoubleDistribution dis = new StatisticalDistribution.DoubleDistribution();
 			dis.add(rVals);
-	
-			for (int i = 0 ; i < rVals.length ; i++) {
-				if (rVals[i] >= maxValue) {
-					maxValue = rVals[i];
-				}
-				if (rVals[i] <= minValue) {
-					minValue = rVals[i];
-				}
-				sort.add(rVals[i]);			
-			}
+
+        for (double rVal : rVals) {
+            if (rVal >= maxValue) {
+                maxValue = rVal;
+            }
+            if (rVal <= minValue) {
+                minValue = rVal;
+            }
+            sort.add(rVal);
+        }
 			double ranger = (maxValue-minValue)*0.1f;			
 			histogramdataset.addSeries("legen", rVals, Math.min(sort.size(),15));
 			

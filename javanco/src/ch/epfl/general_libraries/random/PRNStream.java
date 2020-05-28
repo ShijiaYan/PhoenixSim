@@ -103,7 +103,7 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 	}
 	
 	public static <T> Collection<T> pickNin(Collection<T> col, int n , RandomSource src) {
-		Collection<T> newCol = new ArrayList<T>(n);
+		Collection<T> newCol = new ArrayList<>(n);
 		for (int i = 0 ; i < n ; i++) {
 			T t = pickIn(col, src);
 			newCol.add(t);
@@ -113,7 +113,7 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 	}
 	
 	public <T> Collection<T> pickNin(Collection<T> col, int n) {
-		Collection<T> newCol = new ArrayList<T>(n);
+		Collection<T> newCol = new ArrayList<>(n);
 		for (int i = 0 ; i < n ; i++) {
 			T t = pickIn(col);
 			newCol.add(t);
@@ -159,11 +159,10 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 		int i = tab.length;
 		int r = nextInt(0,i-1);
 		int iter = 0;
-		for (int j = 0 ; j < tab.length; j++) {
-			int t = tab[j];
-			if (iter == r) return t;
-			iter++;
-		}
+        for (int t : tab) {
+            if (iter == r) return t;
+            iter++;
+        }
 		throw new IllegalStateException();			
 	}
 	
@@ -183,7 +182,7 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 	}	
 
 	public <T> ArrayList<T> shuffle(Collection<T> col) {
-		ArrayList<T> list = new ArrayList<T>(col.size());
+		ArrayList<T> list = new ArrayList<>(col.size());
 		while (col.size() > 0) {
 			list.add(pickInAndRemove(col));
 		}
@@ -191,10 +190,10 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 	}
 	
 	public int[] shuffle(int[] array) {
-		ArrayList<Integer> lis = new ArrayList<Integer>(array.length);
-		for (int i = 0 ; i < array.length ; i++) {
-			lis.add(array[i]);
-		}
+		ArrayList<Integer> lis = new ArrayList<>(array.length);
+        for (int value : array) {
+            lis.add(value);
+        }
 		int[] a2 = new int[array.length];
 		for (int i = 0 ; i < array.length ; i++) {
 			a2[i] = pickInAndRemove(lis);
@@ -204,8 +203,8 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 	
 
 	public <T> ArrayList<T> shuffleAndKeep(Collection<T> col) {
-		ArrayList<T> list = new ArrayList<T>(col.size());
-		ArrayList<T> copy = new ArrayList<T>(col);
+		ArrayList<T> list = new ArrayList<>(col.size());
+		ArrayList<T> copy = new ArrayList<>(col);
 		while (copy.size() > 0) {
 			list.add(pickInAndRemove(copy));
 		}
@@ -244,15 +243,15 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 	}
 
 	public static PRNStream getRandomStream() {
-		int i = (new Random()).nextInt();
+		int i = new Random().nextInt();
 		return new MersenneTwister(i);
 	}
 
 	public int getRandomIndex(double[] weights) {
 		double tot = 0;
-		for (int i = 0 ; i < weights.length ; i++) {
-			tot += weights[i];
-		}
+        for (double weight : weights) {
+            tot += weight;
+        }
 		double rand = this.nextDouble() * tot;
 		double sinceThen = 0;
 		for (int i = 0 ; i < weights.length ; i++) {
@@ -275,7 +274,7 @@ public abstract class PRNStream implements RandomStream, RandomSource {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public boolean nextBoolean() {
-					return (PRNStream.this.nextDouble() > 0.5);
+					return PRNStream.this.nextDouble() > 0.5;
 				}
 				@Override
 				public void nextBytes(byte[] bytes) {

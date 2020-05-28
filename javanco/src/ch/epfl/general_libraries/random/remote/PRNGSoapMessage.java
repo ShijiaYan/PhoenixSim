@@ -151,7 +151,7 @@ public class PRNGSoapMessage extends SoapMessage {
 		}
 
 
-		Vector<Element> vect = new Vector<Element>(intVals[0]);
+		Vector<Element> vect = new Vector<>(intVals[0]);
 		vect.setSize(intVals[0]);
 		for (int i = 0 ; i < intVals.length - 1 ; i++) {
 			String columnName = RandomWebServiceConstants.STATE_COLUMN_TAG + i;

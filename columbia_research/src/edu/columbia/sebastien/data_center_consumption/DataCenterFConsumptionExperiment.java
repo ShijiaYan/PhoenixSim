@@ -85,7 +85,7 @@ public class DataCenterFConsumptionExperiment implements Experiment {
 			}
 			
 			for (int i = 0 ; i < consumptionParts.length ; i++) {
-				currentConsumptionTW[i] *= (growth/100d)+1;
+				currentConsumptionTW[i] *= growth/100d +1;
 				currentConsumptionTW[i] /= globalEffGainPerYear;
 				currentConsumptionTW[i] /= consumptionParts[i].getSpecEffGain();
 				currentConsumptionTW[i] *= consumptionParts[i].getSpecGrowth();
@@ -97,12 +97,12 @@ public class DataCenterFConsumptionExperiment implements Experiment {
 
 	private void normalizeParts() {
 		double sum = 0;
-		for (int i = 0 ; i < consumptionParts.length ; i++) {
-			sum += consumptionParts[i].getUserInitialpart();
-		}
-		for (int i = 0 ; i < consumptionParts.length ; i++) {
-			consumptionParts[i].setInitialPart(consumptionParts[i].getUserInitialpart()/sum);
-		}		
+        for (DCcomsumptionPart part : consumptionParts) {
+            sum += part.getUserInitialpart();
+        }
+        for (DCcomsumptionPart consumptionPart : consumptionParts) {
+            consumptionPart.setInitialPart(consumptionPart.getUserInitialpart() / sum);
+        }
 	}
 	
 	private double teraWattToBillionsOfkWhPerYear(double tw) {

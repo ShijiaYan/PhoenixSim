@@ -82,9 +82,9 @@ public class XYChartProvider extends AbstractChartProvider {
 	public String xaxis;
 	public String yaxis;
 	
-	public Map<Pair<String, String>, Shape> seriesShape = new HashMap<Pair<String, String>, Shape>();
-	public HashSet<PairList<String, String>> legends = new HashSet<PairList<String, String>>();
-	public LinkedList<Association> assosList = new LinkedList<Association>();
+	public Map<Pair<String, String>, Shape> seriesShape = new HashMap<>();
+	public HashSet<PairList<String, String>> legends = new HashSet<>();
+	public LinkedList<Association> assosList = new LinkedList<>();
 
 
 
@@ -110,12 +110,12 @@ public class XYChartProvider extends AbstractChartProvider {
 	private ChartContainer createScalarChart(DataRetrievalOptions options, AdvancedDataRetriever retriever) {
 		List<DataSeries> data1 = retriever.getChartValues(options, options.method[0]);
 		List<DataSeries> data2 = retriever.getChartValues(options, options.method[1]);
-		int length = (int) Math.min(data1.size(), data2.size());
+		int length = Math.min(data1.size(), data2.size());
 		double[] scalarValue = new double[length];
 		JFreeChart jFreeChart;
 		ChartContainer chart = new ChartContainer();
 
-		String xAxisLabel = (options.xAxisProperty.equals("") ? "Quel label ??" : options.xAxisProperty);
+		String xAxisLabel = options.xAxisProperty.equals("") ? "Quel label ??" : options.xAxisProperty;
 		String yAxisLabel = options.getYLabel();
 		jFreeChart = ChartFactory.createXYLineChart(options.method[0], xAxisLabel, yAxisLabel, null, PlotOrientation.VERTICAL, isUsingLegend, false, false);
 		chart.setChart(jFreeChart);
@@ -217,7 +217,7 @@ public class XYChartProvider extends AbstractChartProvider {
 		XYPlot plot = chart.getChart().getXYPlot();
 		CustomXYIntervalSeriesCollection seriesCollection = new CustomXYIntervalSeriesCollection(options);
 		boolean useLines = !(options.getCriteriumSet().get(0).size() == 0);
-		useLines &= (isWithLines|| isWithLinesWA);
+		useLines &= isWithLines|| isWithLinesWA;
 		CustomDeviationRenderer renderer = new CustomDeviationRenderer(useLines, true, chart); // chart is given for problem reporting
 		renderer.useMultipointHighlight(!isWithoutIdentitical);
 		renderer.setBaseStroke(stroke);
@@ -251,11 +251,11 @@ public class XYChartProvider extends AbstractChartProvider {
 		DataSeries.DataSeriesSorter sorter = new DataSeries.DataSeriesSorter();
 		boolean nonNumericXValues = false;
 
-		TreeMap<Double, String> tickEquivalenceMap = new TreeMap<Double, String>();
+		TreeMap<Double, String> tickEquivalenceMap = new TreeMap<>();
 		
 		List<DataSeries> dataSeries = retriever.getChartValues(options, options.method[idx]);
 	
-		HashSet<String> toSortAndEvalFromZeroToOne = new HashSet<String>();
+		HashSet<String> toSortAndEvalFromZeroToOne = new HashSet<>();
 		
 		yaxis = options.method[idx];
 		xaxis = options.xAxisProperty;
@@ -289,7 +289,7 @@ public class XYChartProvider extends AbstractChartProvider {
 			} else {
 				entries = sorter.getNumerisedList(cv);
 			}
-			Map<Float, Float> withoutScale = new HashMap<Float, Float>();
+			Map<Float, Float> withoutScale = new HashMap<>();
 			Float withoutScaleIndex = 0.0f;
 
 			for( DataSeries.DataSeriesSorter.XEntry xe : entries ) {
@@ -309,14 +309,13 @@ public class XYChartProvider extends AbstractChartProvider {
 				if( xeValues.size() > 1 && isWithLines ) {
 					float[] all;
 					boolean break_ = false;
-					for (int i = 0 ; i < xeValues.size() ; i++) {
-						Float sample = xeValues.get(i);
-						if (sample.isInfinite() || sample.isNaN()) {
-							
-							break_ = true;
-							break;
-						}
-					}
+                    for (Float sample : xeValues) {
+                        if (sample.isInfinite() || sample.isNaN()) {
+
+                            break_ = true;
+                            break;
+                        }
+                    }
 					if (break_) {
 						chart.addProblem(new Problem(Severity.INFORMATION, "Some infinite or NaN values", options.method[idx]));
 						all = new float[9];
@@ -380,7 +379,7 @@ public class XYChartProvider extends AbstractChartProvider {
 						chart.addProblem(new Problem(Severity.ERROR, "Cant cast x values to float", options.method[idx]));
 						nonNumericXValues = true;
 					}
-					chart.addProblem(new Problem(Severity.INFORMATION, ((int) (float) xe.numericXValue) + " = " + xe.alphaXValue, options.method[idx]));
+					chart.addProblem(new Problem(Severity.INFORMATION, (int) (float) xe.numericXValue + " = " + xe.alphaXValue, options.method[idx]));
 					tickEquivalenceMap.put((double) xe.numericXValue, xe.alphaXValue);
 				}
 				xVals.add(xe.alphaXValue);
@@ -408,7 +407,7 @@ public class XYChartProvider extends AbstractChartProvider {
 			}
 		} else {
 			s = DEFAULT_SHAPE;
-			seriesShape.put(new Pair<String, String>("", ""), s);
+			seriesShape.put(new Pair<>("", ""), s);
 		}
 		renderer.setSeriesShape(noSerie, s);
 		renderer.setSeriesFillPaint(noSerie, paint);
@@ -596,7 +595,7 @@ public class XYChartProvider extends AbstractChartProvider {
 				if (this.isLogColors) {
 					currentColor = Math.log(currentColor);
 				}				
-				colorId = (int)(((double)(currentColor-minColor)/(double)(maxColor-minColor))*127);
+				colorId = (int)(((currentColor-minColor) / (maxColor-minColor)) *127);
 			} else {
 				colorId = i;
 			}
@@ -675,7 +674,7 @@ public class XYChartProvider extends AbstractChartProvider {
 			String listSepProp = System.getenv("JAVANCO_listSeparator");
 			char separator;
 			if (listSepProp != null && listSepProp != "") {
-				separator = (char)listSepProp.charAt(0);
+				separator = listSepProp.charAt(0);
 			} else {
 				separator = ',';
 			}
@@ -688,14 +687,14 @@ public class XYChartProvider extends AbstractChartProvider {
 
 				if( st != null && st.length == 1 ) {
 					String valu = ss + " = " + st[0];
-					constantValues = ((constantValues == null) ? "Constant(s)" + separator : constantValues + separator + "\r\n" + separator) + valu;
+					constantValues = (constantValues == null ? "Constant(s)" + separator : constantValues + separator + "\r\n" + separator) + valu;
 				}
 			}
 			if( constantValues != null )
 				constantValues += "\r\n";
 
-			Map<String, List<String>> params = new HashMap<String, List<String>>(nbParams);
-			Map<String, Set<String>> temp = new HashMap<String, Set<String>>(nbParams);
+			Map<String, List<String>> params = new HashMap<>(nbParams);
+			Map<String, Set<String>> temp = new HashMap<>(nbParams);
 
 			Iterator<PairList<String, String>> it = legends.iterator();
 			while (it.hasNext()) {
@@ -706,33 +705,33 @@ public class XYChartProvider extends AbstractChartProvider {
 					if( temp.containsKey(param) ) {
 						temp.get(param).add(value);
 					} else {
-						Set<String> newSet = new HashSet<String>();
+						Set<String> newSet = new HashSet<>();
 						newSet.add(value);
 						temp.put(param, newSet);
 					}
 				}
 			}
 			for( Entry<String, Set<String>> e : temp.entrySet() ) {
-				params.put(e.getKey(), new ArrayList<String>(e.getValue()));
+				params.put(e.getKey(), new ArrayList<>(e.getValue()));
 			}
 			temp = null;
-			ArrayList<PairList<String, String>> exps = new ArrayList<PairList<String, String>>();
-			List<String> allValues = new ArrayList<String>();
-			List<String> paramsKey = new ArrayList<String>(params.keySet());
+			ArrayList<PairList<String, String>> exps = new ArrayList<>();
+			List<String> allValues = new ArrayList<>();
+			List<String> paramsKey = new ArrayList<>(params.keySet());
 			Collections.sort(paramsKey);
 			int totalSize = 1;
 			for( Entry<String, List<String>> e : params.entrySet() ) {
 				Collections.sort(e.getValue());
 				totalSize *= e.getValue().size();
 			}
-			List<Iterator<String>> iterators = new ArrayList<Iterator<String>>();
+			List<Iterator<String>> iterators = new ArrayList<>();
 			String[] currentValue = new String[paramsKey.size()];
 			for( int i = 0; i < paramsKey.size(); ++i ) {
 				iterators.add(params.get(paramsKey.get(i)).iterator());
 				currentValue[i] = iterators.get(i).next();
 			}
 			for( int i = 0; i < totalSize; ++i ) {
-				PairList<String, String> exp = new PairList<String, String>();
+				PairList<String, String> exp = new PairList<>();
 				boolean next = false;
 				for( int j = 0; j < iterators.size(); ++j ) {
 					exp.add(paramsKey.get(j), currentValue[j]);
@@ -752,7 +751,7 @@ public class XYChartProvider extends AbstractChartProvider {
 			}
 
 			String[][][] data = new String[9][exps.size() + 1][xVals.size() + 1 + nbParams];
-			HashMap<String, Integer> xValsCor = new HashMap<String, Integer>();
+			HashMap<String, Integer> xValsCor = new HashMap<>();
 			int j = nbParams + 1;
 			Collection<String> xv = sort(xVals);
 			for( String s : xv ) {
@@ -775,7 +774,7 @@ public class XYChartProvider extends AbstractChartProvider {
 			Iterator<String> paramIt = allValues.iterator();
 
 			// VERY UGLY, FIX with bug
-			TreeMap<String, String> bugSet = new TreeMap<String, String>();
+			TreeMap<String, String> bugSet = new TreeMap<>();
 
 			for( PairList<String, String> s : exps ) {
 				for( Association a : assosList ) {
@@ -811,7 +810,7 @@ public class XYChartProvider extends AbstractChartProvider {
 				for( i = 0; i < data[m].length; i++ ) {
 					boolean hasValues = false;
 					for( int k = 0; k < data[m][i].length && !hasValues; ++k ) {
-						hasValues = hasValues || (k > nbParams && data[m][i][k] != null);
+						hasValues = hasValues || k > nbParams && data[m][i][k] != null;
 					}
 					if( hasValues ) {
 						for( int k = 0; k < data[m][i].length; ++k ) {

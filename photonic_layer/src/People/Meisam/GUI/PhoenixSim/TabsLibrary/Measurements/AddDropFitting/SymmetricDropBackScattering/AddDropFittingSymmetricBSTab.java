@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class AddDropFittingSymmetricBSTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/AddDropFitting/SymmetricDropBackScattering/add_drop_fitting_symmetric_BS.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/AddDropFitting/SymmetricDropBackScattering/add_drop_fitting_symmetric_BS.fxml")) ; ;
 	AddDropFittingSymmetricBSTabController controller ;
 
 	public AddDropFittingSymmetricBSTab(SimulationDataBase simDataBase){

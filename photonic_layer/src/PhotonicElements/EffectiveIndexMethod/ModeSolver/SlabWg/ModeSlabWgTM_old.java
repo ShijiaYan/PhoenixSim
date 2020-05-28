@@ -23,7 +23,7 @@ Complex J = new Complex(0,1), one = new Complex(1,0), zero = new Complex(0,0) ;
 			@ParamName(name="up index") double n_u
 			){
 		this.V = V ;
-		this.lambdaNm = (2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d))/V ;
+		this.lambdaNm = 2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d) /V ;
 		this.widthNm = widthNm ;
 		this.n_core = n_c ;
 		this.n_down = n_d ;
@@ -67,13 +67,13 @@ Complex J = new Complex(0,1), one = new Complex(1,0), zero = new Complex(0,0) ;
 	private Complex get_Zd_over_Zc(double neff){
 		Complex nx_core = get_nx_core(neff) ;
 		Complex nx_down = get_nx_down(neff) ;
-		return (nx_down.divides(nx_core).times((n_core*n_core)/(n_down*n_down))) ;
+		return nx_down.divides(nx_core).times(n_core*n_core /(n_down*n_down));
 	}
 
 	private Complex get_Zu_over_Zc(double neff){
 		Complex nx_core = get_nx_core(neff) ;
 		Complex nx_up = get_nx_up(neff) ;
-		return (nx_up.divides(nx_core).times((n_core*n_core)/(n_up*n_up))) ;
+		return nx_up.divides(nx_core).times(n_core*n_core /(n_up*n_up));
 	}
 	// Finally need to solve the eigen value equation
 	private double getModeEquation(double neff){

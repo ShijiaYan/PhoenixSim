@@ -57,7 +57,7 @@ public class ModeCoupledStripWgTE {
 		double n_core = stripWg.getCoreIndex() ;
 		int M = neff_AllModes.length ;
 		if(M >= modeNumber+1){
-			double neff_x = neff_AllModes[(M-1)-modeNumber] ;
+			double neff_x = neff_AllModes[M - 1 - modeNumber] ;
 			return Math.sqrt(neff_x*neff_x + neff_y * neff_y - n_core * n_core) ;
 		}
 		else{

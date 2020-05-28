@@ -93,7 +93,7 @@ public class MultiDigitCounter implements Iterable<BoxedIntArray> {
 	 */
 	public static int[] getCoords(int val, int base) {
 		if (val < 0) throw new IllegalStateException("no neg numbers");
-		Stack<Integer> c = new Stack<Integer>();
+		Stack<Integer> c = new Stack<>();
 		int copy = val;
 		int b = base;
 		int b1 = 1;
@@ -116,10 +116,10 @@ public class MultiDigitCounter implements Iterable<BoxedIntArray> {
 	public static int getDecimalFromCoords(int[] coords, int base) {
 		int accum = 0;
 		int b = 1;
-		for (int i = 0 ; i < coords.length ; i++) {
-			accum += coords[i] * b;
-			b *= base;
-		}
+        for (int coord : coords) {
+            accum += coord * b;
+            b *= base;
+        }
 		return accum;
 	}
 
@@ -152,7 +152,7 @@ public class MultiDigitCounter implements Iterable<BoxedIntArray> {
 			
 			{
 				intern = new MultiDigitCounter(maxDigits);
-				hasNext = (MoreArrays.max(maxDigits) > 0);
+				hasNext = MoreArrays.max(maxDigits) > 0;
 				array = new BoxedIntArray();
 			}
 

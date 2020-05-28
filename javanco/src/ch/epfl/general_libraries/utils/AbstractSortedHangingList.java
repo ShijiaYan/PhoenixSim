@@ -17,11 +17,11 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 	private int size = 0;
 
 	public AbstractSortedHangingList() {
-		sorter = new TreeMap<K, Cell<T, K>>();
+		sorter = new TreeMap<>();
 	}
 
 	public AbstractSortedHangingList(Comparator<K> comp) {
-		sorter = new TreeMap<K, Cell<T, K>>(comp);
+		sorter = new TreeMap<>(comp);
 	}
 
 	public T pollFirstVal() {
@@ -44,7 +44,7 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 		if (actual != null) {
 			actual.hang(i);
 		} else {
-			sorter.put(attached, new Cell<T,K>(i, true, attached));
+			sorter.put(attached, new Cell<>(i, true, attached));
 		}
 		size++;
 	}
@@ -72,14 +72,14 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 		Cell<T, K> c = entry.getValue();
 		if (c.next == null) {
 			sorter.pollFirstEntry();
-			return new Pair<K, T>(key, c.value);
+			return new Pair<>(key, c.value);
 
 			//float[]{key, c.value};
 		} else {
 			Cell<T, K> penultian = c.getPenultian();
 			T toRet = penultian.next.value;
 			penultian.next = null;
-			return new Pair<K, T>(key, toRet);
+			return new Pair<>(key, toRet);
 
 			//float[]{key, toRet};
 		}
@@ -113,7 +113,7 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 	}
 
 	public boolean isEmpty() {
-		return (size == 0);
+		return size == 0;
 	}
 
 	@SuppressWarnings("hiding")
@@ -131,7 +131,7 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 
 	public boolean remove(Object o) {
 		boolean rem = false;
-		ArrayList<Cell<T, K>> toRemove = new ArrayList<Cell<T, K>>();
+		ArrayList<Cell<T, K>> toRemove = new ArrayList<>();
 		for (Cell<T, K> c : sorter.values()) {
 			while (c != null) {
 				if (c.value.equals(o)) {
@@ -175,9 +175,9 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 	}
 
 	public ArrayList<T> getDescending(RandomSource src) {
-		ArrayList<T> tab = new ArrayList<T>(size);
+		ArrayList<T> tab = new ArrayList<>(size);
 		for (K f : sorter.descendingKeySet()) {
-			ArrayList<T> loctab = new ArrayList<T>(size);
+			ArrayList<T> loctab = new ArrayList<>(size);
 			Cell<T, K> cell = sorter.get(f);
 			loctab.add(cell.getValue());
 			while (cell.hasNext()) {
@@ -191,7 +191,7 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 	}
 
 	public ArrayList<T> getDescending() {
-		ArrayList<T> tab = new ArrayList<T>(size);
+		ArrayList<T> tab = new ArrayList<>(size);
 		for (K f : sorter.descendingKeySet()) {
 			Cell<T, K> cell = sorter.get(f);
 			tab.add(cell.getValue());
@@ -204,9 +204,9 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 	}
 
 	public ArrayList<T> getAscending(RandomSource src) {
-		ArrayList<T> tab = new ArrayList<T>(size);
+		ArrayList<T> tab = new ArrayList<>(size);
 		for (K f : sorter.keySet()) {
-			ArrayList<T> loctab = new ArrayList<T>(size);
+			ArrayList<T> loctab = new ArrayList<>(size);
 			Cell<T, K> cell = sorter.get(f);
 			loctab.add(cell.getValue());
 			while (cell.hasNext()) {
@@ -220,7 +220,7 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 	}
 
 	public ArrayList<T> getAscending() {
-		ArrayList<T> tab = new ArrayList<T>(size);
+		ArrayList<T> tab = new ArrayList<>(size);
 		for (K f : sorter.keySet()) {
 			Cell<T, K> cell = sorter.get(f);
 			tab.add(cell.getValue());
@@ -266,13 +266,13 @@ public abstract class AbstractSortedHangingList<T, K> implements Collection<T> {
 
 		void hang(T val) {
 			if (next == null) {
-				next = new Cell<T,K>(val, false, this.key);
+				next = new Cell<>(val, false, this.key);
 				next.previous = this;
 			} else {
 				next.hang(val);
 			}
 		}
-		boolean hasNext() { return (next != null); }
+		boolean hasNext() { return next != null; }
 		Cell<T, K> next() {
 			return next;
 		}

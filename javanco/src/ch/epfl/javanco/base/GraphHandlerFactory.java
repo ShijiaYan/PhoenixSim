@@ -13,7 +13,7 @@ public class GraphHandlerFactory {
 
 	private JavancoClassesLoader acl = null;
 	private Class<? extends AbstractGraphHandler> graphHandlerClass = null;
-	private List<GraphCreationListener> graphCreationListeners = new ArrayList<GraphCreationListener>();
+	private List<GraphCreationListener> graphCreationListeners = new ArrayList<>();
 
 	public GraphHandlerFactory(Class<? extends AbstractGraphHandler> graphHandlerClass, JavancoClassesLoader acl) {
 		this.graphHandlerClass = graphHandlerClass;
@@ -54,7 +54,7 @@ public class GraphHandlerFactory {
 
 	public AbstractGraphHandler getNewGraphHandler(Class<? extends AbstractGraphHandler> cl, boolean notify) {
 		try {
-			AbstractGraphHandler gh = cl.getConstructor(new Class[]{this.getClass()}).newInstance(new Object[]{this});
+			AbstractGraphHandler gh = cl.getConstructor(new Class[]{this.getClass()}).newInstance(this);
 			if (notify)
 				fireNewGraphCreatedEvent(gh);
 			return gh;

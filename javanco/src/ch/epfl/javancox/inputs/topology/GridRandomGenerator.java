@@ -102,11 +102,11 @@ public class GridRandomGenerator extends AbstractRandomPlanarGenerator {
 		int finalLinkNumber = Math.round(nbLinks/ratio);
 		if (ratio > 1) {
 
-			linkToRem = Math.round(nbLinks - finalLinkNumber + (addiFraction * nbLinks));
-			linkToAdd = Math.round((addiFraction * nbLinks));
+			linkToRem = Math.round(nbLinks - finalLinkNumber + addiFraction * nbLinks);
+			linkToAdd = Math.round(addiFraction * nbLinks);
 		} else {
-			linkToAdd = Math.round(finalLinkNumber - nbLinks + (addiFraction * nbLinks));
-			linkToRem = Math.round((addiFraction * nbLinks));
+			linkToAdd = Math.round(finalLinkNumber - nbLinks + addiFraction * nbLinks);
+			linkToRem = Math.round(addiFraction * nbLinks);
 		}
 
 		check();
@@ -122,8 +122,8 @@ public class GridRandomGenerator extends AbstractRandomPlanarGenerator {
 		mode = 1;
 		nbPerRow = width;
 
-		this.rem = (float)((int)(rem*1000))/1000;
-		this.add = (float)((int)(add*1000))/1000;
+		this.rem = (float) (int)(rem*1000) /1000;
+		this.add = (float) (int)(add*1000) /1000;
 
 
 		int nbTotalLink = computeNbLink();
@@ -143,8 +143,8 @@ public class GridRandomGenerator extends AbstractRandomPlanarGenerator {
 		int link = computeNbLink();
 
 		int finalNbLink = link + linkToAdd - linkToRem;
-		if (finalNbLink > link + (getHoriLinks() - nbPerRow)) {
-			finalNbLink = link + (getHoriLinks() - nbPerRow);
+		if (finalNbLink > link + getHoriLinks() - nbPerRow) {
+			finalNbLink = link + getHoriLinks() - nbPerRow;
 		}
 	}
 
@@ -183,9 +183,8 @@ public class GridRandomGenerator extends AbstractRandomPlanarGenerator {
 				java.awt.Point p1 = nc1.getCoordinate();
 				java.awt.Point p2 = nc2.getCoordinate();
 				int indexDiff = Math.abs(nc1.getIndex() - nc2.getIndex());
-				if ((p1.x == p2.x || p1.y == p2.y) && (indexDiff != 1 && indexDiff != nbPerRow)) return false;
-				return true;
-			}
+                return (p1.x != p2.x && p1.y != p2.y) || indexDiff == 1 || indexDiff == nbPerRow;
+            }
 		});
 		pl.linkNodes(agh, stream);
 		int i = reconnectComponents(agh);
@@ -200,7 +199,7 @@ public class GridRandomGenerator extends AbstractRandomPlanarGenerator {
 
 	private int removeNLinks(int n, PRNStream stream) {
 		int removed = 0;
-		ArrayList<AbstractElementContainer> toRem = new ArrayList<AbstractElementContainer>(linkToRem);
+		ArrayList<AbstractElementContainer> toRem = new ArrayList<>(linkToRem);
 		List<LinkContainer> links = agh.getLinkContainers();
 		for (int i = 0 ; i < n ; i++) {
 			int nb = stream.nextInt(links.size()-1);
@@ -230,11 +229,8 @@ public class GridRandomGenerator extends AbstractRandomPlanarGenerator {
 			if (hasRowConflict(i1, i2)) {
 				return false;
 			}
-			if (hasColumnConflict(i1, i2)) {
-				return false;
-			}
-			return true;
-		}
+            return !hasColumnConflict(i1, i2);
+        }
 
 		public boolean hasRowConflict(int nc1, int nc2) {
 

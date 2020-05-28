@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class SlabWgModesTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/SlabWg/SlabWgModes/slab_wg_modes.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/SlabWg/SlabWgModes/slab_wg_modes.fxml")) ; ;
 	SlabWgModesTabController controller ;
 
 	public SlabWgModesTab(SimulationDataBase simDataBase){

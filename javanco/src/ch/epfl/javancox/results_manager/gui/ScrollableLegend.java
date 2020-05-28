@@ -98,16 +98,16 @@ public class ScrollableLegend extends JPanel implements AdjustmentListener, Mous
 		@Override
 		public void paint(Graphics g){
 			super.paint(g);
-			boolean shapeSelected =(!shape.equals(""));
+			boolean shapeSelected = !shape.equals("");
 			Graphics2D g2 = (Graphics2D)g;
-			List<String> keys = new ArrayList<String>(seriePaint.keySet());
+			List<String> keys = new ArrayList<>(seriePaint.keySet());
 			Collections.sort(keys);
 			int i=20;
 			int j=this.scrollVertical;
 			int legendSize = -1;
 
 			if (shapeSelected) {
-				List<String> shapeKeys = new ArrayList<String>(serieShape.keySet());
+				List<String> shapeKeys = new ArrayList<>(serieShape.keySet());
 				Collections.sort(shapeKeys);
 				for(String e : shapeKeys) {
 					String key = shape + "= '" + e + "'";

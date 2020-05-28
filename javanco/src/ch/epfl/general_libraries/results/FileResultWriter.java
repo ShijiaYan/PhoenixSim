@@ -23,8 +23,8 @@ public class FileResultWriter extends ArrayList<Execution> implements AbstractRe
 	public void addExecution(Execution e) {
 		try {
 			FileWriter fw = new FileWriter(fileName + "" + index + ".txt");
-			HashSet<String> inProperties = new HashSet<String>();
-			HashSet<String> outProperties = new HashSet<String>();
+			HashSet<String> inProperties = new HashSet<>();
+			HashSet<String> outProperties = new HashSet<>();
 			
 			for (DataPoint dp : e.getDataPoints()) {
 				inProperties.addAll(dp.getInputPropertiesNames());

@@ -1,9 +1,8 @@
 package edu.columbia.lrl.CrossLayer.physical_models.devices.switches;
 
 import java.util.Map;
-
-import ch.epfl.general_libraries.utils.SimpleMap;
 import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.utils.SimpleMap;
 import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
 
 
@@ -33,7 +32,7 @@ public class MZISwitch1x2 {
 	
 
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Waveguide Propagation Loss (dB/cm)", propLossdBperCm + "");
 		map.put("Length of MZI Arm (micron)", lengthOfArmMicron + "") ;
 		map.put("50-50 Coupler Loss (dB)", couplerLossdB + "") ;

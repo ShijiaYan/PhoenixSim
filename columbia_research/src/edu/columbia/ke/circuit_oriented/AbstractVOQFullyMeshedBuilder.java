@@ -143,7 +143,7 @@ public abstract class AbstractVOQFullyMeshedBuilder extends
 		int nDestPerVoq = nClient;
 		
 		// prepare destinations
-		ArrayList<Integer> dList = new ArrayList<Integer>();
+		ArrayList<Integer> dList = new ArrayList<>();
 		for (int i = 0 ; i < nClient; i++){
 			dList.add(i);
 		}
@@ -191,7 +191,7 @@ public abstract class AbstractVOQFullyMeshedBuilder extends
 	
 	@Override
 	public double getTotalInjectionBandwidthRatio() {
-		return nClient * (circuitPerNode);
+		return nClient * circuitPerNode;
 	}	
 	
 	@Override	

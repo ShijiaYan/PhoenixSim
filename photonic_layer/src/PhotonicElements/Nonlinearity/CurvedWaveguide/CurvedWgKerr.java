@@ -43,7 +43,7 @@ public class CurvedWgKerr {
 		lambdaNm = inputLambda.getWavelengthNm() ;
 		k0 = 2*Math.PI/(lambdaNm*1e-9) ; 
 		alphaCurve = wgProp.getBendLossModel().getLossPerMeter(radiusOfCurvatureMicron); // per meter
-		Iin = (pin_mW*1e-3)/(wgProp.getCrossSectionAreaMeterSquare()) ; // input intensity of the optical mode
+		Iin = pin_mW*1e-3 / wgProp.getCrossSectionAreaMeterSquare(); // input intensity of the optical mode
 		alphaKerr = betaTPA * Iin ; // per meter
 	}
 	//************************************************************************************
@@ -66,7 +66,7 @@ public class CurvedWgKerr {
 		lambdaNm = inputLambda.getWavelengthNm() ;
 		k0 = 2*Math.PI/(lambdaNm*1e-9) ; 
 		alphaCurve = wgProp.getBendLossModel().getLossPerMeter(radiusOfCurvatureMicron); // per meter
-		Iin = (pin_mW*1e-3)/(wgProp.getCrossSectionAreaMeterSquare()) ; // input intensity of the optical mode
+		Iin = pin_mW*1e-3 / wgProp.getCrossSectionAreaMeterSquare(); // input intensity of the optical mode
 		alphaKerr = betaTPA * Iin ; // per meter
 		
 	}
@@ -93,7 +93,7 @@ public class CurvedWgKerr {
 	}
 	
 	public double getDnSiKerr(){
-		return (n2*Iin) ;
+		return n2*Iin;
 	}
 	
 	public double getDnEffKerr(){

@@ -85,8 +85,8 @@ public class MNDBasedProvider extends AbstractTopologyProvider {
 		case NO_CHANGE:
 			return;
 		case UNDIR_CHANGE_TO_CANONICAL:
-			LinkedList<LinkContainer> toFlip = new LinkedList<LinkContainer>();
-			LinkedList<AbstractElementContainer> toRemove = new LinkedList<AbstractElementContainer>();
+			LinkedList<LinkContainer> toFlip = new LinkedList<>();
+			LinkedList<AbstractElementContainer> toRemove = new LinkedList<>();
 			for (LinkContainer lc : layC.getLinkContainers()) {
 				if (lc.getStartNodeIndex() > lc.getEndNodeIndex()) {
 					if (layC.getLinkContainer(lc.getEndNodeIndex(), lc.getStartNodeIndex()) != null) {
@@ -105,7 +105,7 @@ public class MNDBasedProvider extends AbstractTopologyProvider {
 
 			return;
 		case UNDIR_REMOVE_NON_CANONICAL:
-			toRemove = new LinkedList<AbstractElementContainer>();
+			toRemove = new LinkedList<>();
 			for (LinkContainer lc : layC.getLinkContainers()) {
 				if (lc.getStartNodeIndex() > lc.getEndNodeIndex()) {
 					toRemove.add(lc);
@@ -141,7 +141,7 @@ public class MNDBasedProvider extends AbstractTopologyProvider {
 	 */
 	@Override
 	public Map<String,String> getAllParameters() {
-		HashMap<String,String> params = new HashMap<String, String>();
+		HashMap<String,String> params = new HashMap<>();
 		params.put("topology_provided_by", "file");
 		params.put("file",fileName);
 		return params;

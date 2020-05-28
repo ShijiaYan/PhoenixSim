@@ -80,28 +80,28 @@ extends Random {
 	protected int next(int bits) {
 		++n4TapJ;
 		fourTapBuffer[n4TapJ & TAP4M] =
-			fourTapBuffer[(n4TapJ - TAP4A) & TAP4M]
-			              ^ fourTapBuffer[(n4TapJ - TAP4B) & TAP4M]
-			                              ^ fourTapBuffer[(n4TapJ - TAP4C) & TAP4M]
-			                                              ^ fourTapBuffer[(n4TapJ - TAP4D) & TAP4M];
-		return fourTapBuffer[n4TapJ & TAP4M] >>> (32 - bits);
+			fourTapBuffer[n4TapJ - TAP4A & TAP4M]
+			              ^ fourTapBuffer[n4TapJ - TAP4B & TAP4M]
+			                              ^ fourTapBuffer[n4TapJ - TAP4C & TAP4M]
+			                                              ^ fourTapBuffer[n4TapJ - TAP4D & TAP4M];
+		return fourTapBuffer[n4TapJ & TAP4M] >>> 32 - bits;
 	}
 
 	public void setStateInt(int[][] state) {
 		fourTapBuffer = state[0];
 		long sum = 0;
-		for (int i = 0; i < fourTapBuffer.length ; i++) {
-			sum+=fourTapBuffer[i];
-		}
+        for (int value : fourTapBuffer) {
+            sum += value;
+        }
 		System.out.println("State sum 2 : " + sum);
 		n4TapJ = state[1][0];
 	}
 
 	public int[][] getStateInt() {
 		long sum = 0;
-		for (int i = 0; i < fourTapBuffer.length ; i++) {
-			sum+=fourTapBuffer[i];
-		}
+        for (int value : fourTapBuffer) {
+            sum += value;
+        }
 		System.out.println("State sum : " + sum);
 		return new int[][]{fourTapBuffer, new int[]{n4TapJ}};
 	}

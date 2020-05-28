@@ -36,7 +36,7 @@ public class GraphicalNetworkDisplayer extends JComponent implements ComponentLi
 	}	
 
 	public void updateViewSize(ComponentEvent e) {
-		java.awt.Rectangle rect = (e.getComponent()).getBounds();
+		java.awt.Rectangle rect = e.getComponent().getBounds();
 		aGui.setBestFit(rect.getSize());
 		this.setPreferredSize(rect.getSize());
 	}

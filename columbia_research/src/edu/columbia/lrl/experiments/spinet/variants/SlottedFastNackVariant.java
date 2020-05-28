@@ -31,7 +31,7 @@ public class SlottedFastNackVariant extends FastNackVariant {
 	
 	@Override
 	public  Map<String,String> getVariantSpecificParameters() {
-		SimpleMap<String, String> map = new SimpleMap<String, String>(1);
+		SimpleMap<String, String> map = new SimpleMap<>(1);
 		map.put("slot duration", slotDuration+"");
 		return map;
 	}

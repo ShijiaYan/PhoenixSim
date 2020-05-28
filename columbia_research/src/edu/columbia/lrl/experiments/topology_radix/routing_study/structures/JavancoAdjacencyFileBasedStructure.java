@@ -13,7 +13,7 @@ public class JavancoAdjacencyFileBasedStructure extends
 	private JavancoAdjacencyFileBasedStructure singleton = null;
 	
 	private static HashMap<String, JavancoAdjacencyFileBasedStructure> map = new
-			HashMap<String, JavancoAdjacencyFileBasedStructure>();
+            HashMap<>();
 	
 	private void initSingleton(String path) {
 		singleton = map.get(dir+"/"+file);

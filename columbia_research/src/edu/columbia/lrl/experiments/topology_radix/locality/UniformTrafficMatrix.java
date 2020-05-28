@@ -42,14 +42,14 @@ public class UniformTrafficMatrix extends AbstractTrafficMatrix {
 				inRange = true;
 			}
 		} else {
-			if ((startDest + range - 1) - clients >= src) {
+			if (startDest + range - 1 - clients >= src) {
 				inRange = true;
 			}
 		}
 		if (inRange) {
-			return (normLoad/(double)(clients-1))*(range-1);
+			return (normLoad/(double)(clients-1)) *(range-1);
 		} else {
-			return (normLoad/(double)(clients-1))*range;
+			return (normLoad/(double)(clients-1)) *range;
 		}
 	}
 	

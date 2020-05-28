@@ -16,7 +16,7 @@ import ch.epfl.javanco.base.Javanco;
 
 public class TopogenTest {
 	
-	public static void main(String args[]) throws Exception {
+	public static void main(String[] args) throws Exception {
 		TopogenTest test = new TopogenTest();
 		test.testTesselisation();
 	}	

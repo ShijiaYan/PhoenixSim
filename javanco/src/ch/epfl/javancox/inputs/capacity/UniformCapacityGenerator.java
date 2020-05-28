@@ -23,7 +23,7 @@ public class UniformCapacityGenerator extends AbstractCapacityProvider {
 
 	@Override
 	public Map<String, String> getCapacityProviderParameters() {
-		Map<String, String> map = new TreeMap<String, String>();
+		Map<String, String> map = new TreeMap<>();
 		map.put("capacity",capacity+"");
 		return map;
 	}

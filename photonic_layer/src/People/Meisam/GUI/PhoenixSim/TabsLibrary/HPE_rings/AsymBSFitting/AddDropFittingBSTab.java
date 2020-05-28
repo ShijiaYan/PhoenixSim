@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class AddDropFittingBSTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/AsymBSFitting/add_drop_fitting_bs_tab.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/AsymBSFitting/add_drop_fitting_bs_tab.fxml")) ;
 	AddDropFittingBSTabController controller ;
 
 	public AddDropFittingBSTab(SimulationDataBase simDataBase){

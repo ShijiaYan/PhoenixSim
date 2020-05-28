@@ -97,7 +97,7 @@ public class DimensionBasedGenerator extends
 	}
 	
 	public ArrayList<HPCDesignPoint> getDesignPoints(AbstractNormalisedTrafficVectorGenerator localityVec) {
-		ArrayList<HPCDesignPoint> list = new ArrayList<HPCDesignPoint>();
+		ArrayList<HPCDesignPoint> list = new ArrayList<>();
 		if (radix >= totalDesiredClients) {
 			Map<String, String> map;
 			if (type.equals(TYPE.FBUT)) {
@@ -136,7 +136,7 @@ public class DimensionBasedGenerator extends
 		int[] nodeDistances = extendDistances(d, M, totalDesiredClients);
 		if (nodeDistances.length != totalDesiredClients) throw new IllegalStateException();
 		
-		StatisticalDistribution<Integer> statisticalDistribution = new StatisticalDistribution<Integer>(10, 0, 10);
+		StatisticalDistribution<Integer> statisticalDistribution = new StatisticalDistribution<>(10, 0, 10);
 		statisticalDistribution.add(MoreArrays.toIntegerArray(nodeDistances));
 		
 		double[] l = localityVec.getVector(0, nodeDistances.length);
@@ -148,7 +148,7 @@ public class DimensionBasedGenerator extends
 		}
 		double loadSum = MoreArrays.sum(l);
 		int linksPerCrossing = D*m;
-		double maxLoad = Math.min(1, ((double)linksPerCrossing)/(alpha*M));
+		double maxLoad = Math.min(1, (double)linksPerCrossing /(alpha*M));
 		double averageTopologicalHops = totalHops / (nodeDistances.length - 1);
 		double averageTrafficHops = alpha / loadSum;
 		if (desc.getDesc().equals("[2, 2, 2]") && averageTrafficHops < 4) {
@@ -156,7 +156,7 @@ public class DimensionBasedGenerator extends
 		}
 
 		
-		return new HPCDesignPoint(radix, d.length, nodeDistances.length, maxLoad, (linksPerCrossing*d.length/2) + nodeDistances.length, m, M, averageTrafficHops, averageTopologicalHops, desc.getDesc(), desc.getAllParameters());	
+		return new HPCDesignPoint(radix, d.length, nodeDistances.length, maxLoad, linksPerCrossing*d.length/2 + nodeDistances.length, m, M, averageTrafficHops, averageTopologicalHops, desc.getDesc(), desc.getAllParameters());
 	}
 	
 	public static int[] extendDistances(int[] d2, int m, int totalSize) {
@@ -174,18 +174,18 @@ public class DimensionBasedGenerator extends
 
 		int extensionsPerSwitch = MoreMaths.ceilDiv(totalSize - m, d2.length - 1);
 		int i = 0;
-		for (int j = 0 ; j < d2.length ; j++) {
-			if (i == totalSize) break;
-			for (int k = 0 ; k < extensionsPerSwitch ; k++) {
-				if (i == totalSize) {
-					break;
-				}
-				x[i] = d2[j] +1;
-				i++;
-			}
-		}
+        for (int value : d2) {
+            if (i == totalSize) break;
+            for (int k = 0; k < extensionsPerSwitch; k++) {
+                if (i == totalSize) {
+                    break;
+                }
+                x[i] = value + 1;
+                i++;
+            }
+        }
 		x[localIndex] = 0;
-		int groupStart = (localIndex / m)*m;
+		int groupStart = (localIndex / m) *m;
 		for (i = groupStart ; i < groupStart + Math.min(m, totalSize) ; i++) {
 			if (i != localIndex)
 				x[i] = 1;
@@ -243,7 +243,7 @@ public class DimensionBasedGenerator extends
 
 				@Override
 				public boolean hasNext() {
-					return (index < possibleDimensions.length);
+					return index < possibleDimensions.length;
 				}
 
 				@Override

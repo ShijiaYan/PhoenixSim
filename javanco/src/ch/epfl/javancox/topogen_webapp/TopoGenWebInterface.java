@@ -119,7 +119,7 @@ public class TopoGenWebInterface extends AbstractService {
 	 */
 	private static final Logger logger = new Logger(TopoGenWebInterface.class);
 
-	private ArrayList<GeneratorProxy> proxies = new ArrayList<GeneratorProxy>();
+	private ArrayList<GeneratorProxy> proxies = new ArrayList<>();
 	
 	
 	private static GraphPropertiesFormatter formatter = new GraphPropertiesFormatter();	
@@ -134,11 +134,11 @@ public class TopoGenWebInterface extends AbstractService {
 			System.exit(0);
 		}
 		Javanco.initJavancoUnsafe();
-		List<String> prefixes = (List<String>)java.util.Arrays.asList(args);
-		ClassLister<PrimitiveTypeGeneratorStub> cl = new ClassLister<PrimitiveTypeGeneratorStub>(prefixes, PrimitiveTypeGeneratorStub.class);
+		List<String> prefixes = java.util.Arrays.asList(args);
+		ClassLister<PrimitiveTypeGeneratorStub> cl = new ClassLister<>(prefixes, PrimitiveTypeGeneratorStub.class);
 		try {
 			FileWriter fw = new FileWriter(TOPOGEN_PROPERTIES_FILE);
-			ArrayList<String> genList = new ArrayList<String>();
+			ArrayList<String> genList = new ArrayList<>();
 			for (Class<PrimitiveTypeGeneratorStub> c : cl.getSortedClasses()) {
 				genList.add(c.getName() + "\r\n");
 			}			
@@ -156,14 +156,14 @@ public class TopoGenWebInterface extends AbstractService {
 	public TopoGenWebInterface(Context context) throws Exception {
 		super(context);
 		try {
-			ClassLister<PrimitiveTypeGeneratorStub> cl = new ClassLister<PrimitiveTypeGeneratorStub>(
-					Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), PrimitiveTypeGeneratorStub.class);
+			ClassLister<PrimitiveTypeGeneratorStub> cl = new ClassLister<>(
+                    Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), PrimitiveTypeGeneratorStub.class);
 			for (Class<PrimitiveTypeGeneratorStub> c : cl.getSortedClasses()) {
 				registerGenerator(c);
 			}
 		}
 		catch (Error e) {
-			URL url = JavancoFile.findRessource(TOPOGEN_PROPERTIES_FILE);
+			URL url = JavancoFile.findResource(TOPOGEN_PROPERTIES_FILE);
 			BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
 			String line;
 			while ((line = read.readLine()) != null) {
@@ -181,14 +181,14 @@ public class TopoGenWebInterface extends AbstractService {
 		GeneratorProxy proxy = new GeneratorProxy();
 		proxy.gen = (PrimitiveTypeGeneratorStub)c.getConstructor(new Class[]{}).newInstance(new Object[]{});
 		proxy.generatorName = proxy.gen.getClass().getSimpleName();
-		ArrayList<Method> met = new ArrayList<Method>();
+		ArrayList<Method> met = new ArrayList<>();
 		for (Method m : c.getMethods()) {
 			if (m.getAnnotation(MethodDef.class) != null) {
 				logger.debug("Found method " + m.getName());
 				met.add(m);
 			}
 		}
-		proxy.methods = new ArrayList<Method>(met);
+		proxy.methods = new ArrayList<>(met);
 		proxies.add(proxy);
 	}
 
@@ -245,7 +245,7 @@ public class TopoGenWebInterface extends AbstractService {
 				Class[] paramTypes = m.getParameterTypes();
 				for (int i = 1 ; i < paramNumber ; i++) {
 					if (paramTypes[i].equals(String.class)) {
-						params[i] = (String)list.get(i+"");
+						params[i] = list.get(i+"");
 					} else if (paramTypes[i].equals(Integer.TYPE)) {
 						params[i] = new Integer((String)list.get(i+""));
 					} else if (paramTypes[i].equals(Boolean.TYPE)) {
@@ -255,7 +255,7 @@ public class TopoGenWebInterface extends AbstractService {
 					}
 				}
 				logger.info("Generating a new topology with generator " + m.getDeclaringClass().getSimpleName() + " and method " + m.getName());
-				PrimitiveTypeGeneratorStub gen = (PrimitiveTypeGeneratorStub)(m.getDeclaringClass().newInstance());
+				PrimitiveTypeGeneratorStub gen = (PrimitiveTypeGeneratorStub) m.getDeclaringClass().newInstance();
 				String s = (String)m.invoke(gen,params);
 				if (s != null) {
 					resp.set("Content-Type", "text/html");				
@@ -266,7 +266,7 @@ public class TopoGenWebInterface extends AbstractService {
 					ow.flush();
 				} else {
 	
-					gen.setLengths(((AbstractGraphHandler)params[0]));
+					gen.setLengths((AbstractGraphHandler)params[0]);
 		
 					setRespFormat(format, resp, m);
 					formatGraph(format, agh, resp.getOutputStream());

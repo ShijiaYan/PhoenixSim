@@ -60,21 +60,20 @@ public class FlatClientPoolManager extends AbstractPoolManager {
 		// skipping node 0, as it is the scheduler
 		
 		int[] possibilities = getSortedArrayOfTrials(action, fromAnode, false);
-		
-		for (int j = 0 ; j < possibilities.length ; j++) {
-			int i = possibilities[j];
-			if (i == 0) continue;
-			if (i == fromAnode) continue;
-			if (!assignments[i]) {
-				firstFree = i;
-				assignments[i] = true;
-				assigned++;
-				reservationBy[i] = fromAnode;
-				reservationStartTimes[i] = time;
-				reservationIds[i]++;
-				break;
-			}
-		}
+
+        for (int i : possibilities) {
+            if (i == 0) continue;
+            if (i == fromAnode) continue;
+            if (!assignments[i]) {
+                firstFree = i;
+                assignments[i] = true;
+                assigned++;
+                reservationBy[i] = fromAnode;
+                reservationStartTimes[i] = time;
+                reservationIds[i]++;
+                break;
+            }
+        }
 		return firstFree;
 	}
 	
@@ -96,7 +95,7 @@ public class FlatClientPoolManager extends AbstractPoolManager {
 
 	@Override
 	public boolean isFullyFree() {
-		return (assigned == 0);
+		return assigned == 0;
 	}
 
 	@Override

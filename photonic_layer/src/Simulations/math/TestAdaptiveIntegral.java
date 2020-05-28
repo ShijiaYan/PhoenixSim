@@ -9,15 +9,10 @@ public class TestAdaptiveIntegral {
 		// TODO Auto-generated method stub
 
 		double x0 = 0, x1 = Math.PI/2 ;
-		IntegralFunction func = new IntegralFunction(){
-
-			@Override
-			public double function(double x) {
-				double y = Math.cos(x) ;
-				return y;
-			}
-
-		} ;
+		IntegralFunction func = x -> {
+            double y = Math.cos(x) ;
+            return y;
+        };
 		AdaptiveIntegral adint = new AdaptiveIntegral(func, x0, x1) ;
 		System.out.println(adint.getIntegral());
 	}

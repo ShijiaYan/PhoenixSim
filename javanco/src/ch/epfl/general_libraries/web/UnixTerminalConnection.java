@@ -215,7 +215,7 @@ public class UnixTerminalConnection {
 		StringBuilder sb = new StringBuilder();
 		long time = System.nanoTime();
 		long timeOut = 30000000000l; //  3sec
-		while (this.prompt == null && (System.nanoTime() - time) < timeOut) {
+		while (this.prompt == null && System.nanoTime() - time < timeOut) {
 			while(inReader.ready()) {
 				char c = (char)inReader.read();
 				if (c == '\r') {

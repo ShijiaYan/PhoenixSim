@@ -18,7 +18,7 @@ public class SocketDisplayer {
 					InputStream is = socket.getInputStream();
 				    byte[] buf=new byte[1024];
 				    int count=-1;		
-					while(((count=is.read(buf))>0)) {
+					while((count=is.read(buf))>0) {
 						System.out.write(buf,0,count);
 					}
 					is.close();		

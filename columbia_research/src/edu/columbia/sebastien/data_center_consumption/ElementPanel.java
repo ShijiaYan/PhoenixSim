@@ -582,7 +582,7 @@ abstract class ElementPanel {
 
 	private MyJTextField _YsetAverageFromPassiveProporUtilization() {
 		double top = (1 - getProportionality() + getSubUtil()*getProportionality())*getPassiveConsumption();
-		double down = (1 - getProportionality());
+		double down = 1 - getProportionality();
 		return setAverageConsumption(top/down);
 	}
 
@@ -764,7 +764,7 @@ abstract class ElementPanel {
 	private MyJTextField _XsetAverageFromActiveProporUtilization() {
 		if (hasActiveConsumption() && hasProportionality() && hasSubUtilization()) {
 			double ppa = getActiveConsumption()*getProportionality();
-			double pow = getActiveConsumption() - ppa + (getSubUtil()*ppa);
+			double pow = getActiveConsumption() - ppa + getSubUtil()*ppa;
 			return setAverageConsumption(pow);
 		}
 		return null;
@@ -773,7 +773,7 @@ abstract class ElementPanel {
 	private MyJTextField _XsetProporFromActiveAverageUtil() {
 		if (hasAverageConsumption() && hasActiveConsumption() && hasSubUtilization()) {
 			double up = getAverageConsumption() - getActiveConsumption();
-			double down = (getSubUtil()*getActiveConsumption()) - getActiveConsumption();
+			double down = getSubUtil()*getActiveConsumption() - getActiveConsumption();
 			return setProportionality(up/down);
 		}
 		return null;
@@ -782,7 +782,7 @@ abstract class ElementPanel {
 	private MyJTextField _2setPassiveFromActiveAverageUtil() {
 		if (hasProportionality() && hasActiveConsumption() && hasSubUtilization()) {
 			double up = getProportionality() - getActiveConsumption()*getSubUtil();
-			double down = (1 - getSubUtil());
+			double down = 1 - getSubUtil();
 			return setPassiveCon(up/down);
 		}
 		return null;
@@ -791,7 +791,7 @@ abstract class ElementPanel {
 	private MyJTextField _2setActiveFromPassiveAverageUtil() {
 		if (hasPassiveConsumption() && hasSubUtilization() && hasAverageConsumption()) {
 			double passive = getPassiveConsumption();
-			double top = getAverageConsumption() - passive + (getSubUtil()/passive);
+			double top = getAverageConsumption() - passive + getSubUtil()/passive;
 			return setActiveCons(top/getSubUtil());
 		}
 		return null;
@@ -1021,13 +1021,7 @@ abstract class ElementPanel {
 				}
 			}
 		});
-		partInOverall.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent arg0) {
-				partInNumber.setText(partInOverall.getValue()/100d+"");
-			}
-		});
+		partInOverall.addChangeListener(arg0 -> partInNumber.setText(partInOverall.getValue()/100d+""));
 		p.add(partInOverall, c);
 		
 		partInNumber.setEditable(false);
@@ -1056,12 +1050,7 @@ abstract class ElementPanel {
 		c.gridx++;
 		p.add(cal, c);
 		
-		cal.addActionListener(new ActionListener() {		
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				calculate();
-			}
-		});
+		cal.addActionListener(arg0 -> calculate());
 		
 		c.gridx++;
 		JLabel cpuL = new JLabel(getSpecificMetric());

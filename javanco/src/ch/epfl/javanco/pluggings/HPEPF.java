@@ -37,7 +37,7 @@ public class HPEPF extends JavancoTool {
 				
 				for (int col = 0 ; col < column ; col++) {
 					for (int row = 0 ; row < rowPerColumn ; row++) {
-						ArrayList<NodeContainer> routersOfrow = new ArrayList<NodeContainer>();
+						ArrayList<NodeContainer> routersOfrow = new ArrayList<>();
 						row(agh, xOffset, yOffset, routersOfrow);
 					}
 				}
@@ -56,10 +56,10 @@ public class HPEPF extends JavancoTool {
 	
 	private Dimension row(AbstractGraphHandler agh, int xOffset, int yOffset, ArrayList<NodeContainer> routers) {
 		Dimension finalDim = new Dimension();
-		ArrayList<ArrayList<NodeContainer>> routerArray = new ArrayList<ArrayList<NodeContainer>>();
+		ArrayList<ArrayList<NodeContainer>> routerArray = new ArrayList<>();
 		int localXOffset = xOffset;
 		for (int su = 0 ; su < SUperRow ; su++) {					
-			ArrayList<NodeContainer> routersOfSU = new ArrayList<NodeContainer>();
+			ArrayList<NodeContainer> routersOfSU = new ArrayList<>();
 			Dimension dim = superUnit(agh, localXOffset, yOffset, routersOfSU);
 			finalDim.height = dim.height;
 			finalDim.width = (int)((double)SUperRow*(double)dim.width*1.2);
@@ -67,11 +67,11 @@ public class HPEPF extends JavancoTool {
 			routerArray.add(routersOfSU);
 		}
 		for (int i = 0 ; i < routerArray.get(0).size() ; i++) {
-			ArrayList<NodeContainer> group = new ArrayList<NodeContainer>();
-			for (int j = 0 ; j < routerArray.size() ; j++) {
-				group.add(routerArray.get(j).get(i));
-				routers.add(routerArray.get(j).get(i));
-			}
+			ArrayList<NodeContainer> group = new ArrayList<>();
+            for (ArrayList<NodeContainer> nodeContainers : routerArray) {
+                group.add(nodeContainers.get(i));
+                routers.add(nodeContainers.get(i));
+            }
 			ArrayList<LinkContainer> links = agh.connectAll(group);
 			for (LinkContainer l : links) {
 				l.attribute("link_curve_start").setValue("30");
@@ -85,19 +85,19 @@ public class HPEPF extends JavancoTool {
 	
 	private Dimension superUnit(AbstractGraphHandler agh, int xOffset, int yOffset, ArrayList<NodeContainer> routers) {
 		Dimension finalDim = new Dimension();
-		ArrayList<ArrayList<NodeContainer>> routerArray = new ArrayList<ArrayList<NodeContainer>>();
+		ArrayList<ArrayList<NodeContainer>> routerArray = new ArrayList<>();
 		for (int cha = 0 ; cha < chassisPerSU ; cha++) {
-			ArrayList<NodeContainer> routersOfChassis = new ArrayList<NodeContainer>();
-			Dimension dim = chassis(agh, xOffset, yOffset+(cha*chassisHeight*2), routersOfChassis);
+			ArrayList<NodeContainer> routersOfChassis = new ArrayList<>();
+			Dimension dim = chassis(agh, xOffset, yOffset+ cha*chassisHeight*2, routersOfChassis);
 			finalDim.width = dim.width;
 			routerArray.add(routersOfChassis);
 		}	
 		for (int i = 0 ; i < routerArray.get(0).size() ; i++) {
-			ArrayList<NodeContainer> group = new ArrayList<NodeContainer>();
-			for (int j = 0 ; j < routerArray.size() ; j++) {
-				group.add(routerArray.get(j).get(i));
-				routers.add(routerArray.get(j).get(i));
-			}
+			ArrayList<NodeContainer> group = new ArrayList<>();
+            for (ArrayList<NodeContainer> nodeContainers : routerArray) {
+                group.add(nodeContainers.get(i));
+                routers.add(nodeContainers.get(i));
+            }
 			ArrayList<LinkContainer> links = agh.connectAll(group);
 			for (LinkContainer l : links) {
 				l.attribute("link_curve_start").setValue("-30");
@@ -119,7 +119,7 @@ public class HPEPF extends JavancoTool {
 		}
 		localXoffset = xOffset;
 		for (int tray = 0 ; tray < trayPerChassis ; tray++) {
-			ArrayList<NodeContainer> sockets = new ArrayList<NodeContainer>();
+			ArrayList<NodeContainer> sockets = new ArrayList<>();
 			for (int socket = 0; socket < socketPerTray ; socket++) {
 				int xNeg = -socketSpacing*(socketPerTray-1)/2;
 				NodeContainer nc2 = agh.newNode(localXoffset + xNeg + socketSpacing*socket, yOffset + chassisHeight);
@@ -127,7 +127,7 @@ public class HPEPF extends JavancoTool {
 				nc2.attribute("node_size").setValue("24");
 				nc2.attribute("node_color").setValue("150, 150, 150");
 				for (int k = 0 ; k < MoreMaths.ceilDiv(trayPerChassis, socketPerTray); k++) {
-					LinkContainer lc = agh.newLink(nc2, routers.get((socket + (k*socketPerTray)) % (routers.size())));
+					LinkContainer lc = agh.newLink(nc2, routers.get((socket + k*socketPerTray) % routers.size()));
 					lc.attribute("link_color").setValue("0,0,200");
 				}
 			}

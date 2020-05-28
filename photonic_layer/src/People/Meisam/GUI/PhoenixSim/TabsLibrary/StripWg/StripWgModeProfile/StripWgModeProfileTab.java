@@ -11,7 +11,7 @@ import javafx.scene.control.Tab;
 
 public class StripWgModeProfileTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/StripWg/StripWgModeProfile/strip_wg_mode_profile.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/StripWg/StripWgModeProfile/strip_wg_mode_profile.fxml")) ; ;
 	StripWgModeProfileTabController controller ;
 
 	public StripWgModeProfileTab(SimulationDataBase simDataBase){

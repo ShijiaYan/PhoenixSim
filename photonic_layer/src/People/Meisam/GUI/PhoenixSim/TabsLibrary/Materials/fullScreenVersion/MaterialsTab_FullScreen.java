@@ -11,7 +11,7 @@ import javafx.scene.control.Tab;
 
 public class MaterialsTab_FullScreen extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Materials/fullScreenVersion/materials_fullscreen.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Materials/fullScreenVersion/materials_fullscreen.fxml")) ;
 	MaterialsTabController controller ;
 
 	public MaterialsTab_FullScreen(SimulationDataBase simDataBase){

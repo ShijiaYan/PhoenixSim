@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<TabPane fx:id="DemofabTabPane" prefHeight="700.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="People.Meisam.GUI.PhoenixSim.TabsLibrary.ExtensionOptSim.DemofabTab.DemofabTabController">
+   <tabs>
+      <Tab fx:id="DemofabTab" text="Demofab receiver">
+         <content>
+            <HBox nodeOrientation="LEFT_TO_RIGHT">
+               <children>
+                  <Pane nodeOrientation="LEFT_TO_RIGHT" prefWidth="344.0">
+                     <children>
+                        <Text layoutX="20.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Receiver - Demofab" wrappingWidth="257.791015625">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                        <Separator layoutX="30.0" layoutY="460.0" prefHeight="10.0" prefWidth="280.0" />
+                        <Separator layoutY="190.0" prefHeight="10.0" prefWidth="344.0" />
+                        <Pane layoutX="20.0" layoutY="280.0" prefHeight="30.0" prefWidth="301.0">
+                           <children>
+                              <Label layoutX="10.0" prefHeight="18.0" prefWidth="128.0" text="Channel Number">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="channelNumber" layoutX="130.0" prefHeight="26.0" prefWidth="118.0" />
+                              <Button fx:id="setChannelNumberButton" layoutX="257.0" mnemonicParsing="false" onAction="#setChannelNumber" text="Set">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="20.0" layoutY="340.0" prefHeight="30.0" prefWidth="280.0">
+                           <children>
+                              <Label layoutX="10.0" text="Component">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Label>
+                              <ComboBox fx:id="ComponentComboBox" layoutX="130.0" onAction="#setIndexComboBox" prefHeight="23.0" prefWidth="161.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="20.0" layoutY="400.0" prefHeight="60.0" prefWidth="300.0">
+                           <children>
+                              <Label layoutX="10.0" prefHeight="18.0" prefWidth="104.0" text="Index">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="ComponentIndexComboBox" layoutX="130.0" onAction="#setComponentInTable" prefHeight="23.0" prefWidth="161.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="20.0" layoutY="520.0" prefHeight="60.0" prefWidth="300.0">
+                           <children>
+                              <Label layoutX="10.0" prefHeight="18.0" prefWidth="104.0" text="Gen Pathway">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="pathwayField" layoutX="130.0" prefWidth="160.0" />
+                              <Button fx:id="chooseFileButton" layoutX="145.0" layoutY="30.0" mnemonicParsing="false" onAction="#chooseFilePathway" text="Choose" />
+                              <Button fx:id="setPathwayButton" layoutX="230.0" layoutY="30.0" mnemonicParsing="false" onAction="#setFilePathway" text="SetPath">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button fx:id="setWorkgroupButton" layoutX="23.0" layoutY="30.0" mnemonicParsing="false" onAction="#setOptSimWorkgroupDir" text="SetWorkgroup" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="20.0" layoutY="600.0" prefHeight="30.0" prefWidth="300.0">
+                           <children>
+                              <Button fx:id="generateCompoundComponentButton" layoutX="245.0" mnemonicParsing="false" onAction="#generateCC" text="GDS" />
+                              <Button fx:id="generateFileButton" mnemonicParsing="false" onAction="#generateFile" text="OptSim-Proj" />
+                              <Button fx:id="runFileButton" layoutX="120.0" mnemonicParsing="false" onAction="#runFile" text="OptSim-CC" />
+                           </children>
+                        </Pane>
+                        <ImageView fx:id="imageView" fitHeight="110.0" fitWidth="328.0" layoutX="8.0" layoutY="61.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@ringDemux.png" />
+                           </image></ImageView>
+                        <Text layoutX="20.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Setting">
+                           <font>
+                              <Font name="System Bold Italic" size="16.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="20.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Generation">
+                           <font>
+                              <Font name="System Bold Italic" size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="pathwayText" layoutX="34.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="pathText" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Pane>
+                  <Pane fx:id="plotPane" nodeOrientation="LEFT_TO_RIGHT" prefWidth="556.0">
+                     <children>
+                        <Pane layoutX="40.0" layoutY="410.0" />
+                        <Separator layoutY="450.0" prefWidth="556.0" />
+                        <TableView fx:id="table" editable="true" layoutX="107.0" layoutY="50.0" prefHeight="367.0" prefWidth="300.0" tableMenuButtonVisible="true">
+                          <columns>
+                            <TableColumn fx:id="propertyColumn" prefWidth="148.80001831054688" text="property" />
+                            <TableColumn fx:id="valueColumn" prefWidth="143.20001220703125" text="value" />
+                          </columns>
+                        </TableView>
+                        <Separator orientation="VERTICAL" prefHeight="672.0" prefWidth="0.0" />
+                        <Text layoutX="20.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parameter Table">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Text>
+                        <TableView fx:id="calculationTable" layoutX="107.0" layoutY="470.0" prefHeight="200.0" prefWidth="298.0">
+                          <columns>
+                            <TableColumn fx:id="wavelengthColumn" prefWidth="143.20001220703125" text="wavelength(um)" />
+                            <TableColumn fx:id="ppColumn" minWidth="7.20001220703125" prefWidth="153.20001220703125" text="power penalty(dB)" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="ppCalculationButton" layoutX="440.0" layoutY="481.0" mnemonicParsing="false" onAction="#calculatePP" text="Penalty" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>

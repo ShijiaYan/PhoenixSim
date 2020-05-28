@@ -24,7 +24,7 @@ public class ModeSlabWgTE_old {
 			@ParamName(name="up index") double n_u
 			){
 		this.V = V ;
-		this.lambdaNm = (2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d))/V ;
+		this.lambdaNm = 2*Math.PI*widthNm*Math.sqrt(n_c*n_c-n_d*n_d) /V ;
 		this.widthNm = widthNm ;
 		this.n_core = n_c ;
 		this.n_down = n_d ;

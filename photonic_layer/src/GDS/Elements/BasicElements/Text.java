@@ -59,15 +59,16 @@ public class Text extends AbstractElement {
 		String st2 = "## ---------------------------------------- ##" ;
 		String[] args = {st0, st1, st2} ;
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			String st3 = objectName + " = gdspy.Text(" + "'" + text + "'" + "," + size + "," + "position=" + P.getString() + "," + "horizontal=" + isHorizontal + "," + "angle=" + 
-							orientationAngleRad + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")" ;
-			String st4 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st3, st4}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st3 =
+                    objectName + " = gdspy.Text(" + "'" + text + "'" + "," + size + "," + "position=" + P.getString() + "," + "horizontal=" + isHorizontal + "," + "angle=" +
+                    orientationAngleRad + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")";
+            String st4 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st3, st4});
+        }
 		return args;
 	}
 	
@@ -75,15 +76,16 @@ public class Text extends AbstractElement {
 	public String[] getPythonCode_no_header(String fileName, String topCellName) {
 		String[] args = new String[0] ;
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			String st3 = objectName + " = gdspy.Text(" + "'" + text + "'" + "," + size + "," + "position=" + P.getString() + "," + "horizontal=" + isHorizontal + "," + "angle=" + 
-							orientationAngleRad + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")" ;
-			String st4 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st3, st4}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st3 =
+                    objectName + " = gdspy.Text(" + "'" + text + "'" + "," + size + "," + "position=" + P.getString() + "," + "horizontal=" + isHorizontal + "," + "angle=" +
+                    orientationAngleRad + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")";
+            String st4 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st3, st4});
+        }
 		return args;
 	}
 

@@ -118,7 +118,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 			}
 		}
 		decisions[inputs-1][inputs-1] = 0;
-		for (int k = inputs ; k < (inputs*inputs)-2 ; k++) {
+		for (int k = inputs; k < inputs*inputs -2 ; k++) {
 			int i = k % inputs;
 			for (int j = 0 ; j < inputs ; j++) {		
 				if (i == j) {
@@ -136,7 +136,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public ArrayList<Integer>  getInputNodesIndexes() {
-		ArrayList<Integer>  answer = new ArrayList<Integer>();
+		ArrayList<Integer>  answer = new ArrayList<>();
 		for (int i = 0 ; i < inputs ; i++) {
 			answer.add(inputs*inputs - 1 + i);
 		}
@@ -145,7 +145,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public ArrayList<Integer> getOutputNodesIndexes() {
-		ArrayList<Integer>  answer = new ArrayList<Integer>();
+		ArrayList<Integer>  answer = new ArrayList<>();
 		for (int i = 0 ; i < inputs ; i++) {
 			answer.add(inputs*inputs - 1 + inputs + i);
 		}
@@ -155,7 +155,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public ArrayList<Integer> getSwitchingNodesIndexes() {
-		ArrayList<Integer> answer = new ArrayList<Integer>();
+		ArrayList<Integer> answer = new ArrayList<>();
 		for (int i = 0 ; i < getNumberOfNodes() ; i++) {
 			answer.add(i);
 		}
@@ -170,7 +170,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public int getNumberOfNodes() {
-		return (inputs*inputs)-1;
+		return inputs*inputs -1;
 	}	
 
 	@Override
@@ -179,7 +179,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 		for (int j = 0 ; j < inputs ; j++) {
 			for (int i = 0 ; i < inputs ; i++) {
 				if (i != j || i < inputs-1) {
-					NodeContainer nc = agh.newNode(i*100-(50*j), j*100);
+					NodeContainer nc = agh.newNode(i*100- 50*j, j*100);
 					if (j == inputs -1) {
 						nc.attribute("type").setValue(TYPE_1x2);
 					} else if (i == inputs - 1) {
@@ -194,7 +194,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 		for (int i = 0 ; i < inputs -1 ; i++) {
 			for (int j = 0 ; j < inputs ; j++) {
 				if (j != inputs - 1 || i < inputs - 2) {
-					agh.newLink(i+(inputs*j), i+(inputs*j)+1).attribute("directed").setValue("true");
+					agh.newLink(i+ inputs*j, i+ inputs*j +1).attribute("directed").setValue("true");
 				}
 			}
 		}
@@ -202,7 +202,7 @@ public class Crossbar extends AbstractSwitchArchitectureGenerator {
 		for (int i = 0 ; i < inputs ; i++) {
 			for (int j = 1 ; j < inputs ; j++) {
 				if (i < inputs - 1 || j < inputs -1) {
-					agh.newLink(i + (inputs*j), i + (inputs*(j-1))).attribute("directed").setValue("true");
+					agh.newLink(i + inputs*j, i + inputs*(j-1)).attribute("directed").setValue("true");
 				}
 			}
 		}

@@ -12,7 +12,7 @@ import ch.epfl.general_libraries.charts.Problem.Severity;
 public class ChartContainer {
 	private boolean multiple;
 	private JFreeChart chart;
-	private List<Problem> problems = new ArrayList<Problem>();
+	private List<Problem> problems = new ArrayList<>();
 	
 	// this reference is really ugly and should be removed in the future
 	// the chart has a pointer to the problem label, so this panel can be refreshed whenever problems are added	

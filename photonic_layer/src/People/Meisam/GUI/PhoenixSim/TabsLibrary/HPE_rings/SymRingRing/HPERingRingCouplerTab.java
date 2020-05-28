@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class HPERingRingCouplerTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/SymRingRing/hpe_ring_ring_symmetric.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/HPE_rings/SymRingRing/hpe_ring_ring_symmetric.fxml")) ; ;
 	HPERingRingCouplerTabController controller ;
 
 	public HPERingRingCouplerTab(SimulationDataBase simDataBase){

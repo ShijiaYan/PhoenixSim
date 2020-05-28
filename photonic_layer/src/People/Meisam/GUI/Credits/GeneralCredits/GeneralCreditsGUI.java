@@ -18,7 +18,7 @@ public class GeneralCreditsGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage ;
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/GeneralCredits/general_credits.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/GeneralCredits/general_credits.fxml")) ;
         Parent root = loader.load() ;
         Scene scene = new Scene(root) ;
         window.setScene(scene);

@@ -32,11 +32,7 @@ public class CoefficientComparableContainer<T, K extends Comparable<K>> implemen
 	}
 
 	public Comparator<CoefficientComparableContainer<T, K>> getParticularComparator(final Comparator<K> comp) {
-		return new Comparator<CoefficientComparableContainer<T,K>>() {
-			public int compare(CoefficientComparableContainer<T,K> c1, CoefficientComparableContainer<T,K> c2) {
-				return comp.compare(c1.coeff, c2.coeff);
-			}
-		};
+		return (c1, c2) -> comp.compare(c1.coeff, c2.coeff);
 	}
 
 

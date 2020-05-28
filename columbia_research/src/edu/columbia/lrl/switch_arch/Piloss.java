@@ -22,8 +22,8 @@ public class Piloss extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getInputNodesIndexes() {	
-		ArrayList<Integer> inputs = new ArrayList<Integer>();
-		int offset = (extra+nbNodes/2)*((nbNodes/2));
+		ArrayList<Integer> inputs = new ArrayList<>();
+		int offset = (extra+nbNodes/2)* (nbNodes/2);
 		for (int i = 0 ; i < nbNodes ; i++) {
 			inputs.add(i+offset);
 		}
@@ -32,8 +32,8 @@ public class Piloss extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getOutputNodesIndexes() {
-		ArrayList<Integer> outputs = new ArrayList<Integer>();
-		int offset = (extra+nbNodes/2)*((nbNodes/2)) + nbNodes;
+		ArrayList<Integer> outputs = new ArrayList<>();
+		int offset = (extra+nbNodes/2)* (nbNodes/2) + nbNodes;
 		for (int i = 0 ; i < nbNodes ; i++) {
 			outputs.add(i+offset);
 		}
@@ -42,8 +42,8 @@ public class Piloss extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getSwitchingNodesIndexes() {
-		ArrayList<Integer> ss = new ArrayList<Integer>();
-		int offset = (extra+nbNodes/2)*((nbNodes/2));
+		ArrayList<Integer> ss = new ArrayList<>();
+		int offset = (extra+nbNodes/2)* (nbNodes/2);
 		for (int i = 0 ; i < offset ; i++) {
 			ss.add(i);
 		}
@@ -69,7 +69,7 @@ public class Piloss extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public int getNumberOfLinksInvolved() {
-		return (nbNodes/2)*((extra+nbNodes/2)-1)*2;
+		return (nbNodes/2) *(extra+nbNodes/2 -1)*2;
 	}
 
 	@Override
@@ -90,9 +90,9 @@ public class Piloss extends AbstractSwitchArchitectureGenerator {
 				agh.newLink(prevI, nextIm).attribute("directed").setValue("true");
 				agh.newLink(prevI, nextIp).attribute("directed").setValue("true");
 			}
-			NodeContainer prevL = lc.get((nbNodes/2)-1);
-			agh.newLink(prevL, l2.get((nbNodes/2)-1));
-			agh.newLink(prevL, l2.get((nbNodes/2)-2));	
+			NodeContainer prevL = lc.get(nbNodes/2 -1);
+			agh.newLink(prevL, l2.get(nbNodes/2 -1));
+			agh.newLink(prevL, l2.get(nbNodes/2 -2));
 			lc = l2;
 		}
 		

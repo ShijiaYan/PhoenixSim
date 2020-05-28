@@ -126,7 +126,7 @@ public class Task extends ArrayList<Task> {
 
 
 	public ArrayDeque<Task> getSubTasksListCopy() {
-		ArrayDeque<Task> list = new ArrayDeque<Task>(this);
+		ArrayDeque<Task> list = new ArrayDeque<>(this);
 		return list;
 	}
 	

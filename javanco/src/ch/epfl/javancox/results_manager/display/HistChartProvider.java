@@ -100,7 +100,7 @@ public class HistChartProvider extends AbstractChartProvider {
 		}
 		if (maxValueY > 0) {
 			chart.getChart().getXYPlot().getRangeAxis()
-			.setRange(0, Math.ceil(1.1f*(float)maxValueY));	
+			.setRange(0, Math.ceil(1.1f* maxValueY));
 		}
 		return chart;	
 	}

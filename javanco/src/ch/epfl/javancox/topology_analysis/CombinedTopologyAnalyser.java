@@ -18,7 +18,7 @@ public class CombinedTopologyAnalyser extends Model {
 	}
 
 	public CombinedTopologyAnalyser(AbstractTopologyAnalyser ... lyser) {
-		analyserList = new ArrayList<AbstractTopologyAnalyser>(lyser.length);
+		analyserList = new ArrayList<>(lyser.length);
 		for (AbstractTopologyAnalyser a : lyser) {
 			analyserList.add(a);
 		}
@@ -30,7 +30,7 @@ public class CombinedTopologyAnalyser extends Model {
 	 */
 	@Override
 	public void conductExperiment(AdvancedExperiment exp, AbstractResultsManager man) {
-		conductExperiment((TopologyAnalysis)exp, man);
+		conductExperiment(exp, man);
 	}
 
 	public void conductExperiment(TopologyAnalysis rpi) {
@@ -49,7 +49,7 @@ public class CombinedTopologyAnalyser extends Model {
 			cop.addResultProperty(lyser.getResultName(), val);
 			
 		} else if (lyser instanceof MultiMetricComputer) {
-			MultiMetricComputer mmc = ((MultiMetricComputer)lyser);
+			MultiMetricComputer mmc = (MultiMetricComputer)lyser;
 			double mean = mmc.computeMean();
 			double max = mmc.computeMax();
 			double var = mmc.computeVar();

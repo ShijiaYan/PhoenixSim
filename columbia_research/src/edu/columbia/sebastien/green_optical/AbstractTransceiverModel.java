@@ -55,7 +55,7 @@ public abstract class AbstractTransceiverModel {
 	}
 	
 	public double getLaserWallPlugPower(double requiredLevel, double laserEfficiency) {
-		double inputOpticalPowerMW = Math.pow(10,((requiredLevel)/10d));
+		double inputOpticalPowerMW = Math.pow(10, requiredLevel /10d);
 		double laserWallPlugPower = inputOpticalPowerMW/laserEfficiency;
 		return laserWallPlugPower;
 	}

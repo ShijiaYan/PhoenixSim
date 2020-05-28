@@ -22,11 +22,11 @@ public class ExperimentExecutionManager<T extends Experiment> extends AbstractEn
 	protected long start;
 	protected boolean success = true;
 	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm.ss"); 
-	private static ArrayList<Class> registeredCachedClasses = new ArrayList<Class>();
+	private static ArrayList<Class> registeredCachedClasses = new ArrayList<>();
 	
 	public static void registerAsCachedClass(Class<?> c) {
 		try {
-			c.getMethod("clearCache", new Class[]{});
+			c.getMethod("clearCache");
 		} catch (NoSuchMethodException e) {
 			throw new IllegalStateException("Cannot register a class that has no \"clearCache\" method ");
 		} catch (SecurityException e) {
@@ -44,7 +44,7 @@ public class ExperimentExecutionManager<T extends Experiment> extends AbstractEn
 	public void clearCaches() {
 		for (Class<?> c : registeredCachedClasses) {
 			try {
-				c.getMethod("clearCache", new Class[]{}).invoke(null, new Object[]{});
+				c.getMethod("clearCache", new Class[]{}).invoke(null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -16,7 +16,7 @@ public class ParetoDistribution extends AbstractSSJBasedMeanConfigurableDistribu
 	
 	public ParetoDistribution(double hurst) {
 		isAlpha = true;
-		param = 3 - (2*hurst);
+		param = 3 - 2*hurst;
 	}
 	
 	public void setMean(double f) {
@@ -24,7 +24,7 @@ public class ParetoDistribution extends AbstractSSJBasedMeanConfigurableDistribu
 			nullMean = true;
 		} else {
 			if (isAlpha) {
-				double beta = (f*(param-1))/param;
+				double beta = f*(param-1) /param;
 				dist = new ParetoDist(param, beta);
 			} else {
 				double alpha = f/(f+param);

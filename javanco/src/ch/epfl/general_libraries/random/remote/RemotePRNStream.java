@@ -93,7 +93,7 @@ public abstract class RemotePRNStream extends PRNStream {
 		boolean ask = true;
 		while (ask) {
 			synchronized(bufferAccessMutex) {
-				ask =(readPointer == writePointer);
+				ask = readPointer == writePointer;
 			}
 			if (ask) {
 				//	logger.trace("Read pointer met write pointer. Asking more");
@@ -128,7 +128,7 @@ public abstract class RemotePRNStream extends PRNStream {
 
 	protected void checkThreshold() {
 		logFreeCapacity();
-		float ratio =  1 -((float)getCacheFreeSize() / (float)cache.length);
+		float ratio =  1 - (float)getCacheFreeSize() / (float)cache.length;
 		if (!multiThread) {
 			askMoreParallel();
 		} else {
@@ -186,7 +186,7 @@ public abstract class RemotePRNStream extends PRNStream {
 		// 1. Determine number of shots
 		//	logger.debug("Fill goal is " +(FILL_GOAL*100)+"%, cache size is " + cache.length);
 		//	logFreeCapacity();
-		float numberToOrder = ((cache.length * (FILL_GOAL-1)) + getCacheFreeSize());
+		float numberToOrder = cache.length * (FILL_GOAL-1) + getCacheFreeSize();
 		int passes = (int)Math.ceil(numberToOrder/ this.shotSize);
 		//		logger.debug("Client will now order " + (int)numberToOrder + " numbers in " + passes + " passes");
 		for (int i = 0 ; i < passes ; i++) {

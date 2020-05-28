@@ -35,7 +35,7 @@ public class DistanceProportionalTrafficMatrix extends AbstractTrafficMatrix {
 	@Override
 	public double getTraffic(int src, int dest) {
 		if (src == dest) return 0;
-		return normLoad*Math.pow(gs.getNumberOfHops(src, dest), power)/(double)totalDistances[src];
+		return normLoad*Math.pow(gs.getNumberOfHops(src, dest), power)/ totalDistances[src];
 	}
 
 	@Override

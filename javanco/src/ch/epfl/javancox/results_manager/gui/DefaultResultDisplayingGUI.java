@@ -97,7 +97,7 @@ public class DefaultResultDisplayingGUI extends AbstractResultsDisplayer {
 	}
 	
 	private static List<Class<? extends AbstractChartPanel>> getDefaultDisplayers(AdvancedDataRetriever a) {
-		List<Class<? extends AbstractChartProvider.AbstractChartPanel>> list = new ArrayList<Class<? extends AbstractChartProvider.AbstractChartPanel>>();
+		List<Class<? extends AbstractChartProvider.AbstractChartPanel>> list = new ArrayList<>();
 		list.add(XYLineChartPanel.class);
 		list.add(BarChartPanel.class);
 		list.add(HistChartPanel.class);

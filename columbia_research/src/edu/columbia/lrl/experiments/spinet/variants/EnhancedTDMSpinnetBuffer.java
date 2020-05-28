@@ -37,8 +37,8 @@ public class EnhancedTDMSpinnetBuffer extends TDMSpinnetBuffer implements ACK_or
 				index);
 		
 		ACKMode = false;
-		mainQueue = new LinkedList<SpinetMessage>();
-		queues = new HashMap<Integer, LinkedList<SpinetMessage>>();
+		mainQueue = new LinkedList<>();
+		queues = new HashMap<>();
 		
 		slotId = 0;
 		nackReceived = false;
@@ -51,8 +51,8 @@ public class EnhancedTDMSpinnetBuffer extends TDMSpinnetBuffer implements ACK_or
 				index);
 		
 		ACKMode = ACK_Mode;
-		mainQueue = new LinkedList<SpinetMessage>();
-		queues = new HashMap<Integer, LinkedList<SpinetMessage>>();
+		mainQueue = new LinkedList<>();
+		queues = new HashMap<>();
 		
 		slotId = 0;
 		nackReceived = false;
@@ -69,7 +69,7 @@ public class EnhancedTDMSpinnetBuffer extends TDMSpinnetBuffer implements ACK_or
 	private LinkedList<SpinetMessage> getQueue(int dest) {
 		LinkedList<SpinetMessage> q = queues.get(dest);
 		if (q == null) {
-			q = new LinkedList<SpinetMessage>();
+			q = new LinkedList<>();
 			queues.put(dest, q);
 		}
 		return q;
@@ -159,7 +159,7 @@ public class EnhancedTDMSpinnetBuffer extends TDMSpinnetBuffer implements ACK_or
 			lwSimExperiment.manager.queueEvent(next);
 			globalHorizon = e.getTimeNS() + toSend.getTransmissionTimeNS();	
 			
-			packetDuration = lwSimExperiment.getReferenceBandwidth().getTime(toSend.sizeInBits).getNanoseconds()+(builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS);
+			packetDuration = lwSimExperiment.getReferenceBandwidth().getTime(toSend.sizeInBits).getNanoseconds()+ builder.getMaxNumberOf2by2SwitchStages()*spinetSwitchingTimeNS;
 			// report transmission time
 			lwSimExperiment.reportTransTime(index, packetDuration, toSend);
 		}

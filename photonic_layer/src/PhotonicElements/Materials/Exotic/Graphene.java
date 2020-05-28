@@ -100,12 +100,12 @@ public class Graphene {
 	
 	public double getFermiLevel_eV(){
 		double Ef =  h/(2*Math.PI)*vf*Math.sqrt(Math.PI*(n0*0+C*Math.abs(Vin)/q));
-		return (Ef/q) ;
+		return Ef/q;
 	}
 	
 	public double getFermiLevel_meV(){
 		double Ef =  h/(2*Math.PI)*vf*Math.sqrt(Math.PI*(n0*0+C*Math.abs(Vin)/q));
-		return (Ef/q * 1e3) ;
+		return Ef/q * 1e3;
 	}
 	
 /*	// Calculating alpha

@@ -10,7 +10,7 @@ public class RandomTest {
 	private final static int NUMBER_OF_SAMPLE = 1000;
 	
 	public static void main(String[] args) throws Exception {
-		(new RandomTest()).testFilterPlus();
+		new RandomTest().testFilterPlus();
 	}
 	
 	@Test
@@ -28,9 +28,9 @@ public class RandomTest {
 			}
 			
 			int totSam = 0;
-			for (int i = 0 ; i < res.length ; i++) {
-				totSam += res[i];
-			}
+            for (int re : res) {
+                totSam += re;
+            }
 			if (totSam != NUMBER_OF_SAMPLE) throw new IllegalStateException();
 		}
 		

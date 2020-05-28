@@ -138,13 +138,12 @@ public class WorkStealingAgent extends AbstractThreadManagingAgent {
 					c.broadcastButMe(ref, sr, size);
 				} else {
 					int participants = c.getParticipantNumber() - 1;
-					int nbReq = (int)Math.min(Math.max(1d, ((double)participants)*parent.coverageRate), participants-1);
+					int nbReq = (int)Math.min(Math.max(1d, (double)participants *parent.coverageRate), participants-1);
 					int[] dests = parent.poolManager.getLocationWeightedRandomSelectionOfNodes(c, nbReq, rank, true);
-					for (int i = 0 ; i < dests.length ; i++) {
-						int d = dests[i];
-						if (d == rank) continue;
-						c.send(ref, sr, size, d);
-					}
+                    for (int d : dests) {
+                        if (d == rank) continue;
+                        c.send(ref, sr, size, d);
+                    }
 				}
 				
 				justAsked = true;

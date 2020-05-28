@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0f467478-3c63-4f02-b652-f35030e6c788" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1XSCBe7cFMA5dJGPjPtusZKPlKM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="PhoenixSimGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="People.Meisam.GUI.PhoenixSim.MainModule.PhoenixSimGUI" />
+      <module name="photonic_layer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="People.Meisam.GUI.PhoenixSim.MainModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PhoenixSimGUI" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\User\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0f467478-3c63-4f02-b652-f35030e6c788" name="Default Changelist" comment="" />
+      <created>1581029974886</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581029974886</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="981" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1581035370820">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="981" y="345" key="com.intellij.ide.util.TipDialog/0.0.2560.1040/2560.0.1680.1010@0.0.2560.1040" timestamp="1581035370820" />
+  </component>
+</project>

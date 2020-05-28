@@ -61,7 +61,7 @@ public class DessiesArbiter extends Arbiter {
 
 	@Override
 	public Map<String, String> getArbiterParameters() {
-		return new SimpleMap<String, String>(0);
+		return new SimpleMap<>(0);
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class MEMSbasedSwitch extends AbstractOpticalSwitchModel {
 
 	@Override
 	protected Map<String, String> getSwitchProperties() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("Power penalty for low radix", offsetPP+"");
 		m.put("Max nb power at low PP", maxPorts+"");
 		m.put("Power consumption per port", consumption+"");

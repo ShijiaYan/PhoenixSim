@@ -24,10 +24,10 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	}
 
 	public Matrix(int size1, int size2) {
-		myGeneralMatrix = new ArrayList<ArrayList<T>>(size1);
+		myGeneralMatrix = new ArrayList<>(size1);
 		myGeneralMatrix.ensureCapacity(size1);
 		for (int i = 0 ; i < size1 ; i++) {
-			ArrayList<T> line = new ArrayList<T>(size2);
+			ArrayList<T> line = new ArrayList<>(size2);
 			line.ensureCapacity(size2);
 			for (int j = 0 ; j < size2 ; j++) {
 				line.add(null);
@@ -136,11 +136,11 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	
 	public static double[][] shiftRight(double[][] x, int y) {
 		double[] temp = new double[y];
-		for (int i = 0 ; i < x.length ; i++) {
-			System.arraycopy(x[i], x[i].length - y, temp, 0, y);
-			System.arraycopy(x[i], 0, x[i], y, x[i].length - y);
-			System.arraycopy(temp, 0, x[i], 0, y);
-		}
+        for (double[] doubles : x) {
+            System.arraycopy(doubles, doubles.length - y, temp, 0, y);
+            System.arraycopy(doubles, 0, doubles, y, doubles.length - y);
+            System.arraycopy(temp, 0, doubles, 0, y);
+        }
 		return x;
 	}
 	
@@ -234,12 +234,12 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	public static double mean(double[][] v){
 		double tot = 0;
 		int ii = 0;
-		for(int i = 0; i < v.length; i++){
-			for(int j=0; j < v[0].length; j++){
-				tot += v[i][j];
-				ii++;
-			}
-		}
+        for (double[] doubles : v) {
+            for (int j = 0; j < v[0].length; j++) {
+                tot += doubles[j];
+                ii++;
+            }
+        }
 		return tot/(double)ii;
 	}
 	
@@ -247,12 +247,12 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 		double tot = 0;
 		double mean = mean(v);
 		int ii = 0;
-		for(int i = 0; i < v.length; i++){
-			for(int j=0; j < v[0].length; j++){
-				tot += Math.pow(v[i][j] - mean, 2);
-				ii++;
-			}
-		}
+        for (double[] doubles : v) {
+            for (int j = 0; j < v[0].length; j++) {
+                tot += Math.pow(doubles[j] - mean, 2);
+                ii++;
+            }
+        }
 		return 	tot/(float)(ii - 1);
 	}		
 	
@@ -271,13 +271,13 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	}
 		
 	public static <T> List<T> asList(T[][] tab, boolean withNulls) {
-		ArrayList<T> t = new ArrayList<T>(tab.length*tab.length);
-		for (int i = 0 ; i < tab.length ; i++) {
-			for (int j = 0 ; j < tab.length ; j++) {
-				if (withNulls || tab[i][j] != null)
-					t.add(tab[i][j]);
-			}
-		}
+		ArrayList<T> t = new ArrayList<>(tab.length * tab.length);
+        for (T[] ts : tab) {
+            for (int j = 0; j < tab.length; j++) {
+                if (withNulls || ts[j] != null)
+                    t.add(ts[j]);
+            }
+        }
 		return t;	
 	}
 
@@ -390,23 +390,23 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	
 	public static double sum(double[][] d) {
 		double tot = 0;
-		for (int i = 0 ; i < d.length ; i++) {
-			for (int j = 0 ; j < d.length ; j++) {
-				tot += d[i][j];
-			}
-		}
+        for (double[] doubles : d) {
+            for (int j = 0; j < d.length; j++) {
+                tot += doubles[j];
+            }
+        }
 		return tot;	
 	}
 	
 	public static double sum(Object[][] d) {
 		double tot = 0;
-		for (int i = 0 ; i < d.length ; i++) {
-			for (int j = 0 ; j < d.length ; j++) {
-				if (d[i][j] != null) {
-					tot += ((Number)d[i][j]).doubleValue();
-				}
-			}
-		}
+        for (Object[] objects : d) {
+            for (int j = 0; j < d.length; j++) {
+                if (objects[j] != null) {
+                    tot += ((Number) objects[j]).doubleValue();
+                }
+            }
+        }
 		return tot;	
 	}	
 	
@@ -430,7 +430,7 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	}
 	
 	public Object clone() {
-		Matrix<T> c = new Matrix<T>(this.size());
+		Matrix<T> c = new Matrix<>(this.size());
 		for (int i = 0 ; i < size() ; i++) {
 			for (int j = 0 ; j < size() ; j++) {
 				c.setMatrixElement(i, j, getMatrixElement(i,j));
@@ -455,18 +455,18 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	public String toString() {
 		StringBuffer sb= new StringBuffer();
 		int nulls = 0;
-		for(int i=0; i<myGeneralMatrix.size(); i++){
-			for(int j=0; j<myGeneralMatrix.get(i).size(); j++){
-				T obj = myGeneralMatrix.get(i).get(j);
-				if (obj != null) {
-					sb.append(obj);
-					sb.append("\r\n");
-				} else {
-					nulls++;
-				}
-			}
-			sb.append("\r\n");
-		}
+        for (ArrayList<T> generalMatrix : myGeneralMatrix) {
+            for (int j = 0; j < generalMatrix.size(); j++) {
+                T obj = generalMatrix.get(j);
+                if (obj != null) {
+                    sb.append(obj);
+                    sb.append("\r\n");
+                } else {
+                    nulls++;
+                }
+            }
+            sb.append("\r\n");
+        }
 		if (nulls > 0) {
 			sb.append("Note : " + nulls + " elements are null");
 		}
@@ -474,20 +474,16 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	}
 
 	public Iterator<T> iterator() {
-		return this.new MatrixIterator<T>(true);
+		return this.new MatrixIterator<>(true);
 	}
 
 	public Iterable<T> matrixWithoutDiagonal() {
-		return new Iterable<T>() {
-			public Iterator<T> iterator() {
-				return new MatrixIterator<T>(false);
-			}
-		};
+		return () -> new MatrixIterator<>(false);
 	}
 
 	@SuppressWarnings("unchecked")
 	public Matrix<T> times(double d) {
-		Matrix<T> m = new Matrix<T>(this.size());
+		Matrix<T> m = new Matrix<>(this.size());
 		for (int i = 0 ; i < this.size() ; i++) {
 			for (int j = 0 ; j < this.size() ; j++) {
 				T t = this.getMatrixElement(i,j);
@@ -504,48 +500,44 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	
 	public Iterable<Pair<NodePair, T>> asPairIteration() {
 		final int size = myGeneralMatrix.size();
-		return new Iterable<Pair<NodePair, T>>() {
-			public Iterator<Pair<NodePair, T>> iterator() {
-				return new Iterator<Pair<NodePair, T>>() {
-					int i = 0;
-					int j = 0;
-					Pair<NodePair, T> next = prepareNext();
-						
-					private Pair<NodePair, T> prepareNext() {
-						T object = null;
-						next = null;
-						while (next == null) {
-							if (i >= size) {
-								return null;
-							}
-							object = getMatrixElement(i,j);
-							if (object != null) {
-								next = new Pair<NodePair, T>(new NodePair(i,j), object);
-							}
-							j++;
-							if (j >= size) {
-								j = 0;
-								i++;
-							}
-						}
-						return next;
-					}
-					
-					public void remove() {
-					}
-					
-					public Pair<NodePair, T> next() {
-						Pair<NodePair, T> toRet = next;
-						next = prepareNext();
-						return toRet;
-					}
-					
-					public boolean hasNext() {
-						return (next != null);
-					}
-				};
-			}
-		};
+		return () -> new Iterator<Pair<NodePair, T>>() {
+            int i = 0;
+            int j = 0;
+            Pair<NodePair, T> next = prepareNext();
+
+            private Pair<NodePair, T> prepareNext() {
+                T object = null;
+                next = null;
+                while (next == null) {
+                    if (i >= size) {
+                        return null;
+                    }
+                    object = getMatrixElement(i,j);
+                    if (object != null) {
+                        next = new Pair<>(new NodePair(i, j), object);
+                    }
+                    j++;
+                    if (j >= size) {
+                        j = 0;
+                        i++;
+                    }
+                }
+                return next;
+            }
+
+            public void remove() {
+            }
+
+            public Pair<NodePair, T> next() {
+                Pair<NodePair, T> toRet = next;
+                next = prepareNext();
+                return toRet;
+            }
+
+            public boolean hasNext() {
+                return next != null;
+            }
+        };
 	}
 
 	public void setTo(T t) {
@@ -568,7 +560,7 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 		}
 
 		public boolean hasNext() {
-			return (next != null);
+			return next != null;
 		}
 
 		public U next() {
@@ -613,7 +605,7 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 		}
 
 		public boolean hasNext() {
-			return (next != null);
+			return next != null;
 		}
 
 		public Object next() {
@@ -656,12 +648,12 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	}
 
 	public List<T> getAllElements() {
-		ArrayList<T> l = new ArrayList<T>();
-		for (int i = 0 ; i < myGeneralMatrix.size() ; i++) {
-			for (int j = 0 ; j < myGeneralMatrix.get(i).size() ; j++) {
-				l.add(myGeneralMatrix.get(i).get(j));
-			}
-		}
+		ArrayList<T> l = new ArrayList<>();
+        for (ArrayList<T> generalMatrix : myGeneralMatrix) {
+            for (int j = 0; j < generalMatrix.size(); j++) {
+                l.add(generalMatrix.get(j));
+            }
+        }
 		return l;
 	}
 
@@ -696,7 +688,7 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 			}
 			for (int j = 0 ; j < mat[i].length ; j++) {
 				if (mat[i][j] != null) {
-					sb.append((mat[i][j]).toString());
+					sb.append(mat[i][j].toString());
 				}
 				if (j+1 < mat[i].length) {sb.append(",");}
 			}
@@ -859,104 +851,104 @@ public class Matrix<T> implements Iterable<T>, Serializable {
 	// MAXS
 	public static int max(int[][] t) {
 		int max = Integer.MIN_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				int it = t[i][j];
-				if (it > max) {
-					max = it;
-				}
-			}
-		}
+        for (int[] ints : t) {
+            for (int j = 0; j < ints.length; j++) {
+                int it = ints[j];
+                if (it > max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 	}
 	public static double max(double[][] t) {
 		double max = Double.NEGATIVE_INFINITY;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				double it = t[i][j];
-				if (it > max) {
-					max = it;
-				}
-			}
-		}
+        for (double[] doubles : t) {
+            for (int j = 0; j < doubles.length; j++) {
+                double it = doubles[j];
+                if (it > max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 
 	}
 
 	public static float max(float[][] t) {
 		float max = Float.NEGATIVE_INFINITY;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				float it = t[i][j];
-				if (it > max) {
-					max = it;
-				}
-			}
-		}
+        for (float[] floats : t) {
+            for (int j = 0; j < floats.length; j++) {
+                float it = floats[j];
+                if (it > max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 	}
 
 	public static long max(long[][] t) {
 		long max = Long.MIN_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				long it = t[i][j];
-				if (it > max) {
-					max = it;
-				}
-			}
-		}
+        for (long[] longs : t) {
+            for (int j = 0; j < longs.length; j++) {
+                long it = longs[j];
+                if (it > max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 	}
 	// MINS
 	public static int min(int[][] t) {
 		int max = Integer.MAX_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				int it = t[i][j];
-				if (it < max) {
-					max = it;
-				}
-			}
-		}
+        for (int[] ints : t) {
+            for (int j = 0; j < ints.length; j++) {
+                int it = ints[j];
+                if (it < max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 	}
 	public static double min(double[][] t) {
 		double max = Double.POSITIVE_INFINITY;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				double it = t[i][j];
-				if (it < max) {
-					max = it;
-				}
-			}
-		}
+        for (double[] doubles : t) {
+            for (int j = 0; j < doubles.length; j++) {
+                double it = doubles[j];
+                if (it < max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 
 	}
 	public static float min(float[][] t) {
 		float max = Float.POSITIVE_INFINITY;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				float it = t[i][j];
-				if (it < max) {
-					max = it;
-				}
-			}
-		}
+        for (float[] floats : t) {
+            for (int j = 0; j < floats.length; j++) {
+                float it = floats[j];
+                if (it < max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 
 	}
 	public static long min(long[][] t) {
 		long max = Long.MAX_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			for (int j = 0 ; j < t[i].length ; j++) {
-				long it = t[i][j];
-				if (it < max) {
-					max = it;
-				}
-			}
-		}
+        for (long[] longs : t) {
+            for (int j = 0; j < longs.length; j++) {
+                long it = longs[j];
+                if (it < max) {
+                    max = it;
+                }
+            }
+        }
 		return max;
 	}
 

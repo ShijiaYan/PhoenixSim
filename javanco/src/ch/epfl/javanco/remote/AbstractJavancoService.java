@@ -69,7 +69,7 @@ public abstract class AbstractJavancoService extends AbstractService {
 	}
 
 	protected boolean checkFactory() throws Exception {
-		return (WrapperFactory.getWrapperFactory() != null);
+		return WrapperFactory.getWrapperFactory() != null;
 	}
 
 

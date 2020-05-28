@@ -19,7 +19,7 @@ public class TextureSupplier {
 
 
 	public TextureSupplier() {
-		this.list = new LinkedList<Class<? extends Texture>>();
+		this.list = new LinkedList<>();
 		this.fillList();
 		this.it = list.iterator();
 	}

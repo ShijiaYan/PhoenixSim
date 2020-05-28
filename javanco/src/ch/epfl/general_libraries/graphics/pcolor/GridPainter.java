@@ -18,8 +18,8 @@ public class GridPainter {
 		
 		g.setColor(Color.WHITE);
 		for (int i = 1 ; i < size ; i++) {
-			g.fillRect((i*pixelWidth), 0, border, size*pixelHeight);
-			g.fillRect(0, (i*pixelHeight), size*pixelWidth, border);			
+			g.fillRect(i*pixelWidth, 0, border, size*pixelHeight);
+			g.fillRect(0, i*pixelHeight, size*pixelWidth, border);
 		}
 		
 		

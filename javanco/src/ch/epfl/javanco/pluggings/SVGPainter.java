@@ -51,7 +51,7 @@ public class SVGPainter extends JavancoTool {
 		
 		painter.paintItToGraphics(svgG, ui.getGraphDisplayInformationSet());
 
-		return new Pair<SVGGraphics2D, Rectangle>(svgG, ui.getInfoSetView());
+		return new Pair<>(svgG, ui.getInfoSetView());
 	}
 	
 

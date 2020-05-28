@@ -71,7 +71,7 @@ public class ThermoOpticStripWgTM {
         ModeStripWgTM modeSolver = new ModeStripWgTM(stripWg, 0, 0) ;
         neff_max = modeSolver.getEffectiveIndex() ;
         double dneff_dlambda = (neff_max-neff_min)/(lambda_max_nm-lambda_min_nm) ;
-        return (neff_min - lambda_nm * dneff_dlambda) ;
+        return neff_min - lambda_nm * dneff_dlambda;
 	}
 	
 	public Wavelength getInputLambda(){
@@ -107,11 +107,11 @@ public class ThermoOpticStripWgTM {
 	}
 	
 	public double getWidthNm(){
-		return (widthNm+DwNm) ;
+		return widthNm+DwNm;
 	}
 	
 	public double getHeightNm(){
-		return (heightNm+DhNm) ;
+		return heightNm+DhNm;
 	}
 	
 	public double getSiIndex(){

@@ -106,7 +106,7 @@ public class ExperimentConfigurationCockpit extends SwingObjectConfigurationAndE
 	
 /*	public static class DefaultFile {
 		public static void main(String[] args) {
-			ExperimentConfigurationCockpit.main(new String[]{"-default", ObjectConstuctionTreeModel.DEFAULT_FILE_NAME});
+			ExperimentConfigurationCockpit.main(new String[]{"-default", ObjectConstructionTreeModel.DEFAULT_FILE_NAME});
 		}
 	}*/
 }

@@ -23,7 +23,7 @@ public class ObjectDefinition extends AbstractDefinition {
 	
 	private void initList() {
 		if (list == null) {
-			list = new ArrayList<AbstractDefinition>();
+			list = new ArrayList<>();
 		}
 	}
 	

@@ -20,6 +20,6 @@ public class FixedSizeDieModel extends AbstractDieModel {
 	}
 	
 	public double getWaveguideLengthInCm() {
-		return (Math.sqrt(gloco.getNumberOfCores())*sizeInCm);
+		return Math.sqrt(gloco.getNumberOfCores())*sizeInCm;
 	}
 }

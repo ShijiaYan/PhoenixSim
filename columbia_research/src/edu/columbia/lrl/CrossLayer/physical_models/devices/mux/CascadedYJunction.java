@@ -3,7 +3,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.mux;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.math.MoreMaths;
 import ch.epfl.general_libraries.utils.MoreArrays;
@@ -46,7 +45,7 @@ public class CascadedYJunction extends AbstractMux {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		if (loss >= 0) {
 			map.put("Y junction loss (dB)", loss + "");
 		}
@@ -57,7 +56,7 @@ public class CascadedYJunction extends AbstractMux {
 	public List<PowerConsumption> getDevicePowerConsumptions(
 			PhysicalParameterAndModelsSet modelSet,
 			AbstractLinkFormat linkFormat) {
-		ArrayList<PowerConsumption> pc = new ArrayList<PowerConsumption>(0);
+		ArrayList<PowerConsumption> pc = new ArrayList<>(0);
 		return pc;
 	}
 

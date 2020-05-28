@@ -26,15 +26,15 @@ public class InverseFourierTransform {
 		this.fs = 1.0/ts ;
 		double a = Math.floor(fs/df) ;
 		M = (int) (Math.log(a)/Math.log(2) + 1) ;
-		N = (int) (Math.pow(2, M)) ;
+		N = (int) Math.pow(2, M);
 		this.df = fs/N ;
 	}
 
 	// time duration and number of samples
 	public void setTimeDurationAndNumSamples(double T, int N){
 		M = (int) (Math.log(N)/Math.log(2) + 1) ;
-		this.N = (int) (Math.pow(2, M)) ;
-		this.ts = (double) (T/N) ;
+		this.N = (int) Math.pow(2, M);
+		this.ts = T/N;
 		this.fs = 1.0/ts ;
 		this.df = fs/this.N ;
 	}
@@ -44,7 +44,7 @@ public class InverseFourierTransform {
 		this.fs = fs ;
 		double a = Math.floor(fs/df) ;
 		M = (int) (Math.log(a)/Math.log(2) + 1) ;
-		N = (int) (Math.pow(2, M)) ;
+		N = (int) Math.pow(2, M);
 		this.df = fs/N ;
 		this.ts = 1.0/fs ;
 	}
@@ -53,7 +53,7 @@ public class InverseFourierTransform {
 	public void setFreqBandwidthAndSamples(double fs, double N){
 		this.fs = fs ;
 		M = (int) (Math.log(N)/Math.log(2) + 1) ;
-		this.N = (int) (Math.pow(2, M)) ;
+		this.N = (int) Math.pow(2, M);
 		this.df = fs/this.N ;
 		this.ts = 1.0/fs ;
 	}

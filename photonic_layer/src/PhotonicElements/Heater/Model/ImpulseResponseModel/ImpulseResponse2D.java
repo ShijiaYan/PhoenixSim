@@ -37,7 +37,7 @@ public class ImpulseResponse2D {
 	}
 	
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("xi_sio2", xi_sio2+"") ;
 		map.put("f3dB (kHz)", f3dB_kHz+"") ;
 		map.put("model name", "2D model") ;

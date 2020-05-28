@@ -55,16 +55,15 @@ public class TreeGeneratorBasedTaskGenerator extends AbstractTaskGenerator {
 		Color c = ColorMap.getDarkTonesDefaultMap().getColor(index);
 		List<NodeContainer> connectedNodes = nc.getConnectedNodes();
 		int conNodesSize = connectedNodes.size();
-		for (int i = 0 ; i < conNodesSize ; i++) {
-			NodeContainer neighbour = connectedNodes.get(i);
-			if (dones[neighbour.getIndex()] == false) {
-				c = ColorMap.getLighterTone(c, conNodesSize, index);
-				Task t = taskPropGen.getTask(s, c);			
-				father.add(t);
-				dones[neighbour.getIndex()] = true;
-				index = recursion(neighbour, t, dones, s, index+1);
-			}
-		}
+        for (NodeContainer neighbour : connectedNodes) {
+            if (dones[neighbour.getIndex()] == false) {
+                c = ColorMap.getLighterTone(c, conNodesSize, index);
+                Task t = taskPropGen.getTask(s, c);
+                father.add(t);
+                dones[neighbour.getIndex()] = true;
+                index = recursion(neighbour, t, dones, s, index + 1);
+            }
+        }
 		return index+1;
 	}
 
@@ -76,7 +75,7 @@ public class TreeGeneratorBasedTaskGenerator extends AbstractTaskGenerator {
 
 	@Override
 	public double getMeanCommunicationFootprintPerCompoundTask__Fc(IrregularTrafficApplication appl) {
-		double ss = (taskPropGen.getMeanRetrieveTaskBits() + taskPropGen.getMeanSchedulingTaskBits());
+		double ss = taskPropGen.getMeanRetrieveTaskBits() + taskPropGen.getMeanSchedulingTaskBits();
 		double subTasksCom = appl.NODE_DONE_MESSAGE_SIZE + ss;
 		double averageLeafs = treeGen.getAverageNumberOfLeaves();
 		double averageDelegating = treeGen.getAverageHubNumber();
@@ -97,8 +96,8 @@ public class TreeGeneratorBasedTaskGenerator extends AbstractTaskGenerator {
 		
 		Fcc -= averageDelegating * (appl.GRANTED_NODE_LIST_MESSAGE_SIZE + 
 				  appl.NODE_ALLOCATION_MESSAGE_SIZE);
-		Fcc -= (appl.getInitialSchedulingBits() + appl.getFinalSchedulingBits());
-		double subTaskCom = Fcc / (double)(averageLeafs -1);
+		Fcc -= appl.getInitialSchedulingBits() + appl.getFinalSchedulingBits();
+		double subTaskCom = Fcc / (averageLeafs -1);
 		double ss = subTaskCom - appl.NODE_DONE_MESSAGE_SIZE;
 		if (appl.useIntegerMessageSizes()) {
 			return Math.max(2,(int)ss);

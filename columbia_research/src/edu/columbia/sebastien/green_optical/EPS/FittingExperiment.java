@@ -73,7 +73,7 @@ public class FittingExperiment implements Experiment {
 
 		@Override
 		public Map<String, String> getAllProperties() {
-			SimpleMap<String, String> dp = new SimpleMap<String, String>();
+			SimpleMap<String, String> dp = new SimpleMap<>();
 			dp.put("a", a+"");
 			dp.put("b", b+"");
 			dp.put("c", c+"");
@@ -90,7 +90,7 @@ public class FittingExperiment implements Experiment {
 			double a = -1;
 			double b = -1;
 			double c = -1;
-			return a + b*(double)r*B/1000d + (c/1000d)*(double)r*(double)r*B;
+			return a + b*(double)r*B/1000d + (c/1000d) *(double)r*(double)r*B;
 		}
 
 		@Override
@@ -136,7 +136,7 @@ public class FittingExperiment implements Experiment {
 	
 	private double calculateSerDes(double NRRateInjBW, double rrRate, int concentration, int switchR, int i, DataPoint dp) {
 		int pinPerPortNR = i;
-		int pinperPortRR = (int)((maxpin/4) - (i*concentration))/switchR;
+		int pinperPortRR = (maxpin/4 - i*concentration) /switchR;
 		if (pinperPortRR <= 1) {
 			return -2;
 		}
@@ -194,7 +194,7 @@ public class FittingExperiment implements Experiment {
 
 			double serdesPower;
 			if (NRRateInjBW == rrRate) {
-				double pinPerPort = (maxpin/4)/radix;
+				double pinPerPort = (maxpin / 4) / radix;
 				pinQuadsPerPortNR = pinPerPort;
 				pinQuadsPerPortRR = pinPerPort;
 				dp.addResultProperty("Pin per port", pinPerPort);
@@ -209,7 +209,7 @@ public class FittingExperiment implements Experiment {
 				
 				// finding best splitting of pins
 				// start by allocate only one pin per NR link, then grow
-				for (int i = 1 ; i < (maxpin/4) - switchR ; i++) {
+				for (int i = 1; i < maxpin/4 - switchR ; i++) {
 					double total = calculateSerDes(NRRateInjBW, rrRate, concentration, switchR, i, null);
 					if (total == -2) break;
 					
@@ -220,7 +220,7 @@ public class FittingExperiment implements Experiment {
 				}				
 				if (bestI == -1)  throw new WrongExperimentException();
 				pinQuadsPerPortNR = bestI;
-				pinQuadsPerPortRR = (maxpin/4) - bestI;
+				pinQuadsPerPortRR = maxpin/4 - bestI;
 				serdesPower = calculateSerDes(NRRateInjBW, rrRate, concentration, switchR, bestI, dp);
 			}
 			dp.addResultProperty("Serdes power (mW)", serdesPower);

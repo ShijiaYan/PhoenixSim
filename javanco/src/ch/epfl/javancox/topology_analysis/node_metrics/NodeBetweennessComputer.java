@@ -56,7 +56,7 @@ public class NodeBetweennessComputer extends NodeCentralityComputer {
 		} else {
 			int tot = sp.size();
 			int a = occ[nodeIndex];
-			return (double)(a)/(double)tot;
+			return (double) a /(double)tot;
 		}
 	}
 

@@ -55,7 +55,7 @@ public class FileChooser extends JFileChooser {
 		} else {
 			dirFile= new JavancoFile (lastUndefinedSaveDir);
 		}
-		String[] extensions = ((fileExtension==null || fileExtension=="") ? null : new String[]{fileExtension});
+		String[] extensions = fileExtension==null || fileExtension=="" ? null : new String[]{fileExtension};
 		FileChooser fc = new FileChooser(dirFile, extensions, null);
 
 		int returnVal = fc.showSaveDialog(parent);
@@ -91,7 +91,7 @@ public class FileChooser extends JFileChooser {
 	}*/
 
 	public static JavancoFile  promptForOpenFile(Component parent, String dir, String fileExtension, String title) {
-		String[] extensions = ((fileExtension==null || fileExtension=="") ? null : new String[]{fileExtension});
+		String[] extensions = fileExtension==null || fileExtension=="" ? null : new String[]{fileExtension};
 		return promptForOpenFile(parent, dir, extensions, null, title);
 	}
 

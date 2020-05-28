@@ -82,7 +82,7 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 	 * Creates a new instance of <code>XIntervalSeriesCollection</code>.
 	 */
 	public CustomXYIntervalSeriesCollection(DataRetrievalOptions options) {
-		this.data = new java.util.ArrayList<CustomXYIntervalSeries>();
+		this.data = new java.util.ArrayList<>();
 		mode1 = new boolean[]{options.isMeanOrSum, options.isMedian, options.isFirst};
 		mode2 = new boolean[]{options.isMax, options.isConfInt, options.isQuartInt};	
 	}
@@ -124,10 +124,10 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 	 */
 	@Override
 	public XYIntervalSeries getSeries(int series) {
-		if ((series < 0) || (series >= getSeriesCount())) {
+		if (series < 0 || series >= getSeriesCount()) {
 			throw new IllegalArgumentException("Series index out of bounds");
 		}
-		return (XYIntervalSeries) this.data.get(series);
+		return this.data.get(series);
 	}
 
 	/**
@@ -148,9 +148,9 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 	}
 
 	private ArrayList<Double> getYs(int series, int item) {
-		CustomXYIntervalSeries cus = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries cus = this.data.get(series);
 		CustomXYIntervalDataItem it = (CustomXYIntervalDataItem) cus.getDataItem(item);
-		ArrayList<Double> list = new ArrayList<Double>(9);
+		ArrayList<Double> list = new ArrayList<>(9);
 		if (displayMean()) {
 			list.add(it.getYMeanValue());
 		}
@@ -194,7 +194,7 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 
 	@Override
 	public Number getX(int series, int item) {
-		CustomXYIntervalSeries s = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries s = this.data.get(series);
 		return s.getX(item);
 	}
 
@@ -235,47 +235,47 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 
 
 	public double getYMeanValue(int series, int item) {
-		CustomXYIntervalSeries cus = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries cus = this.data.get(series);
 		return cus.getYMeanValue(item);
 	}
 
 	public double getYMedianValue(int series, int item) {
-		CustomXYIntervalSeries cus = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries cus = this.data.get(series);
 		return cus.getYMedianValue(item);
 	}
 
 	public double getYFirstValue(int series, int item) {
-		CustomXYIntervalSeries cus = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries cus = this.data.get(series);
 		return cus.getYFirstValue(item);
 	}
 
 	public double getLowerConfidenceYValue(int series, int item) {
-		CustomXYIntervalSeries cus = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries cus = this.data.get(series);
 		return cus.getYConfLowValue(item);
 	}
 
 	public double getUpperConfidenceYValue(int series, int item) {
-		CustomXYIntervalSeries s = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries s = this.data.get(series);
 		return s.getYConfHighValue(item);
 	}
 
 	public double getMaxYValue(int series, int item) {
-		CustomXYIntervalSeries s = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries s = this.data.get(series);
 		return s.getYMaxValue(item);
 	}
 
 	public double getMinYValue(int series, int item) {
-		CustomXYIntervalSeries s = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries s = this.data.get(series);
 		return s.getYMinValue(item);
 	}
 
 	public double get1QuartYValue(int series, int item) {
-		CustomXYIntervalSeries s = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries s = this.data.get(series);
 		return s.getY1QValue(item);
 	}
 
 	public double get3QuartYValue(int series, int item) {
-		CustomXYIntervalSeries s = (CustomXYIntervalSeries) this.data.get(series);
+		CustomXYIntervalSeries s = this.data.get(series);
 		return s.getY3QValue(item);
 	}
 
@@ -385,10 +385,10 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 	 */
 	@Override
 	public void removeSeries(int series) {
-		if ((series < 0) || (series >= getSeriesCount())) {
+		if (series < 0 || series >= getSeriesCount()) {
 			throw new IllegalArgumentException("Series index out of bounds.");
 		}
-		XYIntervalSeries ts = (XYIntervalSeries) this.data.get(series);
+		XYIntervalSeries ts = this.data.get(series);
 		ts.removeChangeListener(this);
 		this.data.remove(series);
 		fireDatasetChanged();
@@ -424,10 +424,9 @@ public class CustomXYIntervalSeriesCollection extends XYIntervalSeriesCollection
 	public void removeAllSeries() {
 		// Unregister the collection as a change listener to each series in
 		// the collection.
-		for (int i = 0; i < this.data.size(); i++) {
-			XYIntervalSeries series = (XYIntervalSeries) this.data.get(i);
-			series.removeChangeListener(this);
-		}
+        for (XYIntervalSeries series : this.data) {
+            series.removeChangeListener(this);
+        }
 		this.data.clear();
 		fireDatasetChanged();
 	}

@@ -16,7 +16,7 @@ public class DragonflyStructure extends JavancoBasedAxisStructure {
 	private int levels;
 
 	public DragonflyStructure(int nodesPerLevel, int levels) {
-		super((short)(-1));
+		super((short) -1);
 		this.nodesPerLevel = nodesPerLevel;
 		this.levels = levels;
 	}	

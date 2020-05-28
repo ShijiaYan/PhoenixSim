@@ -128,7 +128,7 @@ public class PlotterController extends AbstractController {
     private void showPlot(){
 		swingNode.setContent(fig.getChartPanel(newWidth, newHeight));
 		swingNode.resize(newWidth, newHeight);
-		plotPane.setPrefSize((double) newWidth, (double) newHeight);
+		plotPane.setPrefSize(newWidth, newHeight);
     }
 
 	private void updatePlot(){
@@ -202,7 +202,7 @@ public class PlotterController extends AbstractController {
 
 	@FXML
 	public void holdPlotButtonPressed(ActionEvent event){
-		holdFig = !(holdFig) ; // each time button is pressed we change the state of the boolean
+		holdFig = !holdFig; // each time button is pressed we change the state of the boolean
 		if(holdFig){
 			holdPlotButton.setTextFill(Color.RED);
 			addPlotButton.setDisable(false);
@@ -236,7 +236,7 @@ public class PlotterController extends AbstractController {
 	@FXML
 	public void exportToMATLAB(ActionEvent event) throws IOException{
 		// need to load the export to Matlab GUI
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
 		WindowBuilder exportToMatlab = new WindowBuilder(loader) ;
 		Image icon = new Image("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/Extras/MatlabIcons/Matlab_Logo.png") ;
 		exportToMatlab.setIcon(icon);

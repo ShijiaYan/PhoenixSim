@@ -94,23 +94,13 @@ public class StripWgModesTabController extends AbstractTabController {
 
     @SuppressWarnings("unused")
 	private boolean checkAllVariablesSet_wgModeTab(){
-        if(simDataBase.variableExists("width_(nm)") && simDataBase.variableExists("height_(nm)") &&
-                            simDataBase.variableExists("lambda_(nm)") && simDataBase.variableExists("mode")){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return simDataBase.variableExists("width_(nm)") && simDataBase.variableExists("height_(nm)") &&
+                simDataBase.variableExists("lambda_(nm)") && simDataBase.variableExists("mode");
     }
 
     private boolean wgModePlotToggleSelected(){
-        if(neffLambdaRadioButton.isSelected() || neffHRadioButton.isSelected() || neffWRadioButton.isSelected() ||
-                ngHRadioButton.isSelected() || ngLambdaRadioButton.isSelected() || ngLambdaRadioButton.isSelected()){
-            return true;
-        }
-        else{
-            return false ;
-        }
+        return neffLambdaRadioButton.isSelected() || neffHRadioButton.isSelected() || neffWRadioButton.isSelected() ||
+                ngHRadioButton.isSelected() || ngLambdaRadioButton.isSelected() || ngLambdaRadioButton.isSelected();
     }
 
     @FXML
@@ -128,7 +118,7 @@ public class StripWgModesTabController extends AbstractTabController {
 
     @FXML
     public void sweepWidth() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -169,7 +159,7 @@ public class StripWgModesTabController extends AbstractTabController {
 
     @FXML
     public void sweepHeight() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -209,7 +199,7 @@ public class StripWgModesTabController extends AbstractTabController {
     }
 
     public void sweepLambda() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/DataInput/MainGUI/dataCollector.fxml")) ;
         WindowBuilder window = new WindowBuilder(loader) ;
         window.setIcon("/People/Meisam/GUI/DataInput/Extras/dataCollector.png");
         window.build("Data Collector", false);
@@ -288,7 +278,7 @@ public class StripWgModesTabController extends AbstractTabController {
             neff_max = getNeffTE(width_nm, height_nm, lambda_max_nm, m_index, n_index) ;
             neff_min = getNeffTE(width_nm, height_nm, lambda_min_nm, m_index, n_index) ;
             double dneff_dlambda = (neff_max-neff_min)/(lambda_max_nm-lambda_min_nm) ;
-            return (neff_min - lambda_nm * dneff_dlambda) ;
+            return neff_min - lambda_nm * dneff_dlambda;
     }
 
     private double getNeffTM(double width_nm, double height_nm, double lambda_nm, int m_index, int n_index){
@@ -306,7 +296,7 @@ public class StripWgModesTabController extends AbstractTabController {
         neff_max = getNeffTM(width_nm, height_nm, lambda_max_nm, m_index, n_index) ;
         neff_min = getNeffTM(width_nm, height_nm, lambda_min_nm, m_index, n_index) ;
         double dneff_dlambda = (neff_max-neff_min)/(lambda_max_nm-lambda_min_nm) ;
-        return (neff_min - lambda_nm * dneff_dlambda) ;
+        return neff_min - lambda_nm * dneff_dlambda;
     }
 
     private void solveForTE(){

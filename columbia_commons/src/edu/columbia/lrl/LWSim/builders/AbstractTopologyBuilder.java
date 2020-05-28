@@ -18,16 +18,16 @@ public abstract class AbstractTopologyBuilder implements ExperimentBlock {
 	
 	private ArrayList<LWSimComponent> elements;
 	// model part
-	private HashMap<Integer, Receiver> receivers = new HashMap<Integer, Receiver>();
+	private HashMap<Integer, Receiver> receivers = new HashMap<>();
 	
 	
 	public AbstractTopologyBuilder() {}
 	
 	public Pair<InitFeedback, ArrayList<LWSimComponent>> buildAbstract(LWSIMExperiment lwSimExperiment) {
 		this.lwSimExp = lwSimExperiment;
-		elements = new ArrayList<LWSimComponent>();
+		elements = new ArrayList<>();
 		InitFeedback failure = build(lwSimExperiment, elements);
-		Pair<InitFeedback, ArrayList<LWSimComponent>> pair = new Pair<InitFeedback, ArrayList<LWSimComponent>>(failure, elements);
+		Pair<InitFeedback, ArrayList<LWSimComponent>> pair = new Pair<>(failure, elements);
 		return pair;
 	}
 	

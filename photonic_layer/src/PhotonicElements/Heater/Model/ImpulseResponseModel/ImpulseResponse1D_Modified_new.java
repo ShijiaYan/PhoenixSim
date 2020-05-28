@@ -41,7 +41,7 @@ public class ImpulseResponse1D_Modified_new extends AbstractImpulseResponse {
 		this.nu = nu ;
 		double f3dB_hz = f0_hz * (Math.log(2*nu/(nu-1)) * Math.log(2*nu/(nu-1))) ;
 		f3dB_kHz = f3dB_hz/1e3 ;
-		double d_um = 1e6 * Math.sqrt((xi_sio2/Math.PI)/f0_hz) ;
+		double d_um = 1e6 * Math.sqrt((xi_sio2 / Math.PI) / f0_hz) ;
 		double Y0_um = d_um * nu ;
 		this.crossSection = new HeaterWgCrossSection(5, 0.2, d_um, Y0_um) ;
 		fmax_hz = M * M * f0_hz ;
@@ -49,7 +49,7 @@ public class ImpulseResponse1D_Modified_new extends AbstractImpulseResponse {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("xi_sio2", xi_sio2+"") ;
 		map.put("f3dB (kHz)", f3dB_kHz+"") ;
 		map.put("f0 (kHz)", getf0KHz()+"") ;
@@ -72,14 +72,11 @@ public class ImpulseResponse1D_Modified_new extends AbstractImpulseResponse {
 		}
 		else{
 			double t_sec = t_usec * 1e-6 ;
-			IntegralFunction func = new IntegralFunction() {
-				@Override
-				public double function(double f_hz) {
-					double func1 = getComplexFreqResponse(f_hz).abs() ;
-					double func2 = Math.cos(2*Math.PI*f_hz * t_sec + getComplexFreqResponse(f_hz).phase()) ;
-					return (2*func1*func2) ;
-				}
-			};
+			IntegralFunction func = f_hz -> {
+                double func1 = getComplexFreqResponse(f_hz).abs() ;
+                double func2 = Math.cos(2*Math.PI*f_hz * t_sec + getComplexFreqResponse(f_hz).phase()) ;
+                return 2*func1*func2;
+            };
 			AdaptiveIntegral integral = new AdaptiveIntegral(func, 0, fmax_hz) ;
 			integral.setErrorBound(1e-4);
 			integral.setMaximumNumberOfIterations(50);

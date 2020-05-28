@@ -11,7 +11,7 @@ import edu.columbia.lrl.general.Evt;
 
 public class Dst2VoqMapper implements TrafficTransitPoint {
 	
-	TreeMap<Integer, TrafficDestination> destMap = new TreeMap<Integer, TrafficDestination>();
+	TreeMap<Integer, TrafficDestination> destMap = new TreeMap<>();
 	private LWSIMExperiment lwSimExperiment;
 	
 	public void addDestination(TrafficDestination dest, int dstId) {

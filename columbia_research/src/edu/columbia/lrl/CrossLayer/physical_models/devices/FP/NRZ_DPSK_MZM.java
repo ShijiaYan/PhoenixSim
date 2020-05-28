@@ -54,7 +54,7 @@ public class NRZ_DPSK_MZM extends AbstractMZM  {
 	@Override
 	public Map<String, String> getAllParameters() {
 		// TODO Auto-generated method stub
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Peak-to-Peak Voltage (V)", vPeakToPeak + "");
 		map.put("Waveguide Loss Factor (dB/cm)", waveguideLoss + "");
 		map.put("Vpp/Vpi", vPeakToPeak/vPi + "");
@@ -115,12 +115,12 @@ public class NRZ_DPSK_MZM extends AbstractMZM  {
 	
 	@Override
 	public double getEffectiveModulationRate(){
-		return (dataRate*1e9/dutyCycle ) ;
+		return dataRate*1e9/dutyCycle;
 	}
 	
 	@Override
 	public double getModulationRate(){
-		return (dataRate * 1e9 ) ;
+		return dataRate * 1e9;
 	}
 	
 	@Override

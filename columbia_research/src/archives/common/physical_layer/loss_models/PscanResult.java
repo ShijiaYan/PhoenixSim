@@ -20,16 +20,16 @@ public class PscanResult {
 		sum = 0;
 	}
 	
-	HashMap<String, HashMap<String, Double>> groups = new HashMap<String, HashMap<String, Double>>();
+	HashMap<String, HashMap<String, Double>> groups = new HashMap<>();
 	
-	HashMap<String, Double> compParam = new HashMap<String, Double>();	
-	HashMap<String, Double> optParam = new HashMap<String, Double>();
-	HashMap<String, SpecData> specData = new HashMap<String, SpecData>();
+	HashMap<String, Double> compParam = new HashMap<>();
+	HashMap<String, Double> optParam = new HashMap<>();
+	HashMap<String, SpecData> specData = new HashMap<>();
 		
 	public void addPowerDissipatedDB(double power, String group, String text) {
 		HashMap<String, Double> pow = groups.get(group);
 		if (pow == null) {
-			pow = new HashMap<String, Double>();
+			pow = new HashMap<>();
 			groups.put(group, pow);
 		}
 		

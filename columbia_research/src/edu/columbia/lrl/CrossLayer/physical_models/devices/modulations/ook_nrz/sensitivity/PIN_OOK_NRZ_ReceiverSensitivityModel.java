@@ -42,7 +42,7 @@ public class PIN_OOK_NRZ_ReceiverSensitivityModel extends Abstract_OOK_NRZ_Sensi
 
 		double thermalDev = Math.sqrt(magicThermal * rate * rate * rate);
 
-		double sensitivity = (gamma * ((Constants.ELECTRON_CHARGE * bandwidth * gamma) + thermalDev)) / responsivity;
+		double sensitivity = gamma * (Constants.ELECTRON_CHARGE * bandwidth * gamma + thermalDev) / responsivity;
 
 		double sens_dB = 30 + 10d * Math.log10(sensitivity);
 

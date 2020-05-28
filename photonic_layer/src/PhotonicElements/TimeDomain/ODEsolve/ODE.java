@@ -11,8 +11,8 @@ public class ODE {
 	//x[] = array of independent variables
 	//y[][] = array of dependent variables
 	private int numEqns, numFreeVariables;
-	private double x[];
-	private double y[][];
+	private double[] x;
+	private double[][] y;
 	
 	public ODE(
 			int numEqns, 
@@ -76,9 +76,9 @@ public class ODE {
 	
 	//These methods are implemented as stubs.
 	//Subclasses of ODE will override them
-	public void getFunction(double x, double dy[], double ytmp[]) {} 
-	public void getError(double E[], double endY[]) {} 
-	public void setInitialConditions(double x0, double Y[]) {} 
+	public void getFunction(double x, double[] dy, double[] ytmp) {}
+	public void getError(double[] E, double[] endY) {}
+	public void setInitialConditions(double x0, double[] Y) {}
 
 	public void setInitialConditions(double x0) {} 	// initial conditions are self defined within the ODE
 

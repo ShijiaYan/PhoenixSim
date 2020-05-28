@@ -580,13 +580,13 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 			dest = Integer.parseInt(linkC.attribute(XMLTagKeywords.DEST).getValue());
 			linkC.setStartNodeIndex(orig);
 			linkC.setEndNodeIndex(dest);
-			if ((orig < 0 ) || (dest < 0)) {
+			if (orig < 0 || dest < 0) {
 				throw new IllegalStateException("Creating new link with undefined extremities");
 			}
-			if (!(getNodeIndexManager().isUsed(orig))) {
+			if (!getNodeIndexManager().isUsed(orig)) {
 				throw new IllegalStateException("Link created specifying an unkown node as start node (index="+orig+").");
 			}
-			if (!(getNodeIndexManager().isUsed(dest))) {
+			if (!getNodeIndexManager().isUsed(dest)) {
 				throw new IllegalStateException("Link created specifying an unkown node as end node (index="+dest+").");
 			}
 		}
@@ -599,7 +599,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 
 	public Collection<AbstractElementContainer> getAllContainers() {
-		Collection<AbstractElementContainer> col = new ArrayList<AbstractElementContainer>();
+		Collection<AbstractElementContainer> col = new ArrayList<>();
 		col.addAll(this.getLayerContainers());
 		col.addAll(this.getLinkContainers());
 		col.addAll(this.getNodeContainers());
@@ -623,7 +623,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	 * present in the graph
 	 */
 	public Collection<NodeContainer> getNodeContainers() {
-		Collection<NodeContainer> col = new ArrayList<NodeContainer>();
+		Collection<NodeContainer> col = new ArrayList<>();
 		for (LayerContainer c : getLayerContainers()) {
 			col.addAll(c.getNodeContainers());
 		}
@@ -637,7 +637,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	 * @return
 	 */
 	public Collection<NodeContainer> getNodeContainers(String attributeName, String attributeValue) {
-		Collection<NodeContainer> col = new ArrayList<NodeContainer>();
+		Collection<NodeContainer> col = new ArrayList<>();
 		for (LayerContainer c : getLayerContainers()) {
 			for (NodeContainer nc : c.getNodeContainers()) {
 				NetworkAttribute att = nc.attribute(attributeName, false);
@@ -697,7 +697,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 
 	public List<Integer> getNodeIndexes() {
-		ArrayList<Integer> l = new ArrayList<Integer>();
+		ArrayList<Integer> l = new ArrayList<>();
 		for (NodeContainer c : getNodeContainers()) {
 			l.add(c.getIndex());
 		}
@@ -707,7 +707,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 	
 	public Set<Integer> getNodeIndexesSet() {
-		TreeSet<Integer> l = new TreeSet<Integer>();
+		TreeSet<Integer> l = new TreeSet<>();
 		for (NodeContainer c : getNodeContainers()) {
 			l.add(c.getIndex());
 		}
@@ -749,10 +749,10 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 
 	public Collection<LinkContainer> getLinkContainers(int ext1) {
-		Collection<LinkContainer> collector = new ArrayList<LinkContainer>();
+		Collection<LinkContainer> collector = new ArrayList<>();
 		for (LayerContainer llayer : getTopologyHandler().getLayerContainers()) {
 			for (LinkContainer llink : llayer.getLinkContainers()) {
-				if ((llink.getStartNodeIndex() == ext1) || (llink.getEndNodeIndex() == ext1)) {
+				if (llink.getStartNodeIndex() == ext1 || llink.getEndNodeIndex() == ext1) {
 					collector.add(llink);
 				}
 			}
@@ -765,7 +765,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 
 	public ArrayList<LinkContainer> getLinkContainers() {
-		ArrayList<LinkContainer> collector = new ArrayList<LinkContainer>();
+		ArrayList<LinkContainer> collector = new ArrayList<>();
 		for (LayerContainer llayer : getTopologyHandler().getLayerContainers()) {
 			for (LinkContainer llink : llayer.getLinkContainers()) {
 				collector.add(llink);
@@ -781,8 +781,8 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	 * @return
 	 */
 	public List<LinkContainer> getLinkContainers(Path p) {
-		if (p.size() < 2) return new ArrayList<LinkContainer>();
-		ArrayList<LinkContainer> toRet = new ArrayList<LinkContainer>(p.size()-1);
+		if (p.size() < 2) return new ArrayList<>();
+		ArrayList<LinkContainer> toRet = new ArrayList<>(p.size() - 1);
 		for (NodePair np : p.getPathSegments()) {		
 			if (currentlyEdited.getLinkContainer(np) != null) {
 				toRet.add(currentlyEdited.getLinkContainer(np));
@@ -864,7 +864,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 		Collection<LayerContainer> layer = getLayerContainers();
 		
 		ArrayList<AbstractElementContainer> list
-			 = new ArrayList<AbstractElementContainer>(links.size() + nodes.size() + layer.size());
+			 = new ArrayList<>(links.size() + nodes.size() + layer.size());
 		list.addAll(links);
 		list.addAll(nodes);
 		list.addAll(layer);
@@ -1011,7 +1011,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 
 	private Map<String, XMLDataHandler> getXMLHandlerList() {
 		if (xmlHandlerList == null) {
-			xmlHandlerList = new SimpleMap<String, XMLDataHandler>();
+			xmlHandlerList = new SimpleMap<>();
 		}
 		return xmlHandlerList;
 	}
@@ -1052,7 +1052,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 			if (eventEnabled) {
 				this.setModificationEventEnabledWithoutCallingBigChanges(false);
 			}
-			if (!(e.getName().equals(this.getXMLElementName()))) {
+			if (!e.getName().equals(this.getXMLElementName())) {
 				throw new IllegalStateException("Unkown format, root element must be " + getXMLElementName());
 			}
 			MainDataHandler.setXML(this, e);
@@ -1223,7 +1223,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	 */
 	public int getNextNodeIndex(int i) {
 		NodeContainer next = null;
-		while ((next == null) && (i <= this.getHighestNodeIndex())) {
+		while (next == null && i <= this.getHighestNodeIndex()) {
 			i++;
 			next = this.getNodeContainer(i);
 		}
@@ -1338,7 +1338,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 
 	public void removeAllNodesButSome(ArrayList<Integer> previousNodes) {
-		ArrayList<NodeContainer> toRemove = new ArrayList<NodeContainer>();
+		ArrayList<NodeContainer> toRemove = new ArrayList<>();
 		for (NodeContainer nc : this.getNodeContainers()) {
 			if (!previousNodes.contains(nc.getIndex())) {
 				toRemove.add(nc);
@@ -1348,7 +1348,7 @@ public abstract class AbstractGraphHandler extends NetworkEditionEventHandler {
 	}
 
 	public ArrayList<LinkContainer> connectAll(ArrayList<NodeContainer> al) {
-		ArrayList<LinkContainer> links = new ArrayList<LinkContainer>();
+		ArrayList<LinkContainer> links = new ArrayList<>();
 		for (int i = 0 ; i < al.size()-1; i++) {
 			for (int j = i+1 ; j < al.size() ; j++) {
 				links.add(this.newLink(al.get(i), al.get(j)));

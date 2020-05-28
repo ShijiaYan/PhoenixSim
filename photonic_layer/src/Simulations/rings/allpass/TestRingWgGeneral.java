@@ -48,23 +48,20 @@ public class TestRingWgGeneral implements Experiment {
 		double L = loss ;
 		double A = 1-t_in * Math.sqrt(L) ;
 		double B = 2*t_in*Math.sqrt(L) ;
-		double arg = 1-(A*A/B) ;
+		double arg = 1- A*A/B;
 		double Dphi3dB = 2*Math.acos(arg) ;
 		double fsr = 2*Math.PI ;
-		return (fsr/Dphi3dB) ;
+		return fsr/Dphi3dB;
 	}
 	
 	private double getFinesseNumeric(){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double phi) {
-				double y = getThruTransmission(phi) - (getThruTransmission(0) + getThruTransmission(Math.PI)) * 1/2 ;
-				return y;
-			}
-		};
+		RealRootFunction func = phi -> {
+            double y = getThruTransmission(phi) - (getThruTransmission(0) + getThruTransmission(Math.PI)) * 1/2 ;
+            return y;
+        };
 		RealRoot rootFinder = new RealRoot() ;
 		double phi3dB = rootFinder.bisect(func, 0, Math.PI) ;
-		return (Math.PI/phi3dB) ;
+		return Math.PI/phi3dB;
 	}
 	
 	@Override
@@ -87,7 +84,7 @@ public class TestRingWgGeneral implements Experiment {
 		
 		dp.addResultProperty("Finesse (equation)", getFinesse());
 		dp.addResultProperty("Finesse (numeric)", getFinesseNumeric());
-		dp.addProperty("phi/2pi", phiRad/(twoPi));
+		dp.addProperty("phi/2pi", phiRad/ twoPi);
 		dp.addProperty("lossDB", lossDB);
 		dp.addProperty("input kappa", inputKappa);
 		dp.addResultProperty("Thru Transmission (dB)", getThruTransmissionDB());	

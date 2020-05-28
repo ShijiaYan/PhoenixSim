@@ -88,16 +88,8 @@ public class ScriptExecutionException extends Exception {
 		}
 		JButton okButton = new JButton("ok");
 		JButton moreButton = new JButton("view full trace");
-		okButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				diag.setVisible(false);
-			}
-		});
-		moreButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				displayStackDialog(diag);
-			}
-		});
+		okButton.addActionListener(e -> diag.setVisible(false));
+		moreButton.addActionListener(e -> displayStackDialog(diag));
 		downPane.add(okButton);
 		downPane.add(moreButton);
 
@@ -116,11 +108,7 @@ public class ScriptExecutionException extends Exception {
 		trace.add(scroll, java.awt.BorderLayout.CENTER);
 
 		javax.swing.JButton button = new javax.swing.JButton("ok");
-		button.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				trace.setVisible(false);
-			}
-		});
+		button.addActionListener(evt -> trace.setVisible(false));
 		trace.add(button, java.awt.BorderLayout.SOUTH);
 		trace.pack();
 		trace.setVisible(true);

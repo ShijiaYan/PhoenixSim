@@ -91,21 +91,11 @@ public class HeaterController extends AbstractController {
     }
 
     private boolean checkFilledTextsInDCTab(){
-        if(!kvLabel.getText().isEmpty() && !RlinearLabel.getText().isEmpty() && !aHLabel.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !kvLabel.getText().isEmpty() && !RlinearLabel.getText().isEmpty() && !aHLabel.getText().isEmpty();
     }
 
     private boolean dcToggleIsSelected(){
-        if(ivPlotRadioButton.isSelected() || viPlotRadioButton.isSelected() || tempIRadioButton.isSelected() || tempVRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return ivPlotRadioButton.isSelected() || viPlotRadioButton.isSelected() || tempIRadioButton.isSelected() || tempVRadioButton.isSelected();
     }
 
     @FXML
@@ -220,21 +210,11 @@ public class HeaterController extends AbstractController {
     }
 
     private boolean checkFilledTextsInFreqTab(){
-        if(!f0Label.getText().isEmpty() && !nuLabel.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !f0Label.getText().isEmpty() && !nuLabel.getText().isEmpty();
     }
 
     private boolean freqToggleIsSelected(){
-        if(ampdBPlotRadioButton.isSelected() || ampPlotRadioButton.isSelected() || phaseRadRadioButton.isSelected() || phaseDegreeRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return ampdBPlotRadioButton.isSelected() || ampPlotRadioButton.isSelected() || phaseRadRadioButton.isSelected() || phaseDegreeRadioButton.isSelected();
     }
 
     @FXML
@@ -341,21 +321,11 @@ public class HeaterController extends AbstractController {
     }
 
     private boolean checkFilledTextsInImpulseTab(){
-        if(!impulseStartTimeLabel.getText().isEmpty() && !impulseEndTimeLabel.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !impulseStartTimeLabel.getText().isEmpty() && !impulseEndTimeLabel.getText().isEmpty();
     }
 
     private boolean impulseToggleIsSelected(){
-        if(impulsePlotRadioButton.isSelected() || impulseNormalPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return impulsePlotRadioButton.isSelected() || impulseNormalPlotRadioButton.isSelected();
     }
 
     @FXML
@@ -444,21 +414,11 @@ public class HeaterController extends AbstractController {
     }
 
     private boolean checkFilledTextsInStepTab(){
-        if(!stept0Label.getText().isEmpty() && !stepV0Label.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !stept0Label.getText().isEmpty() && !stepV0Label.getText().isEmpty();
     }
 
     private boolean stepToggleIsSelected(){
-        if(stepWaveguidePlotRadioButton.isSelected() || stepHeaterPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return stepWaveguidePlotRadioButton.isSelected() || stepHeaterPlotRadioButton.isSelected();
     }
 
     @FXML
@@ -566,21 +526,11 @@ public class HeaterController extends AbstractController {
     }
 
     private boolean checkFilledTextsInSinTab(){
-        if(!sint0Label.getText().isEmpty() && !sinV0Label.getText().isEmpty() && !sinFreqLabel.getText().isEmpty() && !sinVpLabel.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !sint0Label.getText().isEmpty() && !sinV0Label.getText().isEmpty() && !sinFreqLabel.getText().isEmpty() && !sinVpLabel.getText().isEmpty();
     }
 
     private boolean sinToggleIsSelected(){
-        if(sinWaveguidePlotRadioButton.isSelected() || sinHeaterPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return sinWaveguidePlotRadioButton.isSelected() || sinHeaterPlotRadioButton.isSelected();
     }
 
     @FXML
@@ -710,21 +660,11 @@ public class HeaterController extends AbstractController {
     }
 
     private boolean checkFilledTextsInPWMTab(){
-        if(!pwmVpLabel.getText().isEmpty() && !pwmDLabel.getText().isEmpty() && !pwmFreqLabel.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !pwmVpLabel.getText().isEmpty() && !pwmDLabel.getText().isEmpty() && !pwmFreqLabel.getText().isEmpty();
     }
 
     private boolean pwmToggleIsSelected(){
-        if(pwmWaveguidePlotRadioButton.isSelected() || pwmHeaterPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return pwmWaveguidePlotRadioButton.isSelected() || pwmHeaterPlotRadioButton.isSelected();
     }
 
     @FXML
@@ -741,7 +681,7 @@ public class HeaterController extends AbstractController {
     public void setDPWM(){
         double PWM_D = Double.parseDouble(pwmDTextField.getText()) ;
         simDataBase.addNewVariable(new SimulationVariable("PWM_D", new double[]{PWM_D}));
-        pwmDLabel.setText("D is set to " + (100*PWM_D) + " %");
+        pwmDLabel.setText("D is set to " + 100*PWM_D + " %");
         if(pwmToggleIsSelected()){
             pwmPlot.getSelectedToggle().setSelected(false);
         }
@@ -765,7 +705,7 @@ public class HeaterController extends AbstractController {
             double Vp = simDataBase.getVariable("PWM_Vp_(V)").getValue(0) ;
             double tStart_usec = simDataBase.getVariable("impulse_tStart_(usec)").getValue(0) ;
             double tEnd_usec = simDataBase.getVariable("impulse_tEnd_(usec)").getValue(0) ;
-            double tPeriod_usec = (1/(freq*1e3))*1e6 ;
+            double tPeriod_usec = (1/(freq*1e3)) *1e6 ;
             double[] time_usec = MoreMath.linspace(tStart_usec, tEnd_usec, 1000) ;
             int numPeriods = (int) (MoreMath.Arrays.FindMaximum.getValue(time_usec)/tPeriod_usec) ;
             int M = time_usec.length ;
@@ -827,17 +767,17 @@ public class HeaterController extends AbstractController {
         int width = 500, height = 400 ;
         pane.getChildren().remove(fig.getChartSwingNode(width, height)) ;
         pane.getChildren().add(fig.getChartSwingNode(width, height)) ;
-        pane.setPrefSize((double) width, (double) height);
+        pane.setPrefSize(width, height);
     }
 
     // implementing event handlers for menu bar
     @FXML
     public void dataBasePressed() throws IOException{
-    	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/DataBaseTable/DataBase_v1_0/database_table.fxml")) ;
+    	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/DataBaseTable/DataBase_v1_0/database_table.fxml")) ;
     	WindowBuilder builder = new WindowBuilder(loader) ;
     	builder.setIcon("/People/Meisam/GUI/Utilities/DataBaseTable/Extras/database.png");
     	builder.build("Simulation DataBase v1.0", true);
-    	DatabaseTableController controller = (DatabaseTableController) loader.getController() ;
+    	DatabaseTableController controller = loader.getController();
     	controller.setDataBase(simDataBase);
     	controller.updateParamTable();
     	controller.getCloseButton().setOnAction(e -> {
@@ -851,7 +791,7 @@ public class HeaterController extends AbstractController {
 
     @FXML
     public void exportToMatlabPressed() throws IOException{
-    	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
+    	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
     	WindowBuilder builder = new WindowBuilder(loader) ;
     	builder.setIcon("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/Extras/MatlabIcons/Matlab_Logo.png");
     	builder.build("Configure Export To Matlab", false);
@@ -928,7 +868,7 @@ public class HeaterController extends AbstractController {
 
     @FXML
     public void openInPlotterPressed() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
         WindowBuilder plotter = new WindowBuilder(loader) ;
         plotter.setIcon("/People/Meisam/GUI/Plotters/MainGUI/Extras/plotter.png");
         plotter.build("Plotter v0.5 Beta", true);
@@ -962,7 +902,7 @@ public class HeaterController extends AbstractController {
 
     @FXML
     public void creditsPressed() throws IOException{
-    	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/GeneralCredits/general_credits.fxml")) ;
+    	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/GeneralCredits/general_credits.fxml")) ;
     	WindowBuilder credits = new WindowBuilder(loader) ;
     	credits.setIcon("/People/Meisam/GUI/Credits/GeneralCredits/Extras/gift-box.png");
     	credits.build("Credits", false);
@@ -971,7 +911,7 @@ public class HeaterController extends AbstractController {
 
     @FXML
     public void feedbackPressed() throws Exception {
-    	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/FeedbackForm/feedback_form.fxml")) ;
+    	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/FeedbackForm/feedback_form.fxml")) ;
     	WindowBuilder credits = new WindowBuilder(loader) ;
     	credits.setIcon("/People/Meisam/GUI/Credits/FeedbackForm/Extras/feedback.png");
     	credits.build("Feedback Form", false);
@@ -980,7 +920,7 @@ public class HeaterController extends AbstractController {
 
     @FXML
     public void newMenuItemPressed() throws Exception{
-    	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/ThermalHeater/MainGUI/heater.fxml")) ;
+    	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/ThermalHeater/MainGUI/heater.fxml")) ;
     	WindowBuilder newSim = new WindowBuilder(loader) ;
     	newSim.setIcon("/People/Meisam/GUI/ThermalHeater/Extras/PhoenixSim_logo.png");
     	newSim.build_NoModality("Thermo-Optic Analyzer v1.0", false);

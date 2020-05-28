@@ -43,7 +43,7 @@ public class CurvedWgLoss {
 		double yDoublePrime = -B*sin(t) ;
 		double num = pow(xPrime*xPrime+yPrime*yPrime, 1.5) ;
 		double denom = abs(xPrime*yDoublePrime-yPrime*xDoublePrime) ;
-		return (num/denom) ;
+		return num/denom;
 	}
 
 	@SuppressWarnings("unused")
@@ -57,11 +57,7 @@ public class CurvedWgLoss {
 	}
 
 	private static double getLossDB(double tStart, double tEnd){
-		IntegralFunction func = new IntegralFunction() {
-			public double function(double t) {
-				return getAlpha(getR(t))*getDs(t)*1e-4;
-			}
-		};
+		IntegralFunction func = t -> getAlpha(getR(t))*getDs(t)*1e-4;
 
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, tStart, tEnd) ;
 		return integral.getIntegral() ;
@@ -69,15 +65,11 @@ public class CurvedWgLoss {
 
 	@SuppressWarnings("unused")
 	private static double getLossDBperCm(double tStart, double tEnd){
-		return (getLossDB(tStart, tEnd)/getLength(tStart, tEnd)) ;
+		return getLossDB(tStart, tEnd)/getLength(tStart, tEnd);
 	}
 
 	private static double getLength(double tStart, double tEnd){
-		IntegralFunction func = new IntegralFunction() {
-			public double function(double t) {
-				return getDs(t)*1e-4;
-			}
-		};
+		IntegralFunction func = t -> getDs(t)*1e-4;
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, tStart, tEnd) ;
 		return integral.getIntegral() ;
 	}

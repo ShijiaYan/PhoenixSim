@@ -7,19 +7,19 @@ import ch.epfl.general_libraries.utils.SimpleMap;
 public abstract class AbstractExperimentBlock implements ExperimentBlock {
 
 	public static Map<String, String> getEmptyMap() {
-		return new SimpleMap<String, String>(0);
+		return new SimpleMap<>(0);
 	}
 
 	public static Map<String, String> getNewMap() {
-		return new SimpleMap<String, String>(1);
+		return new SimpleMap<>(1);
 	}
 
 	public static Map<String, String> getNewMap(int i) {
-		return new SimpleMap<String, String>(i);
+		return new SimpleMap<>(i);
 	}
 
 	public static Map<String, String> getMap(String[] ... params) {
-		SimpleMap<String, String> map = new SimpleMap<String, String>(params.length);
+		SimpleMap<String, String> map = new SimpleMap<>(params.length);
 		for (String[] tab : params) {
 			map.put(tab[0], tab[1]);
 		}
@@ -30,9 +30,9 @@ public abstract class AbstractExperimentBlock implements ExperimentBlock {
 		if (params.length % 2 != 0) {
 			throw new IllegalArgumentException("Number of argument must be pair");
 		}
-		SimpleMap<String, String> map = new SimpleMap<String, String>(params.length/2);
+		SimpleMap<String, String> map = new SimpleMap<>(params.length / 2);
 		for (int i = 0 ; i < params.length / 2 ; i++) {
-			map.put(params[2*i], params[(2*i)+1]);
+			map.put(params[2*i], params[2*i +1]);
 		}
 		return map;
 	}
@@ -66,9 +66,9 @@ public abstract class AbstractExperimentBlock implements ExperimentBlock {
 	}
 
 	public static int[] getIntArray(int min, int max, int incr, int coeff) {
-		int[] a = new int[((max-min)/incr)+1];
+		int[] a = new int[(max-min)/incr +1];
 		for (int i = 0 ; i < a.length ; i++) {
-			a[i] = coeff*(min+(i*incr));
+			a[i] = coeff*(min+ i*incr);
 		}
 		return a;
 	}
@@ -76,7 +76,7 @@ public abstract class AbstractExperimentBlock implements ExperimentBlock {
 	public static double[] getDoubleArray(double min,  double max, double incr) {
 		double[] a = new double[(int)Math.floor((max-min)/incr)+1];
 		for (int i = 0 ; i < a.length ; i++) {
-			a[i] = (min+(i*incr));
+			a[i] = min+ i*incr;
 		}
 		return a;
 	}
@@ -84,7 +84,7 @@ public abstract class AbstractExperimentBlock implements ExperimentBlock {
 	public static float[] getFloatArray(float min,  float max, float incr) {
 		float[] a = new float[(int)Math.floor((max-min)/incr)+1];
 		for (int i = 0 ; i < a.length ; i++) {
-			a[i] = (min+(i*incr));
+			a[i] = min+ i*incr;
 		}
 		return a;
 	}

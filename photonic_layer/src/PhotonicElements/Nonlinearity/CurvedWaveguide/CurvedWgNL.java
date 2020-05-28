@@ -81,11 +81,11 @@ public class CurvedWgNL {
 	}
 	
 	public double getExcessPhaseNL(){
-		return (CWgKerr.getExcessPhaseKerr()+ CWgThermal.getExcessPhaseThermal()+ CWgTPA.getExcessPhaseTPA());
+		return CWgKerr.getExcessPhaseKerr()+ CWgThermal.getExcessPhaseThermal()+ CWgTPA.getExcessPhaseTPA();
 	}
 	
 	public double getExcessLoss(){
-		return (CWgKerr.getExcessLossKerr()*CWgTPA.getExcessLossTPA());
+		return CWgKerr.getExcessLossKerr()*CWgTPA.getExcessLossTPA();
 	}
 	public double getDnEff(){
 		return CWgKerr.getDnEffKerr() + CWgTPA.getDnEffTPA() + CWgThermal.getDnEffThermal();

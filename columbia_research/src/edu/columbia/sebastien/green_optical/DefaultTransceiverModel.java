@@ -58,7 +58,7 @@ public class DefaultTransceiverModel extends AbstractTransceiverModel {
 
 	@Override
 	public Map<String, String> getTransceiverProperties() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("non laser power at 10G (mW/Gb/s)", nonLaserPerBitEnergyAt10G+"");
 		m.put("trans power scaling", powerScale+"");
 		m.put("laser efficiency", laserEfficiency+"");

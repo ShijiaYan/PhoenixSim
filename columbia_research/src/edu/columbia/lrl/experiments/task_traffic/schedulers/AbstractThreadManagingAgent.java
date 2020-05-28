@@ -12,8 +12,8 @@ import edu.columbia.lrl.experiments.task_traffic.task_generators.tasks.Task;
 
 public abstract class AbstractThreadManagingAgent {
 
-	protected ArrayDeque<ThreadInfo> openedThreads = new ArrayDeque<ThreadInfo>();
-	protected ArrayDeque<ThreadInfo> deque = new ArrayDeque<ThreadInfo>();	
+	protected ArrayDeque<ThreadInfo> openedThreads = new ArrayDeque<>();
+	protected ArrayDeque<ThreadInfo> deque = new ArrayDeque<>();
 	
 	protected TaskExecutionAnalyser taskExecAnalyser;
 	

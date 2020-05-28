@@ -18,7 +18,7 @@ public class TestPosition {
 		p1.Polar(5, Math.PI/6);
 		System.out.println(p1.getString());
 		
-		Map<String, Position> ports = new SimpleMap<String, Position>() ;
+		Map<String, Position> ports = new SimpleMap<>() ;
 		ports.put("wg1.port1", pt) ;
 		ports.put("wg1.port2", p1) ;
 		

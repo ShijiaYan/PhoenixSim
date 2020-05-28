@@ -208,7 +208,7 @@ public class CustomNumberAxis extends NumberAxis {
 
         if (count <= ValueAxis.MAXIMUM_TICK_COUNT) {
             for (int i = 0; i < count; i++) {
-                double currentTickValue = lowestTickValue + (i * size);
+                double currentTickValue = lowestTickValue + i * size;
                 String tickLabel;
                 NumberFormat formatter = getNumberFormatOverride();
                 boolean vert = false;

@@ -85,7 +85,7 @@ public class LocalityModelBasedTrafficMatrix extends AbstractTrafficMatrix {
 	public double getTraffic(int src, int dest) {
 		int s = src / mult;
 		int d = dest / mult;
-		return traffic[s][d]/((double)mult);
+		return traffic[s][d]/ (double)mult;
 	}
 
 	@Override

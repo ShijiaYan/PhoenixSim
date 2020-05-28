@@ -35,7 +35,7 @@ public class TestFFT {
 		MatlabChart fig1 = new MatlabChart() ;
 		double[] amp = new double[yReal.length] ;
 		for(int i=0; i<yReal.length; i++){
-			amp[i] = (new Complex(yReal[i], yImag[i])).absSquared() ;
+			amp[i] = new Complex(yReal[i], yImag[i]).absSquared() ;
 		}
 		fig1.plot(MoreMath.linspace(1, N, 1.0), amp);
 		fig1.RenderPlot();

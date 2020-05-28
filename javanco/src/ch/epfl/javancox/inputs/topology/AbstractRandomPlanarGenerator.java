@@ -28,7 +28,7 @@ public abstract class AbstractRandomPlanarGenerator extends AbstractRandomSpatia
 						add++;
 					}
 				}
-				result = (add >= cc.getNumberOfComponents()-1);
+				result = add >= cc.getNumberOfComponents()-1;
 			} else {
 				result = true;
 			}

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package edu.columbia.lrl.CrossLayer.physical_models.layout;
 
 import java.util.ArrayList;
@@ -20,10 +15,9 @@ import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
 import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
 
 
-public class P2PLayout extends PhysicalLayout {
+public class P2PLayout extends AbstractPhysicalLayout {
 
 	int numCouplers;
-	PhysicalParameterAndModelsSet devices;
 
 	public P2PLayout(@ParamName(name = "Number of couplers", default_ = "2") int numCouplers) {
 		this.numCouplers = numCouplers;

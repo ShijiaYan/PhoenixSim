@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class StripWgSensitivityTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/WgSensitivity/StripWg/strip_wg_modes_sensitivity.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/WgSensitivity/StripWg/strip_wg_modes_sensitivity.fxml")) ; ;
 	StripWgSensitivityTabController controller ;
 
 	public StripWgSensitivityTab(SimulationDataBase simDataBase){

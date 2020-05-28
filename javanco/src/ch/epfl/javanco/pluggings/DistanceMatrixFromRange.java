@@ -37,22 +37,18 @@ public class DistanceMatrixFromRange extends JavancoTool {
 		dia.add(tf1);
 		dia.add(tf2);
 		final JButton b = new JButton("go");
-		b.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int from = Integer.parseInt(tf1.getText());
-				int to = Integer.parseInt(tf2.getText())+1;
-				int[][] dist = new int[to-from][to-from];
-				for (int i = from ; i < to ; i++) {
-					int[] dista = BFS.getDistancesFromUndirected(agh, i);
-					for (int j = 0 ; j < to-from ; j++) {
-						dist[i-from][j] = dista[from + j];
-					}
-				}
-				PcolorGUI.show(dist);
-			}
-		});
+		b.addActionListener(e -> {
+            int from = Integer.parseInt(tf1.getText());
+            int to = Integer.parseInt(tf2.getText())+1;
+            int[][] dist = new int[to-from][to-from];
+            for (int i = from ; i < to ; i++) {
+                int[] dista = BFS.getDistancesFromUndirected(agh, i);
+                for (int j = 0 ; j < to-from ; j++) {
+                    dist[i-from][j] = dista[from + j];
+                }
+            }
+            PcolorGUI.show(dist);
+        });
 		dia.add(b);
 		dia.setVisible(true);
 	}

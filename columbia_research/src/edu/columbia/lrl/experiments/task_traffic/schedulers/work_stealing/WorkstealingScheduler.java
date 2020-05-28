@@ -106,11 +106,11 @@ public class WorkstealingScheduler extends AbstractScheduler {
 	}
 	
 	public boolean hasMoreTasksToSchedule() {
-		return (scheduled < getNumberOfTaskToSchedule());
+		return scheduled < getNumberOfTaskToSchedule();
 	}
 	
 	public boolean hasStillWorkToDo() {
-		return (terminated < getNumberOfTaskToSchedule());
+		return terminated < getNumberOfTaskToSchedule();
 	}
 	
 	@Override

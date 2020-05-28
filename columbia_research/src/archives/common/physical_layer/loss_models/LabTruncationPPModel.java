@@ -4,7 +4,7 @@ package archives.common.physical_layer.loss_models;
 public class LabTruncationPPModel extends AbstractTruncationPPModel {
 	
 	public static void main(String[] args) {
-		System.out.println((new LabTruncationPPModel()).getTruncationPowerPenalty(2));
+		System.out.println(new LabTruncationPPModel().getTruncationPowerPenalty(2));
 		
 	}
 	

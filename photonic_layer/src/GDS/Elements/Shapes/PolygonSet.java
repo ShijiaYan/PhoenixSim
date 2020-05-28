@@ -70,18 +70,18 @@ public class PolygonSet extends AbstractElement {
 		String st02 = "## ---------------------------------------- ##" ;
 		String[] args = {st00, st01, st02} ;
 		int m = layerMap.length ;
-		for(int j=0; j<m; j++){
-			// defining the layer of the object
-			int layerNumber = layerMap[j].getLayerNumber() ;
-			int dataType = layerMap[j].getDataType() ;
-			// creating the PolygonSet object
-			String title = "### adding a "+ layerMap[j].getLayerName() +" layer" ;
-			String st2 = objectName + " = gdspy.PolygonSet(" ;
-			st2 += getAllVertices() + "," ;
-			st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)" ;
-			String st3 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            // defining the layer of the object
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            // creating the PolygonSet object
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st2 = objectName + " = gdspy.PolygonSet(";
+            st2 += getAllVertices() + ",";
+            st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)";
+            String st3 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3});
+        }
 		return args;
 	}
 	
@@ -90,18 +90,18 @@ public class PolygonSet extends AbstractElement {
 		String st00 = "" ;
 		String[] args = {st00} ;
 		int m = layerMap.length ;
-		for(int j=0; j<m; j++){
-			// defining the layer of the object
-			int layerNumber = layerMap[j].getLayerNumber() ;
-			int dataType = layerMap[j].getDataType() ;
-			// creating the PolygonSet object
-			String title = "### adding a "+ layerMap[j].getLayerName() +" layer" ;
-			String st2 = objectName + " = gdspy.PolygonSet(" ;
-			st2 += getAllVertices() + "," ;
-			st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)" ;
-			String st3 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            // defining the layer of the object
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            // creating the PolygonSet object
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st2 = objectName + " = gdspy.PolygonSet(";
+            st2 += getAllVertices() + ",";
+            st2 += "layer=" + layerNumber + "," + "datatype=" + dataType + "," + "verbose = False)";
+            String st3 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3});
+        }
 		return args;
 	}
 

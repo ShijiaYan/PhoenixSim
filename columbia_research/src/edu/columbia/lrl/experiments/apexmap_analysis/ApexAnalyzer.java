@@ -96,8 +96,8 @@ public class ApexAnalyzer implements Experiment {
 	
 	
 	private void processFile(File f, AbstractResultsManager man) {
-		accesses = new StatisticalDistribution<Integer>();
-		pauses = new StatisticalDistribution<Integer>();
+		accesses = new StatisticalDistribution<>();
+		pauses = new StatisticalDistribution<>();
 		
 		double clockLengthPs = 1000d/clock;
 		
@@ -138,7 +138,7 @@ public class ApexAnalyzer implements Experiment {
 			DataPoint glo = dp.getDerivedDataPoint();
 			
 			glo.addResultProperty("Total time", lastSecond);
-			glo.addResultProperty("Utilization",  (double)(lastSecond - pauses.getSum())/(double)lastSecond);
+			glo.addResultProperty("Utilization",  (lastSecond - pauses.getSum()) /(double)lastSecond);
 			glo.addResultProperty("Average activity time (ns)", accessesPs.getMean());
 			glo.addResultProperty("Max activity time", accessesPs.getMax());
 			glo.addResultProperty("Average transfer size in byte", accessesByte.getMean());

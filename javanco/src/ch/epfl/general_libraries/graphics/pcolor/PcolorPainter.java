@@ -67,7 +67,7 @@ public class PcolorPainter {
 						System.out.println("Not normalised");
 						return null;
 					}
-					int col = (int)(dataI[i][j]*size);
+					int col = dataI[i][j]*size;
 					g.setColor(cmap.getColor(size - col));
 					g.fillRect(i*pixelWidth, j*pixelHeight, pixelWidth, pixelHeight);
 				}

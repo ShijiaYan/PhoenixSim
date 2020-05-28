@@ -28,7 +28,7 @@ public class PathSet implements Iterable<Path> {
 	}
 
 	public PathSet(int nodeNumber, PathFilter myFilter) {
-		pathsMatrix = new Matrix<IJPathSet>(nodeNumber);
+		pathsMatrix = new Matrix<>(nodeNumber);
 		for (int i = 0 ; i < nodeNumber ; i++) {
 			for (int j = 0 ; j < nodeNumber ; j++) {
 				pathsMatrix.setMatrixElement(i,j,new IJPathSet());
@@ -67,7 +67,7 @@ public class PathSet implements Iterable<Path> {
 
 	public Matrix<Integer> getSizeMatrix() {
 		int size = pathsMatrix.size();
-		Matrix<Integer> sizes = new Matrix<Integer>(size);
+		Matrix<Integer> sizes = new Matrix<>(size);
 		for (int i = 0 ; i < size ; i++) {
 			for (int j = 0 ; j < size ; j++) {
 				sizes.setMatrixElement(i,j,pathsMatrix.getMatrixElement(i,j).size());
@@ -146,7 +146,7 @@ public class PathSet implements Iterable<Path> {
 	}
 	
 	public List<Path> getPathsAsList(int source, int destination) {
-		return new ArrayList<Path>(getPaths(source, destination));
+		return new ArrayList<>(getPaths(source, destination));
 	}
 
 	/*	public Set<Path> getSortedPaths(int source, int destination, PathCalculator pc) {

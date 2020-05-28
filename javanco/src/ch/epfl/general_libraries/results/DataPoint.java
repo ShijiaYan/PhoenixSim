@@ -11,7 +11,7 @@ public class DataPoint implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final ArrayList<Property> properties = new ArrayList<Property>();
+	private final ArrayList<Property> properties = new ArrayList<>();
 
 	private DataPoint parent;
 
@@ -147,7 +147,7 @@ public class DataPoint implements Serializable {
 		if (parent != null) {
 			list = parent.getInputProperties();
 		} else {
-			list = new ArrayList<Property>();
+			list = new ArrayList<>();
 		}
 		for (Property p : properties) {
 			if (!(p instanceof ResultProperty)) {
@@ -162,7 +162,7 @@ public class DataPoint implements Serializable {
 		if (parent != null) {
 			list = parent.getInputPropertiesNames();
 		} else {
-			list = new ArrayList<String>();
+			list = new ArrayList<>();
 		}
 		for (Property p : properties) {
 			if (!(p instanceof ResultProperty)) {
@@ -177,10 +177,10 @@ public class DataPoint implements Serializable {
 		if (parent != null) {
 			list = parent.getOutputProperties();
 		} else {
-			list = new ArrayList<Property>();
+			list = new ArrayList<>();
 		}
 		for (Property p : properties) {
-			if ((p instanceof ResultProperty)) {
+			if (p instanceof ResultProperty) {
 				list.add(p);
 			}
 		}				
@@ -192,10 +192,10 @@ public class DataPoint implements Serializable {
 		if (parent != null) {
 			list = parent.getOutputPropertiesNames();
 		} else {
-			list = new ArrayList<String>();
+			list = new ArrayList<>();
 		}
 		for (Property p : properties) {
-			if ((p instanceof ResultProperty)) {
+			if (p instanceof ResultProperty) {
 				list.add(p.getName());
 			}
 		}				

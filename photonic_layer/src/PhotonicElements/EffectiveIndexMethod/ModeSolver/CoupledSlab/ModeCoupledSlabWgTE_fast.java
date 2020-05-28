@@ -95,12 +95,7 @@ public class ModeCoupledSlabWgTE_fast {
 	// mode number starts from 0 --> TE0, TE1, TE2, ...
 	@SuppressWarnings("unused")
 	public double findNeffEven(int modeNumber){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double neff) {
-				return getModeEquation(neff);
-			}
-		};
+		RealRootFunction func = neff -> getModeEquation(neff);
 		RealRoot rootFinder = new RealRoot() ;
 
 		SlabWg slab1 = new SlabWg(inputLambda, w1_nm, n_gap, n_core1, n_up) ;
@@ -115,12 +110,7 @@ public class ModeCoupledSlabWgTE_fast {
 	}
 
 	public double findNeffOdd(int modeNumber){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double neff) {
-				return getModeEquation(neff);
-			}
-		};
+		RealRootFunction func = neff -> getModeEquation(neff);
 		RealRoot rootFinder = new RealRoot() ;
 
 		SlabWg slab1 = new SlabWg(inputLambda, w1_nm, n_gap, n_core1, n_up) ;

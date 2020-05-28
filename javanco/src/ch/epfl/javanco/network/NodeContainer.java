@@ -273,7 +273,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	 * @return a <code>java.util.Collection</code> of <code>LinkContainer</code>
 	 */
 	public List<LinkContainer> getAllOutgoingLinks() {
-		List<LinkContainer> list = new ArrayList<LinkContainer>(4);
+		List<LinkContainer> list = new ArrayList<>(4);
 		for (LayerContainer lc : getAbstractGraphHandler().getLayerContainers()) {
 			list.addAll(lc.getOutgoingLinks(index));
 		}
@@ -293,7 +293,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	 * @return a <code>java.util.Collection</code> of <code>LinkContainer</code>
 	 */
 	public List<LinkContainer> getAllIncomingLinks() {
-		List<LinkContainer> list = new ArrayList<LinkContainer>(4);
+		List<LinkContainer> list = new ArrayList<>(4);
 		for (LayerContainer lc : getAbstractGraphHandler().getLayerContainers()) {
 			list.addAll(lc.getIncomingLinks(index));
 		}
@@ -384,17 +384,16 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public List<NodeContainer> getAllConnectedLinkExtremities() {
 		List<LinkContainer> ln = getAllConnectedLinks();
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public TreeSet<Integer> getAllConnectedLinksExtremityIndexes() {
 		List<LinkContainer> ln = getAllConnectedLinks();
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -438,7 +437,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 
 
 	public List<LinkContainer> getAllLinksTo(int a) {
-		List<LinkContainer> list = new ArrayList<LinkContainer>(2);
+		List<LinkContainer> list = new ArrayList<>(2);
 		for (LayerContainer lay : getAbstractGraphHandler().getLayerContainers()) {
 			LinkContainer lc = lay.getLinkContainer(index, a);
 			if (lc != null) {
@@ -449,7 +448,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	}
 	
 	public List<LinkContainer> getAllLinksFrom(int a) {
-		List<LinkContainer> list = new ArrayList<LinkContainer>(2);
+		List<LinkContainer> list = new ArrayList<>(2);
 		for (LayerContainer lay : getAbstractGraphHandler().getLayerContainers()) {
 			LinkContainer lc = lay.getLinkContainer(a, index);
 			if (lc != null) {
@@ -460,7 +459,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	}
 	
 	public List<LinkContainer> getAllLinksWith(int a) {
-		List<LinkContainer> list = new ArrayList<LinkContainer>(2);
+		List<LinkContainer> list = new ArrayList<>(2);
 		for (LayerContainer lay : getAbstractGraphHandler().getLayerContainers()) {
 			LinkContainer lc = lay.getLinkContainer(a, index);
 			if (lc != null) {
@@ -499,11 +498,8 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	 */	
 	public LinkContainer getLinkTo(int a, LayerContainer layC) {
 		LinkContainer lc = layC.getLinkContainer(index, a);
-		if (lc != null) {
-			return lc;
-		}
-		return null;
-	}
+        return lc;
+    }
 	
 	/** 
 	 * If current node has an outgoing link to a node n on the provided layer, returns the connecting link, else returns null
@@ -512,11 +508,8 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	 */	
 	public LinkContainer getLinkTo(NodeContainer n, LayerContainer layC) {
 		LinkContainer lc = layC.getLinkContainer(index, n.index);
-		if (lc != null) {
-			return lc;
-		}
-		return null;
-	}	
+        return lc;
+    }
 	
 	/** 
 	 * If current node has an incoming link from node n on its layer, return the connecting link, else returns null
@@ -552,11 +545,8 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	 */	
 	public LinkContainer getLinkFrom(int a, LayerContainer layC) {
 		LinkContainer lc = layC.getLinkContainer(a, index);
-		if (lc != null) {
-			return lc;
-		}
-		return null;
-	}
+        return lc;
+    }
 	
 	/** 
 	 * If current node has an incoming link from node  with index a on the provided layer, returns the connecting link, else returns null
@@ -565,18 +555,15 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	 */	
 	public LinkContainer getLinkFrom(NodeContainer n, LayerContainer layC) {
 		LinkContainer lc = layC.getLinkContainer(n.index, index);
-		if (lc != null) {
-			return lc;
-		}
-		return null;
-	}	
+        return lc;
+    }
 
 	/**
 	 * Get all connected links (on its layer) and returns the other extremities
 	 * @return
 	 */
 	public List<NodeContainer> getConnectedNodes() {
-		java.util.Stack<NodeContainer> neighboursList = new java.util.Stack<NodeContainer>();
+		java.util.Stack<NodeContainer> neighboursList = new java.util.Stack<>();
 		for (LinkContainer lc : this.getConnectedLinks()) {
 			neighboursList.push(lc.getOtherNodeContainer(index));
 		}
@@ -585,7 +572,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 
 	public TreeSet<Integer> getConnectedNodeIndexes() {
 		List<NodeContainer> ln = getConnectedNodes();
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (NodeContainer nc : ln) {
 			indexes.add(nc.index);
 		}
@@ -594,7 +581,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 
 	public TreeSet<Integer> getConnectedNodeIndexes(String layerName) {
 		List<NodeContainer> ln = getConnectedNodes(layerName);
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (NodeContainer nc : ln) {
 			indexes.add(nc.index);
 		}
@@ -603,7 +590,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public TreeSet<Integer> getConnectedNodeIndexes(LayerContainer layer) {
 		List<NodeContainer> ln = getConnectedNodes(layer);
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (NodeContainer nc : ln) {
 			indexes.add(nc.index);
 		}
@@ -612,7 +599,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 
 	public TreeSet<Integer> getOutgoingLinksExtremityIndexes() {
 		List<LinkContainer> ln = getOutgoingLinks();
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -621,7 +608,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public TreeSet<Integer> getOutgoingLinksExtremityIndexes(String layerName) {
 		List<LinkContainer> ln = getOutgoingLinks(layerName);
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -630,7 +617,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public TreeSet<Integer> getOutgoingLinksExtremityIndexes(LayerContainer layer) {
 		List<LinkContainer> ln = getOutgoingLinks(layer);
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -639,7 +626,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public TreeSet<Integer> getAllOutgoingLinksExtremityIndexes() {
 		List<LinkContainer> ln = getAllOutgoingLinks();
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -648,47 +635,43 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public List<NodeContainer> getAllOutgoingLinksExtremities() {
 		List<LinkContainer> ln = getAllOutgoingLinks();
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public List<NodeContainer> getOutgoingLinksExtremities() {
 		List<LinkContainer> ln = getOutgoingLinks();
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public List<NodeContainer> getOutgoingLinksExtremities(String layerName) {
 		List<LinkContainer> ln = getOutgoingLinks(layerName);
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public List<NodeContainer> getOutgoingLinksExtremities(LayerContainer layC) {
 		List<LinkContainer> ln = getOutgoingLinks(layC);
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public TreeSet<Integer> getAllIncomingLinksExtremityIndexes() {
 		List<LinkContainer> ln = getAllIncomingLinks();
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -697,47 +680,43 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public List<NodeContainer> getAllIncomingLinksExtremities() {
 		List<LinkContainer> ln = getAllIncomingLinks();
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}	
 
 	public List<NodeContainer> getIncomingLinksExtremities() {
 		List<LinkContainer> ln = getIncomingLinks();
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public List<NodeContainer> getIncomingLinksExtremities(String layerName) {
 		List<LinkContainer> ln = getIncomingLinks(layerName);
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public List<NodeContainer> getIncomingLinksExtremities(LayerContainer layC) {
 		List<LinkContainer> ln = getIncomingLinks(layC);
-		List<NodeContainer> toReturn = new ArrayList<NodeContainer>(ln.size());
-		for (int i = 0 ; i < ln.size(); i++) {
-			LinkContainer link = ln.get(i);
-			toReturn.add(link.getOtherNodeContainer(this.index));
-		}
+		List<NodeContainer> toReturn = new ArrayList<>(ln.size());
+        for (LinkContainer link : ln) {
+            toReturn.add(link.getOtherNodeContainer(this.index));
+        }
 		return toReturn;
 	}
 	
 	public TreeSet<Integer> getIncomingLinksExtremityIndexes() {
 		List<LinkContainer> ln = getIncomingLinks();
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -746,7 +725,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public TreeSet<Integer> getIncomingLinksExtremityIndexes(String layerName) {
 		List<LinkContainer> ln = getIncomingLinks(layerName);
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -755,7 +734,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	
 	public TreeSet<Integer> getIncomingLinksExtremityIndexes(LayerContainer layer) {
 		List<LinkContainer> ln = getIncomingLinks(layer);
-		TreeSet<Integer> indexes = new TreeSet<Integer>();
+		TreeSet<Integer> indexes = new TreeSet<>();
 		for (LinkContainer lc : ln) {
 			indexes.add(lc.getOtherNodeIndex(this.index));
 		}
@@ -764,7 +743,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 
 
 	public List<NodeContainer> getConnectedNodes(String layerName) {
-		java.util.Stack<NodeContainer> neighboursList = new java.util.Stack<NodeContainer>();
+		java.util.Stack<NodeContainer> neighboursList = new java.util.Stack<>();
 		for (LinkContainer lc : this.getConnectedLinks(layerName)) {
 			neighboursList.push(lc.getOtherNodeContainer(index));
 		}
@@ -772,7 +751,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	}
 
 	public List<NodeContainer> getConnectedNodes(LayerContainer layc) {
-		java.util.Stack<NodeContainer> neighboursList = new java.util.Stack<NodeContainer>();
+		java.util.Stack<NodeContainer> neighboursList = new java.util.Stack<>();
 		for (LinkContainer lc : this.getConnectedLinks(layc)) {
 			neighboursList.push(lc.getOtherNodeContainer(index));
 		}
@@ -810,12 +789,12 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 
 	@Override
 	public Collection<NetworkAttribute> getSortedAttributes() {
-		ArrayList<NetworkAttribute> copy = new ArrayList<NetworkAttribute>(this.attributes());
-		ArrayList<NetworkAttribute> toret = new ArrayList<NetworkAttribute>(copy.size());
+		ArrayList<NetworkAttribute> copy = new ArrayList<>(this.attributes());
+		ArrayList<NetworkAttribute> toret = new ArrayList<>(copy.size());
 		NetworkAttribute idA = attribute(XMLTagKeywords.ID);
 		toret.add(idA);
 		copy.remove(idA);
-		TreeMap<String, NetworkAttribute> map = new TreeMap<String, NetworkAttribute>();
+		TreeMap<String, NetworkAttribute> map = new TreeMap<>();
 		for (NetworkAttribute att : copy) {
 			map.put(att.getName(), att);
 		}
@@ -841,11 +820,7 @@ public class NodeContainer extends AbstractElementContainer implements Serializa
 	}
 
 	public static Comparator<NodeContainer> getComparator() {
-		return new Comparator<NodeContainer>() {
-			public int compare(NodeContainer n1, NodeContainer n2) {
-				return n1.index - n2.index;
-			}
-		};
+		return (n1, n2) -> n1.index - n2.index;
 	}
 	
 	private void setPosXY() {

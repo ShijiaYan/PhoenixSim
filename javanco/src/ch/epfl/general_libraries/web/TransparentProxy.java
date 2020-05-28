@@ -149,7 +149,7 @@ public class TransparentProxy {
 	
 		    byte[] buf=new byte[1024];
 		    int count=-1;		
-			while(((count=is.read(buf))>0)) {
+			while((count=is.read(buf))>0) {
 				os.write(buf,0,count);
 			}
 			os.close();

@@ -37,13 +37,13 @@ public abstract class JavancoPathCalculator extends PathCalculator {
 
 	public void setAgh(AbstractGraphHandler agh) {
 		this.agh = agh;
-		cachedlengths = new TreeMap<Path, Float>();
+		cachedlengths = new TreeMap<>();
 	}
 
 	public void setPathCache(boolean b) {
 		this.cache = b;
 		if (cache == true) {
-			cachedlengths = new TreeMap<Path, Float>();
+			cachedlengths = new TreeMap<>();
 		}
 	}
 
@@ -87,17 +87,15 @@ public abstract class JavancoPathCalculator extends PathCalculator {
 
 	@Override
 	public Comparator<NodePair> getNodePairComparator() {
-		return new Comparator<NodePair>() {
-			public int compare(NodePair np1, NodePair np2) {
-				float val1 = getSegmentValue(np1);
-				float val2 = getSegmentValue(np2);
-				if (val1 < val2) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-		};
+		return (np1, np2) -> {
+            float val1 = getSegmentValue(np1);
+            float val2 = getSegmentValue(np2);
+            if (val1 < val2) {
+                return -1;
+            } else {
+                return 1;
+            }
+        };
 	}
 
 	public abstract float getSegmentValue(NodePair s);

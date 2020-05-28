@@ -54,14 +54,14 @@ public class Complex {
     public String toString() {
 //        if (im == 0) return re + "";
 //        if (re == 0) return "i" + im ;
-        if (im <  0) return re + "-" + "i" + (-im) ;
+        if (im <  0) return re + "-" + "i" + -im;
         return re + "+" + "i" + im ;
     }
 
     // return abs/modulus/magnitude and angle/phase/argument
     public double abs() { return Math.hypot(re, im); }  // Math.sqrt(re*re + im*im)
     public double absSquared() {
-    	return (Math.hypot(re, im)*Math.hypot(re, im)) ;
+    	return Math.hypot(re, im)*Math.hypot(re, im);
     }
 
     // between zero and 2*pi
@@ -71,7 +71,7 @@ public class Complex {
     		return restrictedPhase;
     	}
     	else{
-    		return (restrictedPhase+2*Math.PI) ;
+    		return restrictedPhase+2*Math.PI;
     	}
     }
 
@@ -188,10 +188,7 @@ public class Complex {
     // equality of two complex numbers
     public boolean equals(Complex b){
     	Complex a = this ;
-    	if(a.re()==b.re() & a.im()==b.im())
-    		return true ;
-    	else
-    		return false ;
+        return a.re() == b.re() & a.im() == b.im();
     }
 
     // a static version of plus

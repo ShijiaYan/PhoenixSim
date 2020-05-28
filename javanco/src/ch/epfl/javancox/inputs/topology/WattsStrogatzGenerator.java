@@ -55,7 +55,7 @@ public class WattsStrogatzGenerator extends AbstractRandomSpatialTopologyGenerat
 	public void generateRandomTopology(AbstractGraphHandler agh) {
 		polyGen.generate(agh);
 		int highest = agh.getHighestNodeIndex();
-		ArrayList<LinkContainer> toRemove = new ArrayList<LinkContainer>();
+		ArrayList<LinkContainer> toRemove = new ArrayList<>();
 		for (int i = 0 ; i < highest ; i++) {
 			LinkContainer lc = null;
 			for (int k = 1 ; k < K/2 ; k++) {

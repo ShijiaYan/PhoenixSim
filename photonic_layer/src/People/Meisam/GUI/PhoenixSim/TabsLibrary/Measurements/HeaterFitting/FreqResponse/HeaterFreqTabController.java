@@ -104,20 +104,16 @@ public class HeaterFreqTabController extends AbstractTabController {
 	@FXML
 	public void chooseFreqData() throws IOException {
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase);
-		ActionInterface ex = new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				freqData = new SimulationVariable(varModule.getController().getVariable().getName(),
-						varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
-				freqDataLabel.setText("Freq data is set to '" + freqData.getName() + "'");
-				if (freqData != null && vData != null) {
-					// fig = createPlot(freqData, vData) ;
-					fig = createPlot(freqData, simVarTodB_normalized(vData));
-					showPlot(fig, matlabPane);
-				}
-			}
-		};
+		ActionInterface ex = () -> {
+            freqData = new SimulationVariable(varModule.getController().getVariable().getName(),
+                    varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
+            freqDataLabel.setText("Freq data is set to '" + freqData.getName() + "'");
+            if (freqData != null && vData != null) {
+                // fig = createPlot(freqData, vData) ;
+                fig = createPlot(freqData, simVarTodB_normalized(vData));
+                showPlot(fig, matlabPane);
+            }
+        };
 		varModule.setExitAction(ex);
 	}
 
@@ -138,20 +134,16 @@ public class HeaterFreqTabController extends AbstractTabController {
 	@FXML
 	public void chooseVData() {
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase);
-		varModule.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				vData = new SimulationVariable(varModule.getController().getVariable().getName(),
-						varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
-				vDataLabel.setText("V data is set to '" + vData.getName() + "'");
-				if (freqData != null && vData != null) {
-					// fig = createPlot(freqData, vData) ;
-					fig = createPlot(freqData, simVarTodB_normalized(vData));
-					showPlot(fig, matlabPane);
-				}
-			}
-		});
+		varModule.setExitAction(() -> {
+            vData = new SimulationVariable(varModule.getController().getVariable().getName(),
+                    varModule.getController().getVariable().getAlias(), varModule.getController().getValues());
+            vDataLabel.setText("V data is set to '" + vData.getName() + "'");
+            if (freqData != null && vData != null) {
+                // fig = createPlot(freqData, vData) ;
+                fig = createPlot(freqData, simVarTodB_normalized(vData));
+                showPlot(fig, matlabPane);
+            }
+        });
 	}
 
 	@FXML

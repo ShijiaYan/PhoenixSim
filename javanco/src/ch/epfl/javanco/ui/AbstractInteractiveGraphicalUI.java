@@ -100,13 +100,13 @@ implements EditedLayerListener, SelectedTypeChangedListener {
 	}
 
 	public void moveInfoSetViewHorizontal(int coeff) {
-		int deplx = Math.round((graphInfoSet.getViewWidth()/100f)*coeff);
+		int deplx = Math.round((graphInfoSet.getViewWidth()/100f) *coeff);
 		graphInfoSet.incrementViewOriginX(deplx);
 		repaintGraph();
 	}
 
 	public void moveInfoSetViewVertical(int coeff) {
-		int deply = Math.round((graphInfoSet.getViewHeight()/100f)*coeff);
+		int deply = Math.round((graphInfoSet.getViewHeight()/100f) *coeff);
 		graphInfoSet.incrementViewOriginY(deply);
 		//	refreshAllDisplay();
 		repaintGraph();
@@ -131,7 +131,7 @@ implements EditedLayerListener, SelectedTypeChangedListener {
 	}
 
 	public void setZoom(float zoom) {
-		float fact = (this.zoom/zoom);
+		float fact = this.zoom/zoom;
 
 
 		this.modifyDisplayedElementSize(1/fact);
@@ -139,8 +139,8 @@ implements EditedLayerListener, SelectedTypeChangedListener {
 		int h = graphInfoSet.getViewHeight();
 		int w = graphInfoSet.getViewWidth();
 
-		int newHeight = Math.round((h)*fact);
-		int newWidth  = Math.round((w)*fact);
+		int newHeight = Math.round(h *fact);
+		int newWidth  = Math.round(w *fact);
 		int x = Math.round((float)(w  - newWidth)  / (float)2) + graphInfoSet.getViewX();
 		int y = Math.round((float)(h - newHeight) / (float)2) + graphInfoSet.getViewY();
 		
@@ -164,7 +164,7 @@ implements EditedLayerListener, SelectedTypeChangedListener {
 			fact = 1;
 		}
 
-		setZoom((zoom*fact));
+		setZoom(zoom*fact);
 	}
 
 	public void resetDisplayedElementSize() {

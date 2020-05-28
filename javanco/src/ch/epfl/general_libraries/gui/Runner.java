@@ -93,14 +93,14 @@ public abstract class Runner extends RunnerEventHandler implements Runnable {
 
 
 	protected void setState(RunningState newState) {
-		if (!(newState.equals(state))) {
+		if (!newState.equals(state)) {
 			state = newState;
 			eventHandler.fireRunnerStateChangedEvent(this);
 		}
 	}
 
 	protected void setSpeed(RunningSpeed newSpeed) {
-		if (!(newSpeed.equals(speed))) {
+		if (!newSpeed.equals(speed)) {
 			speed = newSpeed;
 			eventHandler.fireRunnerSpeedChangedEvent(this);
 		}

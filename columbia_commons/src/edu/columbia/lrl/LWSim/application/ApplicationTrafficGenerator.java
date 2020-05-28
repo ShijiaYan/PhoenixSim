@@ -53,28 +53,26 @@ public class ApplicationTrafficGenerator extends AbstractTrafficGenerator {
 			lwSimExperiment.getTopologyBuilder().getReceiver(index).setObjectToNotify(actionManager);
 			//father.recs[index].setObjectToNotify(c);
 			
-			Runnable run = new Runnable() {
-				public void run() {
-					synchronized (father) {
-						father.running++;
-					}
-					try {
-						appl.run(actionManager, index, Time.ZERO_TIME.thisTime());
-					}
-					catch (Throwable e) {
-						e.printStackTrace();
-					}
-					finally {
-						synchronized(father) {
-							father.running--;
-							if (father.running == 0) {
-								father.lwSimExperiment.manager.tryToTerminate();
-							}
-				//			father.notifyAll();
-						}
-					}
-				}
-			};
+			Runnable run = () -> {
+                synchronized (father) {
+                    father.running++;
+                }
+                try {
+                    appl.run(actionManager, index, Time.ZERO_TIME.thisTime());
+                }
+                catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    synchronized(father) {
+                        father.running--;
+                        if (father.running == 0) {
+                            father.lwSimExperiment.manager.tryToTerminate();
+                        }
+            //			father.notifyAll();
+                    }
+                }
+            };
 			
 			Thread t = new Thread(null, run, "Application runner " + (index+1) + "/" + generators.size(), 30);;
 			synchronized(actionManager) {
@@ -125,7 +123,7 @@ public class ApplicationTrafficGenerator extends AbstractTrafficGenerator {
 	boolean detailedAnalysis = false;
 	boolean orgMult = false;
 	
-	private HashMap<Integer, InstanceGenerator> generators = new HashMap<Integer, InstanceGenerator>();
+	private HashMap<Integer, InstanceGenerator> generators = new HashMap<>();
 	
 	public ApplicationTrafficGenerator(@ParamName(name="The application to run") AbstractApplication appl, @ParamName(name="Timeline ?") boolean popupTimeLine) {
 		this(appl, popupTimeLine, false);

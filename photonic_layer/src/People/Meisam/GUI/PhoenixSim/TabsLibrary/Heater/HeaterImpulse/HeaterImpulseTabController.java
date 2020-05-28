@@ -66,12 +66,7 @@ public class HeaterImpulseTabController extends AbstractTabController {
     }
 
     private boolean impulseToggleIsSelected(){
-        if(impulsePlotRadioButton.isSelected() || impulseNormalPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return impulsePlotRadioButton.isSelected() || impulseNormalPlotRadioButton.isSelected();
     }
 
     @FXML

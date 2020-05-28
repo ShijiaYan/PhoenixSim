@@ -150,7 +150,7 @@ public class ConsoleEditor implements FrameBasedInterface {
 	public void openNetwork() {
 		out.println("Choose File to Open from : ");
 		
-		String xmlDir = Javanco.getProperty(Javanco.JAVANCO_DEFAULT_XMLGRAPH_DIR_PROPERTY);
+		String xmlDir = Javanco.getProperty(Javanco.JAVANCO_DEFAULT_XML_GRAPH_DIR_PROPERTY);
 
 		out.println(xmlDir + "\n");
 		JavancoFile dir = new JavancoFile(xmlDir);
@@ -239,7 +239,7 @@ public class ConsoleEditor implements FrameBasedInterface {
 				break;
 				// Save the network to a file
 			case 8:
-				out.println("Saving Current Network to : " + Javanco.getProperty(Javanco.JAVANCO_DEFAULT_XMLGRAPH_DIR_PROPERTY));
+				out.println("Saving Current Network to : " + Javanco.getProperty(Javanco.JAVANCO_DEFAULT_XML_GRAPH_DIR_PROPERTY));
 				try {
 					this.handler.saveNetwork("myTest.xml");
 					out.println("Saving Completed !");
@@ -312,7 +312,7 @@ public class ConsoleEditor implements FrameBasedInterface {
 			BufferedImage image =		ui.getActualViewImage();
 			BufferedImage imageTri =    ui.getActualViewImage(200, 200);
 
-			String dirPath = Javanco.getProperty(Javanco.JAVANCO_DEFAULT_OUTPUTDIR_PROPERTY) + "/Trefex" + "/";
+			String dirPath = Javanco.getProperty(Javanco.JAVANCO_DEFAULT_OUTPUT_DIR_PROPERTY) + "/Trefex" + "/";
 			JavancoFile imageFile = new JavancoFile(dirPath + "total__" + ".png");
 			JavancoFile imageFileTri = new JavancoFile(dirPath + "view__" + ".png");
 
@@ -405,7 +405,7 @@ public class ConsoleEditor implements FrameBasedInterface {
 	 * @return Collection of all Links
 	 */
 	private ArrayList<LinkContainer> getLinks() {
-		ArrayList<LinkContainer> coll = new ArrayList<LinkContainer>();
+		ArrayList<LinkContainer> coll = new ArrayList<>();
 		for (LayerContainer llayer : this.handler.getLayerContainers()) {
 			for (LinkContainer llink : llayer.getLinkContainers()) {
 				coll.add(llink);
@@ -422,7 +422,7 @@ public class ConsoleEditor implements FrameBasedInterface {
 		int choice = 0;
 		try {
 			String s = scanner.readLine();
-			choice = (new Scanner(s)).nextInt();
+			choice = new Scanner(s).nextInt();
 		} catch (Exception e) {
 			out.println("Try to type a Number ! ^.^");
 		}
@@ -455,7 +455,7 @@ class ConsoleFrame extends javax.swing.JFrame  {
 		public void write(int b) {
 			buffer[pointer] = b;
 			pointer++;
-			if ((b == 10) || (pointer == columns -1)) {
+			if (b == 10 || pointer == columns -1) {
 				String s = new String(buffer, 0, pointer);
 				pointer = 0;
 				append(s);

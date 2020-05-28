@@ -34,7 +34,7 @@ public abstract class AbstractPowerSharingModel extends AbstractExperimentBlock 
 	}
 	
 	public Collection<TimeLine> getTimeLines() {
-		ArrayList<TimeLine> list = new ArrayList<TimeLine>();
+		ArrayList<TimeLine> list = new ArrayList<>();
 		for (Laser l : lasers) {
 			list.add(l.getTimeLine());
 		}

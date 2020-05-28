@@ -6,14 +6,14 @@ import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
 import ch.epfl.general_libraries.traffic.Rate;
 import edu.columbia.ke.circuit_oriented.AbstractVOQFullyMeshedBuilder;
-import edu.columbia.lrl.CrossLayer.physical_models.layout.PhysicalLayout;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.AbstractPhysicalLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.layout.TunableLaserMuxDemuxLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.simulator.phy_builders.PhyWrapper;
 
 public class VOQ_FM_BiReplace_Builder extends AbstractVOQFullyMeshedBuilder implements PhyWrapper {
 	
-	private PhysicalLayout phyLayout;
+	private AbstractPhysicalLayout phyLayout;
 
 	public VOQ_FM_BiReplace_Builder(
 			@ParamName(name="A VOQ template") AbstractDstTerminateVOQ voqTemplate,	
@@ -76,7 +76,7 @@ public class VOQ_FM_BiReplace_Builder extends AbstractVOQFullyMeshedBuilder impl
 			throw new IllegalStateException("No corresponding VOQ type found!");
 		}*/
 
-		AbstractDstTerminateVOQ v = (AbstractDstTerminateVOQ) (voq[i]);
+		AbstractDstTerminateVOQ v = (AbstractDstTerminateVOQ) voq[i];
 		v.setRecv(recs);
 		
 	}
@@ -118,7 +118,7 @@ public class VOQ_FM_BiReplace_Builder extends AbstractVOQFullyMeshedBuilder impl
 
 
 	@Override
-	public PhysicalLayout getPhysicalLayoutImpl(int clients) {
+	public AbstractPhysicalLayout getPhysicalLayoutImpl(int clients) {
 		return phyLayout;
 	}
 

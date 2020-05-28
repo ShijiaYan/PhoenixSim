@@ -42,7 +42,7 @@ public class TestDirectionalCoupler implements Experiment {
 		dp.addResultProperty("|S21|^2", coupler.S21.absSquared());
 		dp.addResultProperty("|S31|^2 (dB)", 10*Math.log10(coupler.S31.absSquared()));
 		dp.addResultProperty("|S31|^2", coupler.S31.absSquared());
-		dp.addResultProperty("Loss (dB)", -MoreMath.Conversions.todB((coupler.S21.absSquared()+coupler.S31.absSquared())));
+		dp.addResultProperty("Loss (dB)", -MoreMath.Conversions.todB(coupler.S21.absSquared()+coupler.S31.absSquared()));
 		
 		man.addDataPoint(dp);
 	}

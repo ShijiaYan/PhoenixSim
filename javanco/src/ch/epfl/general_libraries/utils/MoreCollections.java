@@ -16,7 +16,7 @@ public class MoreCollections {
 	 * @return a list of integers containing [start, end] (both inclusive)
 	 */
 	public static ArrayList<Integer> subsetOfN(int start, int end) {
-		ArrayList<Integer> ints = new ArrayList<Integer>(end-start+1);
+		ArrayList<Integer> ints = new ArrayList<>(end - start + 1);
 		for (int i = start ; i <= end ; i++) {
 			ints.add(i);
 		}
@@ -24,30 +24,28 @@ public class MoreCollections {
 	}
 	
 	public static Set<Integer> toIntegerSet(int[] array) {
-		HashSet<Integer> hs = new HashSet<Integer>();
-		for (int i = 0 ; i < array.length ; i++) {
-			hs.add(array[i]);
-		}
+		HashSet<Integer> hs = new HashSet<>();
+        for (int value : array) {
+            hs.add(value);
+        }
 		return hs;
 	}
 	
 	public static int maxInt(List<Integer> list) {
 		int max = -Integer.MAX_VALUE;
-		for (int i = 0 ; i < list.size() ; i++) {
-			int t = list.get(i);
-			if (t > max)
-				max = t;
-		}
+        for (int t : list) {
+            if (t > max)
+                max = t;
+        }
 		return max;
 	}
 
 	public static double maxDouble(List<Double> r) {
 		double max = Double.MIN_VALUE;
-		for (int i = 0 ; i < r.size() ; i++) {
-			double s = r.get(i);
-			if (s > max)
-				max = s;
-		}
+        for (double s : r) {
+            if (s > max)
+                max = s;
+        }
 		return max;
 	}
 
@@ -60,9 +58,9 @@ public class MoreCollections {
 	}
 
 	public static void addIntegerArray(Collection<Integer> col, int[] dependences) {
-		for (int i = 0 ; i < dependences.length ; i++) {
-			col.add(dependences[i]);
-		}
+        for (int dependence : dependences) {
+            col.add(dependence);
+        }
 		
 	}
 

@@ -28,27 +28,24 @@ public abstract class PathCalculator {
 	 * length, the result of their comparison will be equal to 0
 	 */
 	public Comparator<Path> getComparator(final boolean tolerateEqualLength) {
-		return new Comparator<Path>() {
-			public int compare(Path p1, Path p2) {
-				float  val1 = getPathValue(p1);
-				float  val2 = getPathValue(p2);
-				if (val1 < val2) {
-					return -1;
-				} else if (val1 == val2) {
-					if (tolerateEqualLength) {
-						return p1.compareTo(p2);
-					} else {
-						return 0;
-					}
-				} else {
-					return 1;
-				}
-			}
-
-			/*	public int compare(Object o1, Object o2) {
-				return compare((Path)o1,(Path)o2);
-			}*/
-		};
+		/*	public int compare(Object o1, Object o2) {
+            return compare((Path)o1,(Path)o2);
+        }*/
+        return (p1, p2) -> {
+            float  val1 = getPathValue(p1);
+            float  val2 = getPathValue(p2);
+            if (val1 < val2) {
+                return -1;
+            } else if (val1 == val2) {
+                if (tolerateEqualLength) {
+                    return p1.compareTo(p2);
+                } else {
+                    return 0;
+                }
+            } else {
+                return 1;
+            }
+        };
 	}
 
 	public float[][] getRoutingCost(PathSet set) {
@@ -71,26 +68,23 @@ public abstract class PathCalculator {
 	 * length, the result of their comparison will be equal to 0
 	 */
 	public Comparator<Path> getInverseComparator(final boolean tolerateEqualLength) {
-		return new Comparator<Path>() {
-			public int compare(Path p1, Path p2) {
-				float  val1 = getPathValue(p1);
-				float  val2 = getPathValue(p2);
-				if (val1 > val2) {
-					return -1;
-				} else if (val1 == val2) {
-					if (tolerateEqualLength) {
-						return p1.compareTo(p2);
-					} else {
-						return 0;
-					}
-				} else {
-					return 1;
-				}
-			}
-
-			/*	public int compare(Object o1, Object o2) {
-				return compare((Path)o1,(Path)o2);
-			}*/
-		};
+		/*	public int compare(Object o1, Object o2) {
+            return compare((Path)o1,(Path)o2);
+        }*/
+        return (p1, p2) -> {
+            float  val1 = getPathValue(p1);
+            float  val2 = getPathValue(p2);
+            if (val1 > val2) {
+                return -1;
+            } else if (val1 == val2) {
+                if (tolerateEqualLength) {
+                    return p1.compareTo(p2);
+                } else {
+                    return 0;
+                }
+            } else {
+                return 1;
+            }
+        };
 	}
 }

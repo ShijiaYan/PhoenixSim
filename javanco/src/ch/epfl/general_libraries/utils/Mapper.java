@@ -34,7 +34,7 @@ public class Mapper {
 		catch (Exception exce) {
 			canNumber = false;
 		}
-		HashMap<String, Float> result = new HashMap<String, Float>();
+		HashMap<String, Float> result = new HashMap<>();
 		if (canNumber) {
 			double diff = max-min;
 			for (String s : e) {
@@ -44,7 +44,7 @@ public class Mapper {
 				result.put(s, frac);
 			}
 		} else {
-			ArrayList<String> s = new ArrayList<String>(e);
+			ArrayList<String> s = new ArrayList<>(e);
 			Collections.sort(s);
 			float size = s.size();
 			float i = 0;

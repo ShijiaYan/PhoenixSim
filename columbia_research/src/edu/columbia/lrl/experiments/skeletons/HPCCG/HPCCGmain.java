@@ -51,7 +51,7 @@ public class HPCCGmain extends AbstractApplication {
 	@Override
 	public Map<String, String> getAllParameters() {
 		return SimpleMap.getMap(//"Original size", overall+"",
-								"Problem size", (nx*ny*nz*numberOfRanks)+"",
+								"Problem size", nx*ny*nz*numberOfRanks +"",
 								//"Max iter", max_iter+"",
 								//"Tolerance", tolerance+"",
 								//"Norm r", normr+"",
@@ -243,7 +243,7 @@ public class HPCCGmain extends AbstractApplication {
 			y[i] = sum;
 		}
 		c.doSomeJob(ref, (double)counter/this.opPerNS, "sparsemv");
-		return(0);
+		return 0;
 	}
 	
 	public int waxpby(ActionManager c, Time ref, int n, double alpha, double[] x, double beta, double[] y, double[] w) {
@@ -274,7 +274,7 @@ public class HPCCGmain extends AbstractApplication {
 		
 		c.doSomeJob(ref, (double)n/this.opPerNS, "waxpby");
 
-		return(0);
+		return 0;
 	}
 	
 	public double ddot (ActionManager c, Time ref, int n, double[] x, double[] y) throws InterruptedException {  
@@ -386,7 +386,7 @@ public class HPCCGmain extends AbstractApplication {
 				System.out.println("");
 			}
 			
-			System.arraycopy((double[])r.getObject(), 0, x, x_external_index, n_recv);
+			System.arraycopy(r.getObject(), 0, x, x_external_index, n_recv);
 			
 		//	MPI_Irecv(x_external, n_recv, MPI_DOUBLE, neighbors[i], MPI_MY_TAG, 
 		//			MPI_COMM_WORLD, request+i);

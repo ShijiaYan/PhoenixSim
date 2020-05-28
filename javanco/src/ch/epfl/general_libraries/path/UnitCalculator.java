@@ -14,20 +14,12 @@ public class UnitCalculator extends PathCalculator {
 	public float getSegmentValue(int i, int j) { return 1; }
 
 	public Comparator<Path> getComparator() {
-		return new Comparator<Path>() {
-			public int compare(Path p1, Path p2) {
-				return 0;
-			}
-		};
+		return (p1, p2) -> 0;
 	}
 
 	@Override
 	public Comparator<NodePair> getNodePairComparator() {
-		return new Comparator<NodePair>() {
-			public int compare(NodePair p1, NodePair p2) {
-				return 0;
-			}
-		};
+		return (p1, p2) -> 0;
 	}	
 	
 }

@@ -69,12 +69,12 @@ public class AdvancedRoutingExperiment extends AbstractRoutingExperiment {
 		
 	//	ArrayList<RoutingResult> results = new ArrayList<RoutingResult>();
 		
-		ArrayList<ParetoSet<RoutingResult>> paretoSetList = new ArrayList<ParetoSet<RoutingResult>>();
+		ArrayList<ParetoSet<RoutingResult>> paretoSetList = new ArrayList<>();
 		for (int i = 0 ; i < modes.length ; i++) {
-			paretoSetList.add(new ParetoSet<RoutingResult>(4));
+			paretoSetList.add(new ParetoSet<>(4));
 		}
 		
-		ArrayList<RoutingResult> results = new ArrayList<RoutingResult>();
+		ArrayList<RoutingResult> results = new ArrayList<>();
 		
 		Execution ex = new Execution();		
 		
@@ -108,12 +108,12 @@ public class AdvancedRoutingExperiment extends AbstractRoutingExperiment {
 				}
 			}
 		}
-		for (int i = 0 ; i < modes.length ; i++) {		
-			for (RoutingResult rr : results) {
-				rr.setMode(modes[i]);
-				rr.store(ex);
-			}
-		}
+        for (GlobalStructure.MODE mode : modes) {
+            for (RoutingResult rr : results) {
+                rr.setMode(mode);
+                rr.store(ex);
+            }
+        }
 			
 		man.addExecution(ex);
 	}
@@ -164,8 +164,8 @@ public class AdvancedRoutingExperiment extends AbstractRoutingExperiment {
 			types[i] = AbstractAxisStructure.getCorrespondingAxis(type.charAt(i));
 		}
 		int nodeMult = 0;
-		HashSet<String> done = new HashSet<String>();
-		ArrayList<GlobalStructure> gStrList = new ArrayList<GlobalStructure>();		
+		HashSet<String> done = new HashSet<>();
+		ArrayList<GlobalStructure> gStrList = new ArrayList<>();
 		while (nodeMult < maxMultiplicity) {
 			nodeMult++;
 			int[] sizes = getDimensionSizesForMultAndImposed(types, nodeMult);

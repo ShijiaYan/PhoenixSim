@@ -35,7 +35,7 @@ public class DefaultAmplifierModel extends AbstractAmplifierModel {
 
 	@Override
 	protected Map<String, String> getAmplifierProperties() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("Max gain", maxGain+"");
 		m.put("constant pow consumption", powerConsumption+"");
 		return m;

@@ -25,7 +25,7 @@ public class UniformTrafficMatrixGenerator extends AbstractTrafficProvider {
 
 	@Override
 	public Map<String, String> getProviderParameters() {
-		Map<String, String> map = new TreeMap<String, String>();
+		Map<String, String> map = new TreeMap<>();
 		map.put("traffic_generator_type","uniform_traffic");
 		map.put("traffic_intensity",intensity+"");
 		return map;

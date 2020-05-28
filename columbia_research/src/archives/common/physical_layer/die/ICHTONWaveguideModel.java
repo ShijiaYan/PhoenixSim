@@ -24,7 +24,7 @@ public class ICHTONWaveguideModel extends AbstractDieModel {
 		double radius = gloco.getLightSpeed()/(2*Math.PI*gloco.getNeff()*gloco.getChannelSpacing());
 		radius += gloco.getRingDopingPaddingMicrometers()/10000; //convert to cm
 		
-		double numCrossings = 2*(gloco.getSwitchRadix() - (Math.log(gloco.getSwitchRadix())/Math.log(2)) - 1);
+		double numCrossings = 2*(gloco.getSwitchRadix() - Math.log(gloco.getSwitchRadix())/Math.log(2) - 1);
 		
 		//Waveguide length per chip = Nr(2*Dr + Pr) + NxPx
 		double lengthPerChip = gloco.getNumStages()*(2*(radius*2 + switchPadding)) + numCrossings*crossingPadding;
@@ -35,7 +35,7 @@ public class ICHTONWaveguideModel extends AbstractDieModel {
 	@Override
 	public Map<String, String> getAllParameters() {
 		
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		
 		map.put("Crossing padding [cm]", crossingPadding+"");
 		map.put("Switch padding [cm]", switchPadding+"");

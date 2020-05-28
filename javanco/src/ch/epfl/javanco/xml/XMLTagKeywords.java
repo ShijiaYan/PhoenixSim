@@ -103,15 +103,15 @@ public enum XMLTagKeywords implements Keyword {
 	}	
 
 	public boolean isCore() {
-		return (type.equals(Type.CORE));
+		return type.equals(Type.CORE);
 	}
 
 	public boolean isMain() {
-		return (type.equals(Type.MAIN));
+		return type.equals(Type.MAIN);
 	}
 
 	public boolean isAdd() {
-		return (type.equals(Type.ADD));
+		return type.equals(Type.ADD);
 	}
 	
 	public static Keyword parse(String s) {

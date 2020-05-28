@@ -8,7 +8,7 @@ import javafx.fxml.FXMLLoader;
 
 public class DatabaseModule {
 
-    FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/DataBaseTable/DataBase_v1_0/database_table.fxml")) ;
+    FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/DataBaseTable/DataBase_v1_0/database_table.fxml")) ;
     WindowBuilder builder = new WindowBuilder(loader) ;
     public DatabaseTableController controller ;
 

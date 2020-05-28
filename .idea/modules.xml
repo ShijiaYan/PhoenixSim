@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/columbia_commons/columbia_commons.iml" filepath="$PROJECT_DIR$/columbia_commons/columbia_commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/columbia_research/columbia_research.iml" filepath="$PROJECT_DIR$/columbia_research/columbia_research.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javanco/javanco.iml" filepath="$PROJECT_DIR$/javanco/javanco.iml" />
+      <module fileurl="file://$PROJECT_DIR$/photonic_layer/photonic_layer.iml" filepath="$PROJECT_DIR$/photonic_layer/photonic_layer.iml" />
+    </modules>
+  </component>
+</project>

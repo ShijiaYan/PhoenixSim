@@ -23,7 +23,7 @@ public class LatencyDistributionAnalyser extends AbstractLWSimAnalyser {
 	
 	public void init(LWSIMExperiment exp) {
 		super.init(exp);
-		latencies = new StatisticalDistribution<Double>(10000);		
+		latencies = new StatisticalDistribution<>(10000);
 		if (perRoute) {
 			int clients = exp.getTopologyBuilder().getNumberOfClients();
 			perRouteLatencies = new StatisticalDistribution.DoubleDistribution[clients][clients];

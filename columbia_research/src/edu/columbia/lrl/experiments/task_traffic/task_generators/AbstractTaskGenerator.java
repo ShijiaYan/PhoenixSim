@@ -51,7 +51,7 @@ public abstract class AbstractTaskGenerator implements ExperimentBlock {
 	@Override
 	public Map<String, String> getAllParameters() {
 		double time = initPlusAggrTimeNS;
-		Map<String, String> m = new SimpleMap<String, String>(4);
+		Map<String, String> m = new SimpleMap<>(4);
 		m.put("task average time", time+"");
 		m.put("task average bits", schedPlusRetrieve+"");
 		m.put("task average flops", appl.getFlopsForTimeNS(time)+"");	

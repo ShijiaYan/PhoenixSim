@@ -48,7 +48,7 @@ public class CircleCurve extends AbstractCurveModel {
 
 	@Override
 	public HashMap<String, String> getAllParameters() {
-		HashMap<String, String> map = new HashMap<String, String>() ;
+		HashMap<String, String> map = new HashMap<>() ;
 		map.put("R", A+"") ;
 		return map;
 	}

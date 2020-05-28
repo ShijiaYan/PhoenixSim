@@ -159,7 +159,7 @@ public class GraphicalNetworkEditor extends JPanel {
 		Rectangle nodeSpace = aGui.getNodeSpace();
 		if (nodeSpace != null) {
 			Rectangle view = aGui.getInfoSetView();
-			if ((cachedNodeSpace == null) || (cachedView == null) || !(cachedView.equals(view))|| !(cachedNodeSpace.equals(nodeSpace))) {
+			if (cachedNodeSpace == null || cachedView == null || !cachedView.equals(view) || !cachedNodeSpace.equals(nodeSpace)) {
 				cachedNodeSpace = nodeSpace;
 				cachedView = view;
 				if (cachedView != null) {
@@ -176,7 +176,7 @@ public class GraphicalNetworkEditor extends JPanel {
 					int extentValue = viewSizeX;
 					horizontalSBar.setUnitIncrement(Math.round((maxValue - minValue) / 50f));
 					horizontalSBar.setBlockIncrement(Math.round((maxValue - minValue) / 10f));
-					horizontalSBar.setEnabled((minValue < startValue) || (startValue + extentValue < maxValue));
+					horizontalSBar.setEnabled(minValue < startValue || startValue + extentValue < maxValue);
 					horizontalSBar.setValues(startValue, extentValue, minValue, maxValue);
 
 					// vertical
@@ -186,7 +186,7 @@ public class GraphicalNetworkEditor extends JPanel {
 					extentValue = viewSizeY;
 					verticalSBar.setUnitIncrement(Math.round((maxValue - minValue) / 50f));
 					verticalSBar.setBlockIncrement(Math.round((maxValue - minValue) / 10f));
-					verticalSBar.setEnabled((minValue < startValue) || (startValue + extentValue < maxValue));
+					verticalSBar.setEnabled(minValue < startValue || startValue + extentValue < maxValue);
 					verticalSBar.setValues(startValue, extentValue, minValue, maxValue);
 					//		System.out.println("min " + minValue + " max " + maxValue + " start " + startValue + " ex " + extentValue);
 
@@ -201,8 +201,8 @@ public class GraphicalNetworkEditor extends JPanel {
 			Rectangle view = aGui.getInfoSetView();
 		//	if (view == null) return;
 
-			int width = (Math.round((float)view.width  * (float)this.getSize().width / lastSize.width));
-			int height = (Math.round((float)view.height * (float)this.getSize().height / lastSize.height));
+			int width = Math.round((float)view.width  * (float)this.getSize().width / lastSize.width);
+			int height = Math.round((float)view.height * (float)this.getSize().height / lastSize.height);
 
 			aGui.setInfoSetView_(view.x,view.y,width,height);
 
@@ -267,7 +267,7 @@ public class GraphicalNetworkEditor extends JPanel {
 		protected Curvable             curvedLink          = null;
 		protected int[]				 curvation = null;
 		private Clickable            clickedObject       = null;
-		private List<PaintableLink>  movedNodeLinks      = new ArrayList<PaintableLink>();
+		private List<PaintableLink>  movedNodeLinks      = new ArrayList<>();
 		private long                 lastClick           = 0;
 		private Pointable 			 pointed             = null;
 
@@ -287,7 +287,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				//				int i = 0;
 				aGui.setInfoSetView_(view.x, -(verticalSBar.getValue()+view.height), view.width, view.height);
 			} else {
-				assert (1==0) : "should not be here";
+				assert 1==0 : "should not be here";
 			}
 		}
 
@@ -371,7 +371,7 @@ public class GraphicalNetworkEditor extends JPanel {
 			int x_increment = Math.max(Math.round(viewSizeX / 200f), 1);
 			int y_increment = Math.max(Math.round(viewSizeY / 200f), 1);
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				if (!(shiftPressed)) {
+				if (!shiftPressed) {
 					if (altPressed) {
 						aGui.updateBackgroundImagePosition(0,-x_increment);
 					} else {
@@ -386,7 +386,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				}
 			}
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if (!(shiftPressed)) {
+				if (!shiftPressed) {
 					if (altPressed) {
 						aGui.updateBackgroundImagePosition(0,x_increment);
 					} else {
@@ -401,7 +401,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				}
 			}
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				if (!(shiftPressed)) {
+				if (!shiftPressed) {
 					if (altPressed) {
 						aGui.updateBackgroundImagePosition(1,-y_increment);
 					} else {
@@ -416,7 +416,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				}
 			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				if (!(shiftPressed)) {
+				if (!shiftPressed) {
 					if (altPressed) {
 						aGui.updateBackgroundImagePosition(1,x_increment);
 					} else {
@@ -452,11 +452,11 @@ public class GraphicalNetworkEditor extends JPanel {
 					button1Released(e);
 				} else if (e.getButton() == MouseEvent.BUTTON3) {
 					button3Pressed = false;
-					if ((button1Pressed == true) && (doublyClickedPoint != null)){
+					if (button1Pressed == true && doublyClickedPoint != null){
 						doublyClickedPoint = null;
 						return;
 					}
-					if ((button1Pressed == false) && (doublyClickedPoint != null)){
+					if (button1Pressed == false && doublyClickedPoint != null){
 						doublyClickedPoint = null;
 						return;
 					}
@@ -491,7 +491,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					aGui.displayProperties(object);
 				}
-			}.init((temp instanceof Clickable) ? (Clickable)temp : null));
+			}.init(temp instanceof Clickable ? (Clickable)temp : null));
 			jm.add(prop);
 
 			if (temp != null) {
@@ -519,7 +519,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				if (temp instanceof Clickable) {
 					if (aGui.getAssociatedAbstractGraphHandler().isEditable()) {
 						JMenuItem del = new JMenuItem("Delete");
-						del.addActionListener((new ActionListener() {
+						del.addActionListener(new ActionListener() {
 							private Clickable c = null;
 							ActionListener init(Clickable c) {
 								this.c = c;
@@ -528,7 +528,7 @@ public class GraphicalNetworkEditor extends JPanel {
 							public void actionPerformed(ActionEvent e) {
 								aGui.getAssociatedAbstractGraphHandler().removeElement(c.getElementContainer(), e);
 							}
-						}).init((Clickable)temp));
+						}.init((Clickable)temp));
 						jm.add(del);
 					}
 				}
@@ -552,25 +552,16 @@ public class GraphicalNetworkEditor extends JPanel {
 					(int)(100*Math.min(0.1, aGui.getSizeModificator())), 
 					(int)(100*Math.max(3, aGui.getSizeModificator())), 
 					(int)(100*aGui.getSizeModificator()));
-			sizeModificatorSlider.addChangeListener(new ChangeListener() {
+			sizeModificatorSlider.addChangeListener(e -> {
+                if (aGui.getSizeModificator() != sizeModificatorSlider.getValue()/100f && !rezomming.state) {
+                    aGui.setSizeModificator(sizeModificatorSlider.getValue()/100f);
 
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					if (aGui.getSizeModificator() != sizeModificatorSlider.getValue()/100f && !rezomming.state) {
-						aGui.setSizeModificator(sizeModificatorSlider.getValue()/100f);
-
-						sizeModificatorValue.setText(sizeModificatorSlider.getValue() + "%");
-					}
-				}
-			});
+                    sizeModificatorValue.setText(sizeModificatorSlider.getValue() + "%");
+                }
+            });
 
 			JMenuItem sizeModificatorReset = new JMenuItem("Reset");
-			sizeModificatorReset.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					aGui.setSizeModificator(1);
-				}
-			});
+			sizeModificatorReset.addActionListener(e -> aGui.setSizeModificator(1));
 
 			sizeModificator.add(sizeModificatorReset);
 			sizeModificator.add(sizeModificatorSlider);
@@ -585,32 +576,23 @@ public class GraphicalNetworkEditor extends JPanel {
 					Math.min(10, aGui.getZoom()), 
 					Math.max(300, aGui.getZoom()), 
 					aGui.getZoom());
-			slider.addChangeListener(new ChangeListener() {
+			slider.addChangeListener(e -> {
+                if (aGui.getZoom() != slider.getValue()) {
+                    aGui.setZoom(slider.getValue());
 
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					if (aGui.getZoom() != slider.getValue()) {
-						aGui.setZoom(slider.getValue());
+                    zoomValue.setText(slider.getValue() + "%");
 
-						zoomValue.setText(slider.getValue() + "%");
-
-						rezomming.state = true;
-						sizeModificatorSlider.setValue((int)(aGui.getSizeModificator()*100));
-						sizeModificatorSlider.setMinimum((int)(100*Math.min(sizeModificatorSlider.getMinimum()/100f, aGui.getSizeModificator())));
-						sizeModificatorSlider.setMaximum((int)(100*Math.max(sizeModificatorSlider.getMaximum()/100f, aGui.getSizeModificator())));
-						sizeModificatorValue.setText(sizeModificatorSlider.getValue() + "%");
-						rezomming.state = false;
-					}
-				}
-			});
+                    rezomming.state = true;
+                    sizeModificatorSlider.setValue((int)(aGui.getSizeModificator()*100));
+                    sizeModificatorSlider.setMinimum((int)(100*Math.min(sizeModificatorSlider.getMinimum()/100f, aGui.getSizeModificator())));
+                    sizeModificatorSlider.setMaximum((int)(100*Math.max(sizeModificatorSlider.getMaximum()/100f, aGui.getSizeModificator())));
+                    sizeModificatorValue.setText(sizeModificatorSlider.getValue() + "%");
+                    rezomming.state = false;
+                }
+            });
 
 			JMenuItem zoomReset = new JMenuItem("Reset");
-			zoomReset.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					aGui.setZoom(100);
-				}
-			});
+			zoomReset.addActionListener(e -> aGui.setZoom(100));
 
 			zoom.add(zoomReset);
 			zoom.add(slider);
@@ -646,41 +628,34 @@ public class GraphicalNetworkEditor extends JPanel {
 
 			final JLabel linkWidthValue = new JLabel(defaultWidth + "");
 			final JSlider linkWidthSlider = new JSlider(SwingConstants.HORIZONTAL, Math.min(1, defaultWidth), Math.max(maxLinkWidth, defaultWidth), defaultWidth);
-			linkWidthSlider.addChangeListener(new ChangeListener() {
+			linkWidthSlider.addChangeListener(e -> {
+                NetworkAttribute defaultWidthAttNotNull;
+                if (defaultWidthAtt != null) {
+                    defaultWidthAttNotNull = defaultWidthAtt;
+                } else {
+                    defaultWidthAttNotNull = editedLayer.attribute(XMLTagKeywords.DEFAULT_LINK_WIDTH, true);
+                }
 
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					NetworkAttribute defaultWidthAttNotNull;
-					if (defaultWidthAtt != null) {
-						defaultWidthAttNotNull = defaultWidthAtt;
-					} else {
-						defaultWidthAttNotNull = editedLayer.attribute(XMLTagKeywords.DEFAULT_LINK_WIDTH, true);
-					}
+                if (defaultWidthAttNotNull.intValue() != linkWidthSlider.getValue()) {
+                    aGui.refreshAndRepaint();
+                //	applyColorf.run();
+                    defaultWidthAttNotNull.setValue(linkWidthSlider.getValue(), e);
 
-					if (defaultWidthAttNotNull.intValue() != linkWidthSlider.getValue()) {
-						aGui.refreshAndRepaint();
-					//	applyColorf.run();
-						defaultWidthAttNotNull.setValue(linkWidthSlider.getValue(), e);
-
-						linkWidthValue.setText(linkWidthSlider.getValue() + "");
-					}
-				}
-			});
+                    linkWidthValue.setText(linkWidthSlider.getValue() + "");
+                }
+            });
 
 			JMenuItem linkWidthReset = new JMenuItem("Reset");
-			linkWidthReset.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					NetworkAttribute defaultWidthAttNotNull;
-					if (defaultWidthAtt != null) {
-						defaultWidthAttNotNull = defaultWidthAtt;
-					} else {
-						defaultWidthAttNotNull = editedLayer.attribute(XMLTagKeywords.DEFAULT_LINK_WIDTH, true);
-					}
+			linkWidthReset.addActionListener(e -> {
+                NetworkAttribute defaultWidthAttNotNull;
+                if (defaultWidthAtt != null) {
+                    defaultWidthAttNotNull = defaultWidthAtt;
+                } else {
+                    defaultWidthAttNotNull = editedLayer.attribute(XMLTagKeywords.DEFAULT_LINK_WIDTH, true);
+                }
 
-					defaultWidthAttNotNull.setValue(2, e);
-				}
-			});
+                defaultWidthAttNotNull.setValue(2, e);
+            });
 
 			linkWidth.add(linkWidthReset);
 			linkWidth.add(linkWidthSlider);
@@ -694,12 +669,7 @@ public class GraphicalNetworkEditor extends JPanel {
 			color.setText("Background color");
 			cc.setColor(aGui.getBackgroundColor());
 
-			cc.getSelectionModel().addChangeListener(new ChangeListener() {
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					aGui.setBackgroundColor(cc.getColor());
-				}
-			});
+			cc.getSelectionModel().addChangeListener(e -> aGui.setBackgroundColor(cc.getColor()));
 			jm.add(color);						
 		}
 
@@ -747,16 +717,13 @@ public class GraphicalNetworkEditor extends JPanel {
 
 				color.setText("Node color");
 				cc.setColor(node.color);
-				cc.getSelectionModel().addChangeListener(new ChangeListener() {
-					@Override
-					public void stateChanged(ChangeEvent e) {
-						node.color = cc.getColor();
-						if (node != null && firstColor != null && !firstColor.equals(cc.getColor())) {
-							node.getElementContainer().attribute(XMLTagKeywords.NODE_COLOR).setValue(TypeParser.parseColor(cc.getColor()), e);
-							repaint();
-						}
-					}
-				});
+				cc.getSelectionModel().addChangeListener(e -> {
+                    node.color = cc.getColor();
+                    if (node != null && firstColor != null && !firstColor.equals(cc.getColor())) {
+                        node.getElementContainer().attribute(XMLTagKeywords.NODE_COLOR).setValue(TypeParser.parseColor(cc.getColor()), e);
+                        repaint();
+                    }
+                });
 			}
 			else if (pointedObject instanceof PaintableLink) {
 				final PaintableLink link = (PaintableLink) pointedObject;
@@ -764,16 +731,13 @@ public class GraphicalNetworkEditor extends JPanel {
 				color.setText("Link color");
 				cc.setColor(link.color);
 
-				cc.getSelectionModel().addChangeListener(new ChangeListener() {
-					@Override
-					public void stateChanged(ChangeEvent e) {
-						link.color = cc.getColor();
-						if (link != null && firstColor != null && !firstColor.equals(cc.getColor())) {
-							link.getElementContainer().attribute(XMLTagKeywords.LINK_COLOR).setValue(TypeParser.parseColor(cc.getColor()), e);
-							repaint();
-						}
-					}
-				});
+				cc.getSelectionModel().addChangeListener(e -> {
+                    link.color = cc.getColor();
+                    if (link != null && firstColor != null && !firstColor.equals(cc.getColor())) {
+                        link.getElementContainer().attribute(XMLTagKeywords.LINK_COLOR).setValue(TypeParser.parseColor(cc.getColor()), e);
+                        repaint();
+                    }
+                });
 			}						
 			//----			
 			
@@ -795,49 +759,42 @@ public class GraphicalNetworkEditor extends JPanel {
 					final int j = i;
 					labTab[i] = new JLabel(actual[i] + "");
 					sliderTab[i] = new JSlider(SwingConstants.HORIZONTAL, -90, 90, actual[i]);
-					sliderTab[i].addChangeListener(new ChangeListener() {
-		
-						@Override
-						public void stateChanged(ChangeEvent e) {
-							modified[0] = true;
-							int val = sliderTab[j].getValue();
-							link.getElementContainer().attribute(atts[j]).setValue(val, e);	
-							labTab[j].setText(val+"");
-							switch (j) {
-								case 0:
-									link.curveStart = val;
-									link.curveEnd = val;
-									sliderTab[2].setValue(val);
-									labTab[2].setText(val+"");
-									break;
-								case 1: 
-									link.curveStartAngle = val;
-									link.curveEndAngle = -val;
-									sliderTab[3].setValue(-val);
-									labTab[3].setText(-val+"");
-									break;
-								case 2: link.curveEnd = val;
-									break;
-								case 3: link.curveEndAngle = val;
-									break;
-								default:
-							}				
-						}
-					});	
+					sliderTab[i].addChangeListener(e -> {
+                        modified[0] = true;
+                        int val = sliderTab[j].getValue();
+                        link.getElementContainer().attribute(atts[j]).setValue(val, e);
+                        labTab[j].setText(val+"");
+                        switch (j) {
+                            case 0:
+                                link.curveStart = val;
+                                link.curveEnd = val;
+                                sliderTab[2].setValue(val);
+                                labTab[2].setText(val+"");
+                                break;
+                            case 1:
+                                link.curveStartAngle = val;
+                                link.curveEndAngle = -val;
+                                sliderTab[3].setValue(-val);
+                                labTab[3].setText(-val+"");
+                                break;
+                            case 2: link.curveEnd = val;
+                                break;
+                            case 3: link.curveEndAngle = val;
+                                break;
+                            default:
+                        }
+                    });
 					linkCurve.add(sliderTab[j]);
 					linkCurve.add(labTab[j]);																					
 				}
 				JMenuItem reset = new JMenuItem("Reset");
-				reset.addActionListener(new ActionListener() {
-				@Override
-					public void actionPerformed(ActionEvent e) {
+				reset.addActionListener(e -> {
 						for (int i = 0;  i < actual.length ; i++) {
-							link.getElementContainer().attribute(atts[i]).setValue(sliderTab[i].getValue(), e);	
+							link.getElementContainer().attribute(atts[i]).setValue(sliderTab[i].getValue(), e);
 							labTab[i].setText(0+"");
-							sliderTab[i].setValue(0);							
+							sliderTab[i].setValue(0);
 						}
-					}
-				});
+					});
 
 				linkCurve.add(reset);								  
 				jm.add(linkCurve);
@@ -855,9 +812,9 @@ public class GraphicalNetworkEditor extends JPanel {
 					
 					private void confirm() {
 						if (modified[0]) {
-							for (int i = 0 ; i < atts.length ; i++) {
-								link.getElementContainer().linkAttribute(atts[i].toString());
-							}
+                            for (XMLTagKeywords att : atts) {
+                                link.getElementContainer().linkAttribute(att.toString());
+                            }
 						}
 					}					
 					
@@ -877,7 +834,7 @@ public class GraphicalNetworkEditor extends JPanel {
 				button3Pressed = true;
 			}
 			if (button1Pressed && button3Pressed) {
-				if ((pointed == null) && (clickedObject == null)) {
+				if (pointed == null && clickedObject == null) {
 					doublyClickedPoint = graphicsToNode(e.getPoint());
 					return;
 				}
@@ -902,10 +859,10 @@ public class GraphicalNetworkEditor extends JPanel {
 
 		private void button1Released(MouseEvent e) {
 			button1Pressed = false;
-			if ((button3Pressed == true) && (doublyClickedPoint != null)) {
+			if (button3Pressed == true && doublyClickedPoint != null) {
 				return;
 			}
-			if ((button3Pressed == false) && (doublyClickedPoint != null)) {
+			if (button3Pressed == false && doublyClickedPoint != null) {
 				doublyClickedPoint = null;
 				return;
 			}
@@ -975,7 +932,7 @@ public class GraphicalNetworkEditor extends JPanel {
 
 		public void mouseDragged(MouseEvent e) {
 			Point pointedPoint = graphicsToNode(e.getPoint());
-			if ((button1Pressed) || (button3Pressed)) {
+			if (button1Pressed || button3Pressed) {
 				if (doublyClickedPoint != null) {
 					int changeX = pointedPoint.x - doublyClickedPoint.x;
 					int changeY = pointedPoint.y - doublyClickedPoint.y;
@@ -1025,7 +982,7 @@ public class GraphicalNetworkEditor extends JPanel {
 							link.endX = pointedPoint.x;
 							link.endY = pointedPoint.y;
 						} else {
-							assert (1==0) : "grosse erreur";
+							assert 1==0 : "grosse erreur";
 						}
 					}
 					repaint();
@@ -1035,7 +992,7 @@ public class GraphicalNetworkEditor extends JPanel {
 							PaintableNode m = (PaintableNode)clickedObject;
 							aGui.setMovedNode(m);
 							for (PaintableLink link : aGui.getPaintableLinks()) {
-								if ((link.orig == m.getId()) || (link.dest == m.getId())) {
+								if (link.orig == m.getId() || link.dest == m.getId()) {
 									movedNodeLinks.add(link);
 								}
 							}
@@ -1109,7 +1066,7 @@ public class GraphicalNetworkEditor extends JPanel {
 	 		if ((e.getModifiersEx() & e.ALT_DOWN_MASK) > 0) {
 	 			int iii = 0;
 	 		}*/
-			if (((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0) && (button1Pressed == true)) {
+			if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0 && button1Pressed == true) {
 				button1Released(e);
 			}
 			verticalScrollingFlag = 0;
@@ -1124,7 +1081,7 @@ public class GraphicalNetworkEditor extends JPanel {
 			
 			Pointable actual = aGui.getElementAt(e.getPoint());
 			if (actual != null) {
-				if (!(actual.equals(pointed))) {
+				if (!actual.equals(pointed)) {
 					if (pointed != null)
 						pointed.setPointed(false);
 					pointed = actual;

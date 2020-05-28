@@ -53,25 +53,21 @@ public class PDFLoader {
 	// Loading pdf files using the internal pdf loader
 	public static void loadPDF_useInternalPDFLoader(String pdfFilePath){
 
-		Runnable runnable = new Runnable(){
-			@Override
-			public void run() {
-				File pdfFile;
-				try {
-					pdfFile = new File(Object.class.getClass().getResource(pdfFilePath).toURI());
-					PDFViewer pdf = new PDFViewer(true) ;
-					try {
-						pdf.openFile(pdfFile);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+		Runnable runnable = () -> {
+            File pdfFile;
+            try {
+                pdfFile = new File(Class.class.getResource(pdfFilePath).toURI());
+                PDFViewer pdf = new PDFViewer(true) ;
+                try {
+                    pdf.openFile(pdfFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
 
-			}
-
-		} ;
+        };
 		EventQueue.invokeLater(runnable);
 	}
 

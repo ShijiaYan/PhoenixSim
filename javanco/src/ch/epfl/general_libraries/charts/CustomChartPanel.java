@@ -109,7 +109,7 @@ public class CustomChartPanel extends ChartPanel {
             LegendItemCollection legendItems = getChart().getPlot().getLegendItems();
             int maxWidth = 0;
             double yAccum = 0;
-            PairList<LegendGraphic, LabelBlock> legItems = new PairList<LegendGraphic, LabelBlock>(legendItems.getItemCount());
+            PairList<LegendGraphic, LabelBlock> legItems = new PairList<>(legendItems.getItemCount());
             if (legendItems != null) {
                 for (int i = 0; i < legendItems.getItemCount(); i++) {
                     LegendItem item = legendItems.get(i);

@@ -44,9 +44,9 @@ public class EvenBetterExecutionModel extends AbstractTaskExecutionModel {
 					throw new IllegalStateException("Should not");
 				}
 			}
-			NodeAllocationResponse resp = ((NodeAllocationResponse)reception);
-			ArrayList<Integer> allocation = new ArrayList<Integer>(resp.allocNodes);
-			ArrayList<Integer> allocated = new ArrayList<Integer>();
+			NodeAllocationResponse resp = (NodeAllocationResponse)reception;
+			ArrayList<Integer> allocation = new ArrayList<>(resp.allocNodes);
+			ArrayList<Integer> allocated = new ArrayList<>();
 		//	if (rank == 12)
 		//	System.out.println(rank + " initial alloc is " + allocation);
 			if (allocation.size() > 0) {
@@ -80,7 +80,7 @@ public class EvenBetterExecutionModel extends AbstractTaskExecutionModel {
 						}
 						if (!(o instanceof ResponseToDelegation)) throw new IllegalStateException("Object is " + o.getClass());
 						ResponseToDelegation del = (ResponseToDelegation)o;		
-						if (subTaskListCopy.size() <= (allocation.size() + 1)) {
+						if (subTaskListCopy.size() <= allocation.size() + 1) {
 							if (!allocated.remove(del.getNodeIndex())) throw new IllegalStateException();
 							
 						//	if (rank == 12)

@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 
 import ch.epfl.general_libraries.experiment_aut.WrongExperimentException;
 import ch.epfl.general_libraries.gui.ProgressBarDialog;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel.ObjectIterator;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel.ObjectIterator;
 
 public abstract class AbstractEnumerator<X> {
 	
@@ -164,14 +164,10 @@ public abstract class AbstractEnumerator<X> {
 				}
 			} catch (final Exception e) {
 				e.printStackTrace();
-				SwingUtilities.invokeLater( new Runnable() {			
-					public void run() {
-						JOptionPane.showMessageDialog(null,
-								"Error during experiment execution :\n" + e.getMessage()
-								+ "\nStopping experiments.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				});
+				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,
+                        "Error during experiment execution :\n" + e.getMessage()
+                        + "\nStopping experiments.", "Error",
+                        JOptionPane.ERROR_MESSAGE));
 			//	stopCalculations = true;
 			}
 		}	

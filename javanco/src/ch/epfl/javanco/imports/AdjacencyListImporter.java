@@ -31,12 +31,12 @@ public class AdjacencyListImporter extends AbstractTopologyImporter {
 		try {
 			agh.setModificationEventEnabledWithoutCallingBigChanges(false);
 			String line = null;
-			ArrayList<ArrayList<Integer>> tot = new ArrayList<ArrayList<Integer>>();
+			ArrayList<ArrayList<Integer>> tot = new ArrayList<>();
 			int max = 0;
 			while ((line = re.readLine()) != null) {
 				if (line.equals("")) continue;
 				int[] indexes = TypeParser.parseIntArray(line);
-				ArrayList<Integer> list = new ArrayList<Integer>(indexes.length);
+				ArrayList<Integer> list = new ArrayList<>(indexes.length);
 				for (int i : indexes) {
 					list.add(i);
 					if (i > max) max = i;

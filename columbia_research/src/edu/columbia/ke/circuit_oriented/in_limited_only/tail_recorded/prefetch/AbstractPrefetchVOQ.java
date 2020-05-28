@@ -16,7 +16,7 @@ public abstract class AbstractPrefetchVOQ extends AbstractTailRecordedVOQ {
 		HIT, ADD, REPLACE, RPL_REJECT, ALL_BUSY
 	}
 	
-	protected Queue<Integer> protectedPrefetched = new LinkedList<Integer>();
+	protected Queue<Integer> protectedPrefetched = new LinkedList<>();
 	protected int protectedDistance;
 	protected int protectedPrefetchedLen;
 	
@@ -65,7 +65,7 @@ public abstract class AbstractPrefetchVOQ extends AbstractTailRecordedVOQ {
 			CircuitReuseInfo c = csi.get(msgDest);
 			if (c.isPrefetched()) {
 				
-				boolean withinTail =  (circuitUseCount - c.getPretetchedTime() <= tailLen);
+				boolean withinTail = circuitUseCount - c.getPretetchedTime() <= tailLen;
 				lwSimExperiment.logPrefetchHit(true, withinTail);
 				
 				c.resetPrefetch();
@@ -88,7 +88,7 @@ public abstract class AbstractPrefetchVOQ extends AbstractTailRecordedVOQ {
 	private void prefetchAfterDest(int dest, double time) {
 		
 		Set<Integer> tail = getTail(dest);
-		Set<Integer> success = new TreeSet<Integer>();
+		Set<Integer> success = new TreeSet<>();
 		
 		String s = "Dst " + dest;
 		s += "\t State: " + getInCacheDest().toString();

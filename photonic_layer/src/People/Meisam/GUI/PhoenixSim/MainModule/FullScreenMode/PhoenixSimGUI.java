@@ -26,7 +26,7 @@ public class PhoenixSimGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage ;
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/MainModule/FullScreenMode/phoenixSim_module_fullScreen.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Object.class.getResource("/People/Meisam/GUI/PhoenixSim/MainModule/FullScreenMode/phoenixSim_module_fullScreen.fxml")) ;
         Parent root = loader.load() ;
         Scene scene = new Scene(root) ;
         window.setScene(scene);
@@ -39,9 +39,7 @@ public class PhoenixSimGUI extends Application {
 
         window.show();
 
-        window.setOnCloseRequest(e -> {
-        	System.exit(0);
-        });
+        window.setOnCloseRequest(e -> System.exit(0));
 
         controller.closeApp.setOnAction(e -> {
         	window.close();
@@ -65,19 +63,17 @@ public class PhoenixSimGUI extends Application {
         	leftPane.setSide(Side.LEFT);
 
         	TabPane rightPane = new TabPane() ;
-        	FXMLLoader databaseTab = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/DataBaseTable/database_fullscreen_mode/database_table_fullscreen_mode.fxml")) ;
+        	FXMLLoader databaseTab = new FXMLLoader(Object.class.getResource("/People/Meisam/GUI/Utilities/DataBaseTable/database_fullscreen_mode/database_table_fullscreen_mode.fxml")) ;
         	try {
 				databaseTab.load() ;
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-        	DatabaseTableController dbcontroller = databaseTab.getController() ;
-        	dbcontroller.setDataBase(controller.simDataBase);
-        	dbcontroller.updateParamTable();
-        	dbcontroller.getRefreshButton().setOnAction(e -> {
-        		dbcontroller.refreshTable(controller.simDataBase);
-            });
-        	rightPane.getTabs().add(dbcontroller.tab) ;
+        	DatabaseTableController databaseTabController = databaseTab.getController() ;
+        	databaseTabController.setDataBase(controller.simDataBase);
+        	databaseTabController.updateParamTable();
+        	databaseTabController.getRefreshButton().setOnAction(e -> databaseTabController.refreshTable(controller.simDataBase));
+        	rightPane.getTabs().add(databaseTabController.tab) ;
         	rightPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
         	rightPane.setSide(Side.RIGHT);
 

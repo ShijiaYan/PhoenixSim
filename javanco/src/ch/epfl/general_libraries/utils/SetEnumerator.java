@@ -58,7 +58,7 @@ public class SetEnumerator<T> implements Iterable<ArrayList<T>> {
 
 		PrefixIterator(Set<T> prefix) {
 			super();
-			copy = new TreeSet<T>();
+			copy = new TreeSet<>();
 			fixed = new boolean[objs.length+1];
 			for (int j = 0 ; j < objs.length ; j++) {
 				fixed[j] = prefix.contains(objs[j]);
@@ -74,12 +74,12 @@ public class SetEnumerator<T> implements Iterable<ArrayList<T>> {
 
 		@Override
 		public boolean hasNext() {
-			return (cursor < priSet.size());
+			return cursor < priSet.size();
 		}
 
 		@Override
 		public ArrayList<T> next() {
-			ArrayList<T> dCopy = new ArrayList<T>(copy.size());
+			ArrayList<T> dCopy = new ArrayList<>(copy.size());
 			dCopy.addAll(copy);
 			//	Set<T> dCopy = (Set<T>)copy.clone();
 			dCopy.add(objs[cursor]);
@@ -106,12 +106,12 @@ public class SetEnumerator<T> implements Iterable<ArrayList<T>> {
 		public boolean hasNext() {
 			//	System.out.println("indexes : " + indexes);
 			//	System.out.println("priSet + " + priSet);
-			return (selectedIndividualNumber >= 0) &&
-			(indexes[0] <priSet.size() - (selectedIndividualNumber -1));
+			return selectedIndividualNumber >= 0 &&
+                    indexes[0] <priSet.size() - (selectedIndividualNumber -1);
 		}
 
 		public ArrayList<T> next() {
-			ArrayList<T> toReturn = new ArrayList<T>(selectedIndividualNumber);
+			ArrayList<T> toReturn = new ArrayList<>(selectedIndividualNumber);
 			if (selectedIndividualNumber == 0) {
 				selectedIndividualNumber = -1;
 				return toReturn;
@@ -147,7 +147,7 @@ public class SetEnumerator<T> implements Iterable<ArrayList<T>> {
 		ArrayList<T> items;
 		
 		{
-			items = new ArrayList<T>(priSet);
+			items = new ArrayList<>(priSet);
 			actual = new Object[selectedIndividualNumber];
 			indexes = new int[selectedIndividualNumber];
 			Arrays.fill(actual, items.get(0));
@@ -200,14 +200,14 @@ public class SetEnumerator<T> implements Iterable<ArrayList<T>> {
 	public static void main(String[] args) {
 		String[] s = new String[]{"aa", "bb", "cc"};
 		List<String> ls = Arrays.asList(s);
-		SetEnumerator<String> setE = new SetEnumerator<String>(new HashSet<String>(ls), 4, true);
+		SetEnumerator<String> setE = new SetEnumerator<>(new HashSet<>(ls), 4, true);
 		for (ArrayList<String> s2 : setE) {
 			System.out.println(s2);
 		}
 		
 		Integer[] f = new Integer[]{0,1,2,3,4,5,6,7};
 		List<Integer> li = Arrays.asList(f);
-		SetEnumerator<Integer> setI = new SetEnumerator<Integer>(new HashSet<Integer>(li), 8);
+		SetEnumerator<Integer> setI = new SetEnumerator<>(new HashSet<>(li), 8);
 		for (ArrayList<Integer> l : setI) {
 			System.out.println(l);
 		}

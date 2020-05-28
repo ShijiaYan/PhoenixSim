@@ -66,7 +66,7 @@ public class Polynomial {
         Polynomial c = new Polynomial(0, a.deg + b.deg);
         for (int i = 0; i <= a.deg; i++)
             for (int j = 0; j <= b.deg; j++)
-                c.coef[i+j] += (a.coef[i] * b.coef[j]);
+                c.coef[i+j] += a.coef[i] * b.coef[j];
         c.deg = c.degree();
         return c;
     }
@@ -97,7 +97,7 @@ public class Polynomial {
     public double evaluate(double x) {
         double p = 0;
         for (int i = deg; i >= 0; i--)
-            p = coef[i] + (x * p);
+            p = coef[i] + x * p;
         return p;
     }
 
@@ -118,8 +118,8 @@ public class Polynomial {
         String s = coef[deg] + "x^" + deg;
         for (int i = deg-1; i >= 0; i--) {
             if      (coef[i] == 0) continue;
-            else if (coef[i]  > 0) s = s + " + " + ( coef[i]);
-            else if (coef[i]  < 0) s = s + " - " + (-coef[i]);
+            else if (coef[i]  > 0) s = s + " + " + coef[i];
+            else if (coef[i]  < 0) s = s + " - " + -coef[i];
             if      (i == 1) s = s + "x";
             else if (i >  1) s = s + "x^" + i;
         }

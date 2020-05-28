@@ -33,7 +33,7 @@ public class RandomTTL_FromArbitraryTopologyBuilder extends
 		double oldTTLMean = ttlGen.getMean();
 		//double newTTLMean = getNewTTLMean(oldTTLMean);
 		//ttlGen.setMean(newTTLMean);
-		ttlGen.setMean(((index % 9 ) * 0 + 1) * oldTTLMean);
+		ttlGen.setMean((index % 9 * 0 + 1) * oldTTLMean);
 	}
 
 	@Override

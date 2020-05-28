@@ -31,7 +31,7 @@ public class IndexDistanceDecreasingTrafficMatrix extends AbstractTrafficMatrix 
 			if (cycle) {
 				int dist = (src - dest + clients) % clients;
 				int invDist = clients - dist;
-				double factor = (trafLoad*2)/clients;
+				double factor = trafLoad*2 /clients;
 			
 				double total =invDist*factor;
 			
@@ -44,7 +44,7 @@ public class IndexDistanceDecreasingTrafficMatrix extends AbstractTrafficMatrix 
 					dist = src - dest;
 				}
 				int invDist = clients - dist;
-				double factor = (trafLoad)/clients;
+				double factor = trafLoad /clients;
 			
 				double total =invDist*factor;
 			

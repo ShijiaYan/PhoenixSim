@@ -46,7 +46,7 @@ public class AddDropBSOOK implements Experiment {
 		StripWg stripWg = new StripWg(new Wavelength(lambda_nm), WgProp.getWidthNm(), WgProp.getHeightNm()) ;
 		ModeStripWgTE modeTE = new ModeStripWgTE(stripWg, 0, 0) ;
 		double neff = modeTE.getEffectiveIndex() ;
-		double phi_rad = 2*Math.PI/(lambda_nm*1e-9)*(neff)*(2*Math.PI*radius_um*1e-6) ;
+		double phi_rad = 2*Math.PI/(lambda_nm*1e-9)* neff *(2*Math.PI*radius_um*1e-6) ;
 		AddDropSymmetricBS adr = new AddDropSymmetricBS(inputKappa, outputKappa, 1, phi_rad, new LumpedReflector(r, 0)) ;
 		dp.addProperty("Wavelength (nm)", lambda_nm);
 		dp.addResultProperty("Drop Spectrum (dB)",  MoreMath.Conversions.todB(Source.getPowerAtInputWavelengthMW(new Wavelength(lambda_nm))*Source.getDataRateGbps()*1e9)+

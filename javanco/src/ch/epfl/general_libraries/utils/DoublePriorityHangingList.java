@@ -20,16 +20,13 @@ public class DoublePriorityHangingList<T> extends AbstractSortedHangingList<T, C
 
 	@SuppressWarnings("unchecked")
 	public DoublePriorityHangingList () {
-		super(new Comparator() {
-
-			public int compare(Object c1, Object c2) {
-				float f = ((Criterium)c1).f1 - ((Criterium)c2).f1;
-				if (f != 0) {
-					return (int)Math.signum(f);
-				}
-				return (int)Math.signum(((Criterium)c1).f2 - ((Criterium)c2).f2);
-			}
-		});
+		super((Comparator) (c1, c2) -> {
+            float f = ((Criterium)c1).f1 - ((Criterium)c2).f1;
+            if (f != 0) {
+                return (int)Math.signum(f);
+            }
+            return (int)Math.signum(((Criterium)c1).f2 - ((Criterium)c2).f2);
+        });
 	}
 
 	public void add(T i, float crit1, float crit2) {

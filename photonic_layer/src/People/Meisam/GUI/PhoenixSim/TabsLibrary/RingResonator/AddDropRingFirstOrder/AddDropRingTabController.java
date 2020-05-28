@@ -91,12 +91,7 @@ public class AddDropRingTabController extends AbstractTabController {
 	}
 
     private boolean toggleSelected(){
-        if(dropLambda.isSelected() || thruLambda.isSelected() ){
-            return true;
-        }
-        else{
-            return false ;
-        }
+		return dropLambda.isSelected() || thruLambda.isSelected();
     }
 
     @FXML
@@ -283,14 +278,9 @@ public class AddDropRingTabController extends AbstractTabController {
 				e.printStackTrace();
 			}
 		} catch (Exception e) {
-	    	Runnable r = new Runnable(){
-				@Override
-				public void run() {
-					JOptionPane.showMessageDialog(
-			                 ((Supplier<JDialog>) () -> {final JDialog dialog = new JDialog(); dialog.setAlwaysOnTop(true); return dialog;}).get()
-			                 , "You must first run Coupler Designer...");
-				}
-	    	} ;
+	    	Runnable r = () -> JOptionPane.showMessageDialog(
+                     ((Supplier<JDialog>) () -> {final JDialog dialog = new JDialog(); dialog.setAlwaysOnTop(true); return dialog;}).get()
+                     , "You must first run Coupler Designer...");
 	    	EventQueue.invokeLater(r);
 		}
 	}

@@ -14,7 +14,7 @@ public class ParetoSet<X extends ParetoPoint> implements Iterable<X> {
 	
 	public ParetoSet(int dimensions) {
 		this.dimensions = dimensions;
-		points = new ArrayList<X>();
+		points = new ArrayList<>();
 	}
 	
 	public int getDimensions() {
@@ -37,22 +37,21 @@ public class ParetoSet<X extends ParetoPoint> implements Iterable<X> {
 			// 1. as soon as it dominates another
 				// in which case dominated point must be removed
 			// 2. If it is dominated by no existing point
-		ArrayList<X> toRem = new ArrayList<X>();
+		ArrayList<X> toRem = new ArrayList<>();
 		boolean keep = false;
 		boolean passedAll = true;
-		for (int i = 0 ; i < points.size() ; i++) {
-			X alt = points.get(i);
-			if (pp.dominates(alt)) {
-				toRem.add(alt);
-				keep = true;
-			}
-			if (keep == false) {
-				if (alt.dominates(pp)) {
-					passedAll = false;
-					break;
-				}
-			}
-		}
+        for (X alt : points) {
+            if (pp.dominates(alt)) {
+                toRem.add(alt);
+                keep = true;
+            }
+            if (keep == false) {
+                if (alt.dominates(pp)) {
+                    passedAll = false;
+                    break;
+                }
+            }
+        }
 		if (keep || passedAll) {
 			points.removeAll(toRem);
 			points.add(pp);
@@ -91,7 +90,7 @@ public class ParetoSet<X extends ParetoPoint> implements Iterable<X> {
 	
 	@Test
 	public static void testPareto() {
-		ParetoSet<ParetoPoint3DTest> ps = new ParetoSet<ParetoPoint3DTest>(3);
+		ParetoSet<ParetoPoint3DTest> ps = new ParetoSet<>(3);
 		ps.addCandidate(new ParetoPoint3DTest(1,4,8));
 		ps.addCandidate(new ParetoPoint3DTest(1,3,8));
 		ps.addCandidate(new ParetoPoint3DTest(1,2,8));

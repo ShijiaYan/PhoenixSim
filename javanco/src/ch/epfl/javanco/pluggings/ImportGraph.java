@@ -27,7 +27,7 @@ public class ImportGraph extends JavancoTool {
 
 		final JavancoFile file = FileChooser.promptForOpenFileWithTitle(f, "Choose file to import");
 
-		ClassLister<AbstractTopologyImporter> cl = new ClassLister<AbstractTopologyImporter>("ch.epfl.javanco.imports", AbstractTopologyImporter.class);
+		ClassLister<AbstractTopologyImporter> cl = new ClassLister<>("ch.epfl.javanco.imports", AbstractTopologyImporter.class);
 
 		Collection<Class<AbstractTopologyImporter>> claCol = cl.getSortedClasses();
 
@@ -39,20 +39,18 @@ public class ImportGraph extends JavancoTool {
 		dial.add(jcb);
 
 		JButton go = new JButton("GO");
-		go.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				AbstractTopologyImporter ati = (AbstractTopologyImporter)DynamicInstancier.getInstance((Class<?>)jcb.getSelectedItem());
-				System.out.println(ati);
-				try {
-					ati.importTopology(agh, file);
-					dial.setVisible(false);
-				} catch (Exception e) {
-					dial.setVisible(false);
-					JOptionPane.showMessageDialog(f, "Error happened");
-				}
+		go.addActionListener(ev -> {
+            AbstractTopologyImporter ati = (AbstractTopologyImporter)DynamicInstancier.getInstance((Class<?>)jcb.getSelectedItem());
+            System.out.println(ati);
+            try {
+                ati.importTopology(agh, file);
+                dial.setVisible(false);
+            } catch (Exception e) {
+                dial.setVisible(false);
+                JOptionPane.showMessageDialog(f, "Error happened");
+            }
 
-			}
-		});
+        });
 		dial.add(go);
 		dial.pack();
 		dial.setVisible(true);

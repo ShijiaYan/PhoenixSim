@@ -23,7 +23,7 @@ public class SophisticatedMEMSbasedSwitch extends AbstractOpticalSwitchModel {
 
 	@Override
 	public double getPowerPenalty(int radix, double rate, int nbWavelengths) {
-		return basePowerPenalty + (radix * perPortPPIncrease);
+		return basePowerPenalty + radix * perPortPPIncrease;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class SophisticatedMEMSbasedSwitch extends AbstractOpticalSwitchModel {
 
 	@Override
 	protected Map<String, String> getSwitchProperties() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("Base power penalty", basePowerPenalty+"");
 		m.put("Per port PP increase", perPortPPIncrease+"");
 		m.put("Power consumption per port", powerConsumptionInMw+"");

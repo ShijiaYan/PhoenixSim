@@ -6,7 +6,7 @@ public class NodeAllocationResponse {
 	public ArrayList<Integer> allocNodes;
 	
 	public NodeAllocationResponse() {
-		allocNodes = new ArrayList<Integer>();
+		allocNodes = new ArrayList<>();
 	}
 	
 	public void addNodeIndex(int i) {

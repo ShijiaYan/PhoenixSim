@@ -68,7 +68,7 @@ public class TestExperiment implements Experiment {
 		}
 	}
 	
-	public static enum TestEnum {
+	public enum TestEnum {
 		ONE, TWO, THREE
 	}
 }

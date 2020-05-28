@@ -25,7 +25,7 @@ public class LowPassFilter {
 	}
 	
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("f3dB (kHz)", f3dB_kHz+"") ;
 		map.put("tau (usec)", tau_usec+"") ;
 		return map ;

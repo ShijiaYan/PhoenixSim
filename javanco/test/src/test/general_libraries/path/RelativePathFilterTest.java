@@ -11,7 +11,7 @@ import ch.epfl.general_libraries.path.PathSet;
 public class RelativePathFilterTest {
 	
 	public static void main(String[] args) throws Exception {
-		(new RelativePathFilterTest()).testFilterPlus();
+		new RelativePathFilterTest().testFilterPlus();
 	}
 	
 	@Test

@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class AddDropFittingSymmetricBSDoubleReflectorTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/AddDropFitting/SymmetricDropBackScatteringDoubleReflector/add_drop_fitting_symmetric_BS_double_reflector.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/AddDropFitting/SymmetricDropBackScatteringDoubleReflector/add_drop_fitting_symmetric_BS_double_reflector.fxml")) ; ;
 	AddDropFittingSymmetricBSDoubleReflectorTabController controller ;
 
 	public AddDropFittingSymmetricBSDoubleReflectorTab(SimulationDataBase simDataBase){

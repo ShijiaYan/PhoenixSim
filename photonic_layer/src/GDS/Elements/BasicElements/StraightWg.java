@@ -101,15 +101,16 @@ public class StraightWg extends AbstractElement {
 		String point1 = V1.rotate(P1, -angleDegree).getString() ;
 		String point2 = V3.rotate(P1, -angleDegree).getString() ; 
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			String st3 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")"  ;
-			String st4 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")" ;
-			String st5 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st3, st4, st5}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st3 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber +
+                    "," + "datatype=" + dataType + ")";
+            String st4 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")";
+            String st5 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st3, st4, st5});
+        }
 		return args ;
 	}
 	
@@ -119,15 +120,16 @@ public class StraightWg extends AbstractElement {
 		String point1 = V1.rotate(P1, -angleDegree).getString() ;
 		String point2 = V3.rotate(P1, -angleDegree).getString() ; 
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			String st3 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")"  ;
-			String st4 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")" ;
-			String st5 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st3, st4, st5}) ;
-		}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st3 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber +
+                    "," + "datatype=" + dataType + ")";
+            String st4 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")";
+            String st5 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st3, st4, st5});
+        }
 		return args ;
 	}
 	

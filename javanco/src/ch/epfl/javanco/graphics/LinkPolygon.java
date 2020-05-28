@@ -34,8 +34,8 @@ public class LinkPolygon extends Polygon implements ElementCoord {
 	public int[] getCoords() {
 		int[] coor = new int[super.npoints * 2];
 		for (int i = 0 ; i < super.npoints ; i++) {
-			coor[(2*i)] = super.xpoints[i];
-			coor[(2*i)+1] = super.ypoints[i];
+			coor[2*i] = super.xpoints[i];
+			coor[2*i +1] = super.ypoints[i];
 		}
 		return coor;
 	}

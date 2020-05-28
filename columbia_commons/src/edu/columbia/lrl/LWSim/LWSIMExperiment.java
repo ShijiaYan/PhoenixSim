@@ -358,7 +358,7 @@ public class LWSIMExperiment extends SimulationExperiment implements Experiment 
 	
 	public DataPoint getSourceDataPoint(int src) {
 		if (sourceDataPoints == null)
-			sourceDataPoints = new HashMap<Integer, DataPoint>();
+			sourceDataPoints = new HashMap<>();
 		DataPoint dp = sourceDataPoints.get(src);
 		if (dp == null) {
 			int clients = builder.getNumberOfClients();
@@ -376,15 +376,15 @@ public class LWSIMExperiment extends SimulationExperiment implements Experiment 
 	*/
 	
 	public void timeElapsed(double time) {
-		for (int i = 0 ; i < analysers.length ; i++) {
-			analysers[i].timeElapsed(time);
-		}		
+        for (AbstractLWSimAnalyser analyser : analysers) {
+            analyser.timeElapsed(time);
+        }
 	}
 	
 	public void packetTransmitted(Message m) {
-		for (int i = 0 ; i < analysers.length ; i++) {
-			analysers[i].packetTransmitted(m);
-		}
+        for (AbstractLWSimAnalyser analyser : analysers) {
+            analyser.packetTransmitted(m);
+        }
 	}
 	
 	public double totalTransTime;
@@ -397,10 +397,10 @@ public class LWSIMExperiment extends SimulationExperiment implements Experiment 
 	
 	public void packetEmitted(Message m) {
 		emittedBits += m.sizeInBits;
-		totalEmitted++;	
-		for (int i = 0 ; i < analysers.length ; i++) {
-			analysers[i].packetEmitted(m);
-		}	
+		totalEmitted++;
+        for (AbstractLWSimAnalyser analyser : analysers) {
+            analyser.packetEmitted(m);
+        }
 	}
 	
 	/* Valid values for dropType:
@@ -412,35 +412,35 @@ public class LWSIMExperiment extends SimulationExperiment implements Experiment 
 
 		switch (dropType) {
 		case 2:
-			for (int i = 0 ; i < analysers.length ; i++) {
-				analysers[i].packetQuenched(m, where);
-			}
+            for (AbstractLWSimAnalyser abstractLWSimAnalyser : analysers) {
+                abstractLWSimAnalyser.packetQuenched(m, where);
+            }
 			break;
 		default:
-			for (int i = 0 ; i < analysers.length ; i++) {			
-				analysers[i].packetContented(m, where, swi, dropType);	 
-			}
+            for (AbstractLWSimAnalyser analyser : analysers) {
+                analyser.packetContented(m, where, swi, dropType);
+            }
 		}
 	}
 
 	public void packetReceived(Message m, int origin, int dest, double timeEmitted, double timeReceived) {
 		receivedBits += m.sizeInBits;
 		totalHeadToHeadLatency += timeReceived - timeEmitted;
-		totalHeadToQueueLatency += (timeReceived - timeEmitted) + m.lastDuration;
+		totalHeadToQueueLatency += timeReceived - timeEmitted + m.lastDuration;
 
 		totalReceived++;
 		perDestReceived[dest]++;
-		for (int i = 0 ; i < analysers.length ; i++) {
-			analysers[i].packetReceived(m, origin, dest, timeEmitted, timeReceived);
-		}		
+        for (AbstractLWSimAnalyser analyser : analysers) {
+            analyser.packetReceived(m, origin, dest, timeEmitted, timeReceived);
+        }
 	}
 	
 	public void packetRetransmitted(Message m) {
 		retransmittedBits += m.sizeInBits;
 		totalRetran++;
-		for (int i = 0 ; i < analysers.length ; i++) {
-			analysers[i].packetRetransmitted(m);
-		}		
+        for (AbstractLWSimAnalyser analyser : analysers) {
+            analyser.packetRetransmitted(m);
+        }
 	}
 	
 
@@ -482,11 +482,11 @@ public class LWSIMExperiment extends SimulationExperiment implements Experiment 
 			globals.addResultProperty("acceptance rate", 1 - (double)totalDrop/(double)(totalReceived + totalDrop));
 			globals.addResultProperty("average retransmissions", (double)totalRetran/(double)totalEmitted);
 			globalResultsDatapoint.addResultProperty("Head to tail latency", totalHeadToQueueLatency/(double)totalReceived);
-		}			
-		
-		for (int i = 0 ; i < analysers.length ; i++) {
-			analysers[i].addInfo(getDerivedDatapoint(), globals, ex, simTime);
-		}	
+		}
+
+        for (AbstractLWSimAnalyser analyser : analysers) {
+            analyser.addInfo(getDerivedDatapoint(), globals, ex, simTime);
+        }
 		
 		ex.addDataPoint(globalResultsDatapoint);
 		ex.addDataPoint(globals);
@@ -498,7 +498,7 @@ public class LWSIMExperiment extends SimulationExperiment implements Experiment 
 
 	
 	public ArrayList<Evt> getRelatedEvents(TrafficDestination d) {
-		ArrayList<Evt> list = new ArrayList<Evt>();
+		ArrayList<Evt> list = new ArrayList<>();
 		for (Evt e : manager.getEventsRelatedTo(d)) {
 			list.add(e);
 		}

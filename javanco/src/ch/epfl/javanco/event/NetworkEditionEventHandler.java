@@ -23,7 +23,7 @@ public abstract class NetworkEditionEventHandler {
 
 	public void addSelectedTypeChangedListener(SelectedTypeChangedListener listener) {
 		if (selectedTypeChangedListeners == null) {
-			selectedTypeChangedListeners = new java.util.HashSet<SelectedTypeChangedListener>();
+			selectedTypeChangedListeners = new java.util.HashSet<>();
 		}
 		selectedTypeChangedListeners.add(listener);
 	}
@@ -51,7 +51,7 @@ public abstract class NetworkEditionEventHandler {
 
 	public void addEditedLayerListener(EditedLayerListener listener) {
 		if (editedLayerListeners == null) {
-			editedLayerListeners = new java.util.HashSet<EditedLayerListener>();
+			editedLayerListeners = new java.util.HashSet<>();
 		}
 		editedLayerListeners.add(listener);
 	}
@@ -81,7 +81,7 @@ public abstract class NetworkEditionEventHandler {
 
 	public void addUIRefreshEventListener(UIEventListener listener) {
 		if (uiEventListeners == null) {
-			uiEventListeners = new java.util.HashSet<UIEventListener>();
+			uiEventListeners = new java.util.HashSet<>();
 		}
 		uiEventListeners.add(listener);
 	}
@@ -161,8 +161,8 @@ public abstract class NetworkEditionEventHandler {
 		}
 	}
 
-	private List<ElementListener> graphicalElementListeners = new ArrayList<ElementListener>();
-	private List<ElementListener> structuralElementListeners = new ArrayList<ElementListener>();	
+	private List<ElementListener> graphicalElementListeners = new ArrayList<>();
+	private List<ElementListener> structuralElementListeners = new ArrayList<>();
 	
 
 	public void addGraphicalElementListener(ElementListener listener) {

@@ -20,35 +20,29 @@ public class TestDragAndDrop extends Application {
     public void start(Stage primaryStage) {
         Group root = new Group();
         Scene scene = new Scene(root, 551, 400);
-        scene.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                if (db.hasFiles()) {
-                    event.acceptTransferModes(TransferMode.COPY);
-                } else {
-                    event.consume();
-                }
+        scene.setOnDragOver(event -> {
+            Dragboard db = event.getDragboard();
+            if (db.hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            } else {
+                event.consume();
             }
         });
         
         // Dropping over surface
-        scene.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasFiles()) {
-                    success = true;
-                    String filePath = null;
-                    for (File file:db.getFiles()) {
-                        filePath = file.getAbsolutePath();
-                        System.out.println(filePath);
-                    }
+        scene.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                success = true;
+                String filePath = null;
+                for (File file:db.getFiles()) {
+                    filePath = file.getAbsolutePath();
+                    System.out.println(filePath);
                 }
-                event.setDropCompleted(success);
-                event.consume();
             }
+            event.setDropCompleted(success);
+            event.consume();
         });
 
         primaryStage.setScene(scene);

@@ -21,7 +21,7 @@ import ch.epfl.general_libraries.results.FileResultWriter;
 import ch.epfl.javancox.experiments.builder.ExperimentConfigurationCockpit;
 import ch.epfl.javancox.experiments.builder.tree_model.AbstractDefinition;
 import ch.epfl.javancox.experiments.builder.tree_model.DefinitionIterator;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel;
 import ch.epfl.javancox.results_manager.SmartDataPointCollector;
 import ch.epfl.javancox.results_manager.gui.DefaultResultDisplayingGUI;
 
@@ -38,13 +38,13 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 	static int completedTasks = 0;
 	public static int totalTasks;
 	static int connectionCount = 0;
-	static ArrayList<String> taskStats = new ArrayList<String>();
+	static ArrayList<String> taskStats = new ArrayList<>();
 	
 	
 	public static void main(String[] args) {
 		try {
 			sendMyInfo();
-			(new RemoteExecutionExperimentConfigurator()).show();
+			new RemoteExecutionExperimentConfigurator().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,82 +95,72 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 		info.add(remoteIp4);
 		info.add(numberOfThreads4);
 
-		checkNumberOfCores.addActionListener(new ActionListener() {
+		checkNumberOfCores.addActionListener(e -> {
+            try {
+                ArrayList<String> j = new ArrayList<>();
+                j.add(remoteIp.getText());
+                j.add(remoteIp2.getText());
+                j.add(remoteIp3.getText());
+                j.add(remoteIp4.getText());
+                int l = 0;
+                for (String i : j) {
+                    ArrayList<String> coreRequest = new ArrayList<>();
+                    coreRequest.add("2");
+                    Socket clientSocket = new Socket(i, 6696);
+                    ObjectOutputStream o = new ObjectOutputStream(clientSocket.getOutputStream());
+                    o.writeObject(coreRequest);
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    int numberOfCores = inFromServer.read();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ArrayList<String> j = new ArrayList<String>();
-					j.add(remoteIp.getText());
-					j.add(remoteIp2.getText());
-					j.add(remoteIp3.getText());
-					j.add(remoteIp4.getText());
-					int l = 0;
-					for (String i : j) {
-						ArrayList<String> coreRequest = new ArrayList<String>();
-						coreRequest.add("2");
-						Socket clientSocket = new Socket(i, 6696);
-						ObjectOutputStream o = new ObjectOutputStream(clientSocket.getOutputStream());
-						o.writeObject(coreRequest);
-						BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-						int numberOfCores = inFromServer.read();
+                    clientSocket.close();
 
-						clientSocket.close();
+                    if (l == 0) {
+                        numberOfThreads.setText(Integer
+                                .toString(numberOfCores));
+                    }
 
-						if (l == 0) {
-							numberOfThreads.setText(Integer
-									.toString(numberOfCores));
-						}
+                    if (l == 1) {
+                        numberOfThreads2.setText(Integer
+                                .toString(numberOfCores));
+                    }
 
-						if (l == 1) {
-							numberOfThreads2.setText(Integer
-									.toString(numberOfCores));
-						}
-						
-						if (l == 2) {
-							numberOfThreads3.setText(Integer
-									.toString(numberOfCores));
-						}
-						if (l == 3) {
-							numberOfThreads4.setText(Integer
-									.toString(numberOfCores));
-						}
+                    if (l == 2) {
+                        numberOfThreads3.setText(Integer
+                                .toString(numberOfCores));
+                    }
+                    if (l == 3) {
+                        numberOfThreads4.setText(Integer
+                                .toString(numberOfCores));
+                    }
 
-						l++;
-					}
+                    l++;
+                }
 
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
-			}
+        });
 
-		});
+		runRemote.addActionListener(arg0 -> {
+            try {
+                completedTasks = 0;
+                startTime = System.currentTimeMillis();
 
-		runRemote.addActionListener(new ActionListener() {
+                ArrayList<Integer> threadCounts = new ArrayList<>();
+                threadCounts.add(Integer.parseInt(numberOfThreads.getText()));
+                threadCounts.add(Integer.parseInt(numberOfThreads2.getText()));
+                threadCounts.add(Integer.parseInt(numberOfThreads3.getText()));
+                threadCounts.add(Integer.parseInt(numberOfThreads4.getText()));
+                runRemote(remoteIp.getText(), remoteIp2.getText(), remoteIp3.getText(), remoteIp4.getText());
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					completedTasks = 0;
-					startTime = System.currentTimeMillis();
-					
-					ArrayList<Integer> threadCounts = new ArrayList<Integer>();
-					threadCounts.add(Integer.parseInt(numberOfThreads.getText()));
-					threadCounts.add(Integer.parseInt(numberOfThreads2.getText()));
-					threadCounts.add(Integer.parseInt(numberOfThreads3.getText()));
-					threadCounts.add(Integer.parseInt(numberOfThreads4.getText()));
-					runRemote(remoteIp.getText(), remoteIp2.getText(), remoteIp3.getText(), remoteIp4.getText());
-					
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null,
-							"Error : " + e.getMessage(), "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-
-		});
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Error : " + e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
 	}
 
 	private void runRemote(final String remoteIp, final String remoteIp2, final String remoteIp3, final String remoteIp4)
@@ -182,10 +172,10 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 			classServer.start();
 		}
 		Thread.currentThread().setName("to change");
-		DefinitionIterator iterator = ((ObjectConstuctionTreeModel) tree.getModel()).getObjectDefinitionIterator();
+		DefinitionIterator iterator = tree.getModel().getObjectDefinitionIterator();
 
 		// putting all the definitions into one array
-		ArrayList<AbstractDefinition> definitionArray = new ArrayList<AbstractDefinition>();
+		ArrayList<AbstractDefinition> definitionArray = new ArrayList<>();
 		for (AbstractDefinition d : iterator.toIterable()) { // this iterates on
 																// the "tasks"
 																// (for each
@@ -219,10 +209,10 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 		String threadCount3 = numberOfThreads4.getText();
 
 
-		final int threadCountOne = (Integer.parseInt(tempString));
-		final int threadCountTwo = (Integer.parseInt(threadCount));
-		final int threadCountThree = (Integer.parseInt(threadCount2));
-		final int threadCountFour = (Integer.parseInt(threadCount3));
+		final int threadCountOne = Integer.parseInt(tempString);
+		final int threadCountTwo = Integer.parseInt(threadCount);
+		final int threadCountThree = Integer.parseInt(threadCount2);
+		final int threadCountFour = Integer.parseInt(threadCount3);
 
 		if (tempString.equals("max"))
 			maxThreads = definitionArray.size();
@@ -247,18 +237,18 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 						connectionCount++;
 						String ipAddress;
 						ipAddress = remoteIp;
-						int coresPerThread = (int) Math.ceil(((double) defArray.size() / (double) (threadCountOne + threadCountTwo + threadCountThree + threadCountFour)));
+						int coresPerThread = (int) Math.ceil((double) defArray.size() / (double) (threadCountOne + threadCountTwo + threadCountThree + threadCountFour));
 						int finalParameter = 0;
 						int initialParameter = 0;
 						if (numberOfCores < defArray.size()) {
-							if ((j + 1) <= defArray.size() - numberOfCores) {
+							if (j + 1 <= defArray.size() - numberOfCores) {
 								initialParameter = coresPerThread * j;
 								finalParameter = initialParameter
-										+ (coresPerThread);
+										+ coresPerThread;
 							}
 
-							if ((j + 1) > defArray.size() - numberOfCores) {
-								initialParameter = j + (defArray.size() - numberOfCores);
+							if (j + 1 > defArray.size() - numberOfCores) {
+								initialParameter = j + defArray.size() - numberOfCores;
 								finalParameter = initialParameter + 1;
 							}
 						}
@@ -272,38 +262,38 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 							ipAddress = remoteIp2;
 						}
 						
-						if (j>= (threadCountTwo + threadCountOne)) {
+						if (j>= threadCountTwo + threadCountOne) {
 							ipAddress = remoteIp3;
 						}
 						
-						if (j>= (threadCountTwo + threadCountOne + threadCountThree)) {
+						if (j>= threadCountTwo + threadCountOne + threadCountThree) {
 							ipAddress = remoteIp4;
 						}
 						
 						numberOfTasksToDo = defArray.size();
 						if (defArray.size() - numberOfCores > numberOfCores) {
-							if (j + 1 < defArray.size() - ((coresPerThread - 1) * numberOfCores)) {
+							if (j + 1 < defArray.size() - (coresPerThread - 1) * numberOfCores) {
 								initialParameter = j * coresPerThread;
 								finalParameter = initialParameter + coresPerThread;
 							}
 
-							if (j + 1 == defArray.size() - ((coresPerThread - 1) * numberOfCores)) {
+							if (j + 1 == defArray.size() - (coresPerThread - 1) * numberOfCores) {
 								initialParameter = j * coresPerThread;
 								finalParameter = initialParameter + coresPerThread;
 							}
-							if (j + 1 > defArray.size() - ((coresPerThread - 1) * numberOfCores)) {
-								int baseNumber = (defArray.size() - ((coresPerThread - 1) * numberOfCores)) * coresPerThread;
+							if (j + 1 > defArray.size() - (coresPerThread - 1) * numberOfCores) {
+								int baseNumber = (defArray.size() - (coresPerThread - 1) * numberOfCores) * coresPerThread;
 								int newIncrement = coresPerThread - 1;
-								int lastNormalIndex = defArray.size() - ((coresPerThread - 1) * numberOfCores);
+								int lastNormalIndex = defArray.size() - (coresPerThread - 1) * numberOfCores;
 								int currentIndex = j;
-								initialParameter = baseNumber + ((currentIndex - lastNormalIndex) * newIncrement);
+								initialParameter = baseNumber + (currentIndex - lastNormalIndex) * newIncrement;
 								finalParameter = initialParameter + newIncrement;
 							}
 						}
 						
 						final DeamonClient client = new DeamonClient(classServer.getAddress(), ipAddress);
 						
-						System.out.println((j + 1) + ": " + initialParameter + "," + (finalParameter));
+						System.out.println((j + 1) + ": " + initialParameter + "," + finalParameter);
 						
 						long t1 = System.nanoTime();
 						
@@ -335,7 +325,7 @@ public class RemoteExecutionExperimentConfigurator extends ExperimentConfigurati
 							endTime = System.currentTimeMillis();
 							totalTime = endTime - startTime; 
 							//System.out.print(totalTime);
-							ArrayList<Long> times = new ArrayList<Long>(); 
+							ArrayList<Long> times = new ArrayList<>();
 							times.add(totalTime);
 							if (completedTasks == defArray.size()) {
 								System.out.println("Total Time: " + Collections.max(times));

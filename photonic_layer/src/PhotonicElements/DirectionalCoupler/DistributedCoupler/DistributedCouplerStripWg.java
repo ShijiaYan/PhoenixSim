@@ -301,7 +301,7 @@ public class DistributedCouplerStripWg {
 				}
 			}
 		}
-		double weight = 1 - ((lambdaNm-lambda_min_interval)/(DlambdaNm)) ;
+		double weight = 1 - (lambdaNm-lambda_min_interval)/ DlambdaNm;
 
 		double[] coeffs = new double[9] ;
 		if(isEven){

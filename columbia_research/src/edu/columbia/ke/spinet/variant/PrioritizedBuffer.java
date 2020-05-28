@@ -18,7 +18,7 @@ public class PrioritizedBuffer extends SpinnetBuffer {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected TreeMap<Integer, Message> priorityQueue = new TreeMap<Integer, Message>();
+	protected TreeMap<Integer, Message> priorityQueue = new TreeMap<>();
 	
 	protected double busyUntil = 0;
 	
@@ -62,7 +62,7 @@ public class PrioritizedBuffer extends SpinnetBuffer {
 		// send and dump the first message because this buffer does not care about reliable delivery
 		if (priorityQueue.size() > 0) {
 			Entry<Integer, Message> first = priorityQueue.pollFirstEntry();
-			sendMessage(e, (Message)(first.getValue()));
+			sendMessage(e, first.getValue());
 		}
 	}
 	

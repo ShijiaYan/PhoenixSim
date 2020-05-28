@@ -19,13 +19,10 @@ public class BxFunction extends Application {
 		double[] B = new double[x.length] ;
 		for(int i=0; i<x.length; i++){
 			double xVal = x[i] ;
-			IntegralFunction func = new IntegralFunction() {
-				@Override
-				public double function(double theta) {
-					double y = 2*xVal*Math.exp(-xVal*(1-Math.cos(theta)))*Math.cos(theta) ;
-					return y;
-				}
-			};
+			IntegralFunction func = theta -> {
+                double y = 2*xVal*Math.exp(-xVal*(1-Math.cos(theta)))*Math.cos(theta) ;
+                return y;
+            };
 			AdaptiveIntegral integral = new AdaptiveIntegral(func, 0, Math.PI/2) ;
 			B[i] = integral.getIntegral() ;
 		}

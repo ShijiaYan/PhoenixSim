@@ -77,7 +77,7 @@ public class JavancoWebServer extends AbstractServer {
 			System.exit(-1);
 		}
 		// keep zhis two lines : first on makes the ressources extract and the second create the file
-		URL url = JavancoFile.findRessource(dir, true);
+		URL url = JavancoFile.findResource(dir, true);
 
 		File rootDirFile = new File(url.toURI());
 

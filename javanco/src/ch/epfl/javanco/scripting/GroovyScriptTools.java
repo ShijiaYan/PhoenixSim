@@ -17,7 +17,7 @@ class GroovyScriptTools {
 	java.io.IOException
 	{
 		GroovyScriptManager man = (GroovyScriptManager)script.getBinding().getVariable(GroovyScriptManager.PRIVATE_SCRIPT_MANAGER);
-		Script newScript = (new GroovyShell()).parse(f);
+		Script newScript = new GroovyShell().parse(f);
 		man.runMain(newScript, script.getBinding());
 	}
 
@@ -66,7 +66,7 @@ class GroovyScriptTools {
 		GroovyScriptManager man = (GroovyScriptManager)script.getBinding().getVariable(GroovyScriptManager.PRIVATE_SCRIPT_MANAGER);
 		Binding bind = script.getBinding();
 		for (Map.Entry<String, Object> entry : man.loadWorkSpace().entrySet()) {
-			if (!(entry.getKey().equals(GroovyScriptManager.PRIVATE_SCRIPT_MANAGER))) {
+			if (!entry.getKey().equals(GroovyScriptManager.PRIVATE_SCRIPT_MANAGER)) {
 				bind.setVariable(entry.getKey(), entry.getValue());
 			}
 		}
@@ -75,7 +75,7 @@ class GroovyScriptTools {
 
 	public static boolean testVariable(groovy.lang.Script script, String name) {
 		GroovyScriptManager man = (GroovyScriptManager)script.getBinding().getVariable(GroovyScriptManager.PRIVATE_SCRIPT_MANAGER);
-		return (man.loadVariable(name) != null);
+		return man.loadVariable(name) != null;
 	}
 
 	public static void purgeSavedWorkspace(groovy.lang.Script script) {

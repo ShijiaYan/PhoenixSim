@@ -37,7 +37,7 @@ public class PhysicalConstants {
 	}
 
 	public static double getPermeabilityVacuum(){
-		return (4*Math.PI*1e-7);
+		return 4*Math.PI*1e-7;
 	}
 
 	public static double getPlanckConstant(){

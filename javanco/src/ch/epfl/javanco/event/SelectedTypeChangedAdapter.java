@@ -38,19 +38,19 @@ public class SelectedTypeChangedAdapter implements SelectedTypeChangedListener {
 	public void selectedTypeChanged(SelectedTypeChangedEvent e) {
 		Class<?> selection = e.getSelectedClass();
 		if (e.isLinkSelected()) {
-			if ((selection != null) && (Link.class.isAssignableFrom(selection))) {
+			if (selection != null && Link.class.isAssignableFrom(selection)) {
 				selectedTypeForLinkCreation = (Class<? extends Link>) selection;
 			} else {
 				logger.error("event says link tool is selected, but received class is not AbstractLink compatible");
 			}
 		} else if (e.isNodeSelected()) {
-			if ((selection != null) && (Node.class.isAssignableFrom(selection))) {
+			if (selection != null && Node.class.isAssignableFrom(selection)) {
 				selectedTypeForNodeCreation = (Class<? extends Node>) selection;
 			} else {
 				logger.error("event says node tool is selected, but received class is not AbstractNode compatible");
 			}
 		} else if (e.isLayerSelected()) {
-			if ((selection != null) && (Layer.class.isAssignableFrom(selection))) {
+			if (selection != null && Layer.class.isAssignableFrom(selection)) {
 				selectedTypeForLayerCreation = (Class<? extends Layer>) selection;
 			} else {
 				logger.error("event says node tool is selected, but received class is not AbstractLayer compatible");
@@ -70,8 +70,8 @@ public class SelectedTypeChangedAdapter implements SelectedTypeChangedListener {
 		return selectedTypeForLayerCreation;
 	}
 	public void changeSelectedType(Class<? extends Element> c, boolean isNode, boolean isLink, boolean isLayer) {
-		if ((isNode == previousIsNode) && (isLink == previousIsLink)) {
-			if ((c != null) && (previousClass != null)) {
+		if (isNode == previousIsNode && isLink == previousIsLink) {
+			if (c != null && previousClass != null) {
 				if (c.equals(previousClass)) {
 					return;
 				}

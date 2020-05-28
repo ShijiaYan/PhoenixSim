@@ -22,7 +22,7 @@ import edu.columbia.lrl.CrossLayer.physical_models.util.Constants;
 import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
 
 
-public class PsyncLayout extends PhysicalLayout {
+public class PsyncLayout extends AbstractPhysicalLayout {
 
 	InterfaceWaveguideLengthModel interfaceLength;
 	AbstractWaveguideLengthModel busLength;
@@ -53,7 +53,7 @@ public class PsyncLayout extends PhysicalLayout {
 	}
 
 	public String toString() {
-		return "Pysc layout";
+		return "Psync layout";
 	}
 
 	public double getUnavailabilityTime() {
@@ -87,6 +87,6 @@ public class PsyncLayout extends PhysicalLayout {
 	public List<PowerConsumption> getLayoutSpecificConsumption(PhysicalParameterAndModelsSet modelSet,
 			AbstractLinkFormat linkFormat) {
 		System.out.println("Power consumption not implemented yet in Psync");
-		return new ArrayList<PowerConsumption>(0);
+		return new ArrayList<>(0);
 	}
 }

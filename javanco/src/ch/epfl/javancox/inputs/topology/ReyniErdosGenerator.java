@@ -89,7 +89,7 @@ public class ReyniErdosGenerator extends AbstractRandomAspatialTopologyGenerator
 	 */
 	@Override
 	public Map<String, String> getRandomGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("average_degree",averageDegree+"");
 		map.put("number_of_nodes",nbNodes+"");
 		return map;
@@ -138,7 +138,7 @@ public class ReyniErdosGenerator extends AbstractRandomAspatialTopologyGenerator
 				@ParameterDef (name="Seed") int seed,
 				@ForcedParameterDef (possibleValues={"NONE", "uniform", "gaussian", "circle", "tree"})
 				@ParameterDef (name="Node placement") String placement)throws InstantiationException{
-			return averageDegree(agh, nbNodes, ((float)(nbNodes-1))*prob, seed, placement);
+			return averageDegree(agh, nbNodes, (float)(nbNodes-1) *prob, seed, placement);
 		}
 		
 		

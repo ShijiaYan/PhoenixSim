@@ -63,7 +63,7 @@ public abstract class AbstractSwitchArchitectureGenerator extends AbstractDeterm
 	}
 
 	private TreeSet<Integer> getOutputSwitchesIndexes(AbstractGraphHandler agh) {
-		TreeSet<Integer> list = new TreeSet<Integer>();
+		TreeSet<Integer> list = new TreeSet<>();
 		for (Integer i : getOutputNodesIndexes()) {
 			int alt = agh.getNodeContainer(i).getIncomingLinks().get(0).getOtherNodeIndex(i);
 			list.add(alt);
@@ -84,14 +84,14 @@ public abstract class AbstractSwitchArchitectureGenerator extends AbstractDeterm
 			if (array.length == 0) return new Path();
 			Path p = new Path();
 			p.add(linkToSwitches[array[0]][0]);
-			for (int j = 0 ; j < array.length ; j++) {
-				p.add(linkToSwitches[array[j]][1]);
-			}	
+            for (int i : array) {
+                p.add(linkToSwitches[i][1]);
+            }
 			return p;
 		}
 		
 		public ArrayList<Path> rebuildPaths(int[] array, int[] permut) {
-			ArrayList<Path> alp = new ArrayList<Path>();
+			ArrayList<Path> alp = new ArrayList<>();
 			int index = 0;
 			for (Integer dest : permut) {
 				int[][] pa = paths[index][dest];
@@ -153,9 +153,9 @@ public abstract class AbstractSwitchArchitectureGenerator extends AbstractDeterm
 					cc++;
 				}
 				paths[i*2][aa*2] = pathArray;
-				paths[(i*2)+1][aa*2] = pathArray;
-				paths[(i*2)][(aa*2)+1] = pathArray;		
-				paths[(i*2)+1][(aa*2)+1] = pathArray;	
+				paths[i*2 +1][aa*2] = pathArray;
+				paths[i*2][aa*2 +1] = pathArray;
+				paths[i*2 +1][aa*2 +1] = pathArray;
 				aa++;
 			}
 		}

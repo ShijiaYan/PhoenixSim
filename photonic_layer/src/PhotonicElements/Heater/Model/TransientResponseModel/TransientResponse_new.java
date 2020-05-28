@@ -25,14 +25,11 @@ public class TransientResponse_new {
 	}
 
 	public double getTimeResponse(double t_usec){
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double tau_usec) {
-				double voltH = voltage.getVoltage(t_usec-tau_usec) ;
-				double arg = selfH.getDeltaT(voltH) * impulse.getTimeResponse(tau_usec);
-				return arg*1e-6 ;
-			}
-		};
+		IntegralFunction func = tau_usec -> {
+            double voltH = voltage.getVoltage(t_usec-tau_usec) ;
+            double arg = selfH.getDeltaT(voltH) * impulse.getTimeResponse(tau_usec);
+            return arg*1e-6 ;
+        };
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, 0, t_usec) ;
 //		integral.setErrorBound(1e-4);
 //		integral.setMaximumNumberOfIterations(10);
@@ -53,14 +50,11 @@ public class TransientResponse_new {
 
 	public double getTimeResponse(double t_usec, double[] time_usec, double[] impulseResponseValues){
 		LinearInterpolation impulseInterpolate = new LinearInterpolation(time_usec, impulseResponseValues) ;
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double tau_usec) {
-				double voltH = voltage.getVoltage(t_usec-tau_usec) ;
-				double arg = selfH.getDeltaT(voltH) * impulseInterpolate.interpolate(tau_usec);
-				return arg*1e-6 ;
-			}
-		};
+		IntegralFunction func = tau_usec -> {
+            double voltH = voltage.getVoltage(t_usec-tau_usec) ;
+            double arg = selfH.getDeltaT(voltH) * impulseInterpolate.interpolate(tau_usec);
+            return arg*1e-6 ;
+        };
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, 0, t_usec) ;
 //		integral.setErrorBound(1e-4);
 		integral.setMaximumNumberOfIterations(20);

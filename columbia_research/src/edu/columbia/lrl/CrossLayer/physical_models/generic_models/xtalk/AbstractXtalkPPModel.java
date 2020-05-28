@@ -10,10 +10,10 @@ import java.util.Map;
 
 public abstract class AbstractXtalkPPModel {
 
-	public AbstractXtalkPPModel() {
-	}
+    public AbstractXtalkPPModel() {
+    }
 
-	public abstract double getXtalkPP_DB(double var1, int var3, double var4);
+    public abstract double getXtalkPP_DB(double xTalkPower, int berIndex, double modulationER);
 
-	public abstract Map<String, String> getAllParameters();
+    public abstract Map<String, String> getAllParameters();
 }

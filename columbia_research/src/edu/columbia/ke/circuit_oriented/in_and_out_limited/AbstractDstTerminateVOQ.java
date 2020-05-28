@@ -101,7 +101,7 @@ public abstract class AbstractDstTerminateVOQ extends AbstractCircuitLimitedVOQ 
 
 	@Override
 	public boolean isCacheFull() {
-		return (this.getCacheSize() + pendingReq >= this.maxNumCircuits);
+		return this.getCacheSize() + pendingReq >= this.maxNumCircuits;
 	}
 
 	

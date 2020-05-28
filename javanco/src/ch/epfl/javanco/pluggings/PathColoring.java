@@ -38,20 +38,16 @@ public class PathColoring extends JavancoTool {
 		dia.add(tf1);
 		dia.add(colChooser);
 		final JButton b = new JButton("go");
-		b.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Color c = colChooser.getColor();
-				Path path = new Path(tf1.getText());
-				for (NodePair np : path.getPathSegments()) {
-					LinkContainer lc = agh.getLinkContainer(np);
-					if (lc != null) {
-						lc.attribute("link_color").setValue(TypeParser.parseColor(c));
-					}
-				}
-			}
-		});
+		b.addActionListener(e -> {
+            Color c = colChooser.getColor();
+            Path path = new Path(tf1.getText());
+            for (NodePair np : path.getPathSegments()) {
+                LinkContainer lc = agh.getLinkContainer(np);
+                if (lc != null) {
+                    lc.attribute("link_color").setValue(TypeParser.parseColor(c));
+                }
+            }
+        });
 		dia.add(b);
 		dia.setVisible(true);
 	}

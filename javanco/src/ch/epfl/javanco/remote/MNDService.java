@@ -47,7 +47,7 @@ public abstract class MNDService /*extends MNDBasedFunction*/ {
 			} else {
 				method = "callService";
 			}
-			MNDService service = (MNDService)c.getConstructor(new Class[]{}).newInstance(new Object[]{});
+			MNDService service = (MNDService)c.getConstructor().newInstance(new Object[]{});
 			for (Method m : c.getDeclaredMethods()) {
 				if (m.getName().equals(method)) {
 					if (m.getParameterTypes().length == 2) {

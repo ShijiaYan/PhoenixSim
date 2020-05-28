@@ -23,10 +23,10 @@ public class PerfectShuffleTrafficMatrix extends AbstractTrafficMatrix {
 
 	@Override
 	public double getTraffic(int src, int dest) {
-		boolean addS = ((src & mask) > 0);
-		boolean addD = ((dest & mask) > 0);
-		int src2 = (src << 1);
-		int dest2 = (dest << 1);
+		boolean addS = (src & mask) > 0;
+		boolean addD = (dest & mask) > 0;
+		int src2 = src << 1;
+		int dest2 = dest << 1;
 		if (addS) {
 			src2 = src2 - mask - mask + 1;
 		}

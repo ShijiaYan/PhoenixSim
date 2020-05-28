@@ -61,9 +61,9 @@ public class FractalMoore extends AbstractPlanarDeterministicGenerator implement
 	    for (int i = 0 ; i < d-1 ; i++) {
 	    	double pangle;
 	        if (d != 3) {
-	            pangle = angle+90-(i*portionAngle);
+	            pangle = angle+90- i*portionAngle;
 	        } else {
-	            pangle = angle+60-(i*120);
+	            pangle = angle+60- i*120;
 	        }
 	        iterate(agh, n, pangle, dist/distDiv, level+1);
 	    }
@@ -95,14 +95,14 @@ public class FractalMoore extends AbstractPlanarDeterministicGenerator implement
 	public int getNumberOfNodes() {
 		int accum = 1;
 		for (int i= 0 ; i < k ; i++) {
-			accum += d*Math.pow((d-1),i);
+			accum += d*Math.pow(d-1,i);
 		}
 		return accum;
 	}
 	
 	@Override
 	public double getAverageNumberOfLeaves() {
-		return d*Math.pow((d-1),k-1);
+		return d*Math.pow(d-1,k-1);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class FractalMoore extends AbstractPlanarDeterministicGenerator implement
 		if (d == 2) return 1;
 		int accum = 1;
 		for (int i= 0 ; i < k-1 ; i++) {
-			accum += d*Math.pow((d-1),i);
+			accum += d*Math.pow(d-1,i);
 		}
 		return accum;		
 	}	

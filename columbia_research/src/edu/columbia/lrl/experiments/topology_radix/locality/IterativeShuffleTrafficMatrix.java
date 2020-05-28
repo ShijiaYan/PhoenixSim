@@ -38,7 +38,7 @@ public class IterativeShuffleTrafficMatrix extends AbstractTrafficMatrix {
 		}
 		int j = 0;
 		for (int i = (int)Math.ceil((double)array.length/2d) ; i < array.length ; i++) {
-			newA[1+(j*2)] = array[i];
+			newA[1+ j*2] = array[i];
 			j++;
 		}
 		array = newA;

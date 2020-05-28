@@ -129,11 +129,8 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 	@Override
 	public boolean askUserConfirmation(String s) {
 		int ans = JOptionPane.showConfirmDialog(associatedGlobalInterface.getMainFrame(), s, "Javanco", JOptionPane.YES_NO_OPTION);
-		if (ans == JOptionPane.YES_OPTION) {
-			return true;
-		}
-		return false;
-	}
+        return ans == JOptionPane.YES_OPTION;
+    }
 	
 	public static interface SwingEditorInternalFrameClosingListener {
 		public void internalFrameClosing();
@@ -148,7 +145,7 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 		private LayerEditingToolBar toolBar = null;
 		private JPanel editorPanel = null;
 		
-		private ArrayList<SwingEditorInternalFrameClosingListener> closingListeners = new ArrayList<SwingEditorInternalFrameClosingListener>(0);
+		private ArrayList<SwingEditorInternalFrameClosingListener> closingListeners = new ArrayList<>(0);
 
 		private boolean showFooterLabel = true;
 		private boolean showToolBar = true;
@@ -304,11 +301,7 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 		
 		private void create() {
 			if (edited) {
-				menuItem.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						newLayerUserCommand(e);
-					}
-				});
+				menuItem.addActionListener(e -> newLayerUserCommand(e));
 				layers.add(menuItem);
 				layers.add(new JSeparator());
 				layers.add(enabled);		
@@ -335,8 +328,8 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 
 			if (allLayers.size() > 15) {
 				useGroups = true;
-				layerGroupsVisible = new Hashtable<String, JMenu>();
-				layerGroupsEnabled = new Hashtable<String, JMenu>();
+				layerGroupsVisible = new Hashtable<>();
+				layerGroupsEnabled = new Hashtable<>();
 				currentGroupVisible = null;
 				currentGroupEnabled = null;
 			}
@@ -345,12 +338,10 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 				String layerName = layerContainer.getKey();
 				JMenuItem menuItem = new JCheckBoxMenuItem(layerName, layerContainer.isDisplayed());
 				menuItem.setActionCommand(layerName);
-				menuItem.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ev) {
-						JCheckBoxMenuItem it = (JCheckBoxMenuItem)ev.getSource();
-						sui.getAssociatedAbstractGraphHandler().getLayerContainer(ev.getActionCommand()).setDisplayed(it.isSelected());
-					}
-				});
+				menuItem.addActionListener(ev -> {
+                    JCheckBoxMenuItem it = (JCheckBoxMenuItem)ev.getSource();
+                    sui.getAssociatedAbstractGraphHandler().getLayerContainer(ev.getActionCommand()).setDisplayed(it.isSelected());
+                });
 				if (useGroups) {
 					addToGroup(layerContainer, currentGroupVisible, visible, menuItem, layerGroupsVisible);
 				} else {
@@ -360,11 +351,7 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 					ButtonGroup radioButtonGroup = new ButtonGroup();
 					menuItem = new JRadioButtonMenuItem(layerName, handler.getEditedLayer().equals(layerContainer));
 					menuItem.setActionCommand(layerName);
-					menuItem.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent ev) {
-							handler.setEditedLayer(ev.getActionCommand());
-						}
-					});
+					menuItem.addActionListener(ev -> handler.setEditedLayer(ev.getActionCommand()));
 					radioButtonGroup.add(menuItem);
 					if (useGroups) {
 						addToGroup(layerContainer, currentGroupEnabled, enabled, menuItem, layerGroupsEnabled);
@@ -377,43 +364,33 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 
 		private void initOptionsMenu() {
 			final JMenuItem offsets = new JCheckBoxMenuItem("Use offsets");
-			offsets.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ev) {
-					for (LayerContainer cont : handler.getLayerContainers()) {
-						cont.attribute(XMLTagKeywords.USE_OFFSET).setValue(offsets.isSelected(), ev);
-					}
-				}
-			});
+			offsets.addActionListener(ev -> {
+                for (LayerContainer cont : handler.getLayerContainers()) {
+                    cont.attribute(XMLTagKeywords.USE_OFFSET).setValue(offsets.isSelected(), ev);
+                }
+            });
 
 			final JMenuItem anim = new JCheckBoxMenuItem("Use animations");
 			anim.setSelected(sui.isAnimated());
-			anim.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ev) {
-					setAnimated(anim.isSelected());
-				}
-			});
+			anim.addActionListener(ev -> setAnimated(anim.isSelected()));
 			
 			final JMenuItem ids = new JCheckBoxMenuItem("Show node IDs");
 			ids.setSelected(true);
-			ids.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ev) {
-					for (NodeContainer cont : handler.getNodeContainers()) {
-						cont.attribute(XMLTagKeywords.NODE_SEE_ID).setValue(ids.isSelected());
-					}
-				}
-			});
+			ids.addActionListener(ev -> {
+                for (NodeContainer cont : handler.getNodeContainers()) {
+                    cont.attribute(XMLTagKeywords.NODE_SEE_ID).setValue(ids.isSelected());
+                }
+            });
 				
 			try {
 		//		Class.forName("com.sun.opengl.impl.windows.WindowsGLDrawableFactory");
 				if (sui instanceof InternalFrameBasedUIPlus3D) {
 					view3d = new JCheckBoxMenuItem("Show 3d view");
-					view3d.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent ev) {
-						//	if (sui instanceof InternalFrameBasedUIPlus3D) {
-								((InternalFrameBasedUIPlus3D)sui).setView3dVisible(isSelected());
-						//	}
-						}
-					});
+					view3d.addActionListener(ev -> {
+                    //	if (sui instanceof InternalFrameBasedUIPlus3D) {
+                            ((InternalFrameBasedUIPlus3D)sui).setView3dVisible(isSelected());
+                    //	}
+                    });
 					options.add(view3d);
 				}
 			}
@@ -427,24 +404,22 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 		@SuppressWarnings("unchecked")
 		private void initToolsMenu() {
 			try {
-				ClassLister<JavancoTool> lister = new ClassLister<JavancoTool>(
-						Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), JavancoTool.class);
+				ClassLister<JavancoTool> lister = new ClassLister<>(
+                        Javanco.getProperty(Javanco.JAVANCO_DEFAULT_CLASSPATH_PREFIXES_PROPERTY).split(";"), JavancoTool.class);
 	
 				for (Class<? extends JavancoTool> c_ : lister.getSortedClasses()) {
 					final Class c = c_;
 					JMenuItem toolItem = new JMenuItem(c.getSimpleName());
-					toolItem.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent ev) {
-							try {
-								JavancoTool t = ((JavancoTool)c.getConstructor(new Class[]{}).newInstance(new Object[]{}));
-								sui.associatedFrame.addClosingListener(t);
-								t.run(handler, associatedGlobalInterface.getMainFrame() );
-							}
-							catch (Exception e) {
-								throw new IllegalStateException(e);
-							}
-						}
-					});
+					toolItem.addActionListener(ev -> {
+                        try {
+                            JavancoTool t = (JavancoTool)c.getConstructor().newInstance(new Object[]{});
+                            sui.associatedFrame.addClosingListener(t);
+                            t.run(handler, associatedGlobalInterface.getMainFrame() );
+                        }
+                        catch (Exception e) {
+                            throw new IllegalStateException(e);
+                        }
+                    });
 					tools.add(toolItem);
 				}
 			}
@@ -470,7 +445,7 @@ public class InternalFrameBasedUI extends AbstractFullSwingUI {
 				}
 				group.add(item);
 			} else {
-				if ((currentGroup == null) || (currentGroup.getItemCount() > 15)) {
+				if (currentGroup == null || currentGroup.getItemCount() > 15) {
 					currentGroup = new JMenu("    -    ");
 					menu.add(currentGroup);
 				}

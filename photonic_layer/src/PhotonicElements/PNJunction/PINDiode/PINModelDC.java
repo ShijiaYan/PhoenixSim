@@ -39,13 +39,7 @@ public class PINModelDC {
 			return 0 ;
 		}
 		else{
-			RealRootFunction func = new RealRootFunction() {
-
-				@Override
-				public double function(double I_mA) {
-					return getVoltage(I_mA)-voltage_V ;
-				}
-			};
+			RealRootFunction func = I_mA -> getVoltage(I_mA)-voltage_V;
 			RealRoot root = new RealRoot() ;
 			root.setEstimate(1);
 			return root.bisect(func, 0, 20) ;

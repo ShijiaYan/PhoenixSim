@@ -144,7 +144,7 @@ public class MooreBoundExperiment implements Experiment {
 		double injectedForOneNode = trafs[1];
 		double totalLinks = getLinks(trafficForOneNode, radx);
 		
-		LocStruct ls = new LocStruct(trafficForOneNode, injectedForOneNode, totalLinks, diam, radx, (double)totalLinks / (nodes*radx));
+		LocStruct ls = new LocStruct(trafficForOneNode, injectedForOneNode, totalLinks, diam, radx, totalLinks / (nodes*radx));
 		return ls;
 	}
 	
@@ -158,7 +158,7 @@ public class MooreBoundExperiment implements Experiment {
 	//	int linkMult = (int)Math.ceil(trafficForOneNode*nodes/(connections*2));
 	//	int totalLinks = linkMult*connections*2;
 		
-		LocStruct ls = new LocStruct(trafficForOneNode, injectedForOneNode, totalLinks, diam, radx, /*linkMult*/(double)totalLinks / (nodes*radx));
+		LocStruct ls = new LocStruct(trafficForOneNode, injectedForOneNode, totalLinks, diam, radx, /*linkMult*/totalLinks / (nodes*radx));
 		return ls;
 	}	
 	
@@ -177,7 +177,7 @@ public class MooreBoundExperiment implements Experiment {
 		}
 		
 		double detOverhead = nodes * (ls.trafficForOneNode -1);
-		double conOverhead = ls.totalLinks - (nodes*ls.trafficForOneNode);
+		double conOverhead = ls.totalLinks - nodes*ls.trafficForOneNode;
 		dp.addResultProperty("detour overhead", detOverhead);
 		dp.addResultProperty("con overhead", conOverhead);
 		dp.addResultProperty("total overhead", detOverhead + conOverhead);

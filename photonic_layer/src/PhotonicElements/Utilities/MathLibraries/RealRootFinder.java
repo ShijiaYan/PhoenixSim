@@ -33,13 +33,8 @@ public class RealRootFinder {
 		this.b = xEnd ;
 		this.accuracy = accuracy ;
 		this.stepSize = accuracy/(b-a) ; 
-		roots = new ArrayList<Double>() ;
-		funcNormalized = new RealRootFunction() {	
-			@Override
-			public double function(double y) {
-				return func_.function(getX(y));
-			}
-		};
+		roots = new ArrayList<>() ;
+		funcNormalized = y -> func_.function(getX(y));
 	}
 	
 	public RealRootFinder(
@@ -52,22 +47,12 @@ public class RealRootFinder {
 		this.b = xEnd ;
 		this.accuracy = 1e-2 ;
 		this.stepSize = 1e-2/(b-a) ; // default accuracy = 0.01
-		roots = new ArrayList<Double>() ;
-		funcNormalized = new RealRootFunction() {	
-			@Override
-			public double function(double y) {
-				return func_.function(getX(y));
-			}
-		};
+		roots = new ArrayList<>() ;
+		funcNormalized = y -> func_.function(getX(y));
 	}
 	
 	public RealRootFinder(){
-		funcNormalized = new RealRootFunction() {	
-			@Override
-			public double function(double y) {
-				return func.function(getX(y));
-			}
-		};
+		funcNormalized = y -> func.function(getX(y));
 	}
 	
 	// setters
@@ -86,12 +71,7 @@ public class RealRootFinder {
 	
 	public void setRootFunction(final RealRootFunction func_){
 		this.func = func_ ;
-		funcNormalized = new RealRootFunction() {	
-			@Override
-			public double function(double y) {
-				return func_.function(getX(y));
-			}
-		};
+		funcNormalized = y -> func_.function(getX(y));
 	}
 	
 	// getters
@@ -250,7 +230,7 @@ public class RealRootFinder {
 	
 	@SuppressWarnings("unused")
 	private ArrayList<Double> removeNaNs(ArrayList<Double> list){
-		ArrayList<Double> list_copy = new ArrayList<Double>() ;
+		ArrayList<Double> list_copy = new ArrayList<>() ;
 		for(double x : list){
 			if(!Double.isNaN(x)){
 				list_copy.add(x) ;
@@ -295,14 +275,9 @@ public class RealRootFinder {
 	
 	//******************** for test ******************
 	public static void main(String[] args){
-		RealRootFunction func = new RealRootFunction(){
-			@Override
-			public double function(double x) {
-				return Math.sin(x);
-			}
-		} ;
+		RealRootFunction func = x -> Math.sin(x);
 		
-		double xStart = Math.PI*(-6) ;
+		double xStart = Math.PI* -6;
 		double xEnd = Math.PI*6 ;
 		
 		double[] x = MoreMath.linspace(xStart, xEnd, 1000) ;

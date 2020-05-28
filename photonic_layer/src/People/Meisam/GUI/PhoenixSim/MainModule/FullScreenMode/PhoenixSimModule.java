@@ -9,7 +9,7 @@ import javafx.scene.control.Tab;
 
 public class PhoenixSimModule {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/MainModule/FullScreenMode/phoenixSim_module_fullScreen.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Object.class.getResource("/People/Meisam/GUI/PhoenixSim/MainModule/FullScreenMode/phoenixSim_module_fullScreen.fxml"));
 	PhoenixSimModuleController controller ;
 
 	// this constructor is used if database is not shared
@@ -23,9 +23,7 @@ public class PhoenixSimModule {
 		}
 		this.controller = loader.getController()  ;
 		controller.addWelcomeTab();
-        controller.fullScreenMode.selectedProperty().addListener((v, ov, nv)->{
-        	builder.getStage().setResizable(nv);
-        });
+        controller.fullScreenMode.selectedProperty().addListener((v, ov, nv)-> builder.getStage().setResizable(nv));
 	}
 
 	// this constructor is used if database is shared between modules
@@ -40,9 +38,7 @@ public class PhoenixSimModule {
 		this.controller = loader.getController()  ;
 		controller.setSimDataBase(simDataBase);
 		controller.addWelcomeTab();
-        controller.fullScreenMode.selectedProperty().addListener((v, ov, nv)->{
-        	builder.getStage().setResizable(nv);
-        });
+        controller.fullScreenMode.selectedProperty().addListener((v, ov, nv)-> builder.getStage().setResizable(nv));
 	}
 
 	public PhoenixSimModule(SimulationDataBase simDataBase, boolean addWelcomeTab){
@@ -58,9 +54,7 @@ public class PhoenixSimModule {
 		if(addWelcomeTab){
 			controller.addWelcomeTab();
 		}
-        controller.fullScreenMode.selectedProperty().addListener((v, ov, nv)->{
-        	builder.getStage().setResizable(nv);
-        });
+        controller.fullScreenMode.selectedProperty().addListener((v, ov, nv)-> builder.getStage().setResizable(nv));
 	}
 
 	public Tab getSelectedTab(){

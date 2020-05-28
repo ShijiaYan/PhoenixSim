@@ -25,7 +25,7 @@ public class GeorgeWashingtonTrafficGenerator extends AbstractTrafficGenerator {
 	@Override
 	public void processEvent(Evt e) {
 		double time = e.getTimeNS();
-		int hour = (int)(((time/1000000d)+6) % 24);
+		int hour = (int)((time/1000000d +6) % 24);
 		double rate = rates[hour];
 		double interTime = 10000000d/rate;
 		Evt newE = new Evt(time, this.getTrafficDestination());

@@ -14,8 +14,8 @@ public class TypableArrayInstanceNode extends TypableChooseNode {
 	private static final long serialVersionUID = 1L;
 
 	public TypableArrayInstanceNode(Class<?> c,
-			Map<String, String> annotationMap,
-			ObjectConstuctionTreeModel<?> containingTree, boolean checkDef)
+                                    Map<String, String> annotationMap,
+                                    ObjectConstructionTreeModel<?> containingTree, boolean checkDef)
 			throws ClassNotFoundException {
 		super(c, annotationMap, containingTree, checkDef);
 		checkConfigured();
@@ -49,7 +49,7 @@ public class TypableArrayInstanceNode extends TypableChooseNode {
 			@Override
 			public Pair<Object, ObjectRecipe> next() {
 				this.delivered = true;
-				return new Pair<Object, ObjectRecipe>(createArray(), null);
+				return new Pair<>(createArray(), null);
 			}
 
 			@Override
@@ -78,7 +78,7 @@ public class TypableArrayInstanceNode extends TypableChooseNode {
 	
 	@Override
 	public List<ActionItem> getActions() {
-		List<ActionItem> toReturn = new ArrayList<ActionItem>();
+		List<ActionItem> toReturn = new ArrayList<>();
 		toReturn.add(new ActionItem("Suppress this array", "suppress"));			
 		toReturn.add(new ActionItem("Empty this array", REMOVE_ALL));
 		return toReturn;
@@ -101,8 +101,8 @@ public class TypableArrayInstanceNode extends TypableChooseNode {
 	
 	@Override
 	protected AbstractParameterChooseNode paremeterChooseNodeClone(
-			Class<?> userObject, Map<String, String> annotationMap2,
-			ObjectConstuctionTreeModel<?> containingTreeModel, boolean b)
+            Class<?> userObject, Map<String, String> annotationMap2,
+            ObjectConstructionTreeModel<?> containingTreeModel, boolean b)
 			throws Exception {
 		return new TypableArrayInstanceNode(userObject, annotationMap2, containingTreeModel, false);
 	}	

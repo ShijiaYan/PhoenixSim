@@ -24,7 +24,7 @@ public class SmallElecSwitch implements TrafficDestination, EventOrigin {
 	
 	private int portIndex;
 	private LWSIMExperiment lwSimExperiment;
-	private TreeMap<Integer, LWSimComponent> dests = new TreeMap<Integer, LWSimComponent>();
+	private TreeMap<Integer, LWSimComponent> dests = new TreeMap<>();
 	private double processDelay;
 	
 	public SmallElecSwitch(double processDelay) {

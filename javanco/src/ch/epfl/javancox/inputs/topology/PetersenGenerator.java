@@ -46,7 +46,7 @@ public class PetersenGenerator extends AbstractDeterministicGenerator {
 			}
 		}
 		for (int i = 0 ; i < 5 ; i++) {		
-			LinkContainer lc = agh.newLink(i+5, ((i+2) % 5) + 5);
+			LinkContainer lc = agh.newLink(i+5, (i+2) % 5 + 5);
 			if (withLabelsAndDir) {
 				lc.attribute("label").setValue(l++);
 			}			
@@ -71,19 +71,18 @@ public class PetersenGenerator extends AbstractDeterministicGenerator {
 			for (int j = 0 ; j < currentNodes ; j++) {
 				agh.newNode();
 			}
-			for (int j = 0 ; j < existingLinks.size() ; j++) {
-				LinkContainer existing = existingLinks.get(j);
-				LinkContainer newL = agh.newLink(existing.getStartNodeIndex() + ((i+1)*currentNodes), existing.getEndNodeIndex() + ((i+1)*currentNodes));
-				newL.attribute("link_color").setValue(existing.attribute("link_color").getValue());
-			}
+            for (LinkContainer existing : existingLinks) {
+                LinkContainer newL = agh.newLink(existing.getStartNodeIndex() + (i + 1) * currentNodes,
+                        existing.getEndNodeIndex() + (i + 1) * currentNodes);
+                newL.attribute("link_color").setValue(existing.attribute("link_color").getValue());
+            }
 		}
 		for (int k = 0 ; k < currentNodes ; k++) {
-			for (int j = 0 ; j < existingLinks.size() ; j++) {
-				LinkContainer existing = existingLinks.get(j);
-				System.out.println((existing.getStartNodeIndex()*10 + k) + " - " + (existing.getEndNodeIndex()*10 + k));
-				LinkContainer newL = agh.newLink(existing.getStartNodeIndex()*10 + k, existing.getEndNodeIndex()*10 + k);				
-				newL.attribute("link_color").setValue(cmap.getColorAsInt(dim));
-			}		
+            for (LinkContainer existing : existingLinks) {
+                System.out.println((existing.getStartNodeIndex() * 10 + k) + " - " + (existing.getEndNodeIndex() * 10 + k));
+                LinkContainer newL = agh.newLink(existing.getStartNodeIndex() * 10 + k, existing.getEndNodeIndex() * 10 + k);
+                newL.attribute("link_color").setValue(cmap.getColorAsInt(dim));
+            }
 		}
 	}	
 	

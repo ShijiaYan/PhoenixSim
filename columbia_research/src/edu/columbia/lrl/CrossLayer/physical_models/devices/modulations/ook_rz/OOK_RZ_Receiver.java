@@ -2,7 +2,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_rz;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.results.PropertyMap;
 import ch.epfl.general_libraries.utils.MoreArrays;
@@ -44,7 +43,7 @@ public class OOK_RZ_Receiver extends AbstractDemodulatorAndReceiver {
 	public ArrayList<PowerPenalty> getDemodulationPowerPenalties(PhysicalParameterAndModelsSet modelSet,
 			AbstractLinkFormat linkFormat) {
 		PowerPenalty pola = new PowerPenalty("Polarization loss", AbstractDemodulatorAndReceiver.RECEIVER, polarizationLoss);
-		PowerPenalty paIL = new PowerPenalty(PowerPenalty.PASSIVEINSERTIONLOSS, AbstractDemodulatorAndReceiver.RECEIVER, passiveIL);
+		PowerPenalty paIL = new PowerPenalty(PowerPenalty.PASSIVE_INSERTION_LOSS, AbstractDemodulatorAndReceiver.RECEIVER, passiveIL);
 			
 		return MoreArrays.getArrayList(pola, paIL);
 	}

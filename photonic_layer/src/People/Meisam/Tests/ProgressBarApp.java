@@ -77,7 +77,7 @@ vbox.setSpacing( 10 );
  updateProgress( 0.5d, 1.0d );
  HttpURLConnection c = null;
  InputStream is = null;
- String retval = "";
+ StringBuilder retval = new StringBuilder();
  try {
  c = (HttpURLConnection) new URL(url).openConnection();
  updateProgress( 0.6d, 1.0d );
@@ -86,7 +86,7 @@ vbox.setSpacing( 10 );
 int ch;
 
  while( (ch=is.read()) != -1 ) {
- retval += (char)ch;}
+ retval.append((char) ch);}
 
 }
  finally {
@@ -99,7 +99,7 @@ int ch;
 }
  updateMessage("HTML retrieved");
  updateProgress( 1.0d, 1.0d );
- return retval ;}
+ return retval.toString();}
 
 @Override
 protected void succeeded() {

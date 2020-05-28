@@ -70,7 +70,7 @@ public class SlimmedFatTreeLWSimBuilder extends
 			up[i] = towardHub;
 		}
 		
-		HashMap<Integer, TreeSwitch> mm = new HashMap<Integer, TreeSwitch>();
+		HashMap<Integer, TreeSwitch> mm = new HashMap<>();
 		
 		// check problem of larger bandwidth on next hop
 		for (int i = nbClients ; i < agh.getNumberOfNodes() ; i++) {
@@ -117,7 +117,7 @@ public class SlimmedFatTreeLWSimBuilder extends
 	private class TreeSwitch implements TrafficDestination, EventOrigin {
 		
 		LWSIMExperiment exp;
-		HashMap<Integer, Buffer> map = new HashMap<Integer, Buffer>();
+		HashMap<Integer, Buffer> map = new HashMap<>();
 		Buffer upBuf;
 		NodeContainer nc;
 
@@ -182,7 +182,7 @@ public class SlimmedFatTreeLWSimBuilder extends
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> m = new SimpleMap<String, String>();
+		Map<String, String> m = new SimpleMap<>();
 		m.put("radix", radix+"");
 		m.putAll(trafMat.getAllParameters());
 		return m;

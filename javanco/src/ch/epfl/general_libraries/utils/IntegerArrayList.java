@@ -21,14 +21,13 @@ public class IntegerArrayList extends ArrayList<Integer> {
 
 	public int max() {
 		int max = Integer.MIN_VALUE;
-		for (int i = 0 ; i < this.size() ; i++) {
-			Integer thisi = this.get(i);
-			if (thisi != null) {
-				if (thisi > max) {
-					max = thisi;
-				}
-			}
-		}
+        for (Integer thisi : this) {
+            if (thisi != null) {
+                if (thisi > max) {
+                    max = thisi;
+                }
+            }
+        }
 		return max;
 	}
 	
@@ -59,12 +58,11 @@ public class IntegerArrayList extends ArrayList<Integer> {
 
 	public int sum() {
 		int sum = 0;
-		for (int i = 0 ; i < this.size() ; i++) {
-			Integer thisi = this.get(i);
-			if (thisi != null) {
-				sum += thisi;
-			}
-		}
+        for (Integer thisi : this) {
+            if (thisi != null) {
+                sum += thisi;
+            }
+        }
 		return sum;
 	}
 }

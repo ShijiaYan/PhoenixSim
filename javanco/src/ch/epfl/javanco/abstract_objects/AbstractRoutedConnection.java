@@ -72,7 +72,7 @@ public abstract class AbstractRoutedConnection extends AbstractConnection implem
 	}
 
 	public List<? extends ConnectionSupport> getSupportingLinks() {
-		List<ConnectionSupport> list = new ArrayList<ConnectionSupport>(segmentList.size());
+		List<ConnectionSupport> list = new ArrayList<>(segmentList.size());
 		for (RoutedConnectionSegment segment : segmentList) {
 			list.add(segment.getSupportingLink());
 		}

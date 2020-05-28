@@ -27,7 +27,7 @@ public class NACKFast_RandomSmarterOptimalBackoff_Buffer extends
 		waitTime = x * wcWaitTime;
 		// waitTime = new Random().nextInt((int)Math.ceil(wcWaitTime - waitTime + 1)) + waitTime;
 		double u = new Random().nextDouble();
-		double v = ((Math.log(1-u))/(double)(-1)) / 4;
+		double v = (Math.log(1 - u) / (double) -1) / 4;
 		if (v > 1)
 			v = 1;
 		waitTime += v * (wcWaitTime - waitTime);

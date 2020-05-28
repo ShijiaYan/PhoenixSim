@@ -13,7 +13,7 @@ public class ODE2 extends ODE {
 	}
 
 	@Override
-	public void getFunction(double x, double dy[], double ytmp[]) {
+	public void getFunction(double x, double[] dy, double[] ytmp) {
 		int n = dy.length ;
 		for(int i=0; i<n; i++){
 //			dy[i] = fi(x, ytemp[i]) ; --> this is basically calculating the k factors.
@@ -22,12 +22,12 @@ public class ODE2 extends ODE {
 	}
 	
 	@Override
-	public void getError(double E[], double endY[]) {
+	public void getError(double[] E, double[] endY) {
 		
 	}
 	
 	@Override
-	public void setInitialConditions(double x0, double Y[]) {
+	public void setInitialConditions(double x0, double[] Y) {
 		int n = getNumEqns() ;
 		setOneX(0, x0);
 		for(int i=0; i<n; i++){

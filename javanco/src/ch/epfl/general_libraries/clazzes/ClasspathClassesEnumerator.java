@@ -67,14 +67,14 @@ public class ClasspathClassesEnumerator {
 	}
 	
 	private void processPrefixes(List<String> prefixes) {
-		this.includePrefixes = new Vector<List<String>>();
-		this.prefixes = new ArrayList<String>();
+		this.includePrefixes = new Vector<>();
+		this.prefixes = new ArrayList<>();
 		for (String pref : prefixes) {
 			int i = pref.split("\\.").length;
 			includePrefixes.setSize(Math.max(includePrefixes.size(), i));
 			for (int j = 0; j < i; j++) {
 				if (includePrefixes.get(j) == null) {
-					includePrefixes.setElementAt(new ArrayList<String>(), j);
+					includePrefixes.setElementAt(new ArrayList<>(), j);
 				}
 			}
 			includePrefixes.get(i - 1).add(pref);

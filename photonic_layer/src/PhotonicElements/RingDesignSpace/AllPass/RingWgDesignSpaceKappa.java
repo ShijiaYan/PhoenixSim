@@ -56,7 +56,7 @@ public class RingWgDesignSpaceKappa {
 	public double getFSRnm(){
 		double Rnm = radiusMicron * 1e3 ;
 		double lambdaResNm = inputLambda.getWavelengthNm() ;
-		return (lambdaResNm*lambdaResNm)/(2*Math.PI*Rnm * ng) ;
+		return lambdaResNm*lambdaResNm /(2*Math.PI*Rnm * ng) ;
 	}
 	
 	
@@ -118,7 +118,7 @@ public class RingWgDesignSpaceKappa {
 		double t_in = getInputT() ;
 		double L = getRoundTripLoss() ;
 		double FSR = getFSRnm() ;
-		double A = (t_in*Math.sqrt(L)) ;
+		double A = t_in*Math.sqrt(L);
 		double phase = 1-(1-A)*(1-A)/(2*A) ;
 		double DlambdaNm = FSR/Math.PI * Math.acos(phase) ;
 		return DlambdaNm ;

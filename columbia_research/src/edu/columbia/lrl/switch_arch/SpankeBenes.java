@@ -27,7 +27,7 @@ public class SpankeBenes extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getInputNodesIndexes() {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<>();
 		for( int id : inputIDs)
 			list.add(id);
 		return list;
@@ -35,7 +35,7 @@ public class SpankeBenes extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getOutputNodesIndexes() {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<>();
 		for( int id : outputIDs)
 			list.add(id);
 		return list;
@@ -43,7 +43,7 @@ public class SpankeBenes extends AbstractSwitchArchitectureGenerator {
 
 	@Override
 	public List<Integer> getSwitchingNodesIndexes() {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<>();
 		for( int id : switchIDs)
 			list.add(id);
 		return list;
@@ -67,7 +67,7 @@ public class SpankeBenes extends AbstractSwitchArchitectureGenerator {
 	@Override
 	public void generate(AbstractGraphHandler agh) {
 		ensureLayer(agh);
-		numCells = (radix * (radix - 1)) / 2;
+		numCells = radix * (radix - 1) / 2;
 
 		switchIDs = new int[numCells];
 		inputIDs = new int[radix];
@@ -76,9 +76,9 @@ public class SpankeBenes extends AbstractSwitchArchitectureGenerator {
 		int switchIndex = 0;
 		for (int i = 0; i < radix; i++) {
 			// Build switch fabric
-			int cellsInStage = ((i % 2 == 0) ? radix / 2 : (radix / 2 - 1));
+			int cellsInStage = i % 2 == 0 ? radix / 2 : radix / 2 - 1;
 			for (int j = 0; j < cellsInStage; j++) {
-				NodeContainer node = agh.newNode(i * 30, j * 30 + ((i % 2 == 0) ? 0 : 15));
+				NodeContainer node = agh.newNode(i * 30, j * 30 + (i % 2 == 0 ? 0 : 15));
 				node.attribute("switch_id").setValue(String.format("%1$-3d", i) + "-" + String.format("%1$3d", j));
 				node.attribute("type").setValue(TYPE_2x2);
 				switchIDs[switchIndex++] = node.getIndex();
@@ -118,7 +118,7 @@ public class SpankeBenes extends AbstractSwitchArchitectureGenerator {
 		}
 		switchIndex = 0;
 		for (int i = 0; i < radix - 1; i++) {
-			int cellsInStage = ((i % 2 == 0) ? radix / 2 : (radix / 2 - 1));
+			int cellsInStage = i % 2 == 0 ? radix / 2 : radix / 2 - 1;
 			for (int j = 0; j < cellsInStage; j++) {
 
 				// "up" link

@@ -16,7 +16,7 @@ public class Air extends AbstractDielectric {
 
 	@Override
 	public double getEpsilon(Wavelength inputLambda) {
-		return (eps0*getIndex(inputLambda)*getIndex(inputLambda)) ;
+		return eps0*getIndex(inputLambda)*getIndex(inputLambda);
 	}
 
 	@Override

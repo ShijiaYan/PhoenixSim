@@ -44,7 +44,7 @@ public class ResultsReader {
 				java.util.GregorianCalendar cal = new java.util.GregorianCalendar();
 				cal.setTime(date);
 				
-				return cal.get(Calendar.SECOND)+(cal.get(Calendar.MINUTE)*60)+(cal.get(Calendar.HOUR)*3600)+"";
+				return cal.get(Calendar.SECOND)+ cal.get(Calendar.MINUTE)*60 + cal.get(Calendar.HOUR)*3600 +"";
 			} catch (Exception e) {
 				System.out.println(s);
 				return null;
@@ -78,8 +78,8 @@ public class ResultsReader {
 			if (line.startsWith("#")){
 				continue;
 			}
-			Map<String, String> data = new SimpleMap<String, String>();
-			Map<String, String> vals = new SimpleMap<String, String>();
+			Map<String, String> data = new SimpleMap<>();
+			Map<String, String> vals = new SimpleMap<>();
 			String[] sp = line.split(separator);
 			for (int i = 0 ; i < Math.min(sp.length, headers.length) ; i++) {
 				if (headers[i].equals("SKIP")) {

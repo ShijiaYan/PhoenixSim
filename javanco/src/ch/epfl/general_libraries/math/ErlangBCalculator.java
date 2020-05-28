@@ -51,7 +51,7 @@ public class ErlangBCalculator {
 	
 	public static double invErlangBApprox(double offeredRate, double lossProb) {
 	//	System.out.println(-Math.log10(lossProb));
-		double r = offeredRate + ((-Math.log10(lossProb))*Math.sqrt(offeredRate));
+		double r = offeredRate + -Math.log10(lossProb) *Math.sqrt(offeredRate);
 	//	System.out.println((-Math.log10(lossProb))*Math.sqrt(offeredRate));
 		return r;
 	}

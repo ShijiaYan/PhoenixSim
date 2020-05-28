@@ -28,7 +28,7 @@ public class LaserModel {
 
 	public Map<String, String> getAllParameters() {
 		// TODO Auto-generated method stub
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Wall-plug Efficiency (%)", efficiency + "");
 		return map;
 	}

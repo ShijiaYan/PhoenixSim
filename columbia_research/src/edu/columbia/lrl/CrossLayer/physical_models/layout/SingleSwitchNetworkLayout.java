@@ -2,7 +2,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.layout;
 
 import java.util.List;
 import java.util.Map;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.results.Execution;
 import edu.columbia.lrl.CrossLayer.PowerConsumption;
@@ -11,16 +10,15 @@ import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
 
 
-public class SingleSwitchNetworkLayout extends PhysicalLayout {
+public class SingleSwitchNetworkLayout extends AbstractPhysicalLayout {
 
 
-	PhysicalParameterAndModelsSet devices;
 	AbstractSwitchFabric switchFabric;
-	PhysicalLayout pni;
+	AbstractPhysicalLayout pni;
 	
 	public SingleSwitchNetworkLayout(
 			@ParamName(name="Switch fabric") AbstractSwitchFabric switchFabric,
-			@ParamName(name="Photonic interface") PhysicalLayout pni
+			@ParamName(name="Photonic interface") AbstractPhysicalLayout pni
 			) {
 		this.switchFabric = switchFabric;
 		this.pni = pni;
@@ -46,10 +44,8 @@ public class SingleSwitchNetworkLayout extends PhysicalLayout {
 		
 		LayoutWorseCaseProperties switchProperties = switchFabric.getLayoutPropertiesForaGivenNumberOfWavelengths(ex, modelSet, linkFormat);
 		LayoutWorseCaseProperties pniProperties = pni.getLayoutPropertiesForaGivenNumberOfWavelengths(ex, modelSet, linkFormat);
-		
-		LayoutWorseCaseProperties switchProp = new LayoutWorseCaseProperties(switchProperties, pniProperties);
-		
-		return switchProp;
+
+		return new LayoutWorseCaseProperties(switchProperties, pniProperties);
 	}
 	
 	public String toString() {

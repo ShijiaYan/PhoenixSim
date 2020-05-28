@@ -32,7 +32,7 @@ public class Number_X_RateFormat extends AbstractLinkFormat {
 	@Override
 	public double getTotalRateGbps() {
 		// TODO Auto-generated method stub
-		return (rate/1e9 * wavelengths);
+		return rate/1e9 * wavelengths;
 	}
 
 }

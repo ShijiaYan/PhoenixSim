@@ -86,7 +86,7 @@ public class SlabWg {
 	
 	public double getNormalizedFreq(){
 		double NA = Math.sqrt(n_high*n_high - n_low*n_low) ;
-		return ((2*Math.PI/lambdaNm)*widthNm*NA) ;
+		return (2*Math.PI/lambdaNm) *widthNm*NA;
 	}
 	
 	public double getNormalizedIndex(double neff){
@@ -99,7 +99,7 @@ public class SlabWg {
 		double nc = Math.min(n_up, n_down) ;
 		double A = ns*ns - nc*nc ;
 		double B = n_high * n_high - ns*ns ;
-		return (A/B) ;
+		return A/B;
 	}
 	// For TM mode
 	public double getTMsymmetryFactor(){
@@ -107,7 +107,7 @@ public class SlabWg {
 		double nc = Math.min(n_up, n_down) ;
 		double A = ns*ns - nc*nc ;
 		double B = n_high * n_high - ns*ns ;
-		return (A/B * Math.pow(n_core, 4)/Math.pow(n_up, 4)) ;
+		return A/B * Math.pow(n_core, 4)/Math.pow(n_up, 4);
 	}
 	
 	public double getWidthNm(){

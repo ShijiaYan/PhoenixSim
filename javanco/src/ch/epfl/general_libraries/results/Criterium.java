@@ -38,7 +38,7 @@ public class Criterium {
 		if (possibleValues != null) {
 			throw new IllegalStateException("Cannot define criterium values only once");
 		}
-		possibleValues = new ArrayList<String>(c.size());
+		possibleValues = new ArrayList<>(c.size());
 		possibleValues.addAll(c);
 	}
 

@@ -1,7 +1,6 @@
 package edu.columbia.lrl.CrossLayer.physical_models.devices.switches;
 
 import java.util.Map;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.utils.SimpleMap;
 import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
@@ -122,7 +121,7 @@ public class Switch2x2NewHardCoded extends Abstract2x2Switch {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("db in ring", db+"");
 		map.put("180degrees or not", is180 + "");
 		return map;

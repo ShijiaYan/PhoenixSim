@@ -85,7 +85,7 @@ public class SavitzyGolayFilter{
         int j;
         //reflected
         for(j = 0; j<LEFT; j++)
-            ret_value[j] = (float)rFilter(data, coefficients, j, LEFT);
+            ret_value[j] = rFilter(data, coefficients, j, LEFT);
 
 
         //normal
@@ -95,7 +95,7 @@ public class SavitzyGolayFilter{
 
         //reflected
         for(j = pts - RIGHT; j<pts; j++)
-            ret_value[j] = (float)rFilter(data, coefficients, j, LEFT);
+            ret_value[j] = rFilter(data, coefficients, j, LEFT);
 
         return ret_value;
     }
@@ -154,7 +154,7 @@ public class SavitzyGolayFilter{
         int dex;
         for(int i = 0; i<mask.length; i++){
             dex = Math.abs(start - middle + 1 +i);
-            dex = (dex<o.length)?dex: 2*o.length - dex - 1;
+            dex = dex<o.length ?dex: 2*o.length - dex - 1;
             out += mask[i]*o[dex];
         }
 
@@ -178,7 +178,7 @@ public class SavitzyGolayFilter{
         int dex;
         for(int i = 0; i<mask.length; i++){
             dex = Math.abs(start - middle + 1 +i);
-            dex = (dex<o.length)?dex: 2*o.length - dex - 1;
+            dex = dex<o.length ?dex: 2*o.length - dex - 1;
             out += mask[i]*o[dex];
         }
 
@@ -366,7 +366,7 @@ public class SavitzyGolayFilter{
         int mndex = 0;
         //the coefficients for a_(pq) for the _XX_ equation
         for(int p = 0; p<=order; p++){
-            for(int q = 0; q <= (order - p); q++){
+            for(int q = 0; q <= order - p; q++){
 
                 mndex = 0;
                 for(int m = 0; m<=order; m++){
@@ -496,7 +496,7 @@ public class SavitzyGolayFilter{
     public static double pfact(int m, int n){
         int p = 1;
         for(int i = 0; i<n; i++){
-            p*=(m - i);
+            p*= m - i;
         }
         return p;
     }

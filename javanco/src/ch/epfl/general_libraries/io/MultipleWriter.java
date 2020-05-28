@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public class MultipleWriter extends Writer {
 
-	private Collection<Writer> destinations = new ArrayList<Writer>();
+	private Collection<Writer> destinations = new ArrayList<>();
 
 	public MultipleWriter() {
 	}
@@ -32,7 +32,7 @@ public class MultipleWriter extends Writer {
 	}
 
 	public Collection<Writer> getDestinations() {
-		Collection<Writer> backCopy = new ArrayList<Writer>();
+		Collection<Writer> backCopy = new ArrayList<>();
 		backCopy.addAll(destinations);
 		return backCopy;
 	}

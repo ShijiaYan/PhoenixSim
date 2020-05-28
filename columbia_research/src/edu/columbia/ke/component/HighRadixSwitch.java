@@ -26,7 +26,7 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 	private static final long serialVersionUID = 1L;
 	private AbstractSpinetBuilder builder;
 	protected LWSIMExperiment lwSimExperiment;
-	private TreeMap<Integer, Float> routingTable[];
+	private TreeMap<Integer, Float>[] routingTable;
 	private int maxAdaptRoutingDegree;
 	protected TreeMap<Integer, Double> busyUntil;
 	protected double switchingTime;
@@ -44,9 +44,9 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 		this.maxAdaptRoutingDegree = 3;
 		this.switchingTime = swi;
 		this.linkLatency = linkLatency;
-		this.busyUntil = new TreeMap<Integer, Double>();
-		this.outputDest = new TreeMap<Integer, LWSimComponent>();
-		this.OutputOccupyingMsgs = new TreeMap<Integer, Message>();
+		this.busyUntil = new TreeMap<>();
+		this.outputDest = new TreeMap<>();
+		this.OutputOccupyingMsgs = new TreeMap<>();
 		this.initRoutingTable();
 	}
 
@@ -64,7 +64,7 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 		
 		this.routingTable = new TreeMap [this.nbNode];
 		for (int i = 0 ; i < this.nbNode; i++){
-			this.routingTable[i] = new TreeMap<Integer, Float> ();
+			this.routingTable[i] = new TreeMap<>();
 		}
 		
 		// route packet destined for myself to myself
@@ -80,7 +80,7 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 	public void addRoutingEntry(int dest, int nextHop, float distance){
 		TreeMap<Integer, Float> nextHopList = routingTable[dest];
 		if (nextHopList.containsKey(nextHop)){
-			float oldDistance = (float)nextHopList.get(nextHop);
+			float oldDistance = nextHopList.get(nextHop);
 			if (oldDistance <= distance) return;
 		}
 		nextHopList.put(nextHop, distance);
@@ -95,7 +95,7 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 		while (itr.hasNext()) {
 			Map.Entry tmp = (Map.Entry) itr.next();
 			int tmpNextHop = (int) (Integer)tmp.getKey();
-			double tmpWaitTime = (double) busyUntil.get(tmpNextHop) - currentTime;
+			double tmpWaitTime = busyUntil.get(tmpNextHop) - currentTime;
 			if (tmpWaitTime <= 0) {
 				nextHop = tmpNextHop;
 				break;
@@ -104,7 +104,7 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 					smallestLWT = tmpWaitTime;
 			}
 		}
-		return new Pair<Integer, Double> (nextHop, smallestLWT);
+		return new Pair<>(nextHop, smallestLWT);
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 			}
 			
 			Evt next;
-			next = new Evt(currentTime + switchingTime + linkLatency, this, (LWSimComponent) outputDest.get(nextHop), e);
+			next = new Evt(currentTime + switchingTime + linkLatency, this, outputDest.get(nextHop), e);
 			lwSimExperiment.manager.queueEvent(next);
 			busyUntil.put(nextHop, currentTime + switchingTime + msg.getTransmissionTimeNS());
 			this.OutputOccupyingMsgs.put(nextHop, msg);
@@ -160,9 +160,9 @@ public class HighRadixSwitch extends AbstractSwitch implements SpinetComponent {
 		Iterator itr = this.OutputOccupyingMsgs.entrySet().iterator();
 		while(itr.hasNext()){
 			Map.Entry tmp = (Map.Entry) itr.next();
-			if (m==(Message)tmp.getValue()){
+			if (m== tmp.getValue()){
 				tmp.setValue(null);
-				busyUntil.put((int)(Integer)tmp.getKey(), e.getTimeNS());
+				busyUntil.put((Integer)tmp.getKey(), e.getTimeNS());
 				break;
 			}
 		}

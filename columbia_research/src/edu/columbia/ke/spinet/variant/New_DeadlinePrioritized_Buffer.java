@@ -38,7 +38,7 @@ public class New_DeadlinePrioritized_Buffer extends
 		SpinetMessage msg = defineSpinetMessage(e);
 		
 		// use deadline as priority
-		msg.setSpinetPriority((int)(msg.getDeadline()));
+		msg.setSpinetPriority((int) msg.getDeadline());
 		
 		super.processProducerEvent(e);				
 	}
@@ -47,7 +47,7 @@ public class New_DeadlinePrioritized_Buffer extends
 	private double updateImminence(double currentTime){
 		imminence = 0;
 		if (this.priorityQueue.size() > 0){
-			Message first = (Message)this.priorityQueue.firstEntry().getValue();
+			Message first = this.priorityQueue.firstEntry().getValue();
 			double ttl = first.getDeadline() - currentTime;
 			if (ttl < packetTransTime)
 				ttl = packetTransTime;
@@ -87,7 +87,7 @@ public class New_DeadlinePrioritized_Buffer extends
 			// delete expired msg before sending msgs out from the priority queue				
 			double addTime = 0;
 			while (priorityQueue.size() > 0) {								
-				Message first = (Message) priorityQueue.firstEntry()
+				Message first = priorityQueue.firstEntry()
 						.getValue();
 				
 				// assume you don't have this info

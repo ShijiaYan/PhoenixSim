@@ -19,7 +19,7 @@ public class LiftedFullMeshAxisStructure extends JavancoBasedAxisStructure {
 	private int seed;
 
 	public LiftedFullMeshAxisStructure(int meshSize, int seed) {
-		super((short)(-1));
+		super((short) -1);
 		this.meshSize = meshSize;
 		this.seed = seed;
 	}

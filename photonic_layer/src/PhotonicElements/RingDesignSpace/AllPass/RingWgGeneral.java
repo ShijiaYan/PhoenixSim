@@ -43,23 +43,20 @@ public class RingWgGeneral {
 		double L = loss ;
 		double A = 1-t_in * Math.sqrt(L) ;
 		double B = 2*t_in*Math.sqrt(L) ;
-		double arg = 1-(A*A/B) ;
+		double arg = 1- A*A/B;
 		double Dphi3dB = 2*Math.acos(arg) ;
 		double fsr = 2*Math.PI ;
-		return (fsr/Dphi3dB) ;
+		return fsr/Dphi3dB;
 	}
 
 	public double getFinesseNumeric(){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double phi) {
-				double y = getThruTransmission(phi) - (getThruTransmission(0) + getThruTransmission(Math.PI)) * 1/2 ;
-				return y;
-			}
-		};
+		RealRootFunction func = phi -> {
+            double y = getThruTransmission(phi) - (getThruTransmission(0) + getThruTransmission(Math.PI)) * 1/2 ;
+            return y;
+        };
 		RealRoot rootFinder = new RealRoot() ;
 		double phi3dB = rootFinder.bisect(func, 0, Math.PI) ;
-		return (Math.PI/phi3dB) ;
+		return Math.PI/phi3dB;
 	}
 
 

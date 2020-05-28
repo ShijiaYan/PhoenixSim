@@ -2,7 +2,7 @@ package edu.columbia.lrl.CrossLayer.physical_models.layout;
 
 import java.util.Map;
 
-public abstract class AbstractSwitchFabric extends PhysicalLayout {
+public abstract class AbstractSwitchFabric extends AbstractPhysicalLayout {
 
 	int switchRadix = -1;
 	

@@ -73,21 +73,11 @@ public class HeaterDCTabController extends AbstractTabController {
     }
 
     private boolean checkFilledTextsInDCTab(){
-        if(!kvLabel.getText().isEmpty() && !RlinearLabel.getText().isEmpty() && !aHLabel.getText().isEmpty()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return !kvLabel.getText().isEmpty() && !RlinearLabel.getText().isEmpty() && !aHLabel.getText().isEmpty();
     }
 
     private boolean dcToggleIsSelected(){
-        if(ivPlotRadioButton.isSelected() || viPlotRadioButton.isSelected() || tempIRadioButton.isSelected() || tempVRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return ivPlotRadioButton.isSelected() || viPlotRadioButton.isSelected() || tempIRadioButton.isSelected() || tempVRadioButton.isSelected();
     }
 
     @FXML
@@ -112,18 +102,15 @@ public class HeaterDCTabController extends AbstractTabController {
     @FXML
     private void chooseKvFromDataBase(){
     	VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase) ;
-    	varSelect.setExitAction(new ActionInterface() {
-			@Override
-			public void setExitAction() {
-	    		double kv = varSelect.getController().getVariable().getValue(0) ;
-	    		simDataBase.addNewVariable(new SimulationVariable("kv", new double[]{kv}));
-	            kvLabel.setText("Kv is set to " + String.format("%.4f", kv) + " /Volt^2");
-	            KvTextField.clear();
-	            if(dcToggleIsSelected()){
-	                dcPlot.getSelectedToggle().setSelected(false);
-	            }
-			}
-		});
+    	varSelect.setExitAction(() -> {
+            double kv = varSelect.getController().getVariable().getValue(0) ;
+            simDataBase.addNewVariable(new SimulationVariable("kv", new double[]{kv}));
+kvLabel.setText("Kv is set to " + String.format("%.4f", kv) + " /Volt^2");
+KvTextField.clear();
+if(dcToggleIsSelected()){
+dcPlot.getSelectedToggle().setSelected(false);
+}
+        });
     }
 
     @FXML
@@ -152,18 +139,15 @@ public class HeaterDCTabController extends AbstractTabController {
     @FXML
     private void chooseRlinearFromDataBase(){
     	VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase) ;
-    	varSelect.setExitAction(new ActionInterface() {
-			@Override
-			public void setExitAction() {
-	    		double Rlinear = varSelect.getController().getVariable().getValue(0) ;
-	    		simDataBase.addNewVariable(new SimulationVariable("Rlinear", new double[]{Rlinear}));
-	            RlinearLabel.setText("R is set to " + String.format("%.4f", Rlinear) + " Ohms");
-	            RlinearTextField.clear();
-	            if(dcToggleIsSelected()){
-	                dcPlot.getSelectedToggle().setSelected(false);
-	            }
-			}
-		});
+    	varSelect.setExitAction(() -> {
+            double Rlinear = varSelect.getController().getVariable().getValue(0) ;
+            simDataBase.addNewVariable(new SimulationVariable("Rlinear", new double[]{Rlinear}));
+RlinearLabel.setText("R is set to " + String.format("%.4f", Rlinear) + " Ohms");
+RlinearTextField.clear();
+if(dcToggleIsSelected()){
+dcPlot.getSelectedToggle().setSelected(false);
+}
+        });
     }
 
     @FXML
@@ -189,18 +173,15 @@ public class HeaterDCTabController extends AbstractTabController {
     @FXML
     private void chooseaHFromDataBase(){
     	VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase) ;
-    	varSelect.setExitAction(new ActionInterface() {
-			@Override
-			public void setExitAction() {
-	    		double alphaH = varSelect.getController().getVariable().getValue(0) ;
-	    		simDataBase.addNewVariable(new SimulationVariable("alphaH", new double[]{alphaH}));
-	            aHLabel.setText("aH is set to " + String.format("%.4f", alphaH) + " /Kelvin");
-	            aHTextField.clear();
-	            if(dcToggleIsSelected()){
-	                dcPlot.getSelectedToggle().setSelected(false);
-	            }
-			}
-		});
+    	varSelect.setExitAction(() -> {
+            double alphaH = varSelect.getController().getVariable().getValue(0) ;
+            simDataBase.addNewVariable(new SimulationVariable("alphaH", new double[]{alphaH}));
+aHLabel.setText("aH is set to " + String.format("%.4f", alphaH) + " /Kelvin");
+aHTextField.clear();
+if(dcToggleIsSelected()){
+dcPlot.getSelectedToggle().setSelected(false);
+}
+        });
     }
 
     @FXML
@@ -262,7 +243,7 @@ public class HeaterDCTabController extends AbstractTabController {
 
     @FXML
     public void openInPlotterPressed() throws IOException {
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Plotters/MainGUI/plotter.fxml")) ;
         WindowBuilder plotter = new WindowBuilder(loader) ;
         plotter.setIcon("/People/Meisam/GUI/Plotters/MainGUI/Extras/plotter.png");
         plotter.build("Plotter v0.5 Beta", true);

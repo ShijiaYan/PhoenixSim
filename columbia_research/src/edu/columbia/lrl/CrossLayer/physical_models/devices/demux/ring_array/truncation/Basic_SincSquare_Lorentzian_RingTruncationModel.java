@@ -8,7 +8,7 @@ public class Basic_SincSquare_Lorentzian_RingTruncationModel extends
 	@Override
 	public double getPowerPenalty(Constants ct, double rate, double filterQ) {
 		
-		double FWHM = ct.getCenterFrequency()/(filterQ) ;
+		double FWHM = ct.getCenterFrequency()/ filterQ;
 		double alpha = FWHM / (2 * rate) ;
 		
 		double eyeClosure = 1 - 2* Math.exp(-2*Math.PI*alpha) ;

@@ -19,7 +19,7 @@ public abstract class AbstractConnection extends DefaultLinkImpl implements Rout
 	
 	public ArrayList<Property> getConnectionProperties() {
 		Path p = getRouting();
-		ArrayList<Property> ar = new ArrayList<Property>(3);
+		ArrayList<Property> ar = new ArrayList<>(3);
 		ar.add(new Property(getConnectionType()+"_start", p.getFirst()));
 		ar.add(new Property(getConnectionType()+"_end", p.getLast()));
 		ar.add(new Property(getConnectionType()+"connection", p.getExtremities().toString()));

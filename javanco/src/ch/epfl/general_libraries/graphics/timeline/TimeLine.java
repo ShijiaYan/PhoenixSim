@@ -30,7 +30,7 @@ public class TimeLine implements Comparable<TimeLine> {
 		}				
 	}
 	
-	public static enum EnumType implements Type {
+	public enum EnumType implements Type {
 		
 		COMPUTE ( Color.GREEN, Color.YELLOW),
 		WAIT (Color.WHITE, Color.GRAY),
@@ -44,12 +44,12 @@ public class TimeLine implements Comparable<TimeLine> {
 		final Color c1;
 		final Color c2;
 		
-		private EnumType(Color c1, Color c2) {
+		EnumType(Color c1, Color c2) {
 			this.c1 = c1;
 			this.c2 = c2;
 		}
 		
-		private EnumType(Color c) {
+		EnumType(Color c) {
 			this.c1 = c;
 			this.c2 = c;
 		}
@@ -79,11 +79,11 @@ public class TimeLine implements Comparable<TimeLine> {
 	
 	TimeLineSet associatedSet;
 	
-	ArrayList<Job> jobPhases = new ArrayList<Job>();
-	ArrayList<Double> reads = new ArrayList<Double>();
+	ArrayList<Job> jobPhases = new ArrayList<>();
+	ArrayList<Double> reads = new ArrayList<>();
 	
-	ArrayList<TimeLineSet.SendComm> sends = new ArrayList<TimeLineSet.SendComm>();
-	ArrayList<TimeLineSet.ReceComm> receives = new ArrayList<TimeLineSet.ReceComm>();
+	ArrayList<TimeLineSet.SendComm> sends = new ArrayList<>();
+	ArrayList<TimeLineSet.ReceComm> receives = new ArrayList<>();
 	
 	String timeLineGroup;
 	String title;

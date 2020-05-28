@@ -2,7 +2,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.switches;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.columbia.lrl.CrossLayer.PowerConsumption;
 import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
 import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
@@ -21,8 +20,8 @@ public abstract class Abstract2x2Switch extends AbstractRingBasedSwitch {
 	
 	public List<PowerConsumption> getDevicePowerConsumptions(
 			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
-		List<PowerConsumption> pc = new ArrayList<PowerConsumption>(1);
-		pc.add(new PowerConsumption(_2x2Switch, false, false, false, (drivingPower*0.5) + modelSet.getDefaultSingleRingTTPowerMW()));
+		List<PowerConsumption> pc = new ArrayList<>(1);
+		pc.add(new PowerConsumption(_2x2Switch, false, false, false, drivingPower*0.5 + modelSet.getDefaultSingleRingTTPowerMW()));
 		return pc;
 	}
 

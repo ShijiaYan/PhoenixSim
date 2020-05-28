@@ -12,7 +12,7 @@ import ch.epfl.javanco.xml.XMLTagKeywords;
 public class CircleLayout extends AbstractTopologyLayout {
 
 
-	public static enum MODE {
+	public enum MODE {
 		NO_OPT,
 		DEGREE_BASED
 	}

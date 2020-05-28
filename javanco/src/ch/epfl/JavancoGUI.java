@@ -12,7 +12,7 @@ import ch.epfl.javanco.ui.swing.simple.SimpleFrameBasedUI;
 
 public class JavancoGUI {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		startJavancoGUI();
 	}
 	
@@ -35,16 +35,16 @@ public class JavancoGUI {
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setSize(wid,height);
 
-		GraphicalNetworkDisplayer disp = new GraphicalNetworkDisplayer(1, true);
+		GraphicalNetworkDisplayer graphicalNetworkDisplayer = new GraphicalNetworkDisplayer(1, true);
 
-		SimpleFrameBasedUI ui = new SimpleFrameBasedUI(AbstractGraphicalUI.getDefaultNetworkPainter(), agh,disp);
+		SimpleFrameBasedUI ui = new SimpleFrameBasedUI(AbstractGraphicalUI.getDefaultNetworkPainter(), agh,graphicalNetworkDisplayer);
 		agh.getUIDelegate().registerNewUI(ui);
-		disp.setUI(ui);
+		graphicalNetworkDisplayer.setUI(ui);
 		ui.setBestFit(new java.awt.Dimension(800,800));
 		ui.setDisplaySize(800,800);
 		ui.setElementSize(0.6f);
-		frame.getContentPane().addComponentListener(disp);
-		frame.getContentPane().add(disp);
+		frame.getContentPane().addComponentListener(graphicalNetworkDisplayer);
+		frame.getContentPane().add(graphicalNetworkDisplayer);
 		frame.setVisible(true);
 	}	
 	

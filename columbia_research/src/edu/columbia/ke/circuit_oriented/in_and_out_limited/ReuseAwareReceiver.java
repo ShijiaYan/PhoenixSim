@@ -16,13 +16,13 @@ public abstract class ReuseAwareReceiver extends Receiver {
 	private int maxNumCircuits;
 	private int nDest;
 	private boolean coalescMode = false;
-	protected Set<Integer> inCacheCircuitSet = new TreeSet<Integer>();
+	protected Set<Integer> inCacheCircuitSet = new TreeSet<>();
 	
 	protected CircuitReuseInfo[] csi;
 	protected int circuitUseCount = 0;
 	private int lastSrc = -1;
 	
-	private LinkedList<Evt> reqWaitList = new LinkedList<Evt>();
+	private LinkedList<Evt> reqWaitList = new LinkedList<>();
 	private AbstractCircuitLimitedVOQ[] voq;
 
 	private AvlTreeRm avlTree = new AvlTreeRm();
@@ -99,7 +99,7 @@ public abstract class ReuseAwareReceiver extends Receiver {
 	}
 
 	private int findVacantCircuit() {
-		Set<Integer> vacantCircuitSet = new TreeSet<Integer>();
+		Set<Integer> vacantCircuitSet = new TreeSet<>();
 		for (int s: inCacheCircuitSet){
 			AbstractDstTerminateVOQ src = (AbstractDstTerminateVOQ) voq[s];
 			if (!src.isCircuitHit(index)){	// not in source cache anymore
@@ -128,7 +128,7 @@ public abstract class ReuseAwareReceiver extends Receiver {
 	private void grantCircuitReq(Evt e, double grantTime) {
 		if (e == null)
 			throw new IllegalStateException();
-		AbstractDstTerminateVOQ src = (AbstractDstTerminateVOQ)(e.getOrigin());
+		AbstractDstTerminateVOQ src = (AbstractDstTerminateVOQ) e.getOrigin();
 		Evt grant = new Evt(grantTime + grantDelay, this, src, "CIRCUIT_GRANT");
 		lwSimExperiment.manager.queueEvent(grant);
 		addInCacheSet(src.index);
@@ -163,7 +163,7 @@ public abstract class ReuseAwareReceiver extends Receiver {
 	}
 	
 	public boolean isCacheFull(){
-		return (this.inCacheCircuitSet.size() >= this.maxNumCircuits);
+		return this.inCacheCircuitSet.size() >= this.maxNumCircuits;
 	}
 
 	public void notifiedOfUse(int src, double time, int size){

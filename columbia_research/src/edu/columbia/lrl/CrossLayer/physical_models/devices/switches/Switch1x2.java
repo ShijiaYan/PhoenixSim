@@ -42,8 +42,8 @@ public class Switch1x2 extends AbstractRingBasedSwitch {
 	}
 
 	public Map<String, String> getAllParameters() {
-		return SimpleMap.getMap(new String[] { "Loss coefficient", String.valueOf(this.lossCoefficient),
-				"Truncation model at 1x2 switch", this.truncationPowerPenalty.getClass().getSimpleName() });
+		return SimpleMap.getMap("Loss coefficient", String.valueOf(this.lossCoefficient),
+				"Truncation model at 1x2 switch", this.truncationPowerPenalty.getClass().getSimpleName());
 	}
 
 	public List<PowerConsumption> getDevicePowerConsumptions(PhysicalParameterAndModelsSet modelSet,
@@ -138,17 +138,17 @@ public class Switch1x2 extends AbstractRingBasedSwitch {
 		}
 
 		Pair<Double, Integer> min_indexP = MoreArrays.minAndIndex(total_loss_vec);
-		int min_index = (Integer) min_indexP.getSecond();
+		int min_index = min_indexP.getSecond();
 		if (min_index >= 0) {
-			PowerPenalty through = (new PowerPenalty("1x2 switch through", "switch", -through_IL_vec[min_index]))
+			PowerPenalty through = new PowerPenalty("1x2 switch through", "switch", -through_IL_vec[min_index])
 					.multiply(numberThrough);
-			PowerPenalty drop = (new PowerPenalty("1x2 switch drop", "switch", -drop_IL_vec[min_index]))
+			PowerPenalty drop = new PowerPenalty("1x2 switch drop", "switch", -drop_IL_vec[min_index])
 					.multiply(numberDrop);
 			PowerPenalty trunc = new PowerPenalty("1x2 switch trunc", "switch", pp_trunc_vec[min_index]);
-			return MoreArrays.getArrayList(new PowerPenalty[] { through, drop, trunc });
+			return MoreArrays.getArrayList(through, drop, trunc);
 		} else {
 			return MoreArrays.getArrayList(
-					new PowerPenalty[] { new PowerPenalty("1x2 switch", "switch", 1.7976931348623157E308D) });
+					new PowerPenalty("1x2 switch", "switch", 1.7976931348623157E308D));
 		}
 	}
 

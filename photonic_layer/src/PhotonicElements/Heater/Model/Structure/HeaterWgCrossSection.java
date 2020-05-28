@@ -38,7 +38,7 @@ public class HeaterWgCrossSection {
 	}
 	
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("d (um)", d_um+"") ;
 		map.put("wH (um)", widthH_um+"") ;
 		map.put("thicknessH (um)", thicknessH_um+"") ;

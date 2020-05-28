@@ -15,7 +15,7 @@ public class ODE3 extends ODE {
 	}
 
 	@Override
-	public void getFunction(double x, double dy[], double ytmp[]) {
+	public void getFunction(double x, double[] dy, double[] ytmp) {
 		double y = ytmp[0] ;
 		double z = ytmp[1] ;
 		dy[0] = z ;
@@ -23,12 +23,12 @@ public class ODE3 extends ODE {
 	}
 	
 	@Override
-	public void getError(double E[], double endY[]) {
+	public void getError(double[] E, double[] endY) {
 		
 	}
 	
 	@Override
-	public void setInitialConditions(double x0, double Y[]) {
+	public void setInitialConditions(double x0, double[] Y) {
 		int n = getNumEqns() ;
 		setOneX(0, x0);
 		for(int i=0; i<n; i++){

@@ -14,7 +14,7 @@ import edu.columbia.lrl.general.Message;
 public class ACK_Buffer extends ImprovedBuffer implements ACK_or_NACK_Receiver {
 	
 	private double timeOut = -1;
-	private HashSet<Message> receivedAcks = new HashSet<Message>();
+	private HashSet<Message> receivedAcks = new HashSet<>();
 	
 	public ACK_Buffer(int maxSize, double bufferLatency, double spinetSwitchingTimeNS, int index, double timeOut) {
 		super(maxSize, bufferLatency, spinetSwitchingTimeNS, index);
@@ -34,13 +34,12 @@ public class ACK_Buffer extends ImprovedBuffer implements ACK_or_NACK_Receiver {
 					fifo.add(e.getMessage());
 				} else {
 					int index = 0;
-					for (Iterator<Message> it = fifo.iterator() ; it.hasNext() ; ) {
-						Message m = it.next();
-						if (m.index > e.getMessage().index) {
-							break;
-						}
-						index++;
-					}
+                    for (Message m : fifo) {
+                        if (m.index > e.getMessage().index) {
+                            break;
+                        }
+                        index++;
+                    }
 					fifo.add(index, e.getMessage());
 					lwSimExperiment.packetRetransmitted(e.getMessage());
 				}

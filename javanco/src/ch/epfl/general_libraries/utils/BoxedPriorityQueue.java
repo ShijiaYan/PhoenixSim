@@ -8,7 +8,7 @@ public class BoxedPriorityQueue<E> implements Iterable<E> {
 	private PriorityQueue<Cell> queue;
 
 	public BoxedPriorityQueue() {
-		queue = new PriorityQueue<Cell>();
+		queue = new PriorityQueue<>();
 	}
 
 	private class Cell implements Comparable<Cell> {
@@ -36,7 +36,7 @@ public class BoxedPriorityQueue<E> implements Iterable<E> {
 		}
 
 		public Pair<E, Double> getPair() {
-			return new Pair<E, Double>(e, score);
+			return new Pair<>(e, score);
 		}
 	}
 

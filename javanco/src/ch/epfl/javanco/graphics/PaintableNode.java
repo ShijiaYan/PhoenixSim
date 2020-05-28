@@ -101,7 +101,7 @@ public class PaintableNode extends PaintableObject implements Movable, Linkable 
 	}
 
 	public boolean intersects(Rectangle r) {
-		return (r.intersects(posX,posY,1,1));
+		return r.intersects(posX,posY,1,1);
 	}
 
 	public void saveNewPosition(EventObject e) {
@@ -111,7 +111,7 @@ public class PaintableNode extends PaintableObject implements Movable, Linkable 
 			cont.getAbstractGraphHandler().setModificationEventEnabledWithoutCallingBigChanges(false);
 		}
 		cont.attribute(XMLTagKeywords.POS_X).setValue(""+getX(), e);
-		cont.attribute(XMLTagKeywords.POS_Y).setValue(""+(getY()), e);
+		cont.attribute(XMLTagKeywords.POS_Y).setValue(""+ getY(), e);
 		if (eventEnabled) {
 			cont.getAbstractGraphHandler().setModificationEventEnabledWithoutCallingBigChanges(true);
 		}

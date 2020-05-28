@@ -145,7 +145,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 	private class PropertiesTableModelListener implements TableModelListener {
 
 		/** Contains all the events to execute if the user validates their changes */
-		private Vector<PropertiesTableModelEvent> eventBuffer = new Vector<PropertiesTableModelEvent>();
+		private Vector<PropertiesTableModelEvent> eventBuffer = new Vector<>();
 
 		/**
 		 * This method is called when a change occurres in the <code>JTable</code>.<br>
@@ -166,7 +166,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 		 */
 		private void executeEvents() {
 			PropertiesTableModel model = null;
-			java.util.Set<JavancoXMLElement> toConstruct = new java.util.HashSet<JavancoXMLElement>();
+			java.util.Set<JavancoXMLElement> toConstruct = new java.util.HashSet<>();
 			for (PropertiesTableModelEvent event : eventBuffer) {
 				if (model == null) {
 					model = (PropertiesTableModel) event.getSource();
@@ -337,7 +337,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 		 * @param attributes The attributes to display in the <code>JTable</code>
 		 */
 		private void initContent(List<NetworkAttribute> attributes){
-			content = new Vector<Object[]>();
+			content = new Vector<>();
 			int i = 0;
 			for (Attribute attr : attributes) {
 				Object[] row = createRow(attr.getName(), attr.getValue());
@@ -362,7 +362,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 				row[COL_VALUE] = new Integer(value);
 			}
 			catch (NumberFormatException ex) {}
-			if ((value.equals("true")) || (value.equals("false"))) {
+			if (value.equals("true") || value.equals("false")) {
 				row[COL_VALUE] = new Boolean(value);
 			}
 			row[COL_TYPE] = row[COL_VALUE].getClass();
@@ -461,7 +461,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 				}
 				// User created attributes are editable, the others as specified
 				NetworkAttribute att = get(attList, name);
-				return (att == null || att.isEditable());
+				return att == null || att.isEditable();
 			}
 		}
 
@@ -555,7 +555,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 	private boolean readOnly = false;
 	private boolean modified = false;
 
-	private Hashtable<JavancoXMLElement,PropertiesTableModel> tableModels = new Hashtable<JavancoXMLElement,PropertiesTableModel>();
+	private Hashtable<JavancoXMLElement,PropertiesTableModel> tableModels = new Hashtable<>();
 
 	private int rowRightClicked = -1;
 	private PropertiesTableModel modelRightClicked = null;
@@ -748,7 +748,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 				"Enter the name of the attribute",
 		"");
 		//If a string was returned.
-		if ((name != null) && (name.length() > 0)) {
+		if (name != null && name.length() > 0) {
 			String value = javax.swing.JOptionPane.showInputDialog(
 					new Frame(),
 					"Enter the value of the attribute \""+name+"\"",
@@ -838,11 +838,7 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 
 					jmTree = new JPopupMenu();
 					JMenuItem add = new JMenuItem("Add attribute");
-					add.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							addAttribute();
-						}
-					});
+					add.addActionListener(e13 -> addAttribute());
 					jmTree.add(add);
 					jmTree.pack();
 					jmTree.show(treeSource,e.getX(), e.getY());
@@ -869,17 +865,9 @@ public class XMLDefinitionEditor extends JDialog implements ElementEditor {
 
 					jmTable = new JPopupMenu();
 					JMenuItem del = new JMenuItem("Delete");
-					del.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							deleteAttribute();
-						}
-					});
+					del.addActionListener(e12 -> deleteAttribute());
 					JMenuItem add = new JMenuItem("Add attribute");
-					add.addActionListener(new ActionListener(){
-						public void actionPerformed(ActionEvent e){
-							addAttribute();
-						}
-					});
+					add.addActionListener(e1 -> addAttribute());
 					jmTable.add(add);
 					jmTable.add(del);
 					jmTable.pack();

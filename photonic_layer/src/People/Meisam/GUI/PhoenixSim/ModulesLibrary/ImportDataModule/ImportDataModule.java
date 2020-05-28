@@ -15,7 +15,7 @@ public class ImportDataModule {
 	Stage window = new Stage() ;
 	
 	public ImportDataModule(SimulationDataBase simDataBase){	
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/ImportData/import_data.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/ImportData/import_data.fxml")) ;
         Parent root;
 		try {
 			root = loader.load();

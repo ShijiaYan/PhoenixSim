@@ -53,12 +53,12 @@ public abstract class GlobalConstantSet {
 	
 	public static class FixedCoreConstantSet extends GlobalConstantSet {
 		public FixedCoreConstantSet(@ParamName(name="Number of sites") int numberOfCores) {
-			super(numberOfCores, (long)1, (int)1);
+			super(numberOfCores, (long)1, 1);
 		}
 		public FixedCoreConstantSet(@ParamName(name="Number of sites") int numberOfCores,
 									@ParamName(name="Sites per branch") long sitesPerBranch,
 									@ParamName(name="Dual Bus? (2-iSCA;1dual,0single)") int dual) {
-			super(numberOfCores, (long)sitesPerBranch,  dual);
+			super(numberOfCores, sitesPerBranch,  dual);
 	}
 	}
 	
@@ -77,7 +77,7 @@ public abstract class GlobalConstantSet {
 	}
 	public static class FixedWavelengthsConstantSet extends GlobalConstantSet {
 		public FixedWavelengthsConstantSet(@ParamName(name="Number of wavelengths") int wave) {
-			super(wave, (int)1, (int)1);
+			super(wave, 1, 1);
 		}
 		
 		public FixedWavelengthsConstantSet(@ParamName(name="Number of wavelengths") int wave,
@@ -90,7 +90,7 @@ public abstract class GlobalConstantSet {
 	public static class AllFixedConstantSet extends GlobalConstantSet {
 		public AllFixedConstantSet(@ParamName(name="Number of sites") int numberOfCores,
 								   @ParamName(name="Number of wavelengths") int wave) {
-			super(wave, numberOfCores, (int)1,(int)1);
+			super(wave, numberOfCores, 1, 1);
 		}
 		
 		public AllFixedConstantSet(@ParamName(name="Number of sites") int numberOfCores,

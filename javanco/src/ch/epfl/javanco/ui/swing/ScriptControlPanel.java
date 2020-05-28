@@ -40,7 +40,7 @@ public class ScriptControlPanel extends SpeedControlPanel implements ListSelecti
 	public ScriptControlPanel(javax.swing.JFrame parent) {
 		super(parent, false, Javanco.getProperty(Javanco.JAVANCO_DIR_IMAGES_PROPERTY));
 		this.parentFrame = parent;
-		runnerList = new Hashtable<String, Runner>();
+		runnerList = new Hashtable<>();
 		model = new LocalListModel(runnerList);
 		initComponents();
 	}

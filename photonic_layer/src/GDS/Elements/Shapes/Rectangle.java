@@ -74,20 +74,21 @@ public class Rectangle extends AbstractElement {
 		String st02 = "## ---------------------------------------- ##" ;
 		String[] args = {st00, st01, st02} ;
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			// first creating an object of type Rectangle from gdspy library
-			String point1 = V1.rotate(P1, -angleDegree).getString() ;
-			String point2 = V3.rotate(P1, -angleDegree).getString() ; 
-			String st2 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")"  ;
-			// adding the rotation of the waveguide
-			String st3 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")" ;
-			// then we need to add this object to the cell
-			String st4 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3, st4}) ;
-			}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            // first creating an object of type Rectangle from gdspy library
+            String point1 = V1.rotate(P1, -angleDegree).getString();
+            String point2 = V3.rotate(P1, -angleDegree).getString();
+            String st2 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber +
+                    "," + "datatype=" + dataType + ")";
+            // adding the rotation of the waveguide
+            String st3 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")";
+            // then we need to add this object to the cell
+            String st4 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3, st4});
+        }
 //		String st5 = "" ;
 //		args = MoreMath.Arrays.concat(args, new String[] {st5}) ;
 		return args ;
@@ -98,20 +99,21 @@ public class Rectangle extends AbstractElement {
 		String st00 = "" ;
 		String[] args = {st00} ;
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			// first creating an object of type Rectangle from gdspy library
-			String point1 = V1.rotate(P1, -angleDegree).getString() ;
-			String point2 = V3.rotate(P1, -angleDegree).getString() ; 
-			String st2 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")"  ;
-			// adding the rotation of the waveguide
-			String st3 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")" ;
-			// then we need to add this object to the cell
-			String st4 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3, st4}) ;
-			}
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            // first creating an object of type Rectangle from gdspy library
+            String point1 = V1.rotate(P1, -angleDegree).getString();
+            String point2 = V3.rotate(P1, -angleDegree).getString();
+            String st2 = objectName + " = gdspy.Rectangle(" + point1 + "," + point2 + "," + "layer=" + layerNumber +
+                    "," + "datatype=" + dataType + ")";
+            // adding the rotation of the waveguide
+            String st3 = objectName + ".rotate(" + angleRad + "," + P1.getString() + ")";
+            // then we need to add this object to the cell
+            String st4 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3, st4});
+        }
 		return args ;
 	}
 

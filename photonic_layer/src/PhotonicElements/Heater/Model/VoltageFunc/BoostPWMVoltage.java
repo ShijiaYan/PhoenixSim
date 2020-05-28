@@ -39,7 +39,7 @@ public class BoostPWMVoltage extends AbstractVoltage {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("tWidth Initial (usec)", tWidthInitial_usec+"") ;
 		map.put("tPeriod (usec)", tPeriod_usec+"") ;
 		map.put("Number of Periods", numPeriods+"") ;

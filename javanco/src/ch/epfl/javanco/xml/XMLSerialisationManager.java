@@ -194,7 +194,7 @@ public class XMLSerialisationManager {
 		if (System.getProperty("ch.epfl.javanco.XMLvalidation")=="true"){
 			// read and validate the xml document
 			JavancoFile schema = loadSchemaFile(output);
-			if ((schema == null) || (!schema.exists())) {
+			if (schema == null || !schema.exists()) {
 				try {
 					output.write(("The given XML Schema doesn't exist ("+
 							schema.getAbsolutePath()+").\n" +
@@ -259,7 +259,7 @@ public class XMLSerialisationManager {
 		JavancoXMLElement toRead = null;
 		try {
 			// "validate" throws a SAXException in case of a fatal error
-			toRead = new JavancoXMLElement((validator.validate(input, schema, reader)).getRootElement());
+			toRead = new JavancoXMLElement(validator.validate(input, schema, reader).getRootElement());
 		}
 		catch (SAXException e) {}
 		finally {

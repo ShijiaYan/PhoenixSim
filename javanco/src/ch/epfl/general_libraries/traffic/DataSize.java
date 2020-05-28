@@ -111,12 +111,12 @@ public class DataSize implements Cloneable {
 		}
 		if (unit != null) {
 			if (unit.equals(DataSize.BIT)) {
-				if ((size - Math.round(size)) != 0) {
+				if (size - Math.round(size) != 0) {
 					throw new IllegalArgumentException("DataSize with non integer values and bit unit not allowed (arg : " + size+")");
 				}
 			}
 			else if (unit.equals(DataSize.BYTE)) {
-				if ((size - Math.round(size)) != 0) {
+				if (size - Math.round(size) != 0) {
 					throw new IllegalArgumentException("DataSize with non integer values and bit unit not allowed (arg : " + size+")");
 				}
 			}
@@ -190,7 +190,7 @@ public class DataSize implements Cloneable {
 
 
 		String val = ret + "";
-		if ((val.length() > 7) && (ret < 10000)) {
+		if (val.length() > 7 && ret < 10000) {
 			val = val.substring(0,5);
 		}
 		if (unit != null) {
@@ -301,7 +301,7 @@ public class DataSize implements Cloneable {
 	}
 	
 	public Time divided(Rate rate) {
-		return new Time(this.size/(float)rate.getRate());
+		return new Time(this.size/ rate.getRate());
 	}
 
 	public double divided(DataSize other) {

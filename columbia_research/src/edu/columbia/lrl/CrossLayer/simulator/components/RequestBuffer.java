@@ -12,10 +12,10 @@ public class RequestBuffer {
 
 	public RequestBuffer(int numClients, int start) {
 
-		inputs = new TreeMap<Integer, CircuitRequestBuffer<Message>>();
+		inputs = new TreeMap<>();
 
 		for (int i = 0; i < numClients; i++) {
-			inputs.put(i, new CircuitRequestBuffer<Message>(1000));
+			inputs.put(i, new CircuitRequestBuffer<>(1000));
 		}
 
 		current = start;
@@ -30,7 +30,7 @@ public class RequestBuffer {
 	}
 
 	public boolean empty(int input) {
-		return (inputs.get(input).getDepth() == 0);
+		return inputs.get(input).getDepth() == 0;
 	}
 
 	public boolean empty() {
@@ -57,7 +57,7 @@ public class RequestBuffer {
 
 	public void print() {
 		System.out
-				.println((new PrettyPrinting()).new PrettyPrintingMap<Integer, CircuitRequestBuffer<Message>>(
+				.println(new PrettyPrinting().new PrettyPrintingMap<>(
 						inputs));
 	}
 

@@ -62,16 +62,28 @@ public class PortConnector extends AbstractElement {
 	public void setConnectionMapArray(){
 		char[] temp = tempMap.toCharArray() ;
 		int k=0, M=0 ;
-		for(int i=0; i<temp.length; i++){
-			if(temp[i]=='W' || temp[i]=='R' || temp[i]=='L'){M++;}
-		}
+        for (char value : temp) {
+            if (value == 'W' || value == 'R' || value == 'L') {
+                M++;
+            }
+        }
 		map = new String[M] ;
-		for(int i=0; i<temp.length; i++){
+        for (char c : temp) {
 //			if(temp[i]=='W') {map[k] = "W" ; k++ ; wgCounter++ ;}
-			if(temp[i]=='R'){ map[k] = "R" ; k++ ; turnCounter++ ;}
-			else if(temp[i]=='L'){ map[k] = "L" ; k++ ; turnCounter++ ;}
-			else{map[k] = "W" ; k++ ; wgCounter++ ;}
-		}
+            if (c == 'R') {
+                map[k] = "R";
+                k++;
+                turnCounter++;
+            } else if (c == 'L') {
+                map[k] = "L";
+                k++;
+                turnCounter++;
+            } else {
+                map[k] = "W";
+                k++;
+                wgCounter++;
+            }
+        }
 	}
 	
 	public static void main(String[] args){

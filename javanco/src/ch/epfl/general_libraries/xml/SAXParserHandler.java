@@ -10,8 +10,8 @@ public class SAXParserHandler extends DefaultHandler {
 	public SAXParserHandler() {
 	}
 
-	private HashMap<String,String> simple = new HashMap<String,String>();
-	private HashMap<String, StringBuilder> large  = new HashMap<String, StringBuilder>();
+	private HashMap<String,String> simple = new HashMap<>();
+	private HashMap<String, StringBuilder> large  = new HashMap<>();
 
 	private String currentlyReadField = null;
 	private StringBuilder currentlyRead = null;

@@ -65,7 +65,7 @@ public class MooreBound {
 		// right now, copy paste from other method - to be improved
 		int totalNodes = nodes;
 		int i = 0;
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		while(totalNodes > 0) {
 			int n = Math.min(totalNodes, getNodesInLayerI(i, radix));
 			list.add(n);

@@ -60,7 +60,7 @@ public class StraightWg {
 	}
 
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("wavelength (nm)", inputLambda.getWavelengthNm()+"") ;
 		map.put("wg length (um)", lengthMicron+"") ;
 		map.putAll(wgProp.getAllParameters());

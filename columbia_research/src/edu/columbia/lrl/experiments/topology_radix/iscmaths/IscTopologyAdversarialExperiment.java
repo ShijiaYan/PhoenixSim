@@ -65,11 +65,11 @@ public class IscTopologyAdversarialExperiment  implements Experiment {
 		}
 		int totalRadix;
 		
-		if (C + (n*bestR) < 48) {
-			double f = (C + (n*bestR))/8d;
+		if (C + n*bestR < 48) {
+			double f = (C + n*bestR)/8d;
 			totalRadix = (int)Math.ceil(f)*8;
 		} else {
-			double f = (C + (n*bestR))/16d;
+			double f = (C + n*bestR)/16d;
 			totalRadix = (int)Math.ceil(f)*16;			
 		}
 		
@@ -82,7 +82,7 @@ public class IscTopologyAdversarialExperiment  implements Experiment {
 		dp.addProperty("n_opt", n);
 		dp.addProperty("C", C);
 		dp.addProperty("N", N);
-		dp.addResultProperty("r", C + (n*bestR));
+		dp.addResultProperty("r", C + n*bestR);
 		dp.addResultProperty("r_round", totalRadix);		
 		dp.addResultProperty("Dopt", bestD);
 		dp.addResultProperty("traffic", bestTraf);

@@ -31,7 +31,7 @@ public class NRZ_OOK_Demodulator extends AbstractDemodulator__ {
 	@Override
 	public Map<String, String> getAllParameters() {
 		// TODO Auto-generated method stub
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		map.put("Receiver Power (mW)", demodStaticPower + "");
 //		map.put("Effective index", effectiveIndex + "");
 		return map;

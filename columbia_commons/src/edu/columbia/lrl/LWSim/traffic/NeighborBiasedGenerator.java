@@ -47,7 +47,7 @@ public class NeighborBiasedGenerator extends DefaultPoissonTrafficGenerator {
 	protected int getDestination() {
 		if (a==0) {
 			this.nbClients = this.lwSimExperiment.getNumberOfClients();			
-			this.NewPossibleDestinationIndexes = new ArrayList<Integer>();
+			this.NewPossibleDestinationIndexes = new ArrayList<>();
 			this.NewPossibleDestinationIndexes.addAll(possibleDestinationIndexes);
 			for (int i = 0; i < nbNeighbor; i++){
 				this.NewPossibleDestinationIndexes.remove((index+i+1) % nbClients);

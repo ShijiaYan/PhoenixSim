@@ -21,14 +21,14 @@ public class GraphLift {
 		int totalNodes = agh.getNumberOfNodes();
 		if (totalNodes <= 0) return;
 		NodeContainer nc0 = agh.getNodeContainer(0);
-		boolean withPositions = (nc0.attribute(XMLTagKeywords.POS_X, false) != null);
+		boolean withPositions = nc0.attribute(XMLTagKeywords.POS_X, false) != null;
 		
 		Collection<NodeContainer> list = agh.getNodeContainers();
 		
 		for (int i = 0 ; i < factor ; i++) {
 			for (NodeContainer nc : list) {
 				if (withPositions) {
-					agh.newNode(nc.getX()+(20*i), nc.getY());
+					agh.newNode(nc.getX()+ 20*i, nc.getY());
 				} else {
 					agh.newNode();
 				}
@@ -36,8 +36,8 @@ public class GraphLift {
 		}
 		
 		for (LinkContainer lc : agh.getLinkContainers()) {
-			ArrayList<Integer> starts = new ArrayList<Integer>();
-			ArrayList<Integer> ends = new ArrayList<Integer>();
+			ArrayList<Integer> starts = new ArrayList<>();
+			ArrayList<Integer> ends = new ArrayList<>();
 			int start = lc.getStartNodeIndex();
 			int end = lc.getEndNodeIndex();
 			starts.add(start);

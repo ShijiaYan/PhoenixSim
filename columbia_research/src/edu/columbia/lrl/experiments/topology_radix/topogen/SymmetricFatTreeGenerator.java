@@ -38,7 +38,7 @@ public class SymmetricFatTreeGenerator extends AnalysableTopologyGenerator {
 			
 			HPCDesignPoint point = new HPCDesignPoint(radix, 1, radix , 1, desiredClients, 1, desiredClients, 1, 1, 1+" levels tree", map);
 			
-			ArrayList<HPCDesignPoint> l = new ArrayList<HPCDesignPoint>(1);
+			ArrayList<HPCDesignPoint> l = new ArrayList<>(1);
 			
 			l.add(point);
 			
@@ -67,7 +67,7 @@ public class SymmetricFatTreeGenerator extends AnalysableTopologyGenerator {
 		
 		int lastLevelSwitches = MoreMaths.ceilDiv(firstLevelPorts, radix);
 		
-		int totalSwitches = ((levels-2)*switchesPerLevel) + lastLevelSwitches + firstLevelSwitches;
+		int totalSwitches = (levels-2)*switchesPerLevel + lastLevelSwitches + firstLevelSwitches;
 		
 		int index = 0;
 		double accum = 0;
@@ -76,8 +76,8 @@ public class SymmetricFatTreeGenerator extends AnalysableTopologyGenerator {
 		for (int j = 0 ; j <= levels ; j++) {
 			for (int i = index ; i < range ; i++) {
 				if (i >= loads.length) break;
-				accum += loads[i]*((double)((2*j)+1));
-				hops += ((2*j)+1);
+				accum += loads[i]* (double)(2*j +1);
+				hops += 2*j +1;
 			}
 			index = range;			
 			range = range * radix/2;
@@ -90,7 +90,7 @@ public class SymmetricFatTreeGenerator extends AnalysableTopologyGenerator {
 		
 		HPCDesignPoint point = new HPCDesignPoint(radix, totalSwitches, supportedClients , 1, nbLinks, 1, clientDown, averageHops, averageTopologicalHops, levels+" levels tree", map);
 		
-		ArrayList<HPCDesignPoint> l = new ArrayList<HPCDesignPoint>(1);
+		ArrayList<HPCDesignPoint> l = new ArrayList<>(1);
 		
 		l.add(point);
 		

@@ -49,9 +49,9 @@ public class LoadCheck {
 		loadCheckIsUsed = Boolean.parseBoolean(Javanco.getProperty("ch.epfl.javanco.remote.useLoadCheckClass"));
 		maxsession = Integer.parseInt(Javanco.getProperty("ch.epfl.javanco.remote.maximalConcurrentSessions"));
 		maxNodes =Integer.parseInt(Javanco.getProperty("ch.epfl.javanco.remote.maximalnodeNumberperSession"));
-		sessionNodes = new HashMap<String, Integer>();
-		sessionNodesMaximum = new HashMap<String, Integer>();
-		sessionLinks = new HashMap<String, Integer>();
+		sessionNodes = new HashMap<>();
+		sessionNodesMaximum = new HashMap<>();
+		sessionLinks = new HashMap<>();
 	}
 
 	/**@param  sessionId  the Session ID
@@ -74,11 +74,7 @@ public class LoadCheck {
 		int test= 0;
 		if (LoadCheck.sessions < maxsession ){
 			LoadCheck.evolution(LoadCheck.sessions + 1,test); // check if we can accept new session!
-			if(test <= computeGapLoad()) {
-				return true;   // there is enough space to accet the new session
-			} else {
-				return false;
-			}
+            return test <= computeGapLoad();   // there is enough space to accet the new session
 		}
 		return false;
 	}
@@ -89,11 +85,7 @@ public class LoadCheck {
 	 **/
 	public static boolean nodeAdded(String sessionId){
 		if(LoadCheck.sessionNodes.get(sessionId) != null) {
-			if (Integer.parseInt(LoadCheck.sessionNodes.get(sessionId).toString())< Integer.parseInt(sessionNodesMaximum.get(sessionId).toString())  ) {
-				return true;
-			} else {
-				return false;
-			}
+            return Integer.parseInt(LoadCheck.sessionNodes.get(sessionId).toString()) < Integer.parseInt(sessionNodesMaximum.get(sessionId).toString());
 		}
 		return true;
 	}
@@ -102,11 +94,7 @@ public class LoadCheck {
 	 **/
 	public static boolean linksAdded(String sessionId){
 		if(LoadCheck.sessionLinks.get(sessionId)!= null) {
-			if (Integer.parseInt(LoadCheck.sessionLinks.get(sessionId).toString())< conputeMaxLinks( Integer.parseInt( LoadCheck.sessionNodes.get(sessionId).toString()) )) {
-				return true;
-			} else {
-				return false;
-			}
+            return Integer.parseInt(LoadCheck.sessionLinks.get(sessionId).toString()) < conputeMaxLinks(Integer.parseInt(LoadCheck.sessionNodes.get(sessionId).toString()));
 		}
 		return true;
 	}
@@ -245,7 +233,7 @@ public class LoadCheck {
 			maxLoad = maxLoad + Integer.parseInt(LoadCheck.sessionNodesMaximum.get(key).toString()) ;
 			actLoad = actLoad + Integer.parseInt(LoadCheck.sessionNodes.get(key).toString());
 		}
-		return (maxLoad - actLoad);
+		return maxLoad - actLoad;
 	}
 
 
@@ -310,7 +298,7 @@ public class LoadCheck {
 			return 1;
 		} else
 		{
-			return(integer*(myFactorial(integer-1)));
+			return integer* myFactorial(integer-1);
 		}
 	}
 

@@ -9,13 +9,6 @@ public abstract class DefinitionIterator implements Iterator<AbstractDefinition>
 	abstract boolean hasFutureNext();
 	
 	public Iterable<AbstractDefinition> toIterable() {
-		return new Iterable<AbstractDefinition>() {
-
-			@Override
-			public Iterator<AbstractDefinition> iterator() {
-				return DefinitionIterator.this;
-			}
-			
-		};
+		return () -> DefinitionIterator.this;
 	}
 }

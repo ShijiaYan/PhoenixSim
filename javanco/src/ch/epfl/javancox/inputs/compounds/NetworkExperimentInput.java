@@ -96,7 +96,7 @@ public abstract class NetworkExperimentInput extends AbstractGraphExperimentInpu
 		
 		public boolean hasCapacity() {
 			// does not check for each attribute
-			return (agh.getLayerContainer(phyLayerName) != null);
+			return agh.getLayerContainer(phyLayerName) != null;
 		}
 
 		@Override
@@ -192,7 +192,7 @@ public abstract class NetworkExperimentInput extends AbstractGraphExperimentInpu
 		}
 		
 		public boolean hasCapacity() {
-			return (capProv != null);
+			return capProv != null;
 		}		
 
 		@Override

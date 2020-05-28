@@ -31,7 +31,7 @@ public class SnakedBusWaveguideLengthModel extends AbstractWaveguideLengthModel 
 		
 		int horizontals = (int)Math.sqrt(numberSites);
 		
-		return (chipWidth*horizontals + chipWidth);
+		return chipWidth*horizontals + chipWidth;
 	}
 	
 	public int getNumBends(int numberSites) {

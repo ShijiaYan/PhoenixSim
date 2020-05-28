@@ -57,9 +57,9 @@ public class JavancoClassesLoader extends ClassLoader {
 		}
 	}
 
-	private Hashtable<String, Class<? extends Layer>> networkClassList = new Hashtable<String, Class<? extends Layer>>();
-	private Hashtable<String, Class<? extends Node>> nodeClassList    = new Hashtable<String, Class<? extends Node>>();
-	private Hashtable<String, Class<? extends Link>> linkClassList    = new Hashtable<String, Class<? extends Link>>();
+	private Hashtable<String, Class<? extends Layer>> networkClassList = new Hashtable<>();
+	private Hashtable<String, Class<? extends Node>> nodeClassList    = new Hashtable<>();
+	private Hashtable<String, Class<? extends Link>> linkClassList    = new Hashtable<>();
 
 	private ArrayList<Class<? extends AbstractElement>> classList = null;
 
@@ -71,7 +71,7 @@ public class JavancoClassesLoader extends ClassLoader {
 
 	public void setupLists(JavancoFile rootClassDir) {
 		setupLists();
-		ArrayList<JavancoFile> classFileList = new ArrayList<JavancoFile>();
+		ArrayList<JavancoFile> classFileList = new ArrayList<>();
 		try {
 			processDir(rootClassDir, "", classFileList);
 			classList = getClasses(classFileList);
@@ -86,7 +86,7 @@ public class JavancoClassesLoader extends ClassLoader {
 	}
 
 	private void processDir(JavancoFile dir, String prefix, List<JavancoFile> classFileList) {
-		if (!(dir.exists())) {
+		if (!dir.exists()) {
 			throw new IllegalStateException("Directory " + dir + " not found");
 		}
 		JavancoFile[] files = dir.listFiles();
@@ -99,10 +99,10 @@ public class JavancoClassesLoader extends ClassLoader {
 		}
 	}
 
-	private HashSet<JavancoFile> allreadyReadFiles = new HashSet<JavancoFile>();
+	private HashSet<JavancoFile> allreadyReadFiles = new HashSet<>();
 
 	private ArrayList<Class<? extends AbstractElement>> getClasses(ArrayList<JavancoFile> classFileList) throws IOException {
-		ArrayList<Class<? extends AbstractElement>> classes = new ArrayList<Class<? extends AbstractElement>>();
+		ArrayList<Class<? extends AbstractElement>> classes = new ArrayList<>();
 		for (JavancoFile file : classFileList) {
 			if (file.length() > 0) {
 				if (allreadyReadFiles.contains(file) == false) {
@@ -175,10 +175,10 @@ public class JavancoClassesLoader extends ClassLoader {
 	}
 
 	public Hashtable<String, Class<? extends Link>> getAllowedLinkClasses(Class networkClass) {
-		Hashtable<String,Class<? extends Link>> ht = new Hashtable<String, Class<? extends Link>>();
+		Hashtable<String,Class<? extends Link>> ht = new Hashtable<>();
 		ht.put(ch.epfl.javanco.network.DefaultLinkImpl.class.getSimpleName(), ch.epfl.javanco.network.DefaultLinkImpl.class);
 		try {
-			String[] names = (String[])(networkClass.getDeclaredField("LINKS_TYPES").get(null));
+			String[] names = (String[]) networkClass.getDeclaredField("LINKS_TYPES").get(null);
 			for (String s : names) {
 				for (java.util.Map.Entry<String, Class<? extends Link>> entry : linkClassList.entrySet()) {
 					if (entry.getValue().getSimpleName().equals(s)) {
@@ -202,10 +202,10 @@ public class JavancoClassesLoader extends ClassLoader {
 	}
 
 	public Hashtable<String, Class<? extends Node>> getAllowedNodeClasses(Class networkClass) {
-		Hashtable<String,Class<? extends Node>> ht = new Hashtable<String, Class<? extends Node>>();
+		Hashtable<String,Class<? extends Node>> ht = new Hashtable<>();
 		ht.put(ch.epfl.javanco.network.DefaultNodeImpl.class.getSimpleName(), ch.epfl.javanco.network.DefaultNodeImpl.class);
 		try {
-			String[] names = (String[])(networkClass.getDeclaredField("NODES_TYPES").get(null));
+			String[] names = (String[]) networkClass.getDeclaredField("NODES_TYPES").get(null);
 			for (String s : names) {
 				for (java.util.Map.Entry<String, Class<? extends Node>> entry : nodeClassList.entrySet()) {
 					if (entry.getValue().getSimpleName().equals(s)) {

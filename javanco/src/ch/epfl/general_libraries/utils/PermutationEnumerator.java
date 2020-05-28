@@ -14,7 +14,7 @@ public class PermutationEnumerator<T> implements Iterable<ArrayList<T>> {
 	private int size;
 	
 	public PermutationEnumerator(Set<T> set) {
-		list = new ArrayList<T>(set);
+		list = new ArrayList<>(set);
 		this.size = list.size();
 		this.nb = MoreMaths.factorial(size);
 		
@@ -24,7 +24,7 @@ public class PermutationEnumerator<T> implements Iterable<ArrayList<T>> {
 	public Iterator<ArrayList<T>> iterator() {
 		return new Iterator<ArrayList<T>>() {
 			
-			ArrayList<T> current = new ArrayList<T>(list);
+			ArrayList<T> current = new ArrayList<>(list);
 			int counter = 0;
 		
 			int index = 0;
@@ -43,7 +43,7 @@ public class PermutationEnumerator<T> implements Iterable<ArrayList<T>> {
 
 			@Override
 			public ArrayList<T> next() {
-				ArrayList<T> copy = new ArrayList<T>(current);
+				ArrayList<T> copy = new ArrayList<>(current);
 				if (mode == 0) {
 					swap(index);
 					if (index == size-2) {

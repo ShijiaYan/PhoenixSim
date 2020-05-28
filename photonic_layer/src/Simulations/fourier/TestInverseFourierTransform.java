@@ -27,7 +27,7 @@ public class TestInverseFourierTransform extends Application {
 			}
 			private Complex getComplexFunc(double f){
 				Complex num = Complex.ONE.minus(getComplexK(f).times(-2*(nu-1)).exp()).times(getComplexK(f).times(-1).exp()) ;
-				Complex denum = Complex.ONE.minus(getComplexK(f).times(-2*(nu)).exp()) ;
+				Complex denum = Complex.ONE.minus(getComplexK(f).times(-2* nu).exp()) ;
 				if(f == 0){
 					return new Complex((nu-1)/nu, 0) ;
 				}

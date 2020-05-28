@@ -52,9 +52,9 @@ FrameBasedInterface {
 	private GraphHandlerFactory graphHandlerFactory =  null;
 	private GroovyConsole console = null;
 
-	private Hashtable<String, JInternalFrame> internalFrameList = new Hashtable<String, JInternalFrame>();
+	private Hashtable<String, JInternalFrame> internalFrameList = new Hashtable<>();
 
-	private Hashtable<JInternalFrame, AbstractGraphHandler> frameTable = new Hashtable<JInternalFrame, AbstractGraphHandler>();
+	private Hashtable<JInternalFrame, AbstractGraphHandler> frameTable = new Hashtable<>();
 
 	private boolean editable = true;
 
@@ -141,7 +141,7 @@ FrameBasedInterface {
 			frameTable.put(gif, agh);
 
 			String title = agh.getHandledGraphName();
-			if ((title == null) || (title.equals(""))) {
+			if (title == null || title.equals("")) {
 				title = AbstractGraphHandler.DEFAULT_GRAPH_NAME;
 			}
 			title = getUniqueName(title);
@@ -238,7 +238,7 @@ FrameBasedInterface {
 			try {
 				AbstractGraphHandler handler = graphHandlerFactory.getNewGraphHandler();
 				handler.newNetwork("", "physical", DefaultGraphImpl.class,
-						new ArrayList<Attribute>(0));
+                        new ArrayList<>(0));
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -546,38 +546,18 @@ FrameBasedInterface {
 		jFileMenu.setText("File");
 		
 		newMenuItemSimple.setText("New");
-		newMenuItemSimple.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				newSimpleMenuItemActionPerformed(evt);
-			}
-		});
+		newMenuItemSimple.addActionListener(evt -> newSimpleMenuItemActionPerformed(evt));
 		
 		
 		newMenuItem.setText("New (with configuration details)");
-		newMenuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				newMenuItemActionPerformed(evt);
-			}
-		});
+		newMenuItem.addActionListener(evt -> newMenuItemActionPerformed(evt));
 		
 		openMenuItem.setText("Open...");
-		openMenuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				openMenuItemActionPerformed(evt);
-			}
-		});
+		openMenuItem.addActionListener(evt -> openMenuItemActionPerformed(evt));
 		saveMenuItem.setText("Save");
-		saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				saveMenuItemActionPerformed(evt);
-			}
-		});
+		saveMenuItem.addActionListener(evt -> saveMenuItemActionPerformed(evt));
 		JMenuItem quitItem = new JMenuItem("Quit");
-		quitItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				System.exit(0);
-			}
-		});
+		quitItem.addActionListener(evt -> System.exit(0));
 		if (displayEditionFunction()) {
 			jFileMenu.add(newMenuItemSimple);
 			jFileMenu.add(newMenuItem);

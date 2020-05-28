@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package edu.columbia.lrl.CrossLayer.physical_models.devices.demux.ring_array;
 
 import java.util.ArrayList;
@@ -48,6 +43,6 @@ public class FixedQFilterArrayModel extends FilterArrayModel {
 		PowerPenalty trunc = new PowerPenalty("Truncation", "Demux", trunc_pp);
 		PowerPenalty xtalk = new PowerPenalty("Crosstalk", "Demux", xtalk_pp);
 		PowerPenalty ilpp = new PowerPenalty("Insertion loss", "Demux", this.passiveDropIL);
-		return MoreArrays.getArrayList(new PowerPenalty[] { trunc, xtalk, ilpp });
+		return MoreArrays.getArrayList(trunc, xtalk, ilpp);
 	}
 }

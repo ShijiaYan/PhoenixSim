@@ -8,12 +8,7 @@ import flanagan.roots.RealRootFunction;
 public class TestRealRootFinder {
 
 	public static void main(String[] args){
-		RealRootFunction func = new RealRootFunction(){
-			@Override
-			public double function(double x) {
-				return Math.sin(Math.sqrt(x));
-			}
-		} ;
+		RealRootFunction func = x -> Math.sin(Math.sqrt(x));
 
 		double xStart = -6*Math.PI ;
 		double xEnd = 25*Math.PI ;

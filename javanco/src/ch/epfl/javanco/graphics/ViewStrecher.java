@@ -30,8 +30,8 @@ public class ViewStrecher {
 		// 2. Retrieval of the graph node space
 		int[] extre = agh.getExtremitiesWithMargin();
 		// 3. Computation of the input ratio
-		int inputWidth = (extre[1]-extre[0]);
-		int inputHeight = (extre[3]-extre[2]);
+		int inputWidth = extre[1]-extre[0];
+		int inputHeight = extre[3]-extre[2];
 		return getBestFit(new Rectangle(extre[0],extre[2], inputWidth, inputHeight), targetWidth, targetHeight);
 	}
 	
@@ -47,7 +47,7 @@ public class ViewStrecher {
 		int inputWidth = totalView.width;
 		int inputHeight = totalView.height;		
 
-		double inputR = (double)(inputWidth)/(double)(inputHeight);
+		double inputR = (double) inputWidth /(double) inputHeight;
 		double destR = (double)targetWidth/(double)targetHeight;
 		if (inputR > destR) {
 			// add vertical padding

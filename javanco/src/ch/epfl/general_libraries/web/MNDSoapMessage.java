@@ -81,7 +81,7 @@ public class MNDSoapMessage extends SoapMessage {
 			params = (Element)getAssociatedDocument().selectSingleNode("//parameters");
 		}
 		if (params != null) {
-			Hashtable<String, String> table = new Hashtable<String, String>(params.elements().size());
+			Hashtable<String, String> table = new Hashtable<>(params.elements().size());
 			for (Element param : (List<Element>)params.elements()) {
 				String key = param.getName();
 				String value = param.getText();

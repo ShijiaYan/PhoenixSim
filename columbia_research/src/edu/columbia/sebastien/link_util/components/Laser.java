@@ -29,7 +29,7 @@ public class Laser extends AbstractExperimentBlock implements LinkUtilisationObj
 	private double lastStartLasingTime;	
 	private double lastDisablingTime = Double.NEGATIVE_INFINITY;
 	
-	private static enum STATE {
+	private enum STATE {
 		ON, OFF, HEATING, COOLING
 	}
 	
@@ -121,7 +121,7 @@ public class Laser extends AbstractExperimentBlock implements LinkUtilisationObj
 	}
 	
 	public boolean getState() {
-		return (state.equals(STATE.ON) || state.equals(STATE.HEATING));
+		return state.equals(STATE.ON) || state.equals(STATE.HEATING);
 	}
 
 	public TimeLine getTimeLine() {

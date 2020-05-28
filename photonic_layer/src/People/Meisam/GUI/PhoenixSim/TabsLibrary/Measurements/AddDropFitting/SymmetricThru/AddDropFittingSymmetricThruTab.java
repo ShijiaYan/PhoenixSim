@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class AddDropFittingSymmetricThruTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/AddDropFitting/SymmetricThru/add_drop_fitting_symmetric_thru.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/AddDropFitting/SymmetricThru/add_drop_fitting_symmetric_thru.fxml")) ; ;
 	AddDropFittingSymmetricThruTabController controller ;
 
 	public AddDropFittingSymmetricThruTab(SimulationDataBase simDataBase){

@@ -55,7 +55,7 @@ public abstract class AbstractSubConf {
 	
 	protected double getFx(double rhox, double beta) {
 		if (computingNodes == -1) throw new IllegalStateException("Fix computing nodes number first");
-		return (rhox*(computingNodes*1e9*P))/(beta*1e3);	
+		return rhox*(computingNodes*1e9*P) /(beta*1e3);
 	}
 	
 	protected double getFc(double rhoc, double beta) {
@@ -67,12 +67,12 @@ public abstract class AbstractSubConf {
 	protected double getBetaFromC(double rhoc, double Fc) {
 		if (B == -1) throw new IllegalStateException("Fix B number first");
 		if (N == -1) throw new IllegalStateException("Fix N number first");			
-		return (rhoc*B*1e9*N/Fc)/1e3;
+		return (rhoc * B * 1e9 * N / Fc) / 1e3;
 	}
 	
 	protected double getBetaFromX(double rhox, double Fx) {
 		if (computingNodes == -1) throw new IllegalStateException("Fix computing nodes number first");		
-		return (rhox*computingNodes*1e9*P/Fx)/1e3;
+		return (rhox * computingNodes * 1e9 * P / Fx) / 1e3;
 	}
 	
 	protected double getRhoc(double Fc, double beta) {

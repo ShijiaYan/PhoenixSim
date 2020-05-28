@@ -33,7 +33,7 @@ public class CircuitAvailLimitedBuffer extends Buffer {
 		this.src = src;
 		this.myDest = dest;
 		this.parentVOQ = parentVOQ;
-		this.queue = new LinkedList<Evt>();
+		this.queue = new LinkedList<>();
 	}
 
 	public CircuitAvailLimitedBuffer(int maxSize, double bufferLatency,

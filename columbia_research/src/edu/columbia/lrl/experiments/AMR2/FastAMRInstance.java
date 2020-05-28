@@ -25,7 +25,7 @@ public class FastAMRInstance {
 		this.rank = rank;
 		this.inverseBoxMapping = parent.inverseBoxMapping;
 		this.c = c;
-		this.receivedCodes = new HashSet<String>();
+		this.receivedCodes = new HashSet<>();
 		this.parent = parent;
 		try {
 			fw = new FileWriter("dump" + rank);
@@ -52,7 +52,7 @@ public class FastAMRInstance {
 					}
 				}
 				if (awaiting) {
-					String s = (String)(c.blockingReadFromAny(ref, true).getObject());
+					String s = (String) c.blockingReadFromAny(ref, true).getObject();
 					if (rank == 8) {
 					//	int gg = 0;
 					}

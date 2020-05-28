@@ -61,11 +61,11 @@ public class TimeLineSetPainter {
 		yheightPerLine = (int)((d.getHeight()-20)/(visibleDown - visibleUp));
 		int xOffset = getXOffset();
 		int yOffset = 0;
-		HashMap<TimeLine, Integer> map = new HashMap<TimeLine, Integer>();
+		HashMap<TimeLine, Integer> map = new HashMap<>();
 		for (int i = visibleUp ; i < visibleDown ; i++) {
 			TimeLine line = lines.get(i);
 			paintLine(g, line, yheightPerLine, xOffset, yOffset, startTime, endTime, (int)d.getWidth());
-			map.put(line, yOffset+(yheightPerLine/2));
+			map.put(line, yOffset+ yheightPerLine/2);
 			yOffset += yheightPerLine;
 		}
 		this.visibleUp = visibleUp;
@@ -73,13 +73,13 @@ public class TimeLineSetPainter {
 		if (paintArrowsType > 1) {
 		// must be put in function of a boolean
 			for (int i = visibleDown ; i < lines.size() ; i++) {
-				map.put(lines.get(i), yOffset+(yheightPerLine/2));
+				map.put(lines.get(i), yOffset+ yheightPerLine/2);
 				yOffset += yheightPerLine;
 			}
 			yOffset = 0;
 			for (int i = visibleUp -1 ; i >= 0 ; i--) {	
 				yOffset -= yheightPerLine;	
-				map.put(lines.get(i),  yOffset+(yheightPerLine/2));
+				map.put(lines.get(i),  yOffset+ yheightPerLine/2);
 			}	
 		}
 		if (paintArrowsType > 0) {
@@ -104,13 +104,13 @@ public class TimeLineSetPainter {
 		// rule --> about one tick each 40 pixels
 		int nbTicks = widthInPixel / 50;
 		double diffTime = endTime - startTime;
-		double timePerTick = (double)diffTime / (double)nbTicks;
+		double timePerTick = diffTime / (double)nbTicks;
 		int realTimePerTick = (int) Math.pow(10,1+Math.floor(Math.log10(timePerTick)));
 		if (realTimePerTick <= 0) return;
 		long position2 = (int)startTime % realTimePerTick;	
 		long position = (int)startTime - position2 + realTimePerTick;
 		
-		boolean x10 = (nbTicks > 10);
+		boolean x10 = nbTicks > 10;
 		
 		double referenceUnit = x10 ? position*10 : position;
 		
@@ -165,10 +165,10 @@ public class TimeLineSetPainter {
 		int ind1 = c.start.displayedIndex;
 		int ind2 = c.end.displayedIndex;	
 		if (paintArrowsType == 1) {
-			if (((ind1 >= visibleUp && ind1 < visibleDown) && (ind2 >= visibleUp && ind2 < visibleDown)) == false) return;
+			if ((ind1 >= visibleUp && ind1 < visibleDown && ind2 >= visibleUp && ind2 < visibleDown) == false) return;
 		}
 		if (paintArrowsType == 2) {
-			if (((ind1 >= visibleUp && ind1 < visibleDown) || (ind2 >= visibleUp && ind2 < visibleDown)) == false) return;
+			if ((ind1 >= visibleUp && ind1 < visibleDown || ind2 >= visibleUp && ind2 < visibleDown) == false) return;
 		}
 		int xStart = (int) convertToComp(startTime, endTime, componentWidth, c.startTime, xOffset);
 		int xEnd = (int) convertToComp(startTime, endTime, componentWidth, c.endTime, xOffset);
@@ -207,13 +207,13 @@ public class TimeLineSetPainter {
 
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
-        if (id != null && id.equals("") == false) {
+        if (id != null && !id.equals("")) {
         	int wi = 0;
         	if (twoLines) {
         		String[] ff = id.split("\n");
-        		for (int i = 0 ; i < ff.length ; i++) {
-        			wi = Math.max(wi, genevaFontMetrics.stringWidth(ff[i]));
-        		}
+                for (String s : ff) {
+                    wi = Math.max(wi, genevaFontMetrics.stringWidth(s));
+                }
         	} else {
         		wi = genevaFontMetrics.stringWidth(id);
         	}
@@ -225,10 +225,10 @@ public class TimeLineSetPainter {
         	if (twoLines) {
         		String[] ff = id.split("\n");
         		int a = -he/2;
-        		for (int i = 0 ; i < ff.length ; i++) {
-        			g.drawString(ff[i], len/2 - wi/2, a+ he/2-1);
-        			a += he/2;
-        		}
+                for (String s : ff) {
+                    g.drawString(s, len / 2 - wi / 2, a + he / 2 - 1);
+                    a += he / 2;
+                }
         		
         		
         	} else {
@@ -241,8 +241,8 @@ public class TimeLineSetPainter {
 	}
 	
 	public double convertToComp(double start, double end, int componentWidth, double pointToFind, int xOffset) {
-		double timeWidth = (end-start);
-		return xOffset + ((componentWidth-xOffset)*(pointToFind-start))/timeWidth;
+		double timeWidth = end-start;
+		return xOffset + (componentWidth-xOffset)*(pointToFind-start) /timeWidth;
 	}
 	
 	private void paintLine(Graphics2D g, TimeLine line, int height, int xOffset, int yOffset, double startTime, double endTime, int remainingWidth) {
@@ -255,15 +255,14 @@ public class TimeLineSetPainter {
 		int nbJobs = jobs.size();
 		int painted = 0;
 		for (int i = 0 ; i < 3 ; i++) {
-			for (int j = 0 ; j < nbJobs ; j++) {
-				Job job = jobs.get(j);
-				if (job.pass != i) {
-					continue;
-				} else {
-					paintJob(g, line, job, startTime, endTime, remainingWidth, xOffset, yOffset, height);
-					painted++;
-				}
-			}
+            for (Job job : jobs) {
+                if (job.pass != i) {
+                    continue;
+                } else {
+                    paintJob(g, line, job, startTime, endTime, remainingWidth, xOffset, yOffset, height);
+                    painted++;
+                }
+            }
 			if (painted == nbJobs) break;
 		}
 		for (Double dd : line.getReads()) {
@@ -277,8 +276,8 @@ public class TimeLineSetPainter {
 				lineHeight = height/6;
 			}
 			g.setPaint(Color.BLACK);			
-			g.fillRect(d-2, yOffset+(height/2)-lineHeight, 2, lineHeight*2);
-			g.fillArc(d-3, yOffset+(height/2)-3, 6, 6, 90, 180);
+			g.fillRect(d-2, yOffset+ height/2 -lineHeight, 2, lineHeight*2);
+			g.fillArc(d-3, yOffset+ height/2 -3, 6, 6, 90, 180);
 		}
 		/*for (Map<K, V>.Entry<Integer, Double> ent : line.getReceiveEvents()) {
 			
@@ -291,8 +290,8 @@ public class TimeLineSetPainter {
 
 		double jobStart = job.start;
 		double jobEnd = job.end;
-		boolean jobFullyBefore = (jobEnd < startTime);
-		boolean jobFullyAfter = (jobStart > endTime);
+		boolean jobFullyBefore = jobEnd < startTime;
+		boolean jobFullyAfter = jobStart > endTime;
 		if (jobFullyAfter == false && jobFullyBefore == false) {
 			int xStart = (int) convertToComp(startTime, endTime, remainingWidth, jobStart, xOffset);
 			int xEnd = (int) convertToComp(startTime, endTime, remainingWidth, jobEnd, xOffset);

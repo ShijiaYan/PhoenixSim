@@ -2,7 +2,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.devices.signaling;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import ch.epfl.general_libraries.utils.Pair;
 import edu.columbia.lrl.CrossLayer.PowerConsumption;
 import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;

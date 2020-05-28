@@ -11,7 +11,7 @@ public class BurstMessage extends SpinetMessage {
 		this.sizeInBits = 0;
 	}
 	
-	protected ArrayList<Message> msgList = new ArrayList<Message>() ;
+	protected ArrayList<Message> msgList = new ArrayList<>() ;
 
 	public int addMessage(Message m){
 		if (this.msgList.isEmpty()){

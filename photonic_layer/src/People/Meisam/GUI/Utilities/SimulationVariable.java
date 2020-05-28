@@ -35,7 +35,7 @@ public class SimulationVariable {
         this.name = name ;
         this.alias = name ;
         this.variable = variable ;
-        this.variableList = new ArrayList<Double>() ;
+        this.variableList = new ArrayList<>() ;
         updateVariableList() ;
         this.type = "DOUBLE" ;
         this.size = "1x"+variable.length ;
@@ -63,7 +63,7 @@ public class SimulationVariable {
         this.name = name ;
         this.alias = alias ;
         this.variable = variable ;
-        this.variableList = new ArrayList<Double>() ;
+        this.variableList = new ArrayList<>() ;
         updateVariableList() ;
         this.type = "DOUBLE" ;
         this.size = "1x"+variable.length ;
@@ -96,7 +96,7 @@ public class SimulationVariable {
     }
 
     private void updateVariableList(){
-    	variableList = new ArrayList<Double>() ;
+    	variableList = new ArrayList<>() ;
     	variableList.clear();
         for(double x : variable){
             variableList.add(x) ;
@@ -206,7 +206,7 @@ public class SimulationVariable {
     }
 
     public void removeNaNValues(){
-    	ArrayList<Double> vals = new ArrayList<Double>() ;
+    	ArrayList<Double> vals = new ArrayList<>() ;
     	for(double x : variableList){
     		if(Double.isNaN(x)){
     			vals.add(x) ;
@@ -227,7 +227,7 @@ public class SimulationVariable {
     }
 
     public double[] getAllValuesRemoveNaNs(){
-    	ArrayList<Double> NaNVals = new ArrayList<Double>() ;
+    	ArrayList<Double> NaNVals = new ArrayList<>() ;
     	ArrayList<Double> allVals = variableList ;
     	for(double x : variableList){
     		if(Double.isNaN(x)){
@@ -256,10 +256,10 @@ public class SimulationVariable {
     public String toFullString(){
         int length = getLength() ;
         if(length == 0 ){
-            return (name + " = [ ]") ;
+            return name + " = [ ]";
         }
         else{
-            return (name + " = " + toString())  ;
+            return name + " = " + toString();
         }
 
     }
@@ -267,10 +267,10 @@ public class SimulationVariable {
     public String toFullStringAlias(){
         int length = getLength() ;
         if(length == 0 ){
-            return (name + " = [ ]") ;
+            return name + " = [ ]";
         }
         else{
-            return (alias + " = " + toString())  ;
+            return alias + " = " + toString();
         }
 
     }

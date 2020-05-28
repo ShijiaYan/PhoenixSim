@@ -31,7 +31,7 @@ public class RateAndTotalBandwidthFormat extends AbstractLinkFormat {
 
 	@Override
 	public double getTotalRateGbps() {
-		return (totalRate/1e9) ;
+		return totalRate/1e9;
 	}
 
 }

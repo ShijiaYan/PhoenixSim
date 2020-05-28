@@ -50,7 +50,7 @@ public class PcolorGUI {
 			for (int j = 0 ; j < data[0].length ; j++) {
 				if (i == j+1) {
 					data[i][j] = t;
-					t -= (1d/32d);
+					t -= 1d/32d;
 				}
 			} 
 		}
@@ -133,8 +133,8 @@ public class PcolorGUI {
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				int x = (e.getX() / xmult);
-				int y = (e.getY() / ymult);
+				int x = e.getX() / xmult;
+				int y = e.getY() / ymult;
 				
 				if (data != null) {
 					if (x >= data.length) return;
@@ -170,143 +170,114 @@ public class PcolorGUI {
 				JPopupMenu menu = new JPopupMenu();
 				JMenuItem border = new JMenuItem("Show border");
 				menu.add(border);
-				border.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						grid.mode++;
-						paintedComponent.repaint();
-						
-					}
-				});
+				border.addActionListener(e110 -> {
+                    grid.mode++;
+                    paintedComponent.repaint();
+
+                });
 				JMenuItem save = new JMenuItem("saveImage");
 				menu.add(save);
-				save.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (dim != null) {
-							BufferedImage bi = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_ARGB);
-							Graphics g = bi.getGraphics();
-							painter.paintToGraphics(g, dim, data, dataI, choosenCmap, grid, relative);								try {
-							ImageIO.write((RenderedImage)bi, "png", new File(AskQuestion.askString("Filename?")+".png"));
-							} catch (IOException eio) {
-									// TODO Auto-generated catch block
-								eio.printStackTrace();
-							}
-						}
-					}
-				});
+				save.addActionListener(e19 -> {
+                    if (dim != null) {
+                        BufferedImage bi = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_ARGB);
+                        Graphics g = bi.getGraphics();
+                        painter.paintToGraphics(g, dim, data, dataI, choosenCmap, grid, relative);								try {
+                        ImageIO.write(bi, "png", new File(AskQuestion.askString("Filename?")+".png"));
+                        } catch (IOException eio) {
+                                // TODO Auto-generated catch block
+                            eio.printStackTrace();
+                        }
+                    }
+                });
 				
 				JMenuItem setSize = new JMenuItem("set Size");
 				menu.add(setSize);
-				setSize.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						window.setSize(data.length*8, data[0].length*8 +22);
-					}
-				});				
+				setSize.addActionListener(e18 -> window.setSize(data.length*8, data[0].length*8 +22));
 				
 				JMenu colorMap = new JMenu("colorMap");
 				menu.add(colorMap);
 				
 				JMenuItem gray = new JMenuItem("Gray scale");
 				colorMap.add(gray);
-				gray.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						choosenCmap = ColorMap.getGrayScale();
-						repaint();
-					}
-				});	
+				gray.addActionListener(e17 -> {
+                    choosenCmap = ColorMap.getGrayScale();
+                    repaint();
+                });
 				
 				JMenuItem defaultCmap = new JMenuItem("Default");
 				colorMap.add(defaultCmap);
-				defaultCmap.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						choosenCmap = ColorMap.getSSTMap();
-						repaint();
-					}
-				});	
+				defaultCmap.addActionListener(e16 -> {
+                    choosenCmap = ColorMap.getSSTMap();
+                    repaint();
+                });
 				
 				JMenuItem saveGraph = new JMenuItem("Save equivalent graph");
 				menu.add(saveGraph);
-				saveGraph.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						AbstractGraphHandler agh = Javanco.getDefaultGraphHandler(false);
-						agh.activateMainDataHandler();
-						agh.newLayer("physical");
-						for (int i = 0 ; i < data.length ; i++) {
-							agh.newNode();
-						}
-						for (int i = 0 ; i < data.length ; i++) {
-							for (int j = 0 ; j < data[0].length ; j++) {
-								if (data[i][j] > 0) {
-									LinkContainer lc = agh.newLink(i, j);
-									lc.attribute("weigth").setValue(data[i][j]);
-								}
-							}
-						}
-						try {
-							agh.saveNetwork("fromPcolor.xml");
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				});		
+				saveGraph.addActionListener(e15 -> {
+                    AbstractGraphHandler agh = Javanco.getDefaultGraphHandler(false);
+                    agh.activateMainDataHandler();
+                    agh.newLayer("physical");
+                    for (int i = 0 ; i < data.length ; i++) {
+                        agh.newNode();
+                    }
+                    for (int i = 0 ; i < data.length ; i++) {
+                        for (int j = 0 ; j < data[0].length ; j++) {
+                            if (data[i][j] > 0) {
+                                LinkContainer lc = agh.newLink(i, j);
+                                lc.attribute("weigth").setValue(data[i][j]);
+                            }
+                        }
+                    }
+                    try {
+                        agh.saveNetwork("fromPcolor.xml");
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                });
 				
 				JMenu displayType = new JMenu("Display");
 				menu.add(displayType);
 				
 				JMenuItem abs = new JMenuItem("Absolute");
 				displayType.add(abs);
-				abs.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						relative = false;
-						repaint();
-					}
-				});	
+				abs.addActionListener(e14 -> {
+                    relative = false;
+                    repaint();
+                });
 				
 				JMenuItem rel = new JMenuItem("Relative");
 				displayType.add(rel);
-				rel.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						relative = true;
-						repaint();
-					}
-				});	
+				rel.addActionListener(e13 -> {
+                    relative = true;
+                    repaint();
+                });
 				
 				JMenuItem saveData = new JMenuItem("Save Data");
 				menu.add(saveData);
 				
-				saveData.addActionListener(new ActionListener() {	
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							FileWriter fw = new FileWriter("PColordata_" + DateAndTimeFormatter.getDateAndTime(System.currentTimeMillis()) + ".m");
-							BufferedWriter bw = new BufferedWriter(fw);
-							bw.write("data = [");
-							for (int i = 0 ; i < data.length; i++) {
-								for (int j = 0 ; j < data[0].length ; j++) {
-									bw.write(data[i][j] + " ");
-								}
-								bw.write(" ; ");
-							}
-							bw.write("]; \r\n");
-							bw.write("surf(data)");
-							bw.flush();
-							bw.close();
-							fw.close();
-							
-						}
-						catch (IOException ex) {
-							throw new IllegalStateException(ex);
-						}
-					}
-				});	
+				saveData.addActionListener(e12 -> {
+                    try {
+                        FileWriter fw = new FileWriter("PColordata_" + DateAndTimeFormatter.getDateAndTime(System.currentTimeMillis()) + ".m");
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        bw.write("data = [");
+for (double[] datum : data) {
+for (int j = 0; j < data[0].length; j++) {
+bw.write(datum[j] + " ");
+}
+bw.write(" ; ");
+}
+                        bw.write("]; \r\n");
+                        bw.write("surf(data)");
+                        bw.flush();
+                        bw.close();
+                        fw.close();
+
+                    }
+                    catch (IOException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                });
 				
 				menu.show(paintedComponent, e.getX(), e.getY());
 				

@@ -18,7 +18,7 @@ public class VariableSelectorModule {
 	Stage window = new Stage() ;
 
 	public VariableSelectorModule(SimulationDataBase simDataBase){
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml")) ;
         Parent root;
 		try {
 			root = loader.load();

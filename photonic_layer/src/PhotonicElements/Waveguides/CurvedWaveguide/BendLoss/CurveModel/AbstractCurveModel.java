@@ -28,19 +28,15 @@ public abstract class AbstractCurveModel {
 	}
 
 	public double getLength(double tStart, double tEnd) {
-		IntegralFunction func = new IntegralFunction() {
-			public double function(double t) {
-				return getDS(t);
-			}
-		};
+		IntegralFunction func = t -> getDS(t);
 		AdaptiveIntegral integral = new AdaptiveIntegral(func, tStart, tEnd) ;
-		return (integral.getIntegral()*1e-4); // length in cm instead of micron
+		return integral.getIntegral()*1e-4; // length in cm instead of micron
 	}
 
 	public double getRadiusOfCurvature(double t){
 		double num = pow(getXPrime(t)*getXPrime(t)+getYPrime(t)*getYPrime(t), 1.5) ;
 		double denom = abs(getXPrime(t)*getYDoublePrime(t)-getYPrime(t)*getXDoublePrime(t)) ;
-		return (num/denom) ;
+		return num/denom;
 	}
 
 }

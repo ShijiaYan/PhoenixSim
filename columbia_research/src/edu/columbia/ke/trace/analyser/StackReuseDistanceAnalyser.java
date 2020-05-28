@@ -19,8 +19,8 @@ public class StackReuseDistanceAnalyser {
 	private String splitSymbol = "\t";
 	
 	protected SrcDstReuseMap sdMap = new SrcDstReuseMap();
-	protected int srcCount[];
-	protected int dstCount[];
+	protected int[] srcCount;
+	protected int[] dstCount;
 	private int nRank;
 	private String fileName;
 	
@@ -82,7 +82,7 @@ public class StackReuseDistanceAnalyser {
 	int lastDst=-1;
 	
 	private void getSplits(String s) {
-	    ArrayList<Integer> intArr = new ArrayList<Integer>();
+	    ArrayList<Integer> intArr = new ArrayList<>();
 	    int count = 0;
 	    String stime = "";
 	    for(String str : s.split(splitSymbol)){

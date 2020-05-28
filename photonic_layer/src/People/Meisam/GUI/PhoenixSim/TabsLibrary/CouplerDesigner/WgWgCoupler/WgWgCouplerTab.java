@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class WgWgCouplerTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/CouplerDesigner/WgWgCoupler/wg_wg_coupler.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/CouplerDesigner/WgWgCoupler/wg_wg_coupler.fxml")) ; ;
 	WgWgCouplerTabController controller ;
 
 	public WgWgCouplerTab(SimulationDataBase simDataBase){

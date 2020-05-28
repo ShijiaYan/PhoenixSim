@@ -18,7 +18,7 @@ public class NoCsInterfaceWaveguideModel extends AbstractDieModel {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>();
+		Map<String, String> map = new SimpleMap<>();
 		return map;
 	}
 	

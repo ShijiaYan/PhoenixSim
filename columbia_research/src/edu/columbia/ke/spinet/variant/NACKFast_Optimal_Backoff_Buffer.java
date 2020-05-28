@@ -25,7 +25,7 @@ public class NACKFast_Optimal_Backoff_Buffer extends NACKFast_Backoff_Buffer {
 		}
 		
 		waitTime = x * wcWaitTime;
-		wcWaitTime *= (1-x);
+		wcWaitTime *= 1-x;
 		return waitTime;
 	}
 

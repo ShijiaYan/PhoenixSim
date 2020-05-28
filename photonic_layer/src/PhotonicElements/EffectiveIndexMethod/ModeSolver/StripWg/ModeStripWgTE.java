@@ -65,7 +65,7 @@ public class ModeStripWgTE {
             neff_max = getNeffTE(stripWg.getWidthNm(), stripWg.getHeightNm(), lambda_max_nm, mNumber, nNumber) ;
             neff_min = getEffectiveIndex() ;
             double dneff_dlambda = (neff_max-neff_min)/(lambda_max_nm-lambda_min_nm) ;
-            return (neff_min - lambdaNm * dneff_dlambda) ;
+            return neff_min - lambdaNm * dneff_dlambda;
     }
 	
 }

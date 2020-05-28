@@ -20,7 +20,7 @@ public class SelfHeating {
 	}
 	
 	public Map<String, String> getAllParameters(){
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("alphaH", alphaH+"") ;
 		map.put("Kv", Kv+"") ;
 		map.put("Rlinear", Rlinear+"") ;
@@ -55,7 +55,7 @@ public class SelfHeating {
 	public double getCurrent_mA(double voltage){
 		double selfHeatingFactor = 2/(1+Math.sqrt(1+Kv*voltage*voltage)) ;
 		double I = voltage/Rlinear * selfHeatingFactor ;
-		return (I*1e3) ;
+		return I*1e3;
 	}
 
 	public double[] getCurrent_mA(double[] voltage){

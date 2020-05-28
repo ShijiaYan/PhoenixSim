@@ -10,24 +10,16 @@ public class TestDummy {
 
 	public static void main(String[] args) {
 		
-		RealRootFunction func = new RealRootFunction() {
-			
-			@Override
-			public double function(double x) {
-				double y = x*x + Math.sin(x*x) - 1/x -5 ;
-				return y ;
-			}
-		};
+		RealRootFunction func = x -> {
+            double y = x*x + Math.sin(x*x) - 1/x -5 ;
+            return y ;
+        };
 	
-		RealRootDerivFunction dfunc = new RealRootDerivFunction() {
-			
-			@Override
-			public double[] function(double x) {
-				double y = x*x+Math.sin(x*x) - 1/x - 5 ;
-				double yPrime = 2*x + 2*x*Math.cos(x*x) + 1/(x*x) ;
-				return new double[] {y, yPrime} ;
-			}
-		};
+		RealRootDerivFunction dfunc = x -> {
+            double y = x*x+Math.sin(x*x) - 1/x - 5 ;
+            double yPrime = 2*x + 2*x*Math.cos(x*x) + 1/(x*x) ;
+            return new double[] {y, yPrime} ;
+        };
 		
 		RealRoot rootFinder = new RealRoot() ;
 		double root = rootFinder.bisectNewtonRaphson(dfunc, 0.1, 3) ;

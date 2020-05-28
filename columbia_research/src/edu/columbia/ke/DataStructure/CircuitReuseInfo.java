@@ -31,13 +31,13 @@ public class CircuitReuseInfo {
 	}
 
 	public CircuitReuseInfo(int maxConsideredKey) {
-		srcMap = new HashMap<Integer, Integer>();
-		dstMap = new HashMap<Integer, Integer>();
-		timeMap = new HashMap<Integer, Integer>();
-		sizeMap = new HashMap<Integer, Integer>();
-		tailList = new HashMap<Integer, Integer>();
+		srcMap = new HashMap<>();
+		dstMap = new HashMap<>();
+		timeMap = new HashMap<>();
+		sizeMap = new HashMap<>();
+		tailList = new HashMap<>();
 		
-		srcURDList = new ArrayList<Integer>();
+		srcURDList = new ArrayList<>();
 		
 		lastSeenIndexInSrc = -1;
 		lastSeenIndexInDst = -1;
@@ -70,17 +70,11 @@ public class CircuitReuseInfo {
 	}
 	
 	public boolean isSDPredictionCorrect(int key){
-		if (key == keyofLargestSrcMapValue)
-			return true;
-		else 
-			return false;
+        return key == keyofLargestSrcMapValue;
 	}
 	
 	public boolean isTDPredictionCorrect(int key){
-		if (key == keyofLargestTimeMapValue)
-			return true;
-		else 
-			return false;
+        return key == keyofLargestTimeMapValue;
 	}
 	
 	public void updateSDMap(int key) {
@@ -211,7 +205,7 @@ public class CircuitReuseInfo {
 	
 	private void updateSrcReuseScore(int key){
 		if (key <= maxConsideredKey)
-			this.srcReuseScore += (1 << (maxConsideredKey - key));
+			this.srcReuseScore += 1 << maxConsideredKey - key;
 	}
 	
 	public int distanceHashFunc(double n){
@@ -245,11 +239,11 @@ public class CircuitReuseInfo {
 	}
 
 	public int predictSrcReuseDistance(){
-		return (int)(1 << this.keyofLargestSrcMapValue);
+		return 1 << this.keyofLargestSrcMapValue;
 	}
 	
 	public double predictTimeReuseDistance(){
-		return (int)(1 << this.largestTimeMapValue);
+		return 1 << this.largestTimeMapValue;
 	}
 	
 	public void setPrefetch(int pfTime) {

@@ -92,7 +92,7 @@ public class RoutingResult extends ParetoPoint {
 			this.reqRadixMax = (int)Math.max(Math.ceil(perDim[2][i]) * topoRadix[i], reqRadixMax);
 		}
 		int conLinks = MoreArrays.max(maxConnectLinks);
-		this.reqRadixMax = (reqRadixMax* perDim[2].length) + conLinks;
+		this.reqRadixMax = reqRadixMax* perDim[2].length + conLinks;
 		this.reqRadixDim += conLinks;
 		this.topoRadix = topoRadix;
 		this.dist = dist;
@@ -237,7 +237,7 @@ public class RoutingResult extends ParetoPoint {
 					pRadixMult,
 					optimalRoundLocStruct.radix,
 					optimalNotRoundLocStruct.radix,
-					(optimalRoundLocStruct.radix * optimalRoundLocStruct.linkMult) + nodeMult
+					optimalRoundLocStruct.radix * optimalRoundLocStruct.linkMult + nodeMult
 					
 			};
 			
@@ -311,7 +311,7 @@ public class RoutingResult extends ParetoPoint {
 		dp2.addResultProperty("norm topo connectivity overhead", getTopoConnectivityOverhead()/getTotalRawTraffic());
 		dp2.addResultProperty("topological radix", topRadixSum);
 		dp2.addResultProperty("corresponding moore bound", MooreBound.getMinimalDistance(topRadixSum, getTotalSwitches()));
-		dp2.addResultProperty("% away from the lower bound", ((getAveragePathLength() / MooreBound.getMinimalDistance(topRadixSum, usedSwitches)) - 1)*100d);
+		dp2.addResultProperty("% away from the lower bound", (getAveragePathLength() / MooreBound.getMinimalDistance(topRadixSum, usedSwitches) - 1)*100d);
 		
 		execution.addDataPoint(dp2);
 	}
@@ -341,11 +341,11 @@ public class RoutingResult extends ParetoPoint {
 	private static double[] RADICES = new double[]{8,16,24,32,48,64,80,96,112,128,144,160,176,192,208,224,240,256, 512, 1024};
 	
 	private double getRadixCategory() {
-		for (int i = 0 ; i < RADICES.length ; i++) {
-			if (reqRadix <= RADICES[i]) {
-				return RADICES[i];
-			}
-		}
+        for (double radice : RADICES) {
+            if (reqRadix <= radice) {
+                return radice;
+            }
+        }
 		return reqRadix;
 	}
 

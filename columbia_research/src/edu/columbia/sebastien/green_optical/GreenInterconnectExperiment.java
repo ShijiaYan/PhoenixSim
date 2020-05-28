@@ -62,7 +62,7 @@ public class GreenInterconnectExperiment implements Experiment {
 			double totalRRRate = (radix - concentration) * RRrateInGbs;
 			double totalNRRate = concentration * injectionBW;
 			
-			double averageRate = (totalRRRate + totalNRRate)/(radix);
+			double averageRate = (totalRRRate + totalNRRate)/ radix;
 			
 			DataPoint dp = new DataPoint();
 			Execution e = new Execution();

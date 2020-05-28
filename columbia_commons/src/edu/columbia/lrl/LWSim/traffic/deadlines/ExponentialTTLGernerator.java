@@ -16,7 +16,7 @@ public class ExponentialTTLGernerator extends AbstractTTLGenerator {
 	@Override
 	public int nextTTL() {
 		double u = new Random().nextDouble();
-		double x = Math.log(1-u)*(-mean);
+		double x = Math.log(1-u)* -mean;
 		return (int)x;
 	}
 

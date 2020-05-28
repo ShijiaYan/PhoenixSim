@@ -51,9 +51,9 @@ public class TestDB {
     	double[] values = {} ;
     	List<String> allValues = Arrays.asList(valueLine.trim().split("\t")) ;
     	int M = allValues.size() ;
-    	for(int i=0; i<M; i++){
-    		values = MoreMath.Arrays.append(values, Double.parseDouble((String) allValues.get(i))) ;
-    	}
+        for (String allValue : allValues) {
+            values = MoreMath.Arrays.append(values, Double.parseDouble(allValue));
+        }
 //    	MoreMath.Arrays.show(values);
     	return values ;
     }

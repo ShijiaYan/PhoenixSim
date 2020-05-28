@@ -58,7 +58,7 @@ public class DiameterNStructure extends AbstractAxisStructure {
 		}		
 		if (foundName == null)
 			throw new WrongExperimentException("Cannot build diameter " + diameter__ + " structure of size" + size);
-		Pair<Integer, JavancoAdjacencyFileBasedStructure> pair = new Pair<Integer, JavancoAdjacencyFileBasedStructure>();
+		Pair<Integer, JavancoAdjacencyFileBasedStructure> pair = new Pair<>();
 		pair.setFirst(diameter__);
 		pair.setSecond(new JavancoAdjacencyFileBasedStructure(dir, foundName));
 		return pair;

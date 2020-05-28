@@ -69,12 +69,7 @@ public class HeaterStepTabController extends AbstractTabController {
     }
 
     private boolean stepToggleIsSelected(){
-        if(stepWaveguidePlotRadioButton.isSelected() || stepHeaterPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return stepWaveguidePlotRadioButton.isSelected() || stepHeaterPlotRadioButton.isSelected();
     }
 
     @FXML

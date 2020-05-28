@@ -69,9 +69,9 @@ public class ShortCuttedRingStructure extends JavancoBasedAxisStructure {
 		PolygonGenerator polyGen;
 		if (size > 64) {
 			System.out.println("Warning: beyond 64, not optimized");
-			polyGen = new PolygonGenerator((int)size, "1,15");
+			polyGen = new PolygonGenerator(size, "1,15");
 		} else {
-			polyGen = new PolygonGenerator((int)size, cuts[size]);
+			polyGen = new PolygonGenerator(size, cuts[size]);
 		}
 		AbstractGraphHandler agh = polyGen.generate();
 		super.interpret(agh, this);

@@ -29,8 +29,8 @@ public class TornadoTrafficMatrix extends AbstractTrafficMatrix {
 		int srcX = src / x;
 		int srcY = src % x;
 		
-		int destX = (srcX + (x/2-1)) % x;
-		int destY = (srcY + (x/2-1)) % y;
+		int destX = (srcX + x / 2 - 1) % x;
+		int destY = (srcY + x / 2 - 1) % y;
 		if (destX*x + destY == dest) {
 			return normLoad;
 		} else {

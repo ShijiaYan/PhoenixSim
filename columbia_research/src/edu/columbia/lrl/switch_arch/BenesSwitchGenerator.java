@@ -36,7 +36,7 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
 	
 	public ArrayList<Integer> getInputNodesIndexes() {
 		int nodestages = getNumberOfStages();		
-		ArrayList<Integer> inputs = new ArrayList<Integer>();
+		ArrayList<Integer> inputs = new ArrayList<>();
 		for (int i = 0 ; i < nodes*2 ; i++) {
 			inputs.add(nodestages*nodes + i);
 		}
@@ -45,7 +45,7 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
 	
 	public ArrayList<Integer> getOutputNodesIndexes() {
 		int nodestages = getNumberOfStages();		
-		ArrayList<Integer> outputs = new ArrayList<Integer>();
+		ArrayList<Integer> outputs = new ArrayList<>();
 		for (int i = 0 ; i < nodes*2 ; i++) {
 			outputs.add(nodestages*nodes + 2*nodes + i);
 		}
@@ -53,7 +53,7 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
 	}
 	
 	public ArrayList<Integer> getSwitchingNodesIndexes() {
-		ArrayList<Integer> answer = new ArrayList<Integer>();
+		ArrayList<Integer> answer = new ArrayList<>();
 		int nodestages = getNumberOfStages();
 		int idx = 0;		
         for (int i = 0 ; i < nodestages ; i++) {
@@ -93,9 +93,9 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
         		int nbGroups = (int)Math.pow(2, i);
         		int nodesInGroup = nodes / nbGroups;           		
         		for (int j = 0 ; j < nbGroups ; j++) {
-        			int startStartIndex = (nodes*i) + (j*nodesInGroup);
-        			int startEndIndex1 = (nodes*(i+1)) + (j*nodesInGroup);
-        			int startEndIndex2 = (nodes*(i+1)) + (j*nodesInGroup) + (nodesInGroup/2);
+        			int startStartIndex = nodes*i + j*nodesInGroup;
+        			int startEndIndex1 = nodes*(i+1) + j*nodesInGroup;
+        			int startEndIndex2 = nodes*(i+1) + j*nodesInGroup + nodesInGroup/2;
         			for (int k = 0 ; k < nodesInGroup ; k++) {
         				agh.newLink(startStartIndex+k, startEndIndex1).attribute("directed").setValue("true");;
         				agh.newLink(startStartIndex+k, startEndIndex2).attribute("directed").setValue("true");;
@@ -109,10 +109,10 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
         		int nbGroups = (int)Math.pow(2, nodestages - i - 2);
         		int nodesInGroup = nodes / nbGroups;   
         		for (int j = 0 ; j < nbGroups ; j++) {
-        			int startStartIndex1 = (nodes*i) + (j*nodesInGroup);
-        			int startStartIndex2 = (nodes*i) + (j*nodesInGroup) + (nodesInGroup/2);
+        			int startStartIndex1 = nodes*i + j*nodesInGroup;
+        			int startStartIndex2 = nodes*i + j*nodesInGroup + nodesInGroup/2;
         			
-        			int startEndIndex = (nodes*(i+1)) + (j*nodesInGroup);
+        			int startEndIndex = nodes*(i+1) + j*nodesInGroup;
         			for (int k = 0 ; k < nodesInGroup ; k++) {
         				agh.newLink(startStartIndex1, startEndIndex+k).attribute("directed").setValue("true");;
         				agh.newLink(startStartIndex2, startEndIndex+k).attribute("directed").setValue("true");;
@@ -141,8 +141,8 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
         	nodeIndexes[nodeIndex++] = nc.getIndex();
         	NodeContainer nc2 = agh.newNode(-100, i*80 + 25);
         	nodeIndexes[nodeIndex++] = nc2.getIndex();
-        	nc.attribute("input").setValue(""+(2*i));
-        	nc2.attribute("input").setValue(""+((2*i)+1));
+        	nc.attribute("input").setValue(""+ 2*i);
+        	nc2.attribute("input").setValue(""+(2*i +1));
         	agh.newLink(nc.getIndex(), nodeIndexes[i]).attribute("directed").setValue("true");;
         	agh.newLink(nc2.getIndex(), nodeIndexes[i]).attribute("directed").setValue("true");;
         }
@@ -153,8 +153,8 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
         	nodeIndexes[nodeIndex++] = nc2.getIndex();
         	
         	
-        	nc.attribute("output").setValue(""+(2*i));
-        	nc2.attribute("output").setValue(""+((2*i)+1));
+        	nc.attribute("output").setValue(""+ 2*i);
+        	nc2.attribute("output").setValue(""+(2*i +1));
         	
         	agh.newLink(nodeIndexes[(nodestages-1)*nodes + i], nc.getIndex()).attribute("directed").setValue("true");;
         	agh.newLink(nodeIndexes[(nodestages-1)*nodes + i], nc2.getIndex()).attribute("directed").setValue("true");;        	
@@ -170,7 +170,7 @@ public class BenesSwitchGenerator extends AbstractSwitchArchitectureGenerator {
 	}
 	
 	private double log2(double num) {
-		return (Math.log(num)/log2);
+		return Math.log(num)/log2;
 	} 
 		
 	public static class BenesSwitch extends WebTopologyGeneratorStub {

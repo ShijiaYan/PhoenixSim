@@ -65,9 +65,9 @@ public class TypeParser {
 			Matcher m = meridianPositionPattern.matcher(s);
 			if (m.matches()) {
 				float pos = Integer.parseInt(m.group(1));
-				pos += ((java.lang.Integer.parseInt(m.group(2)))) / 60f;
-				if ((m.group(3).equals("W")) || (m.group(3).equals("S"))) {
-					return Math.round(pos /90 * (-10000f));
+				pos += Integer.parseInt(m.group(2)) / 60f;
+				if (m.group(3).equals("W") || m.group(3).equals("S")) {
+					return Math.round(pos /90 * -10000f);
 				} else {
 					return Math.round(pos /90 * 10000f);
 				}
@@ -76,7 +76,7 @@ public class TypeParser {
 				if (m2.matches()) {
 					float f = Integer.parseInt(m2.group(1));
 					f = f / 90f * 10000f;
-					if ((m2.group(2).equals("W")) || (m2.group(2).equals("S"))) {
+					if (m2.group(2).equals("W") || m2.group(2).equals("S")) {
 						return Math.round(-f);
 					} else {
 						return Math.round(f);
@@ -108,7 +108,7 @@ public class TypeParser {
 			} else {
 				try {
 					Integer i = Integer.parseInt(sarray[0]);
-					return new int[]{(int)i};
+					return new int[]{i};
 				}
 				catch (Exception e) {
 					return new int[0];
@@ -116,7 +116,7 @@ public class TypeParser {
 			}	
 		} else {
 			String[] sarray = s.split(" ");
-			ArrayList<Integer> ff = new ArrayList<Integer>();
+			ArrayList<Integer> ff = new ArrayList<>();
 			for (String st : sarray) {
 				try {
 					Integer i = Integer.parseInt(st);
@@ -219,7 +219,7 @@ public class TypeParser {
 	
 	public static  int[] parseInt(String s) throws NumberFormatException {
 		String parse = s.replace(" ", "");
-		List<Integer> ret = new ArrayList<Integer>();
+		List<Integer> ret = new ArrayList<>();
 		String[] parts = parse.split(",");
 		for (String part : parts){
 			ret.addAll(parseIntInterval(part));
@@ -235,7 +235,7 @@ public class TypeParser {
 	
 	public static  long[] parseLong(String s) throws NumberFormatException {
 		String parse = s.replace(" ", "");
-		List<Long> ret = new ArrayList<Long>();
+		List<Long> ret = new ArrayList<>();
 		String[] parts = parse.split(",");
 		for (String part : parts){
 			ret.addAll(parseLongInterval(part));
@@ -251,13 +251,13 @@ public class TypeParser {
 	
 	public static short[] parseShort(String s) throws NumberFormatException {
 		String parse = s.replace(" ", "");
-		List<Short> ret = new ArrayList<Short>();
+		List<Short> ret = new ArrayList<>();
 		String[] parts = parse.split(",");
 		for (String part : parts){
 			List<Integer> p = parseIntInterval(part);
-			for (int i = 0 ; i < p.size() ; i++) {
-				ret.add((short)(int)p.get(i));
-			}
+            for (Integer integer : p) {
+                ret.add((short) (int) integer);
+            }
 		}
 		short[] obj = new short[ret.size()];
 		int i = 0;
@@ -270,7 +270,7 @@ public class TypeParser {
 	
 	public static  float[] parseFloat(String s) throws NumberFormatException {
 		String parse = s.replace(" ", "");
-		List<Float> ret = new ArrayList<Float>();
+		List<Float> ret = new ArrayList<>();
 		String[] parts = parse.split(",");
 		for (String part : parts){
 			ret.addAll(parseFloatInterval(part));
@@ -286,7 +286,7 @@ public class TypeParser {
 	
 	public static  double[] parseDouble(String s) throws NumberFormatException {
 		String parse = s.replace(" ", "");
-		List<Double> ret = new ArrayList<Double>();
+		List<Double> ret = new ArrayList<>();
 		String[] parts = parse.split(",");
 		for (String part : parts){
 			ret.addAll(parseDoubleInterval(part));
@@ -311,7 +311,7 @@ public class TypeParser {
 			return parseIntegerPowerInterval(s);
 		}
 		String[] parts = s.split(":");
-		List<Integer> ret = new ArrayList<Integer>();
+		List<Integer> ret = new ArrayList<>();
 		int first;
 		int step;
 		int last;
@@ -350,7 +350,7 @@ public class TypeParser {
 			return parseLongLinInterval(s);
 		}		
 		String[] parts = s.split(":");
-		List<Long> ret = new ArrayList<Long>();
+		List<Long> ret = new ArrayList<>();
 		long first;
 		long step;
 		long last;
@@ -392,7 +392,7 @@ public class TypeParser {
 		}			
 		
 		String[] parts = s.split(":");
-		List<Float> ret = new ArrayList<Float>();
+		List<Float> ret = new ArrayList<>();
 		BigDecimal first;
 		BigDecimal step;
 		BigDecimal last;
@@ -433,7 +433,7 @@ public class TypeParser {
 			return parseDoubleLinInterval(s);
 		}
 		String[] parts = s.split(":");
-		List<Double> ret = new ArrayList<Double>();
+		List<Double> ret = new ArrayList<>();
 		BigDecimal first;
 		BigDecimal step;
 		BigDecimal last;
@@ -471,7 +471,7 @@ public class TypeParser {
 		double start = Double.parseDouble(interval[0]);
 		double end = Double.parseDouble(interval[1]);
 		double inc = (end - start)/elements;
-		List<Double> ret = new ArrayList<Double>();
+		List<Double> ret = new ArrayList<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add(start);
 			start += inc;
@@ -486,7 +486,7 @@ public class TypeParser {
 		double start = Math.log(Double.parseDouble(interval[0]));
 		double end = Math.log(Double.parseDouble(interval[1]));
 		double inc = (end - start)/elements;
-		List<Double> ret = new ArrayList<Double>();
+		List<Double> ret = new ArrayList<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add(Math.exp(start));
 			start += inc;
@@ -501,7 +501,7 @@ public class TypeParser {
 		double start = Math.log(Double.parseDouble(interval[0]));
 		double end = Math.log(Double.parseDouble(interval[1]));
 		double inc = (end - start)/elements;
-		List<Float> ret = new ArrayList<Float>();
+		List<Float> ret = new ArrayList<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add((float)Math.exp(start));
 			start += inc;
@@ -516,7 +516,7 @@ public class TypeParser {
 		double start = Double.parseDouble(interval[0]);
 		double end = Double.parseDouble(interval[1]);
 		double inc = (end - start)/elements;
-		List<Float> ret = new ArrayList<Float>();
+		List<Float> ret = new ArrayList<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add((float)start);
 			start += inc;
@@ -531,12 +531,12 @@ public class TypeParser {
 		double start = Math.log(Double.parseDouble(interval[0]));
 		double end = Math.log(Double.parseDouble(interval[1]));
 		double inc = (end - start)/elements;
-		HashSet<Integer> ret = new HashSet<Integer>();
+		HashSet<Integer> ret = new HashSet<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add((int)Math.round(Math.exp(start)));
 			start += inc;
 		}
-		ArrayList<Integer> list = new ArrayList<Integer>(ret);
+		ArrayList<Integer> list = new ArrayList<>(ret);
 		Collections.sort(list);
 		return list;
 	}
@@ -548,12 +548,12 @@ public class TypeParser {
 		double start = Double.parseDouble(interval[0]);
 		double end = Double.parseDouble(interval[1]);
 		double inc = (end - start)/elements;
-		HashSet<Integer> ret = new HashSet<Integer>();
+		HashSet<Integer> ret = new HashSet<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add((int)Math.round(start));
 			start += inc;
 		}
-		ArrayList<Integer> list = new ArrayList<Integer>(ret);
+		ArrayList<Integer> list = new ArrayList<>(ret);
 		Collections.sort(list);
 		return list;
 	}	
@@ -563,7 +563,7 @@ public class TypeParser {
 		double power = Integer.parseInt(parts[1]);
 		List<Integer> list = parseIntInterval(parts[0]);
 		
-		List<Integer> ret = new ArrayList<Integer>();
+		List<Integer> ret = new ArrayList<>();
 		for (Integer i : list) {
 			ret.add((int)Math.pow(i, power));
 		}
@@ -587,12 +587,12 @@ public class TypeParser {
 		double start = Math.log(Double.parseDouble(interval[0]));
 		double end = Math.log(Double.parseDouble(interval[1]));
 		double inc = (end - start)/elements;
-		HashSet<Long> ret = new HashSet<Long>();
+		HashSet<Long> ret = new HashSet<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add((long)Math.exp(start));
 			start += inc;
 		}
-		return new ArrayList<Long>(ret);
+		return new ArrayList<>(ret);
 	}
 	
 	private static List<Long> parseLongLinInterval(String s) {
@@ -602,12 +602,12 @@ public class TypeParser {
 		double start = Double.parseDouble(interval[0]);
 		double end = Double.parseDouble(interval[1]);
 		double inc = (end - start)/elements;
-		HashSet<Long> ret = new HashSet<Long>();
+		HashSet<Long> ret = new HashSet<>();
 		for (int i = 0 ; i < elements+1 ; i++) {
 			ret.add((long)start);
 			start += inc;
 		}
-		return new ArrayList<Long>(ret);
+		return new ArrayList<>(ret);
 	}	
 
 

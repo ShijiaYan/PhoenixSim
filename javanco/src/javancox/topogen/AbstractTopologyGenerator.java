@@ -80,7 +80,7 @@ public abstract class AbstractTopologyGenerator extends AbstractExperimentBlock 
 	protected void fillUp(AbstractGraphHandler agh,int numberOfNodes,int offset){
 		for(int s=agh.getSmallestNodeIndex();s<=agh.getHighestNodeIndex();s++){
 			int d=(s+offset)%numberOfNodes;
-			if((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null)&&(s!=d)){
+			if(agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null && s!=d){
 				agh.newLink(s,d);
 				//agh.newLink(d,s);
 			}
@@ -99,7 +99,7 @@ public abstract class AbstractTopologyGenerator extends AbstractExperimentBlock 
 			int d = indexes[(i+offset)%numberOfNodes];
 		//for (int s: indexes) {
 		//	int d=(s+offset)%numberOfNodes;
-			if((agh.getLinkContainer(s,d)==null)&&(agh.getLinkContainer(d,s)==null)&&(s!=d)){
+			if(agh.getLinkContainer(s,d)==null && agh.getLinkContainer(d,s)==null && s!=d){
 				agh.newLink(s,d);
 				//agh.newLink(d,s);
 			}
@@ -138,8 +138,8 @@ public abstract class AbstractTopologyGenerator extends AbstractExperimentBlock 
 			int centerY,
 			double angleOffset) {
 		int[] indexes = new int[numberOfNodes];
-		double pisur2 = (Math.PI/2d);
-		double circlePart = (2*Math.PI/numberOfNodes);
+		double pisur2 = Math.PI/2d;
+		double circlePart = 2*Math.PI/numberOfNodes;
 		for (int i=0;i<numberOfNodes;i++){
 			double x = centerX + ray * Math.sin(i*circlePart-pisur2 + angleOffset);
 			double y = centerY + ray * Math.cos(i*circlePart-pisur2 + angleOffset);
@@ -179,7 +179,7 @@ public abstract class AbstractTopologyGenerator extends AbstractExperimentBlock 
 				agh.newLink(i-1, i);
 			}
 			if (i >= width) {
-				agh.newLink(i-(width), i);
+				agh.newLink(i- width, i);
 			}
 		}
 	}	

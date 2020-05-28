@@ -1,8 +1,12 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package ch.epfl.javancox.experiments.builder.swing_gui;
 
 import java.awt.Color;
 import java.awt.LayoutManager;
-
 import ch.epfl.javancox.experiments.builder.tree_model.AbstractChooseNode;
 import ch.epfl.javancox.experiments.builder.tree_model.ArrayChooseNode;
 import ch.epfl.javancox.experiments.builder.tree_model.BooleanChooseNode;
@@ -11,65 +15,56 @@ import ch.epfl.javancox.experiments.builder.tree_model.EnumChooseNode;
 import ch.epfl.javancox.experiments.builder.tree_model.ErrorChooseNode;
 import ch.epfl.javancox.experiments.builder.tree_model.LeafChooseNode;
 import ch.epfl.javancox.experiments.builder.tree_model.TypableChooseNode;
-import ch.epfl.javancox.experiments.builder.tree_model.UntypableArrayInstanceNode;
+import ch.epfl.javancox.experiments.builder.tree_model.UntypeableArrayInstanceNode;
+
 
 public class LeafNodeGUIContainer extends AbstractGUIContainer {
-	
-	private static Color lightGreen = new Color(0.8f, 1f, 0.8f);
-	private static Color error = new Color(1f, 0.9f, 0.7f);	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
+	private static final Color LEAF_COLOR = new Color(235, 240, 240);
+	private static final Color ERROR_COLOR = new Color(1.0F, 0.3F, 0.3F);
+	private static final long serialVersionUID = 1L;
 
 	public LeafNodeGUIContainer(LeafChooseNode node, LayoutManager man, int prefix) {
 		super(node, man, prefix);
-		this.setBackground(lightGreen);			
-		refresh();
+		this.setBackground(LEAF_COLOR);
+		this.refresh();
 	}
 
-	@Override
 	public void refreshImpl() {
-		AbstractChooseNode parent = (AbstractChooseNode)absNode.getParent();
+		AbstractChooseNode parent = (AbstractChooseNode) this.absNode.getParent();
 		if (parent instanceof BooleanChooseNode) {
-			setIcon("boolean.png");
+			this.setIcon("boolean.png");
 		} else if (parent instanceof EnumChooseNode) {
-			setIcon("class.png");
-		} else if (parent instanceof UntypableArrayInstanceNode) {
-			setIcon("class.png");
-		} else if (parent instanceof ArrayChooseNode){
-			setIcon("other.png");
+			this.setIcon("class.png");
+		} else if (parent instanceof UntypeableArrayInstanceNode) {
+			this.setIcon("class.png");
+		} else if (parent instanceof ArrayChooseNode) {
+			this.setIcon("other.png");
 		} else if (parent instanceof ClassChooseNode) {
-			setIcon("other.png");
-			// sanity check
-			if (!(absNode instanceof LeafChooseNode)) {
-				throw new IllegalStateException();
-			} 
-			if (!((LeafChooseNode)absNode).isNull()) {
-				if (!(absNode instanceof ErrorChooseNode))
-					throw new IllegalStateException();		
-				else
-					this.setBackground(error);	
+			this.setIcon("other.png");
+			if (!(this.absNode instanceof LeafChooseNode)) { throw new IllegalStateException(); }
+
+			if (!((LeafChooseNode) this.absNode).isNull()) {
+				if (!(this.absNode instanceof ErrorChooseNode)) { throw new IllegalStateException(); }
+
+				this.setBackground(ERROR_COLOR);
 			}
 		} else {
-			TypableChooseNode p = (TypableChooseNode)absNode.getParent();
+			TypableChooseNode p = (TypableChooseNode) this.absNode.getParent();
 			if (p.isBoolean()) {
-				setIcon("boolean.png");
+				this.setIcon("boolean.png");
 			} else if (p.isInt()) {
-				setIcon("integer.png");
+				this.setIcon("integer.png");
 			} else if (p.isClass()) {
-				setIcon("class.png");
+				this.setIcon("class.png");
 			} else if (p.isDouble()) {
-				setIcon("double.png");
+				this.setIcon("double.png");
 			} else if (p.isLong()) {
-				setIcon("long.png");
+				this.setIcon("long.png");
 			} else {
-				setIcon("other.png");
+				this.setIcon("other.png");
 			}
 		}
+
 	}
-	
-
 }
-

@@ -9,7 +9,7 @@ import javafx.scene.control.Tab;
 
 public class ModuleCreator {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/ModulesLibrary/ModuleCreator/stand_alone_module.fxml")) ; ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/ModulesLibrary/ModuleCreator/stand_alone_module.fxml")) ; ;
 	PhoenixSimModuleController controller ;
 	SimulationDataBase simDataBase ;
 

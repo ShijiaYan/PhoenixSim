@@ -19,18 +19,18 @@ public abstract class AbstractVOQ extends AbstractTrafficOrigin implements Traff
 	protected LWSIMExperiment lwSimExperiment;
 	protected boolean prior = false;
 	public int index;
-	protected PriorityQueue<Evt> evtQueue = new PriorityQueue<Evt>();
+	protected PriorityQueue<Evt> evtQueue = new PriorityQueue<>();
 	protected int forwardedId=0;
 	protected String voqName;
 	
-	protected ArrayList<Integer> destList = new ArrayList<Integer>();
+	protected ArrayList<Integer> destList = new ArrayList<>();
 	
 	protected AbstractVOQ() {}
 
 	public AbstractVOQ(int index, int nDest) {
 		this.index = index;
 		this.nDest = nDest;
-		bufs = new TreeMap<Integer, CircuitAvailLimitedBuffer>();
+		bufs = new TreeMap<>();
 	}
 	
 	public abstract void addDestinations(ArrayList<Integer> destList, ArrayList<LWSimComponent> dests);

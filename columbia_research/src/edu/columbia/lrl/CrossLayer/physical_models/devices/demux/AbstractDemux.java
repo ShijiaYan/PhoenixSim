@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package edu.columbia.lrl.CrossLayer.physical_models.devices.demux;
 
 import java.util.ArrayList;
@@ -20,11 +15,11 @@ public abstract class AbstractDemux extends AbstractDeviceModel {
 	public AbstractDemux() {
 	}
 
-	public abstract ArrayList<PowerPenalty> getPowerPenalties(PhysicalParameterAndModelsSet var1,
-			AbstractLinkFormat var2, Execution var3, double var4);
+	public abstract ArrayList<PowerPenalty> getPowerPenalties(PhysicalParameterAndModelsSet modelsSet,
+			AbstractLinkFormat linkFormat, Execution ex, double modulatorER);
 
 	public abstract boolean hasThroughCapability();
 
-	public abstract ArrayList<PowerPenalty> getPassbyPowerPenalties(PhysicalParameterAndModelsSet var1,
-			AbstractLinkFormat var2);
+	public abstract ArrayList<PowerPenalty> getPassByPowerPenalties(PhysicalParameterAndModelsSet modelsSet,
+																	AbstractLinkFormat linkFormat);
 }

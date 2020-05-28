@@ -28,10 +28,10 @@ public class GraphDisplayInformationSet {
 //	public static final String DISPLAY_BEST_FIT = "best_fit";
 
 	// information coming from topological description (handler)
-	private List<PaintableLink> linksH = new ArrayList<PaintableLink>();
-	private Vector<PaintableNode> nodesH = new Vector<PaintableNode>();
-	public Vector<PaintableNode> nodesHClones = new Vector<PaintableNode>();
-	public ArrayList<PaintableLayer> layers = new ArrayList<PaintableLayer>();
+	private List<PaintableLink> linksH = new ArrayList<>();
+	private Vector<PaintableNode> nodesH = new Vector<>();
+	public Vector<PaintableNode> nodesHClones = new Vector<>();
+	public ArrayList<PaintableLayer> layers = new ArrayList<>();
 	public PaintableLayerGlobals layerGlobals = new PaintableLayerGlobals();
 
 	// information coming from graphical data handler
@@ -67,7 +67,7 @@ public class GraphDisplayInformationSet {
 	}
 
 	public synchronized List<PaintableLink> getLinksHCopy() {
-		return new ArrayList<PaintableLink>(linksH);
+		return new ArrayList<>(linksH);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,7 +124,7 @@ public class GraphDisplayInformationSet {
 				}
 			}
 		}
-		return new Rectangle(lowestX-minSize, lowestY-minSize, Math.max(minSize,highestX - lowestX)+(2*minSize), Math.max(minSize,highestY - lowestY)+(2*minSize));
+		return new Rectangle(lowestX-minSize, lowestY-minSize, Math.max(minSize,highestX - lowestX)+ 2*minSize, Math.max(minSize,highestY - lowestY)+ 2*minSize);
 	}
 
 	public synchronized void setView(Rectangle rect) {
@@ -148,7 +148,7 @@ public class GraphDisplayInformationSet {
 	}
 
 	private void initializeDefaultGraphicalData() {
-		String bgColor = Javanco.getProperty(Javanco.JAVANCO_GRAPHICS_DEFAULTBACKGROUNDCOLOR_PROPERTY);
+		String bgColor = Javanco.getProperty(Javanco.JAVANCO_GRAPHICS_DEFAULT_BACKGROUND_COLOR_PROPERTY);
 		if (bgColor == null) {
 			backgroundColor = TypeParser.parseColor("#D7D7C8");
 		} else {
@@ -218,7 +218,7 @@ public class GraphDisplayInformationSet {
 
 	public void setBackImage(String path) {
 		if (path != null && !path.equals("")) {
-			if (!(new JavancoFile(path).exists())) {
+			if (!new JavancoFile(path).exists()) {
 				path = Javanco.getProperty(Javanco.JAVANCO_DIR_IMAGES_PROPERTY) + "/" + path;
 			}
 			if (new JavancoFile(path).exists()) {
@@ -259,16 +259,17 @@ public class GraphDisplayInformationSet {
 						if (layerContainer.isDisplayed()) {
 							//String layerName = layerContainer.getKey();
 							List<NodeContainer> nodes = layerContainer.getNodeContainers();
-							for (int i = 0 ; i < nodes.size() ; i++) {
-								NodeContainer nodeContainer = nodes.get(i);
-								if (nodeContainer == null) { System.out.print("_"); }
-								PaintableNode pnode = new PaintableNode(nodeContainer);
-								pnode.init(nodeContainer);
-								if (pnode.valid) {
-									nodesH.set(pnode.id, pnode);
-									layerGlobals.updateLevelsSize(nodeContainer);
-								}
-							}
+                            for (NodeContainer nodeContainer : nodes) {
+                                if (nodeContainer == null) {
+                                    System.out.print("_");
+                                }
+                                PaintableNode pnode = new PaintableNode(nodeContainer);
+                                pnode.init(nodeContainer);
+                                if (pnode.valid) {
+                                    nodesH.set(pnode.id, pnode);
+                                    layerGlobals.updateLevelsSize(nodeContainer);
+                                }
+                            }
 
 							// This instruction has to be after the for loop
 							// so the 'updateLevelsSize' function can detect
@@ -332,16 +333,14 @@ public class GraphDisplayInformationSet {
 						// Layers need to be sorted so that the transparency effect can be
 						// achieved completely. This comes from the fact that trasparent
 						// objects that are further away need to be drawn first.
-						Collections.sort(layers, new Comparator<PaintableLayer>() {
-							public int compare(PaintableLayer lhs, PaintableLayer rhs) {
-								int zDiff = lhs.getLayerZ() - rhs.getLayerZ();
-								if(zDiff == 0) {
-									return lhs.getName().compareTo(rhs.getName());
-								} else {
-									return zDiff;
-								}
-							}
-						});
+						Collections.sort(layers, (lhs, rhs) -> {
+                            int zDiff = lhs.getLayerZ() - rhs.getLayerZ();
+                            if(zDiff == 0) {
+                                return lhs.getName().compareTo(rhs.getName());
+                            } else {
+                                return zDiff;
+                            }
+                        });
 					}
 	//			}
 	//		}

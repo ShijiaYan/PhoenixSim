@@ -75,12 +75,7 @@ public class HeaterSinTabController extends AbstractTabController {
     }
 
     private boolean sinToggleIsSelected(){
-        if(sinWaveguidePlotRadioButton.isSelected() || sinHeaterPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return sinWaveguidePlotRadioButton.isSelected() || sinHeaterPlotRadioButton.isSelected();
     }
 
     @FXML

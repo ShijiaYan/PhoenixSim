@@ -13,9 +13,9 @@ public class ExportVariables {
 	int numRows, numColumns ;
 	
 	public ExportVariables(SimulationVariable... vars){
-		for(int i=0; i<vars.length; i++){
-			variables.add(vars[i]) ;
-		}
+        for (SimulationVariable var : vars) {
+            variables.add(var);
+        }
 	}
 	
 	public ExportVariables(){
@@ -27,9 +27,9 @@ public class ExportVariables {
 	}
 	
 	public void addVariables(SimulationVariable... vars){
-		for(int i=0; i<vars.length; i++){
-			variables.add(vars[i]) ;
-		}
+        for (SimulationVariable var : vars) {
+            variables.add(var);
+        }
 	}
 	
 	public void export(){
@@ -40,11 +40,11 @@ public class ExportVariables {
 		
 		numColumns = variables.size() ;
 		numRows = 0 ;
-		for(int i=0; i<variables.size(); i++){
-			if(numRows < variables.get(i).getLength()){
-				numRows = variables.get(i).getLength() ;
-			}
-		}
+        for (SimulationVariable variable : variables) {
+            if (numRows < variable.getLength()) {
+                numRows = variable.getLength();
+            }
+        }
 		numRows++ ; // firs row is for name and other rows are for values
 		
 		FileOutput fout = new FileOutput(fullPath, "w") ;

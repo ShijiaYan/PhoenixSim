@@ -163,7 +163,7 @@ public class Solver {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
 				if(Double.compare(graph[i][j], 0)!=0){
-					System.out.printf("From %d To %d Gain %f\n",(i+1),(j+1),graph[i][j]);
+					System.out.printf("From %d To %d Gain %f\n", i+1, j+1,graph[i][j]);
 					sfg.addArrow(i+1, j+1, graph[i][j]);
 				}
 			}
@@ -210,12 +210,12 @@ public class Solver {
 
 			for (int i = 0; i < graph.length; i++) {
 				boolean isInput = true;
-				for (int j = 0; j < graph.length; j++) {
-					if(graph[j][i]!=0){
-						isInput = false;
-						break;
-					}
-				}
+                for (double[] doubles : graph) {
+                    if (doubles[i] != 0) {
+                        isInput = false;
+                        break;
+                    }
+                }
 				if(isInput)
 					return inputNode=i;
 			}

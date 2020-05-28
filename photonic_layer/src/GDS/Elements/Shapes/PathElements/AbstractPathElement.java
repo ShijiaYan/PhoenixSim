@@ -13,7 +13,7 @@ public abstract class AbstractPathElement {
 	public Port port2 = port1.connect() ; // each path element has exactly two port
 	
 	public static int numElements = 0 ;
-	public static Map<String, Port> elementPorts = new SimpleMap<String, Port>() ;
+	public static Map<String, Port> elementPorts = new SimpleMap<>() ;
 	
 	public abstract String[] getPythonCode(String pathName, AbstractLayerMap layerMap) ;
 	public abstract String[] getPythonCode_no_header(String pathName, AbstractLayerMap layerMap) ;

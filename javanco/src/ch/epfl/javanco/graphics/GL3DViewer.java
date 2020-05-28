@@ -62,12 +62,12 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 	 * Map that stores the textures
 	 * <BR>#author fmoulin
 	 */
-	private final Map<String, Texture> textures = new HashMap<String, Texture>();
+	private final Map<String, Texture> textures = new HashMap<>();
 	/**
 	 * Textures used in the last rendering process
 	 * <BR>#author fmoulin
 	 */
-	private final Set<String> usedTextures = new HashSet<String>();
+	private final Set<String> usedTextures = new HashSet<>();
 
 	private GraphDisplayInformationSet set = null;
 
@@ -124,7 +124,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 	private PaintableLayer pointedLayer = null;
 
 	// Various stuff related to picking elements
-	private Vector<Picked> idMapping = new Vector<Picked>();
+	private Vector<Picked> idMapping = new Vector<>();
 
 	//Constants
 	private static final GLU glu = new GLU();
@@ -236,11 +236,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 		// Intercepts key events to know if they have been handled correctly
 		boolean debug3dKeyEvents = System.getProperty("debug3dKeyEvents") != null;
 		if (debug3dKeyEvents) {
-			java.awt.Toolkit.getDefaultToolkit().addAWTEventListener(new java.awt.event.AWTEventListener() {
-				public void eventDispatched(java.awt.AWTEvent event) {
-					System.out.println(event.getSource());
-				}
-			}, java.awt.AWTEvent.KEY_EVENT_MASK);
+			java.awt.Toolkit.getDefaultToolkit().addAWTEventListener(event -> System.out.println(event.getSource()), java.awt.AWTEvent.KEY_EVENT_MASK);
 		}
 	}
 
@@ -418,7 +414,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 			throw new NullPointerException("PS cannot be null");
 		}
 		oldPs = ps;
-		final boolean ortho = (cameraModeTopView && azimuthAngle == 0.0f && zenithAngle == 0.0f);
+		final boolean ortho = cameraModeTopView && azimuthAngle == 0.0f && zenithAngle == 0.0f;
 		if (ortho) {
 			// Here we try to be as close as possible to the perspective view
 			// so that the user does not notice the transition too much.
@@ -564,7 +560,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 	 * <BR>#author fmoulin
 	 */
 	private void freeUnusedTextures(GL gl) {
-		final Set<String> allTextures = new HashSet<String>();
+		final Set<String> allTextures = new HashSet<>();
 		allTextures.addAll(textures.keySet());
 		if (usedTextures.size() < allTextures.size()) {
 			allTextures.removeAll(usedTextures);
@@ -900,7 +896,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 				final Vector3f br = new Vector3f( (baseX + ix + 1) * GRID_SIZE, (baseY + iy) * GRID_SIZE, GRID_Z);
 				final Vector3f tl = new Vector3f( (baseX + ix) * GRID_SIZE, (baseY + iy + 1) * GRID_SIZE, GRID_Z);
 				final Vector3f tr = new Vector3f( (baseX + ix + 1) * GRID_SIZE, (baseY + iy + 1) * GRID_SIZE, GRID_Z);
-				final boolean black = groundLookLikeChess && (Math.abs(ix + iy + baseX + baseY) % 2 == 0);
+				final boolean black = groundLookLikeChess && Math.abs(ix + iy + baseX + baseY) % 2 == 0;
 				if (black) {
 					gl.glColor3f(0.0f, 0.0f, 0.0f);
 				} else {
@@ -957,7 +953,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 	 * @author pvogt
 	 */
 	private void drawRouting(GL2 gl, PaintableLink link) {
-		assert(link.routing != null);
+		assert link.routing != null;
 		for(int i = 0; i < link.routing.length; i++) {
 			drawRouting(gl, link, i);
 		}
@@ -1009,8 +1005,8 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 		float flatnessFactor = 0.01f;
 		float widthFactor = 0.9f;
 
-		float factorA = (isStart ? endNodesFactor : intermediateNodeFactor);
-		float factorB = (isEnd ? endNodesFactor : intermediateNodeFactor);
+		float factorA = isStart ? endNodesFactor : intermediateNodeFactor;
+		float factorB = isEnd ? endNodesFactor : intermediateNodeFactor;
 		float flatness = flatnessFactor * (nodeA.size + nodeB.size) / 2.0f;
 
 		// The Y coordinate will become the Z coordinate later
@@ -1061,7 +1057,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 				drawCylinder(gl, glu, p1, p2, link.width * widthFactor, 10, 1, color, null);
 				break;
 			default:
-				assert(false);
+				assert false;
 				break;
 			}
 			p.next();
@@ -1428,7 +1424,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 			if (temp != null) {
 				if (suiP.getAssociatedAbstractGraphHandler().isEditable()) {
 					final JMenuItem del = new JMenuItem("Delete");
-					del.addActionListener((new ActionListener() {
+					del.addActionListener(new ActionListener() {
 						private Clickable c = null;
 
 						ActionListener init(Clickable c) {
@@ -1439,7 +1435,7 @@ MouseListener, MouseWheelListener, MouseMotionListener, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							suiP.getAssociatedAbstractGraphHandler().removeElement(c.getElementContainer());
 						}
-					}).init(temp));
+					}.init(temp));
 					jm.add(del);
 				}
 			}

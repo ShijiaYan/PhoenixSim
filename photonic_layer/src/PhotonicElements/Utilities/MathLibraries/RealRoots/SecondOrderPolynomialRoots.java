@@ -95,7 +95,7 @@ public class SecondOrderPolynomialRoots {
 	}
 	
 	public double getValue(double x){
-		return (a*x*x+b*x+c) ;
+		return a*x*x+b*x+c;
 	}
 	
 	
@@ -106,14 +106,7 @@ public class SecondOrderPolynomialRoots {
 		System.out.println(roots.getFirstRealRoot());
 		System.out.println(roots.getSecondRealRoot());
 		
-		RealRootFunction func = new RealRootFunction(){
-
-			@Override
-			public double function(double x) {
-				return roots.getValue(x);
-			}
-			
-		} ;
+		RealRootFunction func = x -> roots.getValue(x);
 		
 		RealRootFinder rootFinder = new RealRootFinder(func, -10, 10) ;
 		rootFinder.findAllRoots(); 

@@ -21,7 +21,7 @@ public abstract class DataSeries implements Iterable<DataSeries.DataSeriesStruct
 	public List<PairList<String,String>> crit;
 
 	public PairList<String, String> getSerieCriteria() {
-		PairList<String, String> pl = new PairList<String, String>();
+		PairList<String, String> pl = new PairList<>();
 		if (crit == null) {
 			return pl;
 		}
@@ -66,15 +66,11 @@ public abstract class DataSeries implements Iterable<DataSeries.DataSeriesStruct
 	}
 
 	public Iterable<Float> getYs() {
-		return new Iterable<Float>() {
-			public Iterator<Float> iterator() {
-				return getYsImpl();
-			}
-		};
+		return () -> getYsImpl();
 	}
 
 	public float[] getMeanedYs() {
-		HashMap<String, LinkedList<Float>> struct = new HashMap<String, LinkedList<Float>>();
+		HashMap<String, LinkedList<Float>> struct = new HashMap<>();
 
 		for (DataSeries.DataSeriesStruct s : this) {
 			String xValOrString;
@@ -92,7 +88,7 @@ public abstract class DataSeries implements Iterable<DataSeries.DataSeriesStruct
 
 			LinkedList<Float> nb = struct.get(xValOrString);
 			if (nb == null) {
-				nb = new LinkedList<Float>();
+				nb = new LinkedList<>();
 				struct.put(xValOrString, nb);
 			}
 			nb.addLast(s.yVal);
@@ -130,18 +126,18 @@ public abstract class DataSeries implements Iterable<DataSeries.DataSeriesStruct
 			}			
 
 			public boolean isNumeric() {
-				return (numericXValue != null);
+				return numericXValue != null;
 			}
 
 			public float mean() {
 				float acum = 0;
-				for (int i = 0 ; i < values.size() ; i++) {
-					acum += values.get(i);
-				}
+                for (Float value : values) {
+                    acum += value;
+                }
 				return acum/values.size();
 			}
 
-			public Vector<Float> values = new Vector<Float>();
+			public Vector<Float> values = new Vector<>();
 			public Float numericXValue = null;
 			public String alphaXValue;
 			public boolean nativeX = false;
@@ -149,13 +145,13 @@ public abstract class DataSeries implements Iterable<DataSeries.DataSeriesStruct
 		}
 
 		public DataSeriesSorter() {
-			globalEquivalences = new TreeMap<String, Integer>();
+			globalEquivalences = new TreeMap<>();
 		}
 
 		TreeMap<String, Integer> globalEquivalences;
 
 		private TreeMap<String, XEntry> getEntryTreeMap(DataSeries ds) {
-			TreeMap<String, XEntry> xEntriesMap = new TreeMap<String, XEntry>();
+			TreeMap<String, XEntry> xEntriesMap = new TreeMap<>();
 
 			for (DataSeriesStruct s : ds) {
 				XEntry entry = xEntriesMap.get(s.xVal);
@@ -184,7 +180,7 @@ public abstract class DataSeries implements Iterable<DataSeries.DataSeriesStruct
 			for (XEntry xe : xEntriesMap.values()) {
 				ySorted.offer(xe, xe.mean());
 			}
-			List<XEntry> ls = new ArrayList<XEntry>(ySorted.size());
+			List<XEntry> ls = new ArrayList<>(ySorted.size());
 			while (ySorted.size() > 0) {
 				XEntry xe = ySorted.pollElement();
 				if (globalEquivalences.get(xe.alphaXValue) == null) {

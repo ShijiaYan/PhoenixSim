@@ -109,33 +109,27 @@ public class DownSamplingTabController extends AbstractTabController {
 	@FXML
 	public void chooseXData(){
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase) ;
-		varModule.setExitAction(new ActionInterface() {
-			@Override
-			public void setExitAction() {
-				xData = new SimulationVariable(varModule.getController().getVariable().getName(), varModule.getController().getVariable().getAlias(), varModule.getController().getValues()) ;
-				xDataLabel.setText("X data is set to '" + xData.getName() + "'");
-				if(xData != null && yData != null){
-					fig = createPlot(xData, yData) ;
-					showPlot(fig, matlabPane);
-				}
-			}
-		});
+		varModule.setExitAction(() -> {
+            xData = new SimulationVariable(varModule.getController().getVariable().getName(), varModule.getController().getVariable().getAlias(), varModule.getController().getValues()) ;
+            xDataLabel.setText("X data is set to '" + xData.getName() + "'");
+            if(xData != null && yData != null){
+                fig = createPlot(xData, yData) ;
+                showPlot(fig, matlabPane);
+            }
+        });
 	}
 
 	@FXML
 	public void chooseYData(){
 		VariableSelectorModule varModule = new VariableSelectorModule(simDataBase) ;
-		varModule.setExitAction(new ActionInterface() {
-			@Override
-			public void setExitAction() {
-				yData = new SimulationVariable(varModule.getController().getVariable().getName(), varModule.getController().getVariable().getAlias(), varModule.getController().getValues()) ;
-				yDataLabel.setText("Y data is set to '" + yData.getName() + "'");
-				if(xData != null && yData != null){
-					fig = createPlot(xData, yData) ;
-					showPlot(fig, matlabPane);
-				}
-			}
-		});
+		varModule.setExitAction(() -> {
+            yData = new SimulationVariable(varModule.getController().getVariable().getName(), varModule.getController().getVariable().getAlias(), varModule.getController().getValues()) ;
+            yDataLabel.setText("Y data is set to '" + yData.getName() + "'");
+            if(xData != null && yData != null){
+                fig = createPlot(xData, yData) ;
+                showPlot(fig, matlabPane);
+            }
+        });
 	}
 
 

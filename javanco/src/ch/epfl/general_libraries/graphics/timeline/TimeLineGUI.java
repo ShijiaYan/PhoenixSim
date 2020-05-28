@@ -149,26 +149,22 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 	private void addPaintToFileMenuItem(JMenu actionsMenu, JFrame f2) {
 		// TODO Auto-generated method stub
 		JMenuItem item = new JMenuItem("Save actual image to file...");
-		item.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int w = paintedComponent.getWidth();
-				int h = paintedComponent.getHeight();
-				BufferedImage bi = new
-				    BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-				Graphics g = bi.getGraphics();
-				painter.paintToGraphics(g, paintedComponent.getSize(), timeLineSet, visibleLeft, visibleRight, visibleUp, visibleDown);
-				try {
-					ImageIO.write((RenderedImage)bi, "png", new File(AskQuestion.askString("Filename?")+".png"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-			}
-		});
+		item.addActionListener(arg0 -> {
+            int w = paintedComponent.getWidth();
+            int h = paintedComponent.getHeight();
+            BufferedImage bi = new
+                BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics g = bi.getGraphics();
+            painter.paintToGraphics(g, paintedComponent.getSize(), timeLineSet, visibleLeft, visibleRight, visibleUp, visibleDown);
+            try {
+                ImageIO.write(bi, "png", new File(AskQuestion.askString("Filename?")+".png"));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+        });
 		actionsMenu.add(item);
 	}
 	
@@ -183,16 +179,13 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 			final int j = i;
 			final JRadioButtonMenuItem noArrows = new JRadioButtonMenuItem(texts[i]);
 			group.add(noArrows);		
-			noArrows.addActionListener(new ActionListener()  {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (noArrows.isSelected()) {
-						painter.setJobDescType(j);
-						paintedComponent.repaint();
-					}
-					
-				}	
-			});
+			noArrows.addActionListener(e -> {
+                if (noArrows.isSelected()) {
+                    painter.setJobDescType(j);
+                    paintedComponent.repaint();
+                }
+
+            });
 			if (i == 1) {
 				noArrows.doClick();
 			}			
@@ -211,16 +204,13 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 			final int j = i;
 			final JRadioButtonMenuItem noArrows = new JRadioButtonMenuItem(texts[i]);
 			group.add(noArrows);		
-			noArrows.addActionListener(new ActionListener()  {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (noArrows.isSelected()) {
-						painter.setArrowType(j);
-						paintedComponent.repaint();
-					}
-					
-				}	
-			});
+			noArrows.addActionListener(e -> {
+                if (noArrows.isSelected()) {
+                    painter.setArrowType(j);
+                    paintedComponent.repaint();
+                }
+
+            });
 			if (i == 2) {
 				noArrows.doClick();
 			}			
@@ -242,16 +232,13 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 			final JRadioButtonMenuItem noArrows = new JRadioButtonMenuItem(texts[i]);
 			group.add(noArrows);
 		
-			noArrows.addActionListener(new ActionListener()  {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (noArrows.isSelected()) {
-						painter.setPaintArrowsType(j);
-						paintedComponent.repaint();
-					}
-					
-				}	
-			});
+			noArrows.addActionListener(e -> {
+                if (noArrows.isSelected()) {
+                    painter.setPaintArrowsType(j);
+                    paintedComponent.repaint();
+                }
+
+            });
 			if (i == 3) {
 				noArrows.doClick();
 			}			
@@ -262,88 +249,66 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 
 	private void addDefineTimeMenuItem(JMenu actionsMenu, final JFrame parent) {
 		final JMenuItem item = new JMenuItem("Set time interval");
-		item.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				final JDialog diag = new JDialog(parent, true);
-				diag.setLayout(new FlowLayout());
-				diag.add(new JLabel("Range:"));
-				final JTextField f1 = new JTextField(10);
-				final JTextField f2 = new JTextField(10);
-				f1.setText(visibleLeft+"");
-				f2.setText(visibleRight+"");
-				diag.add(f1);
-				diag.add(new JLabel("-"));
-				diag.add(f2);
-				JButton ok = new JButton("OK");
-				diag.add(ok);
-				f1.addKeyListener(new ReturnKeyListener(ok));
-				f2.addKeyListener(new ReturnKeyListener(ok));				
-				
-				ok.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						diag.setVisible(false);
-						int left = Integer.parseInt(f1.getText());
-						int right = Integer.parseInt(f2.getText());
-						horizontalSBar.setValues(left, right-left, xLimitLeft, (right > xLimitRight) ? right : xLimitRight);
-						paintedComponent.repaint();
-					}
-				});			
-				diag.setSize(new Dimension(300, 80));
-				diag.setVisible(true);	
-			}
-		});
+		item.addActionListener(arg0 -> {
+            final JDialog diag = new JDialog(parent, true);
+            diag.setLayout(new FlowLayout());
+            diag.add(new JLabel("Range:"));
+            final JTextField f1 = new JTextField(10);
+            final JTextField f2 = new JTextField(10);
+            f1.setText(visibleLeft+"");
+            f2.setText(visibleRight+"");
+            diag.add(f1);
+            diag.add(new JLabel("-"));
+            diag.add(f2);
+            JButton ok = new JButton("OK");
+            diag.add(ok);
+            f1.addKeyListener(new ReturnKeyListener(ok));
+            f2.addKeyListener(new ReturnKeyListener(ok));
+
+            ok.addActionListener(arg01 -> {
+                diag.setVisible(false);
+                int left = Integer.parseInt(f1.getText());
+                int right = Integer.parseInt(f2.getText());
+                horizontalSBar.setValues(left, right - left, xLimitLeft, right > xLimitRight ? right : xLimitRight);
+                paintedComponent.repaint();
+            });
+            diag.setSize(new Dimension(300, 80));
+            diag.setVisible(true);
+        });
 		actionsMenu.add(item);	
 	}
 	
 	private void addDefineLineHeightItem(JMenu actionsMenu, final JFrame parent) {
 		final JMenuItem item = new JMenuItem("Set number of pixels per line");
-		item.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				final JDialog diag = new JDialog(parent, true);
-				diag.setLayout(new FlowLayout());
-				diag.add(new JLabel("Height:"));
-				final JTextField f1 = new JTextField(10);
-				f1.setText(painter.yheightPerLine + "");
-				
-				diag.add(f1);
-				final JButton ok = new JButton("OK");
-				diag.add(ok);
-				ok.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						diag.setVisible(false);
-						int height = Integer.parseInt(f1.getText());
-						int componentHeight = painter.yheightPerLine * (visibleDown - visibleUp);
-						int newComponentHeight = height * (visibleDown - visibleUp);
-						int diff = componentHeight - newComponentHeight;
-						
-						Rectangle bounds = parent.getBounds();
-						bounds.height -= diff;
-						parent.setBounds(bounds);
-						paintedComponent.repaint();
-					}
-				});
-			//	diag.setFocusable(true);
-				diag.setSize(new Dimension(300, 80));
-				f1.addKeyListener(new ReturnKeyListener(ok));
-				diag.setVisible(true);	
-				SwingUtilities.invokeLater(new Runnable() {
-					   @Override
-					   public void run() {
-					      f1.requestFocus();			
-					   }
-					 
-				});
-				
-			}
-		});
+		item.addActionListener(arg0 -> {
+            final JDialog diag = new JDialog(parent, true);
+            diag.setLayout(new FlowLayout());
+            diag.add(new JLabel("Height:"));
+            final JTextField f1 = new JTextField(10);
+            f1.setText(painter.yheightPerLine + "");
+
+            diag.add(f1);
+            final JButton ok = new JButton("OK");
+            diag.add(ok);
+            ok.addActionListener(arg01 -> {
+                diag.setVisible(false);
+                int height = Integer.parseInt(f1.getText());
+                int componentHeight = painter.yheightPerLine * (visibleDown - visibleUp);
+                int newComponentHeight = height * (visibleDown - visibleUp);
+                int diff = componentHeight - newComponentHeight;
+
+                Rectangle bounds = parent.getBounds();
+                bounds.height -= diff;
+                parent.setBounds(bounds);
+                paintedComponent.repaint();
+            });
+        //	diag.setFocusable(true);
+            diag.setSize(new Dimension(300, 80));
+            f1.addKeyListener(new ReturnKeyListener(ok));
+            diag.setVisible(true);
+            SwingUtilities.invokeLater(() -> f1.requestFocus());
+
+        });
 		actionsMenu.add(item);
 	}	
 
@@ -388,7 +353,7 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 			
 			
 			double newDisplayed = Math.min(actuallyDisplayed * factor, xLimitRight);
-			double diff = (actuallyDisplayed - newDisplayed);
+			double diff = actuallyDisplayed - newDisplayed;
 			if (arg0.getWheelRotation() == -1) {
 				double newCentralPoint = (double)arg0.getX()/(double)f.getWidth();	
 				if (newCentralPoint < 0.2) { 
@@ -397,11 +362,11 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 				if (newCentralPoint > 0.8) {
 					newCentralPoint = 1;
 				}
-				visibleLeft = (int) Math.max(0, Math.min(visibleLeft + (diff*newCentralPoint), xLimitRight-1));
-				visibleRight = (int) Math.max(visibleLeft+1, Math.min(visibleRight - (diff*(1-newCentralPoint)), xLimitRight));
+				visibleLeft = (int) Math.max(0, Math.min(visibleLeft + diff*newCentralPoint, xLimitRight-1));
+				visibleRight = (int) Math.max(visibleLeft+1, Math.min(visibleRight - diff*(1-newCentralPoint), xLimitRight));
 			} else {
-				visibleLeft = (int) Math.max(0, Math.min(visibleLeft + (diff*0.5), xLimitRight-1));
-				visibleRight = (int) Math.max(visibleLeft+1, Math.min(visibleRight - (diff*0.5), xLimitRight));	
+				visibleLeft = (int) Math.max(0, Math.min(visibleLeft + diff*0.5, xLimitRight-1));
+				visibleRight = (int) Math.max(visibleLeft+1, Math.min(visibleRight - diff*0.5, xLimitRight));
 				if (visibleRight - visibleLeft < newDisplayed && newDisplayed > xLimitRight*0.9) {
 					visibleLeft = 0;
 					visibleRight = xLimitRight;
@@ -411,7 +376,7 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 			horizontalSBar.setValues(visibleLeft, visibleRight-visibleLeft, xLimitLeft, xLimitRight);
 		} else {
 			int shift = arg0.getWheelRotation();
-			boolean neg = (shift < 0);
+			boolean neg = shift < 0;
 			shift = (int)Math.pow(2, Math.abs(shift));
 			shift = neg ? -shift : shift;			
 			if (shift < 0) {
@@ -440,7 +405,7 @@ public class TimeLineGUI implements AdjustmentListener, MouseWheelListener, Mous
 		
 		int mouseX = e.getX() - xOffset;
 		double ratio = (double) mouseX/ (double) (paintedComponent.getWidth() - xOffset);
-		int ns = (int) (visibleLeft + ((visibleRight - visibleLeft)*ratio));
+		int ns = (int) (visibleLeft + (visibleRight - visibleLeft)*ratio);
 		
 		
 		

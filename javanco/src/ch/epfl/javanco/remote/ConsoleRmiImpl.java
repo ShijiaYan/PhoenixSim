@@ -27,7 +27,7 @@ public class ConsoleRmiImpl extends RMIServerBaseObject implements IConsoleRMI {
 	 */
 	private GraphHandlerFactory graphHandlerFactory = null;
 
-	private Hashtable<String, AbstractGraphHandler> publishedHandlers = new Hashtable<String, AbstractGraphHandler>();
+	private Hashtable<String, AbstractGraphHandler> publishedHandlers = new Hashtable<>();
 	/**
 	 * 
 	 */
@@ -113,30 +113,28 @@ public class ConsoleRmiImpl extends RMIServerBaseObject implements IConsoleRMI {
 	}
 
 	private void startWebConsole() {
-		Runnable r = new Runnable() {
-			public void run() {
-				try {
-					ServerSocket ss = new ServerSocket(8089);
-					while(true) {
-						try {
-							Socket s = ss.accept();
-							OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream());
-							for (AbstractGraphHandler agh : publishedHandlers.values()) {
-								osw.write(agh+"\r\n");
-							}
-							osw.close();
-							s.close();
-						}
-						catch (Throwable t) {
-							System.out.println("t" + t);
-						}
-					}
-				}
-				catch (Exception e) {
-					System.out.println(e);
-				}
-			}
-		};
+		Runnable r = () -> {
+            try {
+                ServerSocket ss = new ServerSocket(8089);
+                while(true) {
+                    try {
+                        Socket s = ss.accept();
+                        OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream());
+                        for (AbstractGraphHandler agh : publishedHandlers.values()) {
+                            osw.write(agh+"\r\n");
+                        }
+                        osw.close();
+                        s.close();
+                    }
+                    catch (Throwable t) {
+                        System.out.println("t" + t);
+                    }
+                }
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
+        };
 		Thread t = new Thread(r);
 		t.setName("JavancoRMIConsole_Console");
 		t.start();

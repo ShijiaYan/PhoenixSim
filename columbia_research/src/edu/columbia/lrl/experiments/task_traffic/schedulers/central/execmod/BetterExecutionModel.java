@@ -47,7 +47,7 @@ public class BetterExecutionModel extends AbstractTaskExecutionModel {
 			}
 			@SuppressWarnings("unchecked")
 			ArrayList<Integer> allocation = (ArrayList<Integer>)reception;
-			ArrayList<Integer> allocated = new ArrayList<Integer>();
+			ArrayList<Integer> allocated = new ArrayList<>();
 			if (allocation.size() > 0) {
 								
 
@@ -80,7 +80,7 @@ public class BetterExecutionModel extends AbstractTaskExecutionModel {
 						if (!(o instanceof ResponseToDelegation)) throw new IllegalStateException("Object is " + o.getClass());
 						ResponseToDelegation del = (ResponseToDelegation)o;
 						allocated.remove(del.getNodeIndex());		
-						if (subTaskListCopy.size() <= (allocation.size() + 1) && test) {
+						if (subTaskListCopy.size() <= allocation.size() + 1 && test) {
 						//	allocated.remove(del.getNodeIndex());
 							c.send(ref, new NodeDoneMessage(del.getNodeIndex()), appl.NODE_DONE_MESSAGE_SIZE, 0, 1/* high priority*/);
 						} else {

@@ -59,7 +59,7 @@ public class FileUploadService extends AbstractJavancoService {
 			DiskFileUpload diskUpload = new DiskFileUpload();
 			diskUpload.setRepositoryPath(new File(JavancoFile.getDefaultOutputDir()).getAbsolutePath());
 			List<?> multiContentItemList = diskUpload.parseRequest(req);
-			arguments = new Hashtable<String,String>();
+			arguments = new Hashtable<>();
 			for (Object o : multiContentItemList) {
 				FileItem fi = (FileItem)o;
 				if (fi.getFieldName().equals(fileFieldName)) {

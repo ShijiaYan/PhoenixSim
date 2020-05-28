@@ -47,8 +47,8 @@ public class MatlabChart_old {
 
     public MatlabChart_old() {
         font = JFreeChart.DEFAULT_TITLE_FONT;
-        colors = new ArrayList<Color>();
-        strokes = new ArrayList<Stroke>();
+        colors = new ArrayList<>();
+        strokes = new ArrayList<>();
         dataset = new XYSeriesCollection();
     }
     //*********************************************************
@@ -162,12 +162,7 @@ public class MatlabChart_old {
 
     @SuppressWarnings("unused")
 	private boolean getExists() {
-        if (chart == null) {
-            return false ;
-        }
-        else{
-            return true ;
-        }
+        return chart != null;
     }
 
     //*********************************************************
@@ -492,8 +487,8 @@ public class MatlabChart_old {
     //***************Colors and Specs of the plot**************************
 
     public void FindColor(String spec, float lineWidth) {
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
         Color color = Color.RED;                    // Default color is red
         Stroke stroke = new BasicStroke(lineWidth); // Default stroke is line
         if (spec.contains("-"))
@@ -522,8 +517,8 @@ public class MatlabChart_old {
 
     // color from java.awt
     public void FindColor(String spec, float lineWidth, Color color) {
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
         Stroke stroke = new BasicStroke(lineWidth); // Default stroke is line
         if (spec.contains("-"))
             stroke = new BasicStroke(lineWidth);
@@ -537,8 +532,8 @@ public class MatlabChart_old {
 
     // color from javafx
     public void FindColor(String spec, float lineWidth, javafx.scene.paint.Color colorfx) {
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
         Stroke stroke = new BasicStroke(lineWidth); // Default stroke is line
         if (spec.contains("-"))
             stroke = new BasicStroke(lineWidth);
@@ -668,7 +663,7 @@ public class MatlabChart_old {
 
     // export to MATLAB
     public void exportToMatlab() throws IOException{
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
         WindowBuilder builder = new WindowBuilder(loader) ;
         builder.setIcon("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/Extras/MatlabIcons/Matlab_Logo.png");
         builder.build("Configure Export To Matlab", false);

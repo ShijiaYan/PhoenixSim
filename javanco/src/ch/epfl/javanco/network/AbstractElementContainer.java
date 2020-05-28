@@ -53,7 +53,7 @@ public abstract class AbstractElementContainer implements Serializable {
 
 	private HashMap<String, NetworkAttribute> getAttVector() {
 		if (attributeVector == null) {
-			attributeVector = new HashMap<String, NetworkAttribute>(4, 0.85f);
+			attributeVector = new HashMap<>(4, 0.85f);
 		}
 		return attributeVector;
 	}
@@ -77,7 +77,7 @@ public abstract class AbstractElementContainer implements Serializable {
 	}
 
 	public boolean isInTheSameGraph(AbstractElementContainer other) {
-		return (this.getAbstractGraphHandler() == other.getAbstractGraphHandler());
+		return this.getAbstractGraphHandler() == other.getAbstractGraphHandler();
 	}
 
 	public boolean isFullyCreated() {
@@ -114,7 +114,7 @@ public abstract class AbstractElementContainer implements Serializable {
 	 */
 	public JavancoXMLElement getElement(String key) {
 		if (elementMap != null) {
-			if ((key == null) || (elementMap.get(key) == null)) {
+			if (key == null || elementMap.get(key) == null) {
 				return elementMap.get(XMLTagKeywords.MAIN_DESCRIPTION.toString());
 			} else {
 				return elementMap.get(key);
@@ -124,7 +124,7 @@ public abstract class AbstractElementContainer implements Serializable {
 	}
 
 	public Map<String, JavancoXMLElement> getElementMap() {
-		Map<String, JavancoXMLElement> newMap = new Hashtable<String, JavancoXMLElement>();
+		Map<String, JavancoXMLElement> newMap = new Hashtable<>();
 		for (Map.Entry<String,JavancoXMLElement> entry : elementMap.entrySet()) {
 			if (entry.getKey().equals("additional_description")) {
 				// encodes the associated AbstractElement if any
@@ -170,7 +170,7 @@ public abstract class AbstractElementContainer implements Serializable {
 		element.setAssociatedKeyword(key);
 
 		if (elementMap == null) {
-			elementMap = new HashMap<String, JavancoXMLElement>(1);
+			elementMap = new HashMap<>(1);
 		}
 		if (elementMap.get(key) == null) {
 			elementMap.put(key, element);
@@ -199,14 +199,14 @@ public abstract class AbstractElementContainer implements Serializable {
 				}
 				att.transfer(toRemove, element);
 			}
-			Vector<NetworkAttribute> scheduledToRemove = new Vector<NetworkAttribute>();
-			Vector<NetworkAttribute> scheduledToAdd = new Vector<NetworkAttribute>();
+			Vector<NetworkAttribute> scheduledToRemove = new Vector<>();
+			Vector<NetworkAttribute> scheduledToAdd = new Vector<>();
 			for (NetworkAttribute att : element.attributes()) {
 
 				NetworkAttribute actuallyStored = getActuallyStoredAttribute(att.getName());
 				if (actuallyStored != null) {
-					if (!(actuallyStored.getValue().equals(att.getValue()))) {
-						if (!(actuallyStored.getValue().equals(""))) {
+					if (!actuallyStored.getValue().equals(att.getValue())) {
+						if (!actuallyStored.getValue().equals("")) {
 							//	throw new IllegalStateException("Different values in differents blocks with same name");
 						}
 					} else {
@@ -232,10 +232,10 @@ public abstract class AbstractElementContainer implements Serializable {
 	}
 	
 	public void copyAttributesTo(String[] attNames, AbstractElementContainer aec) {
-		for (int i = 0 ; i < attNames.length ; i++) {
-			NetworkAttribute att = this.attribute(attNames[i]);
-			copyAttributeTo(att, aec);
-		}
+        for (String attName : attNames) {
+            NetworkAttribute att = this.attribute(attName);
+            copyAttributeTo(att, aec);
+        }
 	}
 	
  
@@ -332,7 +332,7 @@ public abstract class AbstractElementContainer implements Serializable {
 			toLink.addLinkedElement(target);
 			target.add(toLink);
 		} else {
-			if (!(target.attribute(toLink.getName()).equals(toLink))) {
+			if (!target.attribute(toLink.getName()).equals(toLink)) {
 				throw new IllegalStateException("Trying to link an attribute already linked with the current element");
 			}
 		}
@@ -347,7 +347,7 @@ public abstract class AbstractElementContainer implements Serializable {
 			synchronized (col) {
 				for (NetworkAttribute att : col) {
 					// modified
-					if ((e.attribute(att.getKeyword().toString()) == null) && (att.getKeyword().isCore())) {
+					if (e.attribute(att.getKeyword().toString()) == null && att.getKeyword().isCore()) {
 						e.add(att);
 						toReturn = true;
 					}
@@ -443,7 +443,7 @@ public abstract class AbstractElementContainer implements Serializable {
 	}
 	
 	// use to monitor access to attribute, for performance opti
-	private static HashMap<String, Counter> access = new HashMap<String, Counter>();
+	private static HashMap<String, Counter> access = new HashMap<>();
 	
 	public boolean booleanAttribute(String string) {
 		NetworkAttribute att = this.attribute(string, false);
@@ -516,7 +516,7 @@ public abstract class AbstractElementContainer implements Serializable {
 			}
 			return toRet;
 		} else {
-			return new ArrayList<NetworkAttribute>(0);
+			return new ArrayList<>(0);
 		}
 	}
 
@@ -566,7 +566,7 @@ public abstract class AbstractElementContainer implements Serializable {
 	}
 
 	public void removeAllFloatingAttributes() {
-		Vector<NetworkAttribute> toRemove = new Vector<NetworkAttribute>();
+		Vector<NetworkAttribute> toRemove = new Vector<>();
 		for (NetworkAttribute att : attributes()) {
 			if (att.isFloating()) {
 				toRemove.add(att);
@@ -636,8 +636,8 @@ public abstract class AbstractElementContainer implements Serializable {
 
 	protected Object getInstance(Class<? extends AbstractElement> objectClass) throws InstantiationException {
 		try {
-			java.lang.reflect.Constructor<? extends AbstractElement> c = objectClass.getConstructor(new Class[]{});
-			return c.newInstance(new Object[]{});
+			java.lang.reflect.Constructor<? extends AbstractElement> c = objectClass.getConstructor();
+			return c.newInstance();
 		}
 		catch (NoSuchMethodException e) {
 			throw new InstantiationException("Exception occured : impossible to access the constructor of class "
@@ -645,7 +645,7 @@ public abstract class AbstractElementContainer implements Serializable {
 		}
 		catch (InstantiationException e) {
 			// should not be here
-			assert (0==1);
+			assert 0==1;
 			throw new IllegalStateException(e);
 		}
 		catch (IllegalAccessException e) {

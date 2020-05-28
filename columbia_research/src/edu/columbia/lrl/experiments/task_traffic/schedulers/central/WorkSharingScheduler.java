@@ -43,7 +43,7 @@ public class WorkSharingScheduler extends AbstractScheduler implements Experimen
 								AbstractPoolManager poolManager) {	
 		this.taskExecMod = taskMod;	
 		this.poolManager = poolManager;
-		taskQueue = new ArrayDeque<RootTask>();	
+		taskQueue = new ArrayDeque<>();
 	}
 	
 	@Override
@@ -87,7 +87,7 @@ public class WorkSharingScheduler extends AbstractScheduler implements Experimen
 					c.idle(ref, timeOutDelay);
 				}			
 			} else {
-				c.doSomeJob(timeBefore, (ref.getNanoseconds() - timeBefore.getNanoseconds()), "wait ", TimeLine.EnumType.WAIT);
+				c.doSomeJob(timeBefore, ref.getNanoseconds() - timeBefore.getNanoseconds(), "wait ", TimeLine.EnumType.WAIT);
 				// if blockingread returns null, this means that the next task has to start
 				if (!schedule(c, task, ref)) {
 					// enqueue

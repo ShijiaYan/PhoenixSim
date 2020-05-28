@@ -23,13 +23,13 @@ public class DegreeBasedSpanningTreeFinder extends AbstractSpanningTreeFinder {
 		}
 
 		agh.newLayer(destinationLayer);
-		Set<Integer> nodesInTree = new TreeSet<Integer>();
+		Set<Integer> nodesInTree = new TreeSet<>();
 
 		CoefficientComparableContainer<LinkContainer, NodeContainer> required
-		= new CoefficientComparableContainer<LinkContainer, NodeContainer>(null, null);
+		= new CoefficientComparableContainer<>(null, null);
 
 		TreeSet<CoefficientComparableContainer<LinkContainer, NodeContainer>> candidates
-		= new TreeSet<CoefficientComparableContainer<LinkContainer, NodeContainer>>(
+		= new TreeSet<>(
 				required.getParticularComparator(new NodeDegreeComparator()));
 
 		LayerContainer top = agh.getLayerContainer(topologyLayer);
@@ -43,7 +43,7 @@ public class DegreeBasedSpanningTreeFinder extends AbstractSpanningTreeFinder {
 
 		for (LinkContainer lc : start.getConnectedLinks()) {
 			CoefficientComparableContainer<LinkContainer, NodeContainer> co
-			= new CoefficientComparableContainer<LinkContainer, NodeContainer>(lc, lc.getOtherNodeContainer(start.getIndex()));
+			= new CoefficientComparableContainer<>(lc, lc.getOtherNodeContainer(start.getIndex()));
 			candidates.add(co);
 		}
 
@@ -57,7 +57,7 @@ public class DegreeBasedSpanningTreeFinder extends AbstractSpanningTreeFinder {
 				NodeContainer otherNode = lic.getOtherNodeContainer(toAdd.getIndex());
 				if (nodesInTree.contains(otherNode.getIndex()) == false) {
 					CoefficientComparableContainer<LinkContainer, NodeContainer> co
-					= new CoefficientComparableContainer<LinkContainer, NodeContainer>(lic, otherNode);
+					= new CoefficientComparableContainer<>(lic, otherNode);
 					candidates.add(co);
 				}
 			}

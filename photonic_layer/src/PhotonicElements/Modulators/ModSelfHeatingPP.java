@@ -44,11 +44,7 @@ public class ModSelfHeatingPP {
 	}
 
 	private double[] getResSolutions(){
-		RealRootFunction func = new RealRootFunction() {
-			public double function(double x) {
-				return getResEquation(x);
-			}
-		};
+		RealRootFunction func = x -> getResEquation(x);
 		RealRootFinder roots = new RealRootFinder(func, 0, 20) ;
 		roots.setAccuracy(1e-3);
 		roots.findAllRoots();

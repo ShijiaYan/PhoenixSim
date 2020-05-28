@@ -29,7 +29,7 @@ public class RingScalability extends Scalability {
 			dp.addResultProperty("Unused wavelengths", unusedWavelengths);
 			dp.addResultProperty("Connecting node left", requiredConnectingNodesLeft);
 			dp.addResultProperty("Connecting nodes right", requiredConnectingNodesRight);
-			dp.addResultProperty("Total connecting nodes", (requiredConnectingNodesLeft + requiredConnectingNodesRight));
+			dp.addResultProperty("Total connecting nodes", requiredConnectingNodesLeft + requiredConnectingNodesRight);
 			dp.addResultProperty("Load with left", loads[0]);
 			dp.addResultProperty("Load with rights", loads[1]);	
 			dp.addResultProperty("Exhange with left", exchangesWithLeftRight[0]);
@@ -80,15 +80,15 @@ public class RingScalability extends Scalability {
 			int connectionsRights = (int)Math.floor(nbStars/2d);
 			int connectionsLeft;
 			if (nbStars % 2 == 0) {
-				connectionsLeft = (nbStars/2)-1;
+				connectionsLeft = nbStars/2 -1;
 			} else {
 				connectionsLeft = (int)Math.floor(nbStars/2d);
 			}
 			for (int j = 0 ; j < connectionsRights ; j++) {
-				trafficFromLeft[(i+j+1)%nbStars] += (connectionsRights - j);
+				trafficFromLeft[(i+j+1)%nbStars] += connectionsRights - j;
 			}
 			for (int j = 0 ; j < connectionsLeft ; j++) {
-				trafficFromRight[(i-j-1+nbStars)%nbStars] += (connectionsLeft -j);
+				trafficFromRight[(i-j-1+nbStars)%nbStars] += connectionsLeft -j;
 			}
 		}
 

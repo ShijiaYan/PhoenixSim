@@ -9,7 +9,7 @@ import edu.columbia.lrl.general.Message;
 
 public class ImprovedBuffer extends SpinnetBuffer {
 	
-	protected LinkedList<Message> fifo = new LinkedList<Message>();
+	protected LinkedList<Message> fifo = new LinkedList<>();
 	protected double busyUntil = -1;
 	
 	public ImprovedBuffer(int maxSize, double bufferLatency, double spinetSwitchingTimeNS, int index) {

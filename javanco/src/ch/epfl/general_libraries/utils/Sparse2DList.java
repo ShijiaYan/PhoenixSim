@@ -8,18 +8,18 @@ public class Sparse2DList<T> {
 	
 	private static ArrayList empty = new ArrayList(0);
 	
-	private HashMap<Integer,HashMap<Integer, ArrayList<T>>> map = new HashMap<Integer,HashMap<Integer, ArrayList<T>>>();
+	private HashMap<Integer,HashMap<Integer, ArrayList<T>>> map = new HashMap<>();
 	
 	public void add(int i , int j, T a) {
 		HashMap<Integer, ArrayList<T>> sub = map.get(i);
 		if (sub == null) {
-			sub = new HashMap<Integer, ArrayList<T>>();
+			sub = new HashMap<>();
 			map.put(i, sub);
 		}
 		
 		ArrayList<T> list = sub.get(j);
 		if (list == null) {
-			list = new ArrayList<T>(1);
+			list = new ArrayList<>(1);
 			sub.put(j, list);
 		}
 		list.add(a);
@@ -28,13 +28,13 @@ public class Sparse2DList<T> {
 	public void addAll(int i, int j, Collection<T> t) {
 		HashMap<Integer, ArrayList<T>> sub = map.get(i);
 		if (sub == null) {
-			sub = new HashMap<Integer, ArrayList<T>>();
+			sub = new HashMap<>();
 			map.put(i, sub);
 		}
 		
 		ArrayList<T> list = sub.get(j);
 		if (list == null) {
-			list = new ArrayList<T>(1);
+			list = new ArrayList<>(1);
 			sub.put(j, list);
 		}
 		list.addAll(t);		

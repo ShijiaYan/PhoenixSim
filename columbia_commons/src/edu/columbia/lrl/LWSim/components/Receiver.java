@@ -34,8 +34,8 @@ public class Receiver implements TrafficDestination, EventOrigin {
 	protected int index;
 	protected Notifiable notifiable;
 	
-	public TreeMap<Integer, Integer> lastReceived = new TreeMap<Integer, Integer>();
-	public TreeMap<Integer, Integer> lastPartial = new TreeMap<Integer, Integer>();
+	public TreeMap<Integer, Integer> lastReceived = new TreeMap<>();
+	public TreeMap<Integer, Integer> lastPartial = new TreeMap<>();
 	
 	public Receiver(int index) {
 		this.index = index;

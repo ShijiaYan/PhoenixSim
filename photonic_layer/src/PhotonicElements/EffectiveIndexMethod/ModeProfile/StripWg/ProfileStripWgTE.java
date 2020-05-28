@@ -118,9 +118,9 @@ public class ProfileStripWgTE {
 	@SuppressWarnings("unused")
 	private void findXi(){
 		// for x ************************
-		double arg_xi_x1 = Math.atan((n1*n1*gamma2)/(n2*n2*kx)) ;
+		double arg_xi_x1 = Math.atan(n1*n1*gamma2 /(n2*n2*kx)) ;
 //		System.out.println(arg_xi_x1);
-		double arg_xi_x2 = Math.atan((n1*n1*gamma3)/(n3*n3*kx)) ;
+		double arg_xi_x2 = Math.atan(n1*n1*gamma3 /(n3*n3*kx)) ;
 //		System.out.println(arg_xi_x2);
 		xi_x = -d/2 + 1/kx * (mIndex*Math.PI/2 + arg_xi_x2) ;
 //		System.out.println(xi_x);
@@ -184,7 +184,7 @@ public class ProfileStripWgTE {
 			dez_dx = A3 * gamma2 * Math.exp(gamma2*(x+d/2)) * Math.cos(ky*(y+xi_y)) ;
 		}
 		else if(region3.isInside(xNm, yNm) || region3.isOnTheBorder(xNm, yNm)){
-			dez_dx = A5 * (-gamma3)* Math.exp(-gamma3*(x-d/2)) * Math.cos(ky*(y+xi_y)) ;
+			dez_dx = A5 * -gamma3 * Math.exp(-gamma3*(x-d/2)) * Math.cos(ky*(y+xi_y)) ;
 		}
 		else if(region4.isInside(xNm, yNm) || region4.isOnTheBorder(xNm, yNm)){
 			dez_dx = A7 * kx * Math.cos(kx*(x+xi_x)) * Math.exp(gamma4*(y+b/2)) ;
@@ -200,19 +200,19 @@ public class ProfileStripWgTE {
 		double y = yNm*1e-9 ;
 		double dez_dy = 0 ;
 		if(region1.isInside(xNm, yNm) || region1.isOnTheBorder(xNm, yNm)){
-			dez_dy = A1 * Math.sin(kx*(x+xi_x)) * (-ky)* Math.sin(ky*(y+xi_y)) ;
+			dez_dy = A1 * Math.sin(kx*(x+xi_x)) * -ky * Math.sin(ky*(y+xi_y)) ;
 		}
 		if(region2.isInside(xNm, yNm) || region2.isOnTheBorder(xNm, yNm)){
-			dez_dy = A3 * Math.exp(gamma2*(x+d/2)) * (-ky)* Math.sin(ky*(y+xi_y)) ;
+			dez_dy = A3 * Math.exp(gamma2*(x+d/2)) * -ky * Math.sin(ky*(y+xi_y)) ;
 		}
 		else if(region3.isInside(xNm, yNm) || region3.isOnTheBorder(xNm, yNm)){
-			dez_dy = A5 * Math.exp(-gamma3*(x-d/2)) * (-ky)* Math.sin(ky*(y+xi_y)) ;
+			dez_dy = A5 * Math.exp(-gamma3*(x-d/2)) * -ky * Math.sin(ky*(y+xi_y)) ;
 		}
 		else if(region4.isInside(xNm, yNm) || region4.isOnTheBorder(xNm, yNm)){
-			dez_dy = A7 * Math.sin(kx*(x+xi_x)) * (gamma4)* Math.exp(gamma4*(y+b/2)) ;
+			dez_dy = A7 * Math.sin(kx*(x+xi_x)) * gamma4 * Math.exp(gamma4*(y+b/2)) ;
 		}
 		else if(region5.isInside(xNm, yNm) || region5.isOnTheBorder(xNm, yNm)){
-			dez_dy = A9 * Math.sin(kx*(x+xi_x)) * (-gamma5)* Math.exp(-gamma5*(y-b/2)) ;
+			dez_dy = A9 * Math.sin(kx*(x+xi_x)) * -gamma5 * Math.exp(-gamma5*(y-b/2)) ;
 		}
 		return new Complex(dez_dy, 0) ;
 	}
@@ -244,19 +244,19 @@ public class ProfileStripWgTE {
 		double y = yNm*1e-9 ;
 		double dhz_dx = 0 ;
 		if(region1.isInside(xNm, yNm) || region1.isOnTheBorder(xNm, yNm)){
-			dhz_dx = A2 * (-kx)* Math.sin(kx*(x+xi_x)) * Math.sin(ky*(y+xi_y)) ;
+			dhz_dx = A2 * -kx * Math.sin(kx*(x+xi_x)) * Math.sin(ky*(y+xi_y)) ;
 		}
 		else if(region2.isInside(xNm, yNm) || region2.isOnTheBorder(xNm, yNm)){
-			dhz_dx = A4 * (gamma2)*Math.exp(gamma2*(x+d/2)) * Math.sin(ky*(y+xi_y)) ;
+			dhz_dx = A4 * gamma2 *Math.exp(gamma2*(x+d/2)) * Math.sin(ky*(y+xi_y)) ;
 		}
 		else if(region3.isInside(xNm, yNm) || region3.isOnTheBorder(xNm, yNm)){
-			dhz_dx = A6 *(-gamma3)* Math.exp(-gamma3*(x-d/2)) * Math.sin(ky*(y+xi_y)) ;
+			dhz_dx = A6 * -gamma3 * Math.exp(-gamma3*(x-d/2)) * Math.sin(ky*(y+xi_y)) ;
 		}
 		else if(region4.isInside(xNm, yNm) || region4.isOnTheBorder(xNm, yNm)){
-			dhz_dx = A8 * (-kx)* Math.sin(kx*(x+xi_x)) * Math.exp(gamma4*(y+b/2)) ;
+			dhz_dx = A8 * -kx * Math.sin(kx*(x+xi_x)) * Math.exp(gamma4*(y+b/2)) ;
 		}
 		else if(region5.isInside(xNm, yNm) || region5.isOnTheBorder(xNm, yNm)){
-			dhz_dx = A10 * (-kx)* Math.sin(kx*(x+xi_x)) * Math.exp(-gamma5*(y-b/2)) ;
+			dhz_dx = A10 * -kx * Math.sin(kx*(x+xi_x)) * Math.exp(-gamma5*(y-b/2)) ;
 		}
 		return new Complex(dhz_dx, 0) ;
 	}
@@ -266,19 +266,19 @@ public class ProfileStripWgTE {
 		double y = yNm*1e-9 ;
 		double dhz_dy = 0 ;
 		if(region1.isInside(xNm, yNm) || region1.isOnTheBorder(xNm, yNm)){
-			dhz_dy = A2 * Math.cos(kx*(x+xi_x)) * (ky)* Math.cos(ky*(y+xi_y)) ;
+			dhz_dy = A2 * Math.cos(kx*(x+xi_x)) * ky * Math.cos(ky*(y+xi_y)) ;
 		}
 		else if(region2.isInside(xNm, yNm) || region2.isOnTheBorder(xNm, yNm)){
-			dhz_dy = A4 * Math.exp(gamma2*(x+d/2)) * (ky)* Math.cos(ky*(y+xi_y)) ;
+			dhz_dy = A4 * Math.exp(gamma2*(x+d/2)) * ky * Math.cos(ky*(y+xi_y)) ;
 		}
 		else if(region3.isInside(xNm, yNm) || region3.isOnTheBorder(xNm, yNm)){
-			dhz_dy = A6 * Math.exp(-gamma3*(x-d/2)) * (ky)* Math.cos(ky*(y+xi_y)) ;
+			dhz_dy = A6 * Math.exp(-gamma3*(x-d/2)) * ky * Math.cos(ky*(y+xi_y)) ;
 		}
 		else if(region4.isInside(xNm, yNm) || region4.isOnTheBorder(xNm, yNm)){
-			dhz_dy = A8 * Math.cos(kx*(x+xi_x)) * (gamma4)* Math.exp(gamma4*(y+b/2)) ;
+			dhz_dy = A8 * Math.cos(kx*(x+xi_x)) * gamma4 * Math.exp(gamma4*(y+b/2)) ;
 		}
 		else if(region5.isInside(xNm, yNm) || region5.isOnTheBorder(xNm, yNm)){
-			dhz_dy = A10 * Math.cos(kx*(x+xi_x)) * (-gamma5)* Math.exp(-gamma5*(y-b/2)) ;
+			dhz_dy = A10 * Math.cos(kx*(x+xi_x)) * -gamma5 * Math.exp(-gamma5*(y-b/2)) ;
 		}
 		return new Complex(dhz_dy, 0) ;
 	}
@@ -287,7 +287,7 @@ public class ProfileStripWgTE {
 		Complex coeff = minusJ.times(1/getKsquared()) ;
 		Complex E_term = get_dEz_dx().times(beta) ;
 		Complex H_term = get_dHz_dy().times(omega*mu0) ;
-		Complex Ex = (E_term.plus(H_term)).times(coeff) ;
+		Complex Ex = E_term.plus(H_term).times(coeff) ;
 		return Ex ;
 	}
 	
@@ -295,7 +295,7 @@ public class ProfileStripWgTE {
 		Complex coeff = minusJ.times(1/getKsquared()) ;
 		Complex E_term = get_dEz_dy().times(beta) ;
 		Complex H_term = get_dHz_dx().times(-omega*mu0) ;
-		Complex Ey = (E_term.plus(H_term)).times(coeff) ;
+		Complex Ey = E_term.plus(H_term).times(coeff) ;
 		return Ey ;
 	}
 	
@@ -303,7 +303,7 @@ public class ProfileStripWgTE {
 		Complex coeff = minusJ.times(1/getKsquared()) ;
 		Complex E_term = get_dHz_dx().times(beta) ;
 		Complex H_term = get_dEz_dy().times(-getIndex()*getIndex()*omega*eps0) ;
-		Complex Hx = (E_term.plus(H_term)).times(coeff) ;
+		Complex Hx = E_term.plus(H_term).times(coeff) ;
 		return Hx ;
 	}
 	
@@ -311,43 +311,43 @@ public class ProfileStripWgTE {
 		Complex coeff = minusJ.times(1/getKsquared()) ;
 		Complex E_term = get_dHz_dy().times(beta) ;
 		Complex H_term = get_dEz_dx().times(getIndex()*getIndex()*omega*eps0) ;
-		Complex Hy = (E_term.plus(H_term)).times(coeff) ;
+		Complex Hy = E_term.plus(H_term).times(coeff) ;
 		return Hy ;
 	}
 	
 	private double getKsquared(){
 		if(region1.isInside(xNm, yNm) || region1.isOnTheBorder(xNm, yNm)){
-			return (n1*n1*k0*k0-beta*beta) ;
+			return n1*n1*k0*k0-beta*beta;
 		}
 		else if(region2.isInside(xNm, yNm) || region2.isOnTheBorder(xNm, yNm)){
-			return (n2*n2*k0*k0-beta*beta) ;
+			return n2*n2*k0*k0-beta*beta;
 		}
 		else if(region3.isInside(xNm, yNm) || region3.isOnTheBorder(xNm, yNm)){
-			return (n3*n3*k0*k0-beta*beta) ;
+			return n3*n3*k0*k0-beta*beta;
 		}
 		else if(region4.isInside(xNm, yNm) || region4.isOnTheBorder(xNm, yNm)){
-			return (n4*n4*k0*k0-beta*beta) ;
+			return n4*n4*k0*k0-beta*beta;
 		}
 		else{
-			return (n5*n5*k0*k0-beta*beta) ;
+			return n5*n5*k0*k0-beta*beta;
 		}
 	}
 	
 	public double getIndex(){
 		if(region1.isInside(xNm, yNm) || region1.isOnTheBorder(xNm, yNm)){
-			return (n1) ;
+			return n1;
 		}
 		else if(region2.isInside(xNm, yNm) || region2.isOnTheBorder(xNm, yNm)){
-			return (n2) ;
+			return n2;
 		}
 		else if(region3.isInside(xNm, yNm) || region3.isOnTheBorder(xNm, yNm)){
-			return (n3) ;
+			return n3;
 		}
 		else if(region4.isInside(xNm, yNm) || region4.isOnTheBorder(xNm, yNm)){
-			return (n4) ;
+			return n4;
 		}
 		else{
-			return (n5) ;
+			return n5;
 		}
 	}
 	

@@ -37,7 +37,7 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 
 	@Override
 	public Map<String, String> getRandomGeneratorParameters() {
-		TreeMap<String, String> map = new TreeMap<String, String>();
+		TreeMap<String, String> map = new TreeMap<>();
 		map.put("radius",radius+"");
 		map.put("limit_angle",limitAngle+"");
 		map.put("adjacent_node_link_probability", adjP+"");
@@ -112,7 +112,7 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 		this.altP = altP;
 		this.radius = scale;
 		this.radiusRange = radRange;
-		this.invRadRange = 2-(radiusRange*2);
+		this.invRadRange = 2- radiusRange*2;
 	}
 
 
@@ -132,9 +132,9 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 
 	private void placeNodesAndLinks(AbstractGraphHandler agh, int nbNodes) {
 		boolean stilToLink = false;
-		ArrayList<NodeContainer> levelI = new ArrayList<NodeContainer>();
-		ArrayList<NodeContainer> levelI2 = new ArrayList<NodeContainer>();
-		ArrayList<NodeContainer> levelI3 = new ArrayList<NodeContainer>();
+		ArrayList<NodeContainer> levelI = new ArrayList<>();
+		ArrayList<NodeContainer> levelI2 = new ArrayList<>();
+		ArrayList<NodeContainer> levelI3 = new ArrayList<>();
 
 
 		if (nbNodes <= 0) {
@@ -158,7 +158,7 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 			stilToLink = true;
 			levelI.add(nc);
 			createdNode++;
-			double pi3 = ((Math.PI/3)/actualOrbit);
+			double pi3 = (Math.PI / 3) / actualOrbit;
 			if (actualAngle+pi3 > limitAngle+0.0000001) {
 				actualOrbit++;
 				actualAngle = 0;
@@ -166,12 +166,12 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 				stilToLink = false;
 				levelI3 = levelI2;
 				levelI2 = levelI;
-				levelI = new ArrayList<NodeContainer>();
+				levelI = new ArrayList<>();
 			} else {
 				actualAngle += pi3;
 			}
 			double rand = stream__.nextDouble()/2;
-			double d = pi3 * (((invRadRange*rand)-(1-radiusRange))/2);
+			double d = pi3 * ((invRadRange*rand -(1-radiusRange))/2);
 			actualAngle += d;
 		}
 		if (stilToLink) {
@@ -185,8 +185,8 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 			ArrayList<NodeContainer> i2,
 			ArrayList<NodeContainer> i3,
 			AbstractGraphHandler agh) {
-		ArrayList<NodeContainer> candidates = new ArrayList<NodeContainer>();
-		ArrayList<LinkContainer> potentialConfLinks = new ArrayList<LinkContainer>();
+		ArrayList<NodeContainer> candidates = new ArrayList<>();
+		ArrayList<LinkContainer> potentialConfLinks = new ArrayList<>();
 		for (NodeContainer l2 : i2) {
 			candidates.add(l2);
 			potentialConfLinks.addAll(l2.getConnectedLinks());
@@ -200,24 +200,23 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 		Collections.shuffle(li, stream__.toRandom());
 
 		Util2DFunctions dfunc = new Util2DFunctions(agh);
-		for (int i = 0 ; i < li.size() ; i++) {
-			NodeContainer nc = li.get(i);
-			for (NodeContainer candi : candidates) {
-				boolean b = dfunc.intersects_(nc, candi, potentialConfLinks);
-				if (b == false) {
-					if (testLink(nc, candi, potentialConfLinks)) {
-						if (Util2DFunctions.distance(nc, candi) < this.radius*2) {
-							if ((stream__.nextDouble() < adjP) || nc.getConnectedLinks().size() == 0) {
-								potentialConfLinks.add(agh.newLink(nc.getIndex(), candi.getIndex()));
-								//	System.out.println(nc.getIndex()+"-"+ candi.getIndex());
-							}
-						}
-					} else {
-						//	System.out.println(nc.getIndex()+"&&&&"+ candi.getIndex());
-					}
-				}
-			}
-		}
+        for (NodeContainer nc : li) {
+            for (NodeContainer candi : candidates) {
+                boolean b = dfunc.intersects_(nc, candi, potentialConfLinks);
+                if (b == false) {
+                    if (testLink(nc, candi, potentialConfLinks)) {
+                        if (Util2DFunctions.distance(nc, candi) < this.radius * 2) {
+                            if (stream__.nextDouble() < adjP || nc.getConnectedLinks().size() == 0) {
+                                potentialConfLinks.add(agh.newLink(nc.getIndex(), candi.getIndex()));
+                                //	System.out.println(nc.getIndex()+"-"+ candi.getIndex());
+                            }
+                        }
+                    } else {
+                        //	System.out.println(nc.getIndex()+"&&&&"+ candi.getIndex());
+                    }
+                }
+            }
+        }
 	}
 
 	private boolean testLink(NodeContainer nc, NodeContainer nc2, ArrayList<LinkContainer> col) {
@@ -253,7 +252,7 @@ public class CirclesPlanarGenerator extends AbstractRandomPlanarGenerator {
 		agh.saveNetwork("circular.xml");
 	}*/
 
-	public static void main(String args[]) throws java.io.IOException {
+	public static void main(String[] args) throws java.io.IOException {
 		double[] nodeLocRand = new double[]{0.1, 0.4, 0.7, 1};
 		double[] angles = new double[]{0.5, 1};
 		double[] adjP  = new double[]{0.5, 0.6, 0.8};

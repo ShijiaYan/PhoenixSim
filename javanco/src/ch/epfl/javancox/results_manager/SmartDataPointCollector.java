@@ -46,8 +46,8 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 	public static boolean usingDpHasRef = false;
 
 	public SmartDataPointCollector() {
-		execList = new ArrayList<InternalExecution>();
-		propList = new TreeMap<String, InternalProperty>(String.CASE_INSENSITIVE_ORDER);
+		execList = new ArrayList<>();
+		propList = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	}
 	
 	public InternalProperty getInternalProperty(String key) {
@@ -71,7 +71,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 	
 	public Map<String, InternalProperty> getPropListCopy() {
 		synchronized (propList) {
-			SimpleMap<String, InternalProperty> gs = new SimpleMap<String, InternalProperty>(propList.size());
+			SimpleMap<String, InternalProperty> gs = new SimpleMap<>(propList.size());
 			for (Map.Entry<String, InternalProperty> s : propList.entrySet()) {
 				gs.put(s.getKey(), s.getValue());
 			}
@@ -117,7 +117,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 
 		CriteriumSet.CriteriaIterator ite = cs.criteriaIterator();
 		for (List<PairList<String, String>> col : ite) {
-			ArrayList<Float> list = new ArrayList<Float>();
+			ArrayList<Float> list = new ArrayList<>();
 			for (InternalExecution exec : getExecListCopy()) {
 				for (InternalDataPoint dp : exec.dataPoints) {
 					if (dp.isDefinedForProperty(metric) == false) {
@@ -144,12 +144,12 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 	}
 
 	public void clear() {
-		execList = new ArrayList<InternalExecution>();
-		propList = new TreeMap<String, InternalProperty>(String.CASE_INSENSITIVE_ORDER);
+		execList = new ArrayList<>();
+		propList = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	}
 
 	public List<String> getMetrics() {
-		List<String> met = new ArrayList<String>();
+		List<String> met = new ArrayList<>();
 		for (InternalProperty ip : propList.values()) {
 			if (ip.isNumbersOnly()) {
 				met.add(ip.name);
@@ -253,7 +253,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 	public Vector[] getVariableAndConstantPropertiesForGivenMetric(String s) {
 		Vector<String> toRet1 = null;
 		try {
-			toRet1 = new Vector<String>(propList.get(s).relatedProperties.keySet());
+			toRet1 = new Vector<>(propList.get(s).relatedProperties.keySet());
 		}
 		catch (NullPointerException e) {
 			System.out.println("hum");
@@ -262,9 +262,9 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 		
 	//	Vector<String> toRemove = new Vector<String>(toRet1.size());
 	//	Vector<String> valOfToRemove = new Vector<String>(toRet1.size());
-		TreeMap<String, String> constants = new TreeMap<String, String>();
+		TreeMap<String, String> constants = new TreeMap<>();
 		
-		ArrayList<InternalDataPoint> list = new ArrayList<InternalDataPoint>(1000);
+		ArrayList<InternalDataPoint> list = new ArrayList<>(1000);
 		for (InternalExecution exec : getExecListCopy()) {
 			for (InternalDataPoint dp : exec.dataPoints) {
 				if (dp.isDefinedForProperty(s) == false) {
@@ -341,12 +341,12 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 				}
 			}
 			if (!check) {
-				return new ArrayList<DataSeries>(0);				
+				return new ArrayList<>(0);
 			}
 		} else {
 			boolean def = false;
 			InternalProperty xAxisProp = propList.get(xAxis);
-			if (xAxisProp == null) return new ArrayList<DataSeries>(0);
+			if (xAxisProp == null) return new ArrayList<>(0);
 			for (List<Criterium> lc : cs) {
 				for (Criterium c : lc) {
 					if (xAxisProp.relatedProperties.get(c.getName()) != null || c.getName().equals(CONSTANT)) {
@@ -356,7 +356,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 				}
 			}
 			if (!def) {
-				return new ArrayList<DataSeries>(0);
+				return new ArrayList<>(0);
 			}
 		}
 
@@ -378,45 +378,44 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 		for (InternalExecution exec : getExecListCopy()) {
 			Vector<InternalDataPoint> vec = exec.dataPoints;
 			int size = vec.size();
-			for (int i = 0 ; i < size ; i++) {
-				InternalDataPoint dp = vec.get(i);
-				if (dp.isDefinedForProperty(methodName) == false) {
-					continue;
-				}
+            for (InternalDataPoint dp : vec) {
+                if (dp.isDefinedForProperty(methodName) == false) {
+                    continue;
+                }
 
-				if (!noXAxis && dp.isDefinedForProperty(xAxis) == false) {
-					continue;
-				}
-				if (filters != null) {
-					if (filter(dp, filters) == false) {
-						continue;
-					}
-				}
+                if (!noXAxis && dp.isDefinedForProperty(xAxis) == false) {
+                    continue;
+                }
+                if (filters != null) {
+                    if (filter(dp, filters) == false) {
+                        continue;
+                    }
+                }
 
-				int index = 0;
-				ite = cs.criteriaIterator();
-				for (List<PairList<String, String>> col : ite) {
-					//	dat[index] = new LocalDataSeries(null);
-					if (filterCrit(dp, col, filters)) {
-						float y = Float.parseFloat(dp.getValue(methodName));
-						String x;
-						if (noXAxis)
-							x = "CONSTANT";
-						else
-							x = dp.getValue(xAxis);
-						dat[index].addPoint(x, y);
-						if (datUsed[index] == false) {
-							datUsed[index] = true;
-							used++;
-						}
-					}
-					dat[index].crit = col;
-					index++;
-				}
-			}
+                int index = 0;
+                ite = cs.criteriaIterator();
+                for (List<PairList<String, String>> col : ite) {
+                    //	dat[index] = new LocalDataSeries(null);
+                    if (filterCrit(dp, col, filters)) {
+                        float y = Float.parseFloat(dp.getValue(methodName));
+                        String x;
+                        if (noXAxis)
+                            x = "CONSTANT";
+                        else
+                            x = dp.getValue(xAxis);
+                        dat[index].addPoint(x, y);
+                        if (datUsed[index] == false) {
+                            datUsed[index] = true;
+                            used++;
+                        }
+                    }
+                    dat[index].crit = col;
+                    index++;
+                }
+            }
 		}
 
-		List<DataSeries> toRet = new ArrayList<DataSeries>(used);
+		List<DataSeries> toRet = new ArrayList<>(used);
 
 		for (int i = 0 ; i < dat.length ; i++) {
 			if (datUsed[i] == true) {
@@ -431,7 +430,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 
 	public static class LocalDataSeries extends DataSeries {
 
-		private ArrayList<DataSeries.DataSeriesStruct> list = new ArrayList<DataSeries.DataSeriesStruct>();
+		private ArrayList<DataSeries.DataSeriesStruct> list = new ArrayList<>();
 
 		public LocalDataSeries(List<PairList<String,String>> crit) {
 			super(crit);
@@ -439,7 +438,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 
 		@Override
 		public Iterator<Float> getYsImpl() {
-			ArrayList<Float> f = new ArrayList<Float>(list.size());
+			ArrayList<Float> f = new ArrayList<>(list.size());
 			for (DataSeriesStruct s : this) {
 				f.add(s.yVal);
 			}
@@ -568,8 +567,8 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 			DataSize s = new DataSize((long)(20f // internaldatapoint struct
 					+ 40f // hashmap float struct
 					+ 40f // hashmap string struct
-					+ 8f + (4f * 2f * meanPropertiesPerDataPoint()) // hashmap array size
-					+ (24f * meanPropertiesPerDataPoint())), DataSize.BYTE);
+					+ 8f + 4f * 2f * meanPropertiesPerDataPoint() // hashmap array size
+					+ 24f * meanPropertiesPerDataPoint()), DataSize.BYTE);
 			s.setUnit(DataSize.KBYTE);
 			return s;
 		}
@@ -578,15 +577,15 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 			DataSize s = new DataSize((long)(16f // struct
 					+ 16f // metadata struct
 					+ 20f // data point arraylist struct
-					+ 8f + (4f * meanDataPointPerExecution()) // arrayList internal array
-					+ (getEstimatedMeanDataPointBytes().getBytes() * meanDataPointPerExecution())), DataSize.BYTE);
+					+ 8f + 4f * meanDataPointPerExecution() // arrayList internal array
+					+ getEstimatedMeanDataPointBytes().getBytes() * meanDataPointPerExecution()), DataSize.BYTE);
 			s.setUnit(DataSize.KBYTE);
 			return s;
 		}
 
 		public DataSize getEstimatedExecutionPartBytes() {
 			DataSize s = new DataSize((long)(20f // execList struct
-					+ 8f + (4f * execList.size()) // execList internal array
+					+ 8f + 4f * execList.size() // execList internal array
 					+ execList.size() * getEstimatedMeanExecutionBytes().getBytes()), DataSize.BYTE);
 			s.setUnit(DataSize.MBYTE);
 			return s;
@@ -596,7 +595,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 			if (usingDpHasRef == false) {
 				return null;
 			}
-			float tot = 12f + 44f + (29f * meanPropertyFrequency() * getNumberOfStoredDataPoints()); // dpHasProperty
+			float tot = 12f + 44f + 29f * meanPropertyFrequency() * getNumberOfStoredDataPoints(); // dpHasProperty
 			return new DataSize((long)(tot * propList.size()), DataSize.BYTE);
 		}
 
@@ -613,7 +612,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 
 		public DataSize getEstimatedPropertyPartBytes() {
 			DataSize s =  new DataSize((long)(44f // propList struct
-					+ (29f * propList.size())
+					+ 29f * propList.size()
 					+ propList.size() * getEstimatedMeanPropertyBytes().getBytes()), DataSize.BYTE);
 			s.setUnit(DataSize.MBYTE);
 			return s;					
@@ -625,7 +624,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 			if (usingDpHasRef) {
 				s = new DataSize((long)(f + getEstimatedAdditionalLinkBytes().getBytes()), DataSize.BYTE);
 			} else {
-				s = new DataSize((long)(f), DataSize.BYTE);
+				s = new DataSize((long) f, DataSize.BYTE);
 			}
 			s.setUnit(DataSize.MBYTE);
 			return s;			
@@ -636,13 +635,13 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 		}
 
 		public float getFloatInstances() {
-			return (propList.size() * meanNumberOfFloatValuePerProperty());
+			return propList.size() * meanNumberOfFloatValuePerProperty();
 		}
 
 		public float getTreeMapEntryInstances() {
 			float tot = 0;
 			if (usingDpHasRef) {
-				tot += propList.size() * ((meanPropertyFrequency()*getNumberOfStoredDataPoints()));
+				tot += propList.size() * (meanPropertyFrequency()*getNumberOfStoredDataPoints());
 			}
 
 			return tot + propList.size() * (1f + meanNumberOfStringValuePerProperty() +
@@ -654,7 +653,7 @@ public class SmartDataPointCollector extends AbstractInOutDataManager implements
 		}
 
 		public float getHashMapEntryInstances() {
-			return execList.size() * meanDataPointPerExecution() * (meanPropertiesPerDataPoint());
+			return execList.size() * meanDataPointPerExecution() * meanPropertiesPerDataPoint();
 		}
 
 		public int getNumberOfDataPoints() {
@@ -744,11 +743,11 @@ class InternalExecution implements java.io.Serializable {
 		
 		int size = dpList.size();
 
-		dataPoints = new Vector<InternalDataPoint>(size, 1);
-		
-		for (int i = 0 ; i < size ; i++) {
-			dataPoints.add(new InternalDataPoint(db, dpList.get(i)));
-		}
+		dataPoints = new Vector<>(size, 1);
+
+        for (DataPoint dataPoint : dpList) {
+            dataPoints.add(new InternalDataPoint(db, dataPoint));
+        }
 		
 		Map<String, InternalProperty> copy = db.getPropListCopy();
 		for (int i = 0 ; i < size ; i++) {
@@ -785,8 +784,8 @@ class InternalDataPoint implements Comparable<InternalDataPoint>, java.io.Serial
 
 	private static int gloCounter = 0;
 
-	HashMap<String, String> valuesString = new HashMap<String, String>();
-	HashMap<String, Float> valuesFloat = new HashMap<String, Float>();
+	HashMap<String, String> valuesString = new HashMap<>();
+	HashMap<String, Float> valuesFloat = new HashMap<>();
 
 	public int compareTo(InternalDataPoint dp) {
 		return this.id - dp.id;
@@ -797,7 +796,7 @@ class InternalDataPoint implements Comparable<InternalDataPoint>, java.io.Serial
 	//	synchronized (sem) {
 			this.id = gloCounter++;
 	//	}
-		ArrayList<InternalProperty> interprop = new ArrayList<InternalProperty>(dp.getProperties().size());
+		ArrayList<InternalProperty> interprop = new ArrayList<>(dp.getProperties().size());
 		for (Property p : dp.getProperties()) {
 			String value = p.getValue();
 			if (value == null) {
@@ -864,7 +863,7 @@ class InternalDataPoint implements Comparable<InternalDataPoint>, java.io.Serial
 	}
 
 	public boolean isDefinedForProperty(String s) {
-		return (valuesFloat.get(s) != null) || (valuesString.get(s) != null);
+		return valuesFloat.get(s) != null || valuesString.get(s) != null;
 	}
 
 	@Override
@@ -877,12 +876,12 @@ class InternalProperty implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1;
 
-	private TreeMap<String,String> valuesString = new TreeMap<String,String>();
-	private TreeMap<Float, Float> valuesFloat = new TreeMap<Float, Float>();
+	private TreeMap<String,String> valuesString = new TreeMap<>();
+	private TreeMap<Float, Float> valuesFloat = new TreeMap<>();
 	TreeSet<InternalDataPoint> dpHavingThisProp;
 
 	// test for avoiding null entries
-	HashMap<String, InternalProperty> relatedProperties = new HashMap<String, InternalProperty>();
+	HashMap<String, InternalProperty> relatedProperties = new HashMap<>();
 
 	byte flags = 0;
 
@@ -891,7 +890,7 @@ class InternalProperty implements java.io.Serializable {
 			flags |= 1;
 		}
 		if (SmartDataPointCollector.usingDpHasRef) {
-			this.dpHavingThisProp = new TreeSet<InternalDataPoint>();
+			this.dpHavingThisProp = new TreeSet<>();
 		}
 		this.name = p.getName();
 		this.unit = p.getUnit();
@@ -910,13 +909,13 @@ class InternalProperty implements java.io.Serializable {
 	}
 
 	public boolean isResult() {
-		return ((flags & 1) > 0);
+		return (flags & 1) > 0;
 	}
 
 	
 	// Remove synchronization here (sep 2015): general sync is made on exeList
 	public Set<String> getValues() {
-		SimpleSet<String> s = new SimpleSet<String>(valuesFloat.size() + valuesString.size());
+		SimpleSet<String> s = new SimpleSet<>(valuesFloat.size() + valuesString.size());
 	//	synchronized (valuesFloat) {
 			for (Float f : valuesFloat.values()) {
 				s.add(f.toString());

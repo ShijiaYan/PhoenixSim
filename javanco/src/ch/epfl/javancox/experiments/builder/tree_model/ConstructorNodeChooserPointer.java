@@ -21,7 +21,7 @@ public class ConstructorNodeChooserPointer extends AbstractChooseNode implements
 	public transient ConstructorChooseNode superInstance;
 	public boolean isCartesianEnabled = false;
 	
-	protected ConstructorNodeChooserPointer(ObjectConstuctionTreeModel tree, ConstructorChooseNode node) {
+	protected ConstructorNodeChooserPointer(ObjectConstructionTreeModel tree, ConstructorChooseNode node) {
 		super(tree);
 		this.superInstance = node;
 		this.superInstance.pointed.add(this);
@@ -112,8 +112,8 @@ public class ConstructorNodeChooserPointer extends AbstractChooseNode implements
 			this.hasNext = true;
 			if (superInstance.getChildCount() > 0) children = superInstance.getChilds();
 			else children = null;
-			this.paramSize = ( children != null ? children.size() : 0) ;
-			this.iterators =  new ArrayList<Iterator<Pair<Object, ObjectRecipe>>>();
+			this.paramSize = children != null ? children.size() : 0;
+			this.iterators = new ArrayList<>();
 			this.currentParams = new Object[this.paramSize];
 			if (this.paramSize > 0) {
 				int i = 0;
@@ -165,7 +165,7 @@ public class ConstructorNodeChooserPointer extends AbstractChooseNode implements
 				ObjectRecipe recipe = new ObjectRecipe(superInstance.getConstructor(), this.currentParams);
 				Object create = recipe.build();
 				setUserObject(create);
-				return new Pair<Object, ObjectRecipe>(create, recipe);
+				return new Pair<>(create, recipe);
 			} catch (Exception e) {
 				System.err.println(superInstance.constructedClass.toString() + " : " + Arrays.toString(currentParams));
 				System.err.println(superInstance.toLongString());
@@ -195,7 +195,7 @@ public class ConstructorNodeChooserPointer extends AbstractChooseNode implements
 	}
 
 	public List<ActionItem> getActions() {
-		List<ActionItem> l = new ArrayList<ActionItem>(1);	
+		List<ActionItem> l = new ArrayList<>(1);
 		l.add(new ActionItem("Suppress constructor", "suppress"));
 		return l;
 	}
@@ -242,7 +242,7 @@ public class ConstructorNodeChooserPointer extends AbstractChooseNode implements
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (getContainingTreeModel() != null) {
-			DefaultTreeModel model = (DefaultTreeModel) this.getContainingTreeModel();
+			DefaultTreeModel model = this.getContainingTreeModel();
 			try {
 				model.removeNodeFromParent(this);
 			}
@@ -269,7 +269,7 @@ public class ConstructorNodeChooserPointer extends AbstractChooseNode implements
 	}
 
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-		this.containingTreeModel = (ObjectConstuctionTreeModel<?>)in.readObject();
+		this.containingTreeModel = (ObjectConstructionTreeModel<?>)in.readObject();
 		this.superInstance = (ConstructorChooseNode)in.readObject();
 		isCartesianEnabled = in.readBoolean();
 		this.setConfigured(true);

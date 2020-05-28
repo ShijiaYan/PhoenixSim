@@ -40,7 +40,7 @@ public class RingWgDesignSpaceGap {
 	public double getFSRnm(){
 		double Rnm = radiusMicron * 1e3 ;
 		double lambdaResNm = inputLambda.getWavelengthNm() ;
-		return (lambdaResNm*lambdaResNm)/(2*Math.PI*Rnm * ng) ;
+		return lambdaResNm*lambdaResNm /(2*Math.PI*Rnm * ng) ;
 	}
 	
 	public double getKappa(){

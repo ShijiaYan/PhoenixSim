@@ -95,9 +95,9 @@ public class Cell {
 		String st4 = cellName + " = gdspy.Cell(" + "'" + cellName + "'" + ")" ;
 		String[] args = {st0, st1, st2, st3, st4} ;
 		int n = elements.length ;
-		for(int i=0; i<n; i++){
-			args = MoreMath.Arrays.concat(args, elements[i].getPythonCode(fileName, cellName)) ;
-		}
+        for (AbstractElement element : elements) {
+            args = MoreMath.Arrays.concat(args, element.getPythonCode(fileName, cellName));
+        }
 		return args ;
 	}
 
@@ -106,9 +106,9 @@ public class Cell {
 		String st4 = cellName + " = gdspy.Cell(" + "'" + cellName + "'" + ")" ;
 		String[] args = {st0, st4} ;
 		int n = elements.length ;
-		for(int i=0; i<n; i++){
-			args = MoreMath.Arrays.concat(args, elements[i].getPythonCode(fileName, cellName)) ;
-		}
+        for (AbstractElement element : elements) {
+            args = MoreMath.Arrays.concat(args, element.getPythonCode(fileName, cellName));
+        }
 		return args ;
 	}
 

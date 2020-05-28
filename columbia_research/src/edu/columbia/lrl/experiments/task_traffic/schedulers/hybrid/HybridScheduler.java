@@ -74,7 +74,7 @@ public class HybridScheduler extends AbstractScheduler {
 				c.scheduleTimeout(ref, task.getOccurenceTimeNS() - ref.getNanoseconds());		
 			}
 		}
-		while (((!poolManager.isFullyFree() || finished < toSchedule)) && !c.isToBeTerminated()) {
+		while ((!poolManager.isFullyFree() || finished < toSchedule) && !c.isToBeTerminated()) {
 			Object r = c.blockingReadFromAny(ref);
 			processReception(ref, rank, c, r);			
 		}

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.epfl.javancox.experiments.builder.tree_model.*;
 import simple.http.Request;
 import simple.http.Response;
 import simple.http.serve.Content;
@@ -17,16 +18,12 @@ import ch.epfl.general_libraries.logging.Logger;
 import ch.epfl.general_libraries.webserver.AbstractService;
 import ch.epfl.javancox.experiments.builder.object_enum.AbstractEnumerator;
 import ch.epfl.javancox.experiments.builder.object_enum.ExperimentExecutionManager;
-import ch.epfl.javancox.experiments.builder.tree_model.AbstractChooseNode;
-import ch.epfl.javancox.experiments.builder.tree_model.BooleanChooseNode;
-import ch.epfl.javancox.experiments.builder.tree_model.ClassChooseNode;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel;
-import ch.epfl.javancox.experiments.builder.tree_model.TypableChooseNode;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel;
 import ch.epfl.javancox.experiments.builder.tree_model.AbstractChooseNode.ActionItem;
 import ch.epfl.javancox.experiments.builder.tree_model.AbstractChooseNode.ActionStructure;
 import ch.epfl.javancox.experiments.builder.tree_model.AbstractChooseNode.SeparatorItem;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel.ObjectIterator;
-import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstuctionTreeModel.TreeModelUIManager;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel.ObjectIterator;
+import ch.epfl.javancox.experiments.builder.tree_model.ObjectConstructionTreeModel.TreeModelUIManager;
 import ch.epfl.javancox.results_manager.SmartDataPointCollector;
 import ch.epfl.javancox.results_manager.web.ResultVisualisationService;
 
@@ -34,7 +31,7 @@ public class ConfigurationCockpitService extends AbstractService {
 	
 	private transient static ClassRepository globalLister;	
 	private static final Logger logger = new Logger(ConfigurationCockpitService.class);
-	private HashMap<String, SessionObject> sessionsTreesMap = new HashMap<String, SessionObject>();
+	private HashMap<String, SessionObject> sessionsTreesMap = new HashMap<>();
 	
 	public static void main(String[] args) throws Exception {
 		if (args.length > 0) {
@@ -47,15 +44,15 @@ public class ConfigurationCockpitService extends AbstractService {
 	private static class SessionObject implements TreeModelUIManager {
 		
 	//	private String sessionKey;
-		ObjectConstuctionTreeModel treeModel;
-		HashMap<Integer, AbstractChooseNode> sessionNodes = new HashMap<Integer, AbstractChooseNode>();
+		ObjectConstructionTreeModel treeModel;
+		HashMap<Integer, AbstractChooseNode> sessionNodes = new HashMap<>();
 	//	long lastAccessed;
 		// Timer kill;
 		
 		public SessionObject(String sessionKey) throws Exception {
 			super();
 		//	this.sessionKey = sessionKey;
-			treeModel = new ObjectConstuctionTreeModel<Experiment>(Experiment.class, getClassLister());
+			treeModel = new ObjectConstructionTreeModel<>(Experiment.class, getClassLister());
 			treeModel.setTreeModelUIManager(this);
 		}
 		
@@ -93,7 +90,7 @@ public class ConfigurationCockpitService extends AbstractService {
 	private static ClassRepository getClassLister() {
 		logger.debug("Creating lister");
 		if (globalLister == null) {
-			ArrayList<String> list = new ArrayList<String>();
+			ArrayList<String> list = new ArrayList<>();
 			list.add("ch.epfl");
 			list.add("umontreal.iro");
 			list.add("edu.columbia");
@@ -176,7 +173,7 @@ public class ConfigurationCockpitService extends AbstractService {
 		AbstractEnumerator<Experiment> enumerator = new ExperimentExecutionManager();
 		
 		@SuppressWarnings("unchecked")
-		ObjectIterator<Experiment> ite = ((ObjectConstuctionTreeModel<Experiment>)getSessionObject(session).treeModel).getObjectIterator();
+		ObjectIterator<Experiment> ite = ((ObjectConstructionTreeModel<Experiment>)getSessionObject(session).treeModel).getObjectIterator();
 		
 		enumerator.runInSameThread(null, ite, null);
 		

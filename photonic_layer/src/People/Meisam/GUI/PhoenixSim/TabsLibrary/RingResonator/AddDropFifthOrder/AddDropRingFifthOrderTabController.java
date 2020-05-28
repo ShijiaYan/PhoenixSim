@@ -84,12 +84,7 @@ public class AddDropRingFifthOrderTabController extends AbstractTabController {
 	}
 
     private boolean toggleSelected(){
-        if(dropLambda.isSelected() || thruLambda.isSelected() ){
-            return true;
-        }
-        else{
-            return false ;
-        }
+		return dropLambda.isSelected() || thruLambda.isSelected();
     }
 
     @FXML

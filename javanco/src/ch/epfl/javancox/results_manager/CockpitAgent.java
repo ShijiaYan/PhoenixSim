@@ -28,19 +28,13 @@ public class CockpitAgent {
 		final SmartDataPointCollector db = new SmartDataPointCollector();
 		final AbstractResultsDisplayer dis = DefaultResultDisplayingGUI.displayDefault(db);
 				
-		resetDB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				db.clear();
-				dis.refresh();
-			}
-		});
+		resetDB.addActionListener(ev -> {
+            db.clear();
+            dis.refresh();
+        });
 		actions.add(resetDB);
 		JMenuItem quit = new JMenuItem("Quit");
-		quit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				System.exit(0);
-			}
-		});
+		quit.addActionListener(ev -> System.exit(0));
 		actions.add(quit);	
 		bar.add(actions);
 		frame.setJMenuBar(bar);	

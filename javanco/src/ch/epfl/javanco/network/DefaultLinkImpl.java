@@ -22,11 +22,8 @@ public class DefaultLinkImpl extends AbstractElement implements Serializable, Li
 			return c;
 		}
 		c = this.getEndNodeIndex() - lnk.getEndNodeIndex();
-		if (c != 0) {
-			return c;
-		}
-		return 0;
-	}
+        return c;
+    }
 
 	@DoNotSerialize public LinkContainer getLinkContainer() {
 		return (LinkContainer)getContainer();

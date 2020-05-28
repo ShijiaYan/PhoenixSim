@@ -26,7 +26,7 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 		@Override public void processEvent(Evt e) {}
 		@Override public void notifyEnd(double  ref, double status) {}
 	};
-	private static final ArrayList<Integer> EMPTY_LIST = new ArrayList<Integer>(0);	
+	private static final ArrayList<Integer> EMPTY_LIST = new ArrayList<>(0);
 //	private static Logger logger = new Logger(ActionManager.class);
 	// must be static to allow desambiguation on the timeline
 	public static int msgId = 0;
@@ -37,7 +37,7 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 	private LWSIMExperiment sim;
 	private ApplicationTrafficGenerator associatedGeneratorObject;
 
-	private LinkedList<Transmission> receptionQueue = new LinkedList<Transmission>();
+	private LinkedList<Transmission> receptionQueue = new LinkedList<>();
 	
 	private Time localTime = Time.ZERO_TIME.thisTime();
 	
@@ -258,8 +258,8 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 					m.lastPartial = false;
 					partialIndex++;
 				} else {				
-					m.partialData = (partialIndex > 0);
-					m.lastPartial = (partialIndex > 0);
+					m.partialData = partialIndex > 0;
+					m.lastPartial = partialIndex > 0;
 					m.totalSize = sizeOfO;
 					e.getMessage().carriedData = trans;
 					if (associatedGeneratorObject.popupTimeLine)
@@ -321,8 +321,8 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 			e.setMessage(m);
 			m.partialIndex = partialIndex;
 			
-			m.partialData = (partialIndex > 0);
-			m.lastPartial = (partialIndex > 0);
+			m.partialData = partialIndex > 0;
+			m.lastPartial = partialIndex > 0;
 			m.totalSize = accSize;
 			e.getMessage().carriedData = lastObj;
 			if (associatedGeneratorObject.popupTimeLine)
@@ -379,7 +379,7 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 	}
 	
 	public Transmission blockingReadFromAnyButOne(Time ref, int exception, boolean appearsAsWaiting, int operationNumber) throws InterruptedException {
-		ArrayList<Integer> exceptions = new ArrayList<Integer>(1);
+		ArrayList<Integer> exceptions = new ArrayList<>(1);
 		exceptions.add(exception);
 		return blockingReadFromAnyButSome(ref, exceptions, appearsAsWaiting, operationNumber);
 	}
@@ -520,7 +520,7 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 				System.out.print("");
 			}
 			col[r.origin] = r;
-			src.remove(((Integer)r.origin));
+			src.remove((Integer)r.origin);
 			toCollect--;
 		}
 		return col;
@@ -698,7 +698,7 @@ public class ActionManager implements Notifiable, LWSimComponent, EventOrigin  {
 			this.send(ref, "BARRIER", 1, 0, null, 0, opNum, false);
 			Transmission r = this.blockingRead(ref, 0, true, opNum);
 			if (!isToBeTerminated()) {
-				if (!(r.o.equals("BARRIER"))) {
+				if (!r.o.equals("BARRIER")) {
 					System.out.println("Barrier problem at rank " + getRank());
 				}
 			}

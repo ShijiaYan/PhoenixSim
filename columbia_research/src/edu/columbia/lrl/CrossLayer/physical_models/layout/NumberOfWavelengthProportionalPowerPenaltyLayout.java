@@ -3,22 +3,19 @@ package edu.columbia.lrl.CrossLayer.physical_models.layout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import ch.epfl.general_libraries.clazzes.ParamName;
+import ch.epfl.general_libraries.results.Execution;
+import ch.epfl.general_libraries.utils.SimpleMap;
 import edu.columbia.lrl.CrossLayer.PowerConsumption;
 import edu.columbia.lrl.CrossLayer.physical_models.PhysicalParameterAndModelsSet;
 import edu.columbia.lrl.CrossLayer.physical_models.PowerPenalty;
 import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
-import ch.epfl.general_libraries.clazzes.*;
-import ch.epfl.general_libraries.results.Execution;
-import ch.epfl.general_libraries.utils.SimpleMap;
 
-public class NumberOfWavelengthProportionalPowerPenaltyLayout extends PhysicalLayout {
+public class NumberOfWavelengthProportionalPowerPenaltyLayout extends AbstractPhysicalLayout {
 
 	double loss;
 	double passiveRingLoss;
-
-	PhysicalParameterAndModelsSet devices;
 	
 	public NumberOfWavelengthProportionalPowerPenaltyLayout(
 			@ParamName(name="Loss (dB)") double loss,
@@ -53,7 +50,7 @@ public class NumberOfWavelengthProportionalPowerPenaltyLayout extends PhysicalLa
 	@Override
 	public List<PowerConsumption> getLayoutSpecificConsumption(
 			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
-		return new ArrayList<PowerConsumption>(0);
+		return new ArrayList<>(0);
 	}
 
 	@Override

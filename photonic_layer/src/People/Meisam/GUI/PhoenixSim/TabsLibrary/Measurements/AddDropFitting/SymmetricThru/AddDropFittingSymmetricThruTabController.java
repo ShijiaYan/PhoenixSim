@@ -127,33 +127,25 @@ public class AddDropFittingSymmetricThruTabController extends AbstractTabControl
 	@FXML
 	public void chooseXData() throws IOException {
 		VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase);
-		varSelect.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				xData = new SimulationVariable(varSelect.getController().getVariable().getName(),
-						varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
-				xDataLabel.setText("X data is set to '" + xData.getName() + "'");
-				varSelect.getController().getSetExitButton().getScene().getWindow().hide();
-				if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
-			}
-		});
+		varSelect.setExitAction(() -> {
+            xData = new SimulationVariable(varSelect.getController().getVariable().getName(),
+                    varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
+            xDataLabel.setText("X data is set to '" + xData.getName() + "'");
+            varSelect.getController().getSetExitButton().getScene().getWindow().hide();
+            if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
 	public void chooseYData() throws IOException {
 		VariableSelectorModule varSelect = new VariableSelectorModule(simDataBase);
-		varSelect.setExitAction(new ActionInterface() {
-
-			@Override
-			public void setExitAction() {
-				yData = new SimulationVariable(varSelect.getController().getVariable().getName(),
-						varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
-				yDataLabel.setText("Y data is set to '" + yData.getName() + "'");
-				varSelect.getController().getSetExitButton().getScene().getWindow().hide();
-				if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
-			}
-		});
+		varSelect.setExitAction(() -> {
+            yData = new SimulationVariable(varSelect.getController().getVariable().getName(),
+                    varSelect.getController().getVariable().getAlias(), varSelect.getController().getValues());
+            yDataLabel.setText("Y data is set to '" + yData.getName() + "'");
+            varSelect.getController().getSetExitButton().getScene().getWindow().hide();
+            if (xData != null && yData != null) { fig = createPlot(xData, yData); showPlot(fig, matlabPane); }
+        });
 	}
 
 	@FXML
@@ -286,14 +278,10 @@ public class AddDropFittingSymmetricThruTabController extends AbstractTabControl
 			double er = Math.abs(fit.getParameters()[1]);
 			double ER_dB = MoreMath.Conversions.todB(er);
 			// step 2: find x = t*t*sqrt(L)
-			RealRootFunction func1 = new RealRootFunction() {
-
-				@Override
-				public double function(double x) {
-					double y = 1 - Math.pow(1 - x, 2) / (2 * x) - Math.cos(Math.PI * BW_nm / FSR_nm);
-					return y;
-				}
-			};
+			RealRootFunction func1 = x -> {
+                double y = 1 - Math.pow(1 - x, 2) / (2 * x) - Math.cos(Math.PI * BW_nm / FSR_nm);
+                return y;
+            };
 			RealRoot solverX = new RealRoot();
 			double x = solverX.bisect(func1, 0, 1);
 			// step 3: find L
@@ -325,8 +313,8 @@ public class AddDropFittingSymmetricThruTabController extends AbstractTabControl
 
 	private double getLorentzian(double BW_nm, double er, double lambda_nm, double lambda_res_nm) {
 		double s = 2 / BW_nm * (lambda_nm - lambda_res_nm);
-		double num = (s * s) + 1 / er;
-		double denum = (s * s) + 1;
+		double num = s * s + 1 / er;
+		double denum = s * s + 1;
 		double tr = num / denum;
 		return tr;
 	}

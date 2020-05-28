@@ -11,7 +11,7 @@ public class StructIntenseTraffic extends AbstractTrafficMatrix {
 	
 	@Override
 	public void init(int clients, GlobalStructure gs) {
-		dests = new ArrayList<ArrayList<Integer>>();
+		dests = new ArrayList<>();
 		super.init(clients, gs);
 		this.mult = gs.getMultiplicity();
 		int maxDist = 0;
@@ -21,7 +21,7 @@ public class StructIntenseTraffic extends AbstractTrafficMatrix {
 			}
 		}
 		for (int i = 0 ; i < gs.getUsedNodes() ; i++) {
-			ArrayList<Integer> listI = new ArrayList<Integer>();
+			ArrayList<Integer> listI = new ArrayList<>();
 			for (int j = 0 ; j < gs.getUsedNodes() ; j++) {
 				if (gs.getNumberOfHops(i, j) == maxDist) {
 					listI.add(j);

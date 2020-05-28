@@ -24,13 +24,13 @@ public abstract class AbstractAMROutputStreamManager {
 
 	
 	public void writeEnds() throws IOException {
-		for (int i = 0 ; i < objectStreams.length ; i++) {
-			for (int j = 0 ; j < objectStreams[0].length ; j++) {
-				objectStreams[i][j].writeObject("END");
-				objectStreams[i][j].flush();
-				objectStreams[i][j].close();
-			}
-		}
+        for (ObjectOutputStream[] objectStream : objectStreams) {
+            for (int j = 0; j < objectStreams[0].length; j++) {
+                objectStream[j].writeObject("END");
+                objectStream[j].flush();
+                objectStream[j].close();
+            }
+        }
 		flushAndClose();
 	}
 

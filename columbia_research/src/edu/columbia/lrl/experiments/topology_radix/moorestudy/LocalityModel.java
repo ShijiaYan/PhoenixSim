@@ -74,7 +74,7 @@ public class LocalityModel {
 	}	
 
 	private double[] distant(double[] ret) {
-		double slope = (double)(ret.length-1) / (param);
+		double slope = (double)(ret.length-1) / param;
 		for (int i = 0 ; i < ret.length ; i++) {
 			ret[ret.length-i-1] = Math.max(0,1 - (double)i/slope);
 		}
@@ -83,7 +83,7 @@ public class LocalityModel {
 	}
 
 	private double[] local(double[] ret) {
-		double slope = (double)(ret.length-1) / (-param);
+		double slope = (double)(ret.length-1) / -param;
 		for (int i = 0 ; i < ret.length ; i++) {
 			ret[i] = Math.max(0,1 - (double)i/slope);
 		}

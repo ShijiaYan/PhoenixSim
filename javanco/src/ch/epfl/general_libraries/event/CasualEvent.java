@@ -37,11 +37,8 @@ public class CasualEvent extends EventObject {
 	public boolean equals(Object o) {
 		if (o instanceof CasualEvent) {
 			CasualEvent jv = (CasualEvent)o;
-			if (jv.getRoot() == this.getRoot()) {
-				return true;
-			}
-			return false;
-		}
+            return jv.getRoot() == this.getRoot();
+        }
 		return false;
 	}
 	

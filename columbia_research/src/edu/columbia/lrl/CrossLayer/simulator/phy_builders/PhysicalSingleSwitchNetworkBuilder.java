@@ -5,7 +5,7 @@ import java.util.Map;
 import ch.epfl.general_libraries.traffic.Rate;
 import edu.columbia.lrl.CrossLayer.physical_models.layout.AbstractSwitchFabric;
 import edu.columbia.lrl.CrossLayer.physical_models.layout.P2PLayout;
-import edu.columbia.lrl.CrossLayer.physical_models.layout.PhysicalLayout;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.AbstractPhysicalLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.layout.SingleSwitchNetworkLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.simulator.components.Arbiter;
@@ -83,7 +83,7 @@ public class PhysicalSingleSwitchNetworkBuilder extends HubNetworkBuilder implem
 	}	*/
 
 	@Override
-	public PhysicalLayout getPhysicalLayoutImpl(int clients) {
+	public AbstractPhysicalLayout getPhysicalLayoutImpl(int clients) {
 		// TODO : have this class calling somehow an 'arbiter.setFabric()' statement
 		// perhaps should be done through a "connectElement hierarchical command similar to initComponent
 		switchFabric.setSwitchRadix(clients);

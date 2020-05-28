@@ -46,44 +46,45 @@ public class AlgebraicalDistanceAnalyser extends AbstractGraphAnalyser {
 		int diam = 0;
 		double globalAccum = 0;
 		int globalCounter = 0;
-		for (int i = 0 ; i < from.length ; i++) {
+        for (int value : from) {
 
-			if (agh.getNodeContainer(from[i]) == null) continue;
-			int[] distances = BFS.getDistancesFromUndirected(agh, from[i]);
-			StatisticalDistribution<Integer> dist = new StatisticalDistribution<Integer>();
-			for (int ii = 0 ; ii < distances.length ; ii++) {
-				dist.add(distances[ii]);
-			}
-			Object[][] histogram = dist.getDistribution();
-			int accum = MoreArrays.sum(distances);
-			globalAccum += accum;
-			globalCounter += distances.length - 1;
-			int largest = MoreArrays.max(distances);
-			diam = Math.max(diam, largest );
-			if (store) {
-				DataPoint dp = orig.getDerivedDataPoint();				
-				if (storeAll) {
-					for (int j = 0 ; j < distances.length ; j++) {
-						DataPoint dp2 = dp.getDerivedDataPoint();
-						dp2.addProperty("from - to", String.format("%0"+zeros+"d", from[i])  + "-" + String.format("%0"+zeros+"d", j) );
-						dp2.addResultProperty("distance from-to", distances[j]);
-						e.addDataPoint(dp2);
-					}
-					for (int j = 0 ; j < histogram[0].length ; j++) {
-						DataPoint dp2 = dp.getDerivedDataPoint();
-						dp2.addProperty("distance__", histogram[0][j]+"");
-						dp2.addResultProperty("number of occurrences", histogram[1][j]+"");
-						e.addDataPoint(dp2);
-						
-					}
-				}
-				dp.addProperty("from", String.format("%0"+zeros+"d", from[i]));
-				dp.addResultProperty("Average distance (from i)", (double)accum / ((double)distances.length - 1));			
-				dp.addResultProperty("Largest (from i)", largest);
-				e.addDataPoint(dp);
+            if (agh.getNodeContainer(value) == null) continue;
+            int[] distances = BFS.getDistancesFromUndirected(agh, value);
+            StatisticalDistribution<Integer> dist = new StatisticalDistribution<>();
+            for (int distance : distances) {
+                dist.add(distance);
+            }
+            Object[][] histogram = dist.getDistribution();
+            int accum = MoreArrays.sum(distances);
+            globalAccum += accum;
+            globalCounter += distances.length - 1;
+            int largest = MoreArrays.max(distances);
+            diam = Math.max(diam, largest);
+            if (store) {
+                DataPoint dp = orig.getDerivedDataPoint();
+                if (storeAll) {
+                    for (int j = 0; j < distances.length; j++) {
+                        DataPoint dp2 = dp.getDerivedDataPoint();
+                        dp2.addProperty("from - to", String.format("%0" + zeros + "d", value) + "-" + String.format(
+                                "%0" + zeros + "d", j));
+                        dp2.addResultProperty("distance from-to", distances[j]);
+                        e.addDataPoint(dp2);
+                    }
+                    for (int j = 0; j < histogram[0].length; j++) {
+                        DataPoint dp2 = dp.getDerivedDataPoint();
+                        dp2.addProperty("distance__", histogram[0][j] + "");
+                        dp2.addResultProperty("number of occurrences", histogram[1][j] + "");
+                        e.addDataPoint(dp2);
 
-			}
-		}
+                    }
+                }
+                dp.addProperty("from", String.format("%0" + zeros + "d", value));
+                dp.addResultProperty("Average distance (from i)", (double) accum / ((double) distances.length - 1));
+                dp.addResultProperty("Largest (from i)", largest);
+                e.addDataPoint(dp);
+
+            }
+        }
 		
 		DataPoint glo = orig.getDerivedDataPoint();	
 		glo.addResultProperty("Global diam", diam);

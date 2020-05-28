@@ -202,7 +202,7 @@ public class Util2DFunctions {
 		if (ax2==bx2 && ay2==by2 && (ax1 != bx1 || ay1 != by1)) {
 			return null;
 		}
-		int prod = ((ax1-ax2)*(by1-by2)) - ((ay1-ay2)*(bx1-bx2));
+		int prod = (ax1-ax2)*(by1-by2) - (ay1-ay2)*(bx1-bx2);
 		if (prod == 0) {
 			return null;
 		}
@@ -252,9 +252,9 @@ public class Util2DFunctions {
 			ArrayList<LinkContainer> can,
 			boolean rem) {
 
-		Sparse2DList<CoeffPoint> points = new Sparse2DList<CoeffPoint>();
+		Sparse2DList<CoeffPoint> points = new Sparse2DList<>();
 		
-		HashSet<LinkContainer> concerned = new HashSet<LinkContainer>();
+		HashSet<LinkContainer> concerned = new HashSet<>();
 		for (int i = 0 ; i < can.size()-1 ; i++) {
 			for (int j = i + 1; j < can.size() ; j++) {
 				Point p = getIntersectionPoint(can.get(i), can.get(j));
@@ -305,7 +305,7 @@ public class Util2DFunctions {
 			}
 		}
 		
-		Sparse2DList<LinkContainer> list = new Sparse2DList<LinkContainer>();
+		Sparse2DList<LinkContainer> list = new Sparse2DList<>();
 		
 		for (LinkContainer lc : concerned) {
 			int start = lc.getStartNodeIndex();
@@ -315,7 +315,7 @@ public class Util2DFunctions {
 				throw new IllegalStateException("shouldn't be there");
 			}
 			Collections.sort(ps);
-			ArrayList<LinkContainer> added = new ArrayList<LinkContainer>(4);
+			ArrayList<LinkContainer> added = new ArrayList<>(4);
 			added.add(agh.newLink(start, ps.get(0).nc.getIndex()));
 			
 			added.add(agh.newLink(ps.get(ps.size()-1).nc.getIndex(), end));

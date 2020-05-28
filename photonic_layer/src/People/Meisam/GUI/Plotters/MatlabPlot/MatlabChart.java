@@ -1,12 +1,15 @@
 package People.Meisam.GUI.Plotters.MatlabPlot;
 
+import People.Meisam.GUI.Builders.WindowBuilder;
+import People.Meisam.GUI.Utilities.ExportData.ExportVariables;
+import People.Meisam.GUI.Utilities.ExportPlot.ExportToMATLAB.ExportToMatlabController;
+import People.Meisam.GUI.Utilities.ExportPlot.JavaFXFileChooser.FileChooserFX;
+import People.Meisam.GUI.Utilities.SimulationDataBase;
+import People.Meisam.GUI.Utilities.SimulationVariable;
+import PhotonicElements.Utilities.MathLibraries.MoreMath;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXMLLoader;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.*;
 import org.jfree.chart.annotations.XYTitleAnnotation;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -21,13 +24,7 @@ import org.jfree.graphics2d.svg.SVGGraphics2D;
 import org.jfree.graphics2d.svg.SVGUtils;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
-import People.Meisam.GUI.Builders.WindowBuilder;
-import People.Meisam.GUI.Utilities.SimulationDataBase;
-import People.Meisam.GUI.Utilities.SimulationVariable;
-import People.Meisam.GUI.Utilities.ExportData.ExportVariables;
-import People.Meisam.GUI.Utilities.ExportPlot.ExportToMATLAB.ExportToMatlabController;
-import People.Meisam.GUI.Utilities.ExportPlot.JavaFXFileChooser.FileChooserFX;
-import PhotonicElements.Utilities.MathLibraries.MoreMath;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -37,95 +34,99 @@ import java.util.ArrayList;
 public class MatlabChart {
 
     Font font;
-    JFreeChart chart = null ;
+    JFreeChart chart = null;
     LegendTitle legend;
     ArrayList<Color> colors;
     ArrayList<BasicStroke> strokes;
     XYSeriesCollection dataset;
-    XYLineAndShapeRenderer plotRenderer ;
-    ArrayList<String> specs ;
+    XYLineAndShapeRenderer plotRenderer;
+    ArrayList<String> specs;
 
-    int counter = 0 ;
+    int counter = 0;
 
     public MatlabChart() {
         font = JFreeChart.DEFAULT_TITLE_FONT;
-        colors = new ArrayList<Color>();
-        strokes = new ArrayList<BasicStroke>();
+        colors = new ArrayList<>();
+        strokes = new ArrayList<>();
         dataset = new XYSeriesCollection();
-        plotRenderer = new XYLineAndShapeRenderer() ;
-        specs = new ArrayList<String>() ;
+        plotRenderer = new XYLineAndShapeRenderer();
+        specs = new ArrayList<>();
     }
+
     //*********************plotting************************************
     public void plot(double[] x, double[] y, String spec, float lineWidth, String title) {
         final XYSeries series = new XYSeries(title);
         for (int i = 0; i < x.length; i++)
-            series.add(x[i],y[i]);
+            series.add(x[i], y[i]);
         dataset.addSeries(series);
-        specs.add(spec) ;
-        FindColor(spec,lineWidth);
+        specs.add(spec);
+        FindColor(spec, lineWidth);
     }
 
     public void plot(double[] x, double[] y, String spec, float lineWidth) {
-    	String title = "fig" + counter ;
-    	counter++ ;
+        String title = "fig" + counter;
+        counter++;
         final XYSeries series = new XYSeries(title);
         for (int i = 0; i < x.length; i++)
-            series.add(x[i],y[i]);
+            series.add(x[i], y[i]);
         dataset.addSeries(series);
-        specs.add(spec) ;
-        FindColor(spec,lineWidth);
+        specs.add(spec);
+        FindColor(spec, lineWidth);
     }
 
     public void plot(double[] x, double[] y, float lineWidth) {
-    	String title = "fig" + counter ;
-    	counter++ ;
-        String spec = "-b" ;
+        String title = "fig" + counter;
+        counter++;
+        String spec = "-b";
         final XYSeries series = new XYSeries(title);
         for (int i = 0; i < x.length; i++)
-            series.add(x[i],y[i]);
+            series.add(x[i], y[i]);
         dataset.addSeries(series);
-        specs.add(spec) ;
-        FindColor(spec,lineWidth);
+        specs.add(spec);
+        FindColor(spec, lineWidth);
     }
 
     public void plot(double[] x, double[] y, String spec) {
-    	String title = "fig" + counter ;
-    	counter++ ;
-        float lineWidth = 1 ;
+        String title = "fig" + counter;
+        counter++;
+        float lineWidth = 1;
         final XYSeries series = new XYSeries(title);
         for (int i = 0; i < x.length; i++)
-            series.add(x[i],y[i]);
+            series.add(x[i], y[i]);
         dataset.addSeries(series);
-        specs.add(spec) ;
-        FindColor(spec,lineWidth);
+        specs.add(spec);
+        FindColor(spec, lineWidth);
     }
 
     public void plot(double[] x, double[] y) {
-    	String title = "fig" + counter ;
-    	counter++ ;
-        String spec = "-b" ;
-        float lineWidth = 1 ;
+        String title = "fig" + counter;
+        counter++;
+        String spec = "-b";
+        float lineWidth = 1;
         final XYSeries series = new XYSeries(title);
         for (int i = 0; i < x.length; i++)
-            series.add(x[i],y[i]);
+            series.add(x[i], y[i]);
         dataset.addSeries(series);
-        specs.add(spec) ;
-        FindColor(spec,lineWidth);
+        specs.add(spec);
+        FindColor(spec, lineWidth);
     }
+
     //*******************Rendering the figures**************************************
     public void RenderPlot() {
         // Create chart
-    	if(chart == null){
+        if (chart == null) {
             JFreeChart chart = null;
-            if (dataset != null && dataset.getSeriesCount() > 0){
-            	try {
-            		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme()); // in case legacy theme is supported by the OS
-                	chart = ChartFactory.createXYLineChart(null,null,null,dataset,PlotOrientation.VERTICAL,false, false, false);
-				} catch (Error e) {
-					chart = ChartFactory.createXYLineChart(null,null,null,dataset,PlotOrientation.VERTICAL,false, false, false);
-				}
-            }
-            else
+            if (dataset != null && dataset.getSeriesCount() > 0) {
+                try {
+                    ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme()); // in case legacy theme is
+                    // supported by the OS
+                    chart = ChartFactory.createXYLineChart(null, null, null, dataset, PlotOrientation.VERTICAL, false
+                            , false, false);
+                } catch (Error e) {
+                    chart = ChartFactory.createXYLineChart(null, null, null, dataset, PlotOrientation.VERTICAL, false
+                            , false, false);
+                }
+            } else
                 System.out.println(" [!] First create a chart and add data to it. The plot is empty now!");
             // Add customization options to chart
             XYPlot plot = chart.getXYPlot();
@@ -133,38 +134,37 @@ public class MatlabChart {
                 // adding plot renderer
                 plotRenderer.setSeriesStroke(i, strokes.get(i));
                 plotRenderer.setSeriesPaint(i, colors.get(i));
-                if(dataset.getSeries(i).getItemCount()>1){
-                	plotRenderer.setSeriesShapesVisible(i, false);
+                if (dataset.getSeries(i).getItemCount() > 1) {
+                    plotRenderer.setSeriesShapesVisible(i, false);
                 }
             }
             plot.setRenderer(plotRenderer);
-            ((NumberAxis)plot.getDomainAxis()).setAutoRangeIncludesZero(false);
-            ((NumberAxis)plot.getRangeAxis()).setAutoRangeIncludesZero(false);
+            ((NumberAxis) plot.getDomainAxis()).setAutoRangeIncludesZero(false);
+            ((NumberAxis) plot.getRangeAxis()).setAutoRangeIncludesZero(false);
             plot.setBackgroundPaint(Color.WHITE);
             legend = chart.getLegend();
             chart.removeLegend();
 //            chart.setBackgroundPaint(new Color(228,233,238));
-            chart.setBackgroundPaint(new Color(244,244,244));
+            chart.setBackgroundPaint(new Color(244, 244, 244));
             this.chart = chart;
-    	}
-    	else{
+        } else {
             // Add customization options to chart
             XYPlot plot = chart.getXYPlot();
-            for (int i = counter-1; i < colors.size(); i++) {
+            for (int i = counter - 1; i < colors.size(); i++) {
                 // adding plot renderer
                 plotRenderer.setSeriesStroke(i, strokes.get(i));
                 plotRenderer.setSeriesPaint(i, colors.get(i));
-                if(dataset.getSeries(i).getItemCount()>1){
-                	plotRenderer.setSeriesShapesVisible(i, false);
+                if (dataset.getSeries(i).getItemCount() > 1) {
+                    plotRenderer.setSeriesShapesVisible(i, false);
                 }
             }
             plot.setRenderer(plotRenderer);
-            ((NumberAxis)plot.getDomainAxis()).setAutoRangeIncludesZero(false);
-            ((NumberAxis)plot.getRangeAxis()).setAutoRangeIncludesZero(false);
+            ((NumberAxis) plot.getDomainAxis()).setAutoRangeIncludesZero(false);
+            ((NumberAxis) plot.getRangeAxis()).setAutoRangeIncludesZero(false);
             plot.setBackgroundPaint(Color.WHITE);
             legend = chart.getLegend();
             chart.removeLegend();
-    	}
+        }
 
     }
 
@@ -175,69 +175,70 @@ public class MatlabChart {
         }
     }
 
-    public int getNumberOfFigures(){
-    	return dataset.getSeriesCount() ;
+    public int getNumberOfFigures() {
+        return dataset.getSeriesCount();
     }
 
     // check this later
-    public void clear(){
-    	colors.clear();
-    	strokes.clear();
-    	specs.clear();
-    	dataset = new XYSeriesCollection() ;
-    	plotRenderer = new XYLineAndShapeRenderer() ;
-    	chart = ChartFactory.createXYLineChart(null,getXLabel(),getYLabel(),dataset,PlotOrientation.VERTICAL,true, false, false);
-    	counter = 0 ;
-    	font(font.getName()) ;
+    public void clear() {
+        colors.clear();
+        strokes.clear();
+        specs.clear();
+        dataset = new XYSeriesCollection();
+        plotRenderer = new XYLineAndShapeRenderer();
+        chart = ChartFactory.createXYLineChart(null, getXLabel(), getYLabel(), dataset, PlotOrientation.VERTICAL,
+                true, false, false);
+        counter = 0;
+        font(font.getName());
     }
 
     //*********************************************************
-    public void markerON(){
-    	int numSeries = chart.getXYPlot().getSeriesCount() ;
-    	for(int i=0; i<numSeries; i++){
-    		plotRenderer.setSeriesShapesVisible(i, true);
-    	}
-    	chart.getXYPlot().setRenderer(plotRenderer);
+    public void markerON() {
+        int numSeries = chart.getXYPlot().getSeriesCount();
+        for (int i = 0; i < numSeries; i++) {
+            plotRenderer.setSeriesShapesVisible(i, true);
+        }
+        chart.getXYPlot().setRenderer(plotRenderer);
     }
 
-    public void markerON(int figNumber){
-    	plotRenderer.setSeriesShapesVisible(figNumber, true);
-    	chart.getXYPlot().setRenderer(plotRenderer);
+    public void markerON(int figNumber) {
+        plotRenderer.setSeriesShapesVisible(figNumber, true);
+        chart.getXYPlot().setRenderer(plotRenderer);
     }
 
-    public void markerOFF(){
-    	int numSeries = chart.getXYPlot().getSeriesCount() ;
-    	for(int i=0; i<numSeries; i++){
-    		plotRenderer.setSeriesShapesVisible(i, false);
-    	}
-    	chart.getXYPlot().setRenderer(plotRenderer);
+    public void markerOFF() {
+        int numSeries = chart.getXYPlot().getSeriesCount();
+        for (int i = 0; i < numSeries; i++) {
+            plotRenderer.setSeriesShapesVisible(i, false);
+        }
+        chart.getXYPlot().setRenderer(plotRenderer);
     }
 
-    public void markerOFF(int figNumber){
-    	plotRenderer.setSeriesShapesVisible(figNumber, false);
-    	chart.getXYPlot().setRenderer(plotRenderer);
+    public void markerOFF(int figNumber) {
+        plotRenderer.setSeriesShapesVisible(figNumber, false);
+        chart.getXYPlot().setRenderer(plotRenderer);
     }
 
     //*********************************************************
 
-    public void setXAxis_to_Log(){
-    	NumberAxis xLogAxis = new LogarithmicAxis(getXLabel()) ;
-    	chart.getXYPlot().setDomainAxis(xLogAxis);
+    public void setXAxis_to_Log() {
+        NumberAxis xLogAxis = new LogarithmicAxis(getXLabel());
+        chart.getXYPlot().setDomainAxis(xLogAxis);
     }
 
-    public void setXAxis_to_Linear(){
-    	NumberAxis xLinearAxis = new NumberAxis(getXLabel()) ;
-    	chart.getXYPlot().setDomainAxis(xLinearAxis);
+    public void setXAxis_to_Linear() {
+        NumberAxis xLinearAxis = new NumberAxis(getXLabel());
+        chart.getXYPlot().setDomainAxis(xLinearAxis);
     }
 
-    public void setYAxis_to_Log(){
-    	NumberAxis yLogAxis = new LogarithmicAxis(getYLabel()) ;
-    	chart.getXYPlot().setRangeAxis(yLogAxis);
+    public void setYAxis_to_Log() {
+        NumberAxis yLogAxis = new LogarithmicAxis(getYLabel());
+        chart.getXYPlot().setRangeAxis(yLogAxis);
     }
 
-    public void setYAxis_to_Linear(){
-    	NumberAxis yLinearAxis = new LogarithmicAxis(getYLabel()) ;
-    	chart.getXYPlot().setRangeAxis(yLinearAxis);
+    public void setYAxis_to_Linear() {
+        NumberAxis yLinearAxis = new LogarithmicAxis(getYLabel());
+        chart.getXYPlot().setRangeAxis(yLinearAxis);
     }
 
     //*********************************************************
@@ -290,7 +291,7 @@ public class MatlabChart {
 
     public String getTitle() {
         CheckExists();
-        return chart.getTitle().getText() ;
+        return chart.getTitle().getText();
     }
 
     public void setTitle(String title) {
@@ -298,7 +299,7 @@ public class MatlabChart {
         chart.setTitle(title);
     }
 
-    public void titleOFF(){
+    public void titleOFF() {
         chart.setTitle("");
     }
 
@@ -314,9 +315,9 @@ public class MatlabChart {
 
     public double[] getXlim() {
         CheckExists();
-        double xMin = chart.getXYPlot().getDomainAxis().getRange().getLowerBound() ;
-        double xMax = chart.getXYPlot().getDomainAxis().getRange().getUpperBound() ;
-        return new double[] {xMin, xMax} ;
+        double xMin = chart.getXYPlot().getDomainAxis().getRange().getLowerBound();
+        double xMax = chart.getXYPlot().getDomainAxis().getRange().getUpperBound();
+        return new double[]{xMin, xMax};
     }
 
     public void ylim(double l, double u) {
@@ -331,9 +332,9 @@ public class MatlabChart {
 
     public double[] getYlim() {
         CheckExists();
-        double yMin = chart.getXYPlot().getRangeAxis().getRange().getLowerBound() ;
-        double yMax = chart.getXYPlot().getRangeAxis().getRange().getUpperBound() ;
-        return new double[] {yMin, yMax} ;
+        double yMin = chart.getXYPlot().getRangeAxis().getRange().getLowerBound();
+        double yMax = chart.getXYPlot().getRangeAxis().getRange().getUpperBound();
+        return new double[]{yMin, yMax};
     }
 
     public void xlabel(String label) {
@@ -356,71 +357,75 @@ public class MatlabChart {
         chart.getXYPlot().getRangeAxis().setLabel(label);
     }
 
-    public String getXLabel(){
-    	CheckExists();
-    	return chart.getXYPlot().getDomainAxis().getLabel() ;
+    public String getXLabel() {
+        CheckExists();
+        return chart.getXYPlot().getDomainAxis().getLabel();
     }
 
-    public String getYLabel(){
-    	CheckExists();
-    	return chart.getXYPlot().getRangeAxis().getLabel() ;
+    public String getYLabel() {
+        CheckExists();
+        return chart.getXYPlot().getRangeAxis().getLabel();
     }
 
     //***************Customization of the figures************
-    public void setFigColor(int figNumber, Color color){
-    	colors.set(figNumber, color) ;
-    	plotRenderer.setSeriesPaint(figNumber, color);
-    	chart.getXYPlot().setRenderer(plotRenderer);
+    public void setFigColor(int figNumber, Color color) {
+        colors.set(figNumber, color);
+        plotRenderer.setSeriesPaint(figNumber, color);
+        chart.getXYPlot().setRenderer(plotRenderer);
     }
 
-    public void setFigColor(int figNumber, javafx.scene.paint.Color colorfx){
-    	Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(), (float) colorfx.getOpacity()) ;
-    	colors.set(figNumber, color) ;
-    	plotRenderer.setSeriesPaint(figNumber, color);
-    	chart.getXYPlot().setRenderer(plotRenderer);
+    public void setFigColor(int figNumber, javafx.scene.paint.Color colorfx) {
+        Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(),
+                (float) colorfx.getOpacity());
+        colors.set(figNumber, color);
+        plotRenderer.setSeriesPaint(figNumber, color);
+        chart.getXYPlot().setRenderer(plotRenderer);
     }
 
 //    public void setFigLineWidth(int figNumber, float lineWidth){
-//    	BasicStroke stroke = new BasicStroke(lineWidth, strokes.get(figNumber).getEndCap(), strokes.get(figNumber).getLineJoin(), strokes.get(figNumber).getMiterLimit(), strokes.get(figNumber).getDashArray(), strokes.get(figNumber).getDashPhase()) ;
+//    	BasicStroke stroke = new BasicStroke(lineWidth, strokes.get(figNumber).getEndCap(), strokes.get(figNumber)
+//    	.getLineJoin(), strokes.get(figNumber).getMiterLimit(), strokes.get(figNumber).getDashArray(), strokes.get
+//    	(figNumber).getDashPhase()) ;
 //    	strokes.set(figNumber, stroke) ;
 //    	plotRenderer.setSeriesStroke(figNumber, stroke);
 //    	chart.getXYPlot().setRenderer(plotRenderer);
 //    }
 
-    public void setFigLineWidth(int figNumber, float lineWidth){
-    	if(lineWidth>0.1f){
-        	BasicStroke stroke = new BasicStroke(lineWidth, strokes.get(figNumber).getEndCap(), strokes.get(figNumber).getLineJoin(), strokes.get(figNumber).getMiterLimit(), strokes.get(figNumber).getDashArray(), strokes.get(figNumber).getDashPhase()) ;
-        	strokes.set(figNumber, stroke) ;
-        	plotRenderer.setSeriesStroke(figNumber, stroke);
-        	chart.getXYPlot().setRenderer(plotRenderer);
-    	}
-    	else{
-    		float[] dash_array = new float[2];
-    		dash_array[0] = Float.MIN_VALUE; //visible
-    		dash_array[1] = Float.MAX_VALUE; //invisible
-    		BasicStroke stroke = new BasicStroke(0.0f,
-    		    BasicStroke.CAP_SQUARE,
-    		    BasicStroke.JOIN_ROUND,
-    		    10f,
-    		    dash_array,
-    		    0f);
-    		plotRenderer.setSeriesStroke(figNumber, stroke);
-    	}
+    public void setFigLineWidth(int figNumber, float lineWidth) {
+        if (lineWidth > 0.1f) {
+            BasicStroke stroke = new BasicStroke(lineWidth, strokes.get(figNumber).getEndCap(),
+                    strokes.get(figNumber).getLineJoin(), strokes.get(figNumber).getMiterLimit(),
+                    strokes.get(figNumber).getDashArray(), strokes.get(figNumber).getDashPhase());
+            strokes.set(figNumber, stroke);
+            plotRenderer.setSeriesStroke(figNumber, stroke);
+            chart.getXYPlot().setRenderer(plotRenderer);
+        } else {
+            float[] dash_array = new float[2];
+            dash_array[0] = Float.MIN_VALUE; //visible
+            dash_array[1] = Float.MAX_VALUE; //invisible
+            BasicStroke stroke = new BasicStroke(0.0f,
+                    BasicStroke.CAP_SQUARE,
+                    BasicStroke.JOIN_ROUND,
+                    10f,
+                    dash_array,
+                    0f);
+            plotRenderer.setSeriesStroke(figNumber, stroke);
+        }
 
     }
 
-    public void setFigLineStyle(int figNumber, String lineStyle){
-    	float lineWidth = strokes.get(figNumber).getLineWidth() ;
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
-    	BasicStroke stroke = strokes.get(figNumber) ;
+    public void setFigLineStyle(int figNumber, String lineStyle) {
+        float lineWidth = strokes.get(figNumber).getLineWidth();
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
+        BasicStroke stroke = strokes.get(figNumber);
         if (lineStyle.contains("-"))
             stroke = new BasicStroke(lineWidth);
         else if (lineStyle.contains(":"))
             stroke = new BasicStroke(lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
         else if (lineStyle.contains("."))
             stroke = new BasicStroke(lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 2.0f, dot, 0.0f);
-        strokes.set(figNumber, stroke) ;
+        strokes.set(figNumber, stroke);
         plotRenderer.setSeriesStroke(figNumber, stroke);
         chart.getXYPlot().setRenderer(plotRenderer);
     }
@@ -431,64 +436,85 @@ public class MatlabChart {
         legend.setItemFont(font);
         legend.setBackgroundPaint(Color.WHITE);
         legend.setFrame(new BlockBorder(Color.BLACK));
-        if (position.toLowerCase().equals("northoutside")) {
-            legend.setPosition(RectangleEdge.TOP);
-            chart.addLegend(legend);
-        } else if (position.toLowerCase().equals("eastoutside")) {
-            legend.setPosition(RectangleEdge.RIGHT);
-            chart.addLegend(legend);
-        } else if (position.toLowerCase().equals("southoutside")) {
-            legend.setPosition(RectangleEdge.BOTTOM);
-            chart.addLegend(legend);
-        } else if (position.toLowerCase().equals("westoutside")) {
-            legend.setPosition(RectangleEdge.LEFT);
-            chart.addLegend(legend);
-        } else if (position.toLowerCase().equals("north")) {
-            legend.setPosition(RectangleEdge.TOP);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.50,0.98,legend,RectangleAnchor.TOP);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("northeast")) {
-            legend.setPosition(RectangleEdge.TOP);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.98,0.98,legend,RectangleAnchor.TOP_RIGHT);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("east")) {
-            legend.setPosition(RectangleEdge.RIGHT);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.98,0.50,legend,RectangleAnchor.RIGHT);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("southeast")) {
-            legend.setPosition(RectangleEdge.BOTTOM);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.98,0.02,legend,RectangleAnchor.BOTTOM_RIGHT);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("south")) {
-            legend.setPosition(RectangleEdge.BOTTOM);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.50,0.02,legend,RectangleAnchor.BOTTOM);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("southwest")) {
-            legend.setPosition(RectangleEdge.BOTTOM);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.02,0.02,legend,RectangleAnchor.BOTTOM_LEFT);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("west")) {
-            legend.setPosition(RectangleEdge.LEFT);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.02,0.50,legend,RectangleAnchor.LEFT);
-            chart.getXYPlot().addAnnotation(ta);
-        } else if (position.toLowerCase().equals("northwest")) {
-            legend.setPosition(RectangleEdge.TOP);
-            XYTitleAnnotation ta = new XYTitleAnnotation(0.02,0.98,legend,RectangleAnchor.TOP_LEFT);
-            chart.getXYPlot().addAnnotation(ta);
+        switch (position.toLowerCase()) {
+            case "northoutside":
+                legend.setPosition(RectangleEdge.TOP);
+                chart.addLegend(legend);
+                break;
+            case "eastoutside":
+                legend.setPosition(RectangleEdge.RIGHT);
+                chart.addLegend(legend);
+                break;
+            case "southoutside":
+                legend.setPosition(RectangleEdge.BOTTOM);
+                chart.addLegend(legend);
+                break;
+            case "westoutside":
+                legend.setPosition(RectangleEdge.LEFT);
+                chart.addLegend(legend);
+                break;
+            case "north": {
+                legend.setPosition(RectangleEdge.TOP);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.50, 0.98, legend, RectangleAnchor.TOP);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "northeast": {
+                legend.setPosition(RectangleEdge.TOP);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.98, 0.98, legend, RectangleAnchor.TOP_RIGHT);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "east": {
+                legend.setPosition(RectangleEdge.RIGHT);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.98, 0.50, legend, RectangleAnchor.RIGHT);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "southeast": {
+                legend.setPosition(RectangleEdge.BOTTOM);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.98, 0.02, legend, RectangleAnchor.BOTTOM_RIGHT);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "south": {
+                legend.setPosition(RectangleEdge.BOTTOM);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.50, 0.02, legend, RectangleAnchor.BOTTOM);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "southwest": {
+                legend.setPosition(RectangleEdge.BOTTOM);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.02, 0.02, legend, RectangleAnchor.BOTTOM_LEFT);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "west": {
+                legend.setPosition(RectangleEdge.LEFT);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.02, 0.50, legend, RectangleAnchor.LEFT);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
+            case "northwest": {
+                legend.setPosition(RectangleEdge.TOP);
+                XYTitleAnnotation ta = new XYTitleAnnotation(0.02, 0.98, legend, RectangleAnchor.TOP_LEFT);
+                chart.getXYPlot().addAnnotation(ta);
+                break;
+            }
         }
     }
 
-	public void legendON() {
+    public void legendON() {
         CheckExists();
         legend.setItemFont(font);
         legend.setBackgroundPaint(Color.WHITE);
         legend.setFrame(new BlockBorder(Color.BLACK));
         legend.setPosition(RectangleEdge.TOP);
-        XYTitleAnnotation ta = new XYTitleAnnotation(0.98,0.98,legend,RectangleAnchor.TOP_RIGHT);
+        XYTitleAnnotation ta = new XYTitleAnnotation(0.98, 0.98, legend, RectangleAnchor.TOP_RIGHT);
         chart.getXYPlot().addAnnotation(ta);
     }
 
-    public void legendOFF(){
+    public void legendOFF() {
         chart.removeLegend();
         chart.getXYPlot().clearAnnotations();
     }
@@ -496,7 +522,7 @@ public class MatlabChart {
     //*********************************************************
     public void grid(String xAxis, String yAxis) {
         CheckExists();
-        if (xAxis.equalsIgnoreCase("on")){
+        if (xAxis.equalsIgnoreCase("on")) {
             chart.getXYPlot().setDomainGridlinesVisible(true);
             chart.getXYPlot().setDomainMinorGridlinesVisible(true);
             chart.getXYPlot().setDomainGridlinePaint(Color.GRAY);
@@ -504,7 +530,7 @@ public class MatlabChart {
             chart.getXYPlot().setDomainGridlinesVisible(false);
             chart.getXYPlot().setDomainMinorGridlinesVisible(false);
         }
-        if (yAxis.equalsIgnoreCase("on")){
+        if (yAxis.equalsIgnoreCase("on")) {
             chart.getXYPlot().setRangeGridlinesVisible(true);
             chart.getXYPlot().setRangeMinorGridlinesVisible(true);
             chart.getXYPlot().setRangeGridlinePaint(Color.GRAY);
@@ -517,36 +543,35 @@ public class MatlabChart {
 
     //*********************************************************
 
-    public JFreeChart configureForSave(){
-    	JFreeChart chart = new JFreeChart(getRawXYPlot());
-		try {
-			chart = (JFreeChart) this.chart.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-  	  	// background color
-  	  	chart.setBackgroundPaint(Color.WHITE);
-  	  	// set xy plot stroke and paint
-  	  	chart.getXYPlot().setOutlinePaint(Color.BLACK);
-  	  	chart.getXYPlot().setOutlineStroke(new BasicStroke(2));
-  	  	// setting up the font
-  	  	// setting up the font
-  	  	Font font = JFreeChart.DEFAULT_TITLE_FONT;
-  	  	int fontSize = 20 ;
+    public JFreeChart configureForSave() {
+        JFreeChart chart = new JFreeChart(getRawXYPlot());
+        try {
+            chart = (JFreeChart) this.chart.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        // background color
+        chart.setBackgroundPaint(Color.WHITE);
+        // set xy plot stroke and paint
+        chart.getXYPlot().setOutlinePaint(Color.BLACK);
+        chart.getXYPlot().setOutlineStroke(new BasicStroke(2));
+        // setting up the font
+        // setting up the font
+        Font font = JFreeChart.DEFAULT_TITLE_FONT;
+        int fontSize = 20;
         font = new Font(font.getName(), Font.PLAIN, fontSize);
         chart.getXYPlot().getDomainAxis().setLabelFont(font);
         chart.getXYPlot().getDomainAxis().setTickLabelFont(font);
         chart.getXYPlot().getRangeAxis().setLabelFont(font);
         chart.getXYPlot().getRangeAxis().setTickLabelFont(font);
-        return chart ;
+        return chart;
     }
 
     public void saveas(String fileName, int width, int height) {
         CheckExists();
         File file = new File(fileName);
         try {
-            ChartUtilities.saveChartAsJPEG(file,this.chart,width,height);
+            ChartUtilities.saveChartAsJPEG(file, this.chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -574,11 +599,11 @@ public class MatlabChart {
 
     public void saveAsJPEG(int width, int height) {
         CheckExists();
-        float quality = 1 ;
-        FileChooserFX fc = new FileChooserFX() ;
+        float quality = 1;
+        FileChooserFX fc = new FileChooserFX();
         fc.setExtension("jpeg");
         fc.saveFile();
-        File file = fc.getSelectedFile() ;
+        File file = fc.getSelectedFile();
         try {
 //            ChartUtilities.saveChartAsJPEG(file, quality, this.chart, width, height);
             ChartUtilities.saveChartAsJPEG(file, quality, configureForSave(), width, height);
@@ -590,10 +615,10 @@ public class MatlabChart {
     public void saveAsPNG(int width, int height) {
         CheckExists();
         configureForSave();
-        FileChooserFX fc = new FileChooserFX() ;
+        FileChooserFX fc = new FileChooserFX();
         fc.setExtension("png");
         fc.saveFile();
-        File file = fc.getSelectedFile() ;
+        File file = fc.getSelectedFile();
         try {
 //            ChartUtilities.saveChartAsPNG(file, this.chart, width, height);
             ChartUtilities.saveChartAsPNG(file, configureForSave(), width, height);
@@ -603,30 +628,30 @@ public class MatlabChart {
     }
 
 
-    public void saveAsSVG(int width, int height){
+    public void saveAsSVG(int width, int height) {
         CheckExists();
         configureForSave();
-    	SVGGraphics2D g2 = new SVGGraphics2D(width, height);
+        SVGGraphics2D g2 = new SVGGraphics2D(width, height);
 //    	chart.draw(g2, new Rectangle(width, height));
-    	configureForSave().draw(g2, new Rectangle(width, height));
-    	String svgElement = g2.getSVGElement() ;
-        FileChooserFX fc = new FileChooserFX() ;
+        configureForSave().draw(g2, new Rectangle(width, height));
+        String svgElement = g2.getSVGElement();
+        FileChooserFX fc = new FileChooserFX();
         fc.setExtension("svg");
         fc.saveFile();
-        File file = fc.getSelectedFile() ;
+        File file = fc.getSelectedFile();
         try {
-			SVGUtils.writeToSVG(file, svgElement);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            SVGUtils.writeToSVG(file, svgElement);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     //***************Colors and Specs of the plot**************************
 
     public void FindColor(String spec, float lineWidth) {
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
         Color color = Color.RED;                    // Default color is red
         BasicStroke stroke = new BasicStroke(lineWidth); // Default stroke is line
         if (spec.contains("-"))
@@ -655,8 +680,8 @@ public class MatlabChart {
 
     // color from java.awt
     public void FindColor(String spec, float lineWidth, Color color) {
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
         BasicStroke stroke = new BasicStroke(lineWidth); // Default stroke is line
         if (spec.contains("-"))
             stroke = new BasicStroke(lineWidth);
@@ -670,8 +695,8 @@ public class MatlabChart {
 
     // color from javafx
     public void FindColor(String spec, float lineWidth, javafx.scene.paint.Color colorfx) {
-        float dash[] = {5.0f};
-        float dot[] = {lineWidth};
+        float[] dash = {5.0f};
+        float[] dot = {lineWidth};
         BasicStroke stroke = new BasicStroke(lineWidth); // Default stroke is line
         if (spec.contains("-"))
             stroke = new BasicStroke(lineWidth);
@@ -679,59 +704,64 @@ public class MatlabChart {
             stroke = new BasicStroke(lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
         else if (spec.contains("."))
             stroke = new BasicStroke(lineWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 2.0f, dot, 0.0f);
-        Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(), (float) colorfx.getOpacity()) ;
+        Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(),
+                (float) colorfx.getOpacity());
         colors.add(color);
         strokes.add(stroke);
     }
 
-    public void setAllColors(javafx.scene.paint.Color colorfx){
-    	Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(), (float) colorfx.getOpacity()) ;
-    	int M = colors.size() ;
-    	for(int i=0; i<M; i++){
-    		colors.set(i, color) ;
-    	}
+    public void setAllColors(javafx.scene.paint.Color colorfx) {
+        Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(),
+                (float) colorfx.getOpacity());
+        int M = colors.size();
+        for (int i = 0; i < M; i++) {
+            colors.set(i, color);
+        }
     }
 
-    public void setAllColors(Color color){
-    	int M = colors.size() ;
-    	for(int i=0; i<M; i++){
-    		colors.set(i, color) ;
-    	}
+    public void setAllColors(Color color) {
+        int M = colors.size();
+        for (int i = 0; i < M; i++) {
+            colors.set(i, color);
+        }
     }
 
-    public void setSpecificChartColor(int datasetNumber, javafx.scene.paint.Color colorfx){
-    	Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(), (float) colorfx.getOpacity()) ;
-    	colors.set(datasetNumber, color) ;
+    public void setSpecificChartColor(int datasetNumber, javafx.scene.paint.Color colorfx) {
+        Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(),
+                (float) colorfx.getOpacity());
+        colors.set(datasetNumber, color);
     }
 
-    public void setSpecificChartColor(int datasetNumber, Color color){
-    	colors.set(datasetNumber, color) ;
+    public void setSpecificChartColor(int datasetNumber, Color color) {
+        colors.set(datasetNumber, color);
     }
 
-    public void setLastChartColor(javafx.scene.paint.Color colorfx){
-    	Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(), (float) colorfx.getOpacity()) ;
-    	int M = colors.size() ;
-    	colors.set(M-1, color) ;
+    public void setLastChartColor(javafx.scene.paint.Color colorfx) {
+        Color color = new Color((float) colorfx.getRed(), (float) colorfx.getGreen(), (float) colorfx.getBlue(),
+                (float) colorfx.getOpacity());
+        int M = colors.size();
+        colors.set(M - 1, color);
     }
 
     //*********************************************************
-    public JFreeChart getRawChart(){
-        return chart ;
+    public JFreeChart getRawChart() {
+        return chart;
     }
 
-    public JFreeChart getChart(){
-        return this.chart ;
+    public JFreeChart getChart() {
+        return this.chart;
     }
 
-    public XYPlot getRawXYPlot(){
-        return chart.getXYPlot() ;
+    public XYPlot getRawXYPlot() {
+        return chart.getXYPlot();
     }
 
 //    public void run(){
 //        JFrame chartFrame = new JFrame() ;
 //        chartFrame.setSize(640, 450);
 //        chartFrame.getContentPane().add(new ChartPanel(chart)) ;
-//        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/People/Meisam/GUI/Plotters/MatlabPlotter/Extras/presentation.png"));
+//        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource
+//        ("/People/Meisam/GUI/Plotters/MatlabPlotter/Extras/presentation.png"));
 //        chartFrame.setIconImage(image);
 //        chartFrame.setTitle("Plot Viewer v1.0");
 //        chartFrame.setVisible(true);
@@ -741,7 +771,8 @@ public class MatlabChart {
 //        JFrame chartFrame = new JFrame() ;
 //        chartFrame.setSize(640, 450);
 //        chartFrame.getContentPane().add(new ChartPanel(chart)) ;
-//        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/People/Meisam/GUI/Plotters/MatlabPlotter/Extras/presentation.png"));
+//        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource
+//        ("/People/Meisam/GUI/Plotters/MatlabPlotter/Extras/presentation.png"));
 //        chartFrame.setIconImage(image);
 //        chartFrame.setTitle("Plot Viewer v1.0");
 //        chartFrame.setVisible(true);
@@ -750,123 +781,128 @@ public class MatlabChart {
 //        }
 //    }
 
-    public void run(){
-    	CustomChartPanel cpanel = new CustomChartPanel(this.chart, 640, 450, 640, 450, 640, 450, true, true, true, true, true, true) ;
-	    JFrame chartFrame = new JFrame() ;
-	    chartFrame.add(cpanel) ;
-	    chartFrame.setSize(640, 450);
-        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/People/Meisam/GUI/Plotters/MatlabPlotter/Extras/presentation.png"));
+    public void run() {
+        CustomChartPanel cpanel = new CustomChartPanel(this.chart, 640, 450, 640, 450, 640, 450, true, true, true,
+                true, true, true);
+        JFrame chartFrame = new JFrame();
+        chartFrame.add(cpanel);
+        chartFrame.setSize(640, 450);
+        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/People/Meisam/GUI/Plotters" +
+                "/MatlabPlotter/Extras/presentation.png"));
         chartFrame.setIconImage(image);
         chartFrame.setTitle("Plot Viewer v1.0");
         chartFrame.setVisible(true);
     }
 
-    public void run(boolean systemExit){
-    	CustomChartPanel cpanel = new CustomChartPanel(this.chart, 640, 450, 640, 450, 640, 450, true, true, true, true, true, true) ;
-	    JFrame chartFrame = new JFrame() ;
-	    chartFrame.add(cpanel) ;
-	    chartFrame.setSize(640, 450);
-        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/People/Meisam/GUI/Plotters/MatlabPlotter/Extras/presentation.png"));
+    public void run(boolean systemExit) {
+        CustomChartPanel cpanel = new CustomChartPanel(this.chart, 640, 450, 640, 450, 640, 450, true, true, true,
+                true, true, true);
+        JFrame chartFrame = new JFrame();
+        chartFrame.add(cpanel);
+        chartFrame.setSize(640, 450);
+        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/People/Meisam/GUI/Plotters" +
+                "/MatlabPlotter/Extras/presentation.png"));
         chartFrame.setIconImage(image);
         chartFrame.setTitle("Plot Viewer v1.0");
         chartFrame.setVisible(true);
-        if(systemExit){
-        	chartFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (systemExit) {
+            chartFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
     }
 
-    public JFrame getChartJFrame(int width, int height){
-        JFrame chartFrame = new JFrame() ;
+    public JFrame getChartJFrame(int width, int height) {
+        JFrame chartFrame = new JFrame();
         chartFrame.setSize(width, height);
-        chartFrame.getContentPane().add(new ChartPanel(chart)) ;
-        return chartFrame ;
+        chartFrame.getContentPane().add(new ChartPanel(chart));
+        return chartFrame;
     }
 
-    public JFrame getChartJFrame(){
-        JFrame chartFrame = new JFrame() ;
+    public JFrame getChartJFrame() {
+        JFrame chartFrame = new JFrame();
         chartFrame.setSize(640, 450);
-        chartFrame.getContentPane().add(new ChartPanel(chart)) ;
-        return chartFrame ;
+        chartFrame.getContentPane().add(new ChartPanel(chart));
+        return chartFrame;
     }
 
-    public ChartPanel getChartPanel(){
-        return new ChartPanel(chart) ;
+    public ChartPanel getChartPanel() {
+        return new ChartPanel(chart);
     }
 
-    public ChartPanel getChartPanel(int width, int height){
-        ChartPanel panel = new ChartPanel(chart) ;
+    public ChartPanel getChartPanel(int width, int height) {
+        ChartPanel panel = new ChartPanel(chart);
         panel.setPreferredSize(new Dimension(width, height));
-        return panel ;
+        return panel;
     }
 
 
-    public SwingNode getChartSwingNode(){
-        SwingNode chartSwingNode = new SwingNode() ;
+    public SwingNode getChartSwingNode() {
+        SwingNode chartSwingNode = new SwingNode();
         chartSwingNode.setContent(new ChartPanel(chart));
-        return chartSwingNode ;
+        return chartSwingNode;
     }
 
-    public SwingNode getChartSwingNode(int width, int height){
-        SwingNode chartSwingNode = new SwingNode() ;
+    public SwingNode getChartSwingNode(int width, int height) {
+        SwingNode chartSwingNode = new SwingNode();
         chartSwingNode.resize(width, height);
         chartSwingNode.setContent(getChartPanel(width, height));
-        return chartSwingNode ;
+        return chartSwingNode;
     }
 
     // export to MATLAB --> must export all
-    public void exportToMatlab() throws IOException{
-        FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/exportToMatlab.fxml")) ;
-        WindowBuilder builder = new WindowBuilder(loader) ;
+    public void exportToMatlab() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/ExportPlot" +
+                "/ExportToMATLAB/exportToMatlab.fxml"));
+        WindowBuilder builder = new WindowBuilder(loader);
         builder.setIcon("/People/Meisam/GUI/Utilities/ExportPlot/ExportToMATLAB/Extras/MatlabIcons/Matlab_Logo.png");
         builder.build("Configure Export To Matlab", false);
-        ExportToMatlabController controller = loader.getController() ;
-        double[] x = {} ;
-        double[] y = {} ;
-        int M = dataset.getSeries(0).getItemCount() ;
-        for(int i=0; i<M; i++){
-        	x = MoreMath.Arrays.append(x, dataset.getSeries(0).getX(i).doubleValue()) ;
-        	y = MoreMath.Arrays.append(y, dataset.getSeries(0).getY(i).doubleValue()) ;
+        ExportToMatlabController controller = loader.getController();
+        double[] x = {};
+        double[] y = {};
+        int M = dataset.getSeries(0).getItemCount();
+        for (int i = 0; i < M; i++) {
+            x = MoreMath.Arrays.append(x, dataset.getSeries(0).getX(i).doubleValue());
+            y = MoreMath.Arrays.append(y, dataset.getSeries(0).getY(i).doubleValue());
         }
-        SimulationVariable xVar = new SimulationVariable(getXLabel(), x) ;
-        SimulationVariable yVar = new SimulationVariable(getYLabel(), y) ;
+        SimulationVariable xVar = new SimulationVariable(getXLabel(), x);
+        SimulationVariable yVar = new SimulationVariable(getYLabel(), y);
         controller.setVariables(xVar, yVar);
 //        controller.initialize();
     }
 
     // export to text file --> must export all the dataset not just one plot!
-    public void exportToFile(){
-        double[] x = {} ;
-        double[] y = {} ;
-        int M = dataset.getSeries(0).getItemCount() ;
-        for(int i=0; i<M; i++){
-        	x = MoreMath.Arrays.append(x, dataset.getSeries(0).getX(i).doubleValue()) ;
-        	y = MoreMath.Arrays.append(y, dataset.getSeries(0).getY(i).doubleValue()) ;
+    public void exportToFile() {
+        double[] x = {};
+        double[] y = {};
+        int M = dataset.getSeries(0).getItemCount();
+        for (int i = 0; i < M; i++) {
+            x = MoreMath.Arrays.append(x, dataset.getSeries(0).getX(i).doubleValue());
+            y = MoreMath.Arrays.append(y, dataset.getSeries(0).getY(i).doubleValue());
         }
-        SimulationVariable xVar = new SimulationVariable(getXLabel(), x) ;
-        SimulationVariable yVar = new SimulationVariable(getYLabel(), y) ;
-        ExportVariables exp = new ExportVariables(xVar, yVar) ;
+        SimulationVariable xVar = new SimulationVariable(getXLabel(), x);
+        SimulationVariable yVar = new SimulationVariable(getYLabel(), y);
+        ExportVariables exp = new ExportVariables(xVar, yVar);
         exp.export();
     }
 
-    public void exportToFile(SimulationDataBase simDataBase){
-        SimulationVariable xVar = simDataBase.getVariableFromAlias(getXLabel()) ;
-        SimulationVariable yVar = simDataBase.getVariableFromAlias(getYLabel()) ;
-        ExportVariables exp = new ExportVariables(xVar, yVar) ;
+    public void exportToFile(SimulationDataBase simDataBase) {
+        SimulationVariable xVar = simDataBase.getVariableFromAlias(getXLabel());
+        SimulationVariable yVar = simDataBase.getVariableFromAlias(getYLabel());
+        ExportVariables exp = new ExportVariables(xVar, yVar);
         exp.export();
     }
 
 
     //*********************************************************
     // for test
-    public static void main(String[] args){
-    	double[] x = MoreMath.linspace(-Math.PI/2, Math.PI, 1000) ;
-    	double[] y = MoreMath.Arrays.Functions.cos(x) ;
-    	double[] z = MoreMath.Arrays.Functions.abs(x) ;
-    	MatlabChart fig = new MatlabChart() ;
-    	fig.plot(x, y);
-    	fig.plot(x, z);
-    	fig.RenderPlot();
-    	fig.run(true);
+    public static void main(String[] args) {
+        double[] x = MoreMath.linspace(-Math.PI / 2, Math.PI, 1000);
+        double[] y = MoreMath.Arrays.Functions.cos(x);
+        double[] z = MoreMath.Arrays.Functions.abs(x);
+        MatlabChart fig = new MatlabChart();
+        fig.plot(x, y);
+        fig.plot(x, z);
+        fig.RenderPlot();
+        fig.run(true);
 
 //    	System.out.println(fig.getChart().getXYPlot().getDataset().getSeriesCount());
 //    	System.out.println(fig.getChart().getXYPlot().getDataset().getItemCount(0));

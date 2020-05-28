@@ -67,7 +67,7 @@ public class HybridSchedulerExecutionAgent extends AbstractThreadManagingAgent {
 		try {
 			this.c = c;
 			this.rank = rank;
-			helpers = new ArrayList<Helper>();
+			helpers = new ArrayList<>();
 			
 			while (!c.isToBeTerminated()) { // simulation can be running until a given number of packets
 				while ((c.hasExpiredReceptions(ref) || !hasLocalWork()) && !c.isToBeTerminated()) {
@@ -121,7 +121,7 @@ public class HybridSchedulerExecutionAgent extends AbstractThreadManagingAgent {
 		// decision for releasing helpers
 		if (passiveHelpers >= d - 1 && passiveHelpers > 0) {
 			int releases = passiveHelpers - (d - 1);
-			ArrayList<Integer> toRelease = new ArrayList<Integer>(releases);
+			ArrayList<Integer> toRelease = new ArrayList<>(releases);
 			for (int i = 0 ; i < helpers.size(); i++) {
 				Helper helper = helpers.get(i);
 				if (!helper.state) {
@@ -194,17 +194,16 @@ public class HybridSchedulerExecutionAgent extends AbstractThreadManagingAgent {
 		if (r instanceof ThreadResponse) {
 			ThreadResponse resp = (ThreadResponse)r;
 			if (resp.source.task instanceof RootTask) {
-				rootTaskTerminated((RootTask)(resp.source.task), ref);
+				rootTaskTerminated((RootTask) resp.source.task, ref);
 			} else {
 				resp.source.parent.receivedSubResponses++;
 			}
-			for (int i = 0 ; i < helpers.size() ; i++) {
-				Helper h = helpers.get(i);
-				if (h.id == resp.origin) {
-					h.state = false;
-					break;
-				}
-			}
+            for (Helper h : helpers) {
+                if (h.id == resp.origin) {
+                    h.state = false;
+                    break;
+                }
+            }
 			currentlyHelping--;
 			considerReleaseNode(ref);
 		}

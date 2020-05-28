@@ -122,7 +122,7 @@ public class InputBlockingTwoTwoSwitch extends TwoTwoSwitch implements SpinetCom
 	}
 	
 	private void acceptUp(Evt e, boolean crossed) {
-		SpinetMessage msg = ((SpinetMessage)e.getMessage());
+		SpinetMessage msg = (SpinetMessage)e.getMessage();
 		stateCrossed = crossed;
 		busyUntilUp = e.getTimeNS() + msg.getTransmissionTimeNS();
 		blockedUntil = busyUntilUp;
@@ -131,7 +131,7 @@ public class InputBlockingTwoTwoSwitch extends TwoTwoSwitch implements SpinetCom
 	}
 	
 	private void acceptDown(Evt e, boolean crossed) {
-		SpinetMessage msg = ((SpinetMessage)e.getMessage());
+		SpinetMessage msg = (SpinetMessage)e.getMessage();
 		stateCrossed = crossed;
 		busyUntilDown = e.getTimeNS() + msg.getTransmissionTimeNS();
 		blockedUntil = busyUntilDown;

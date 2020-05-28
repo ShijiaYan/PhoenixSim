@@ -21,7 +21,7 @@ class SessionTimer extends TimerTask{
 	public static int timerinteval = 30;
 
 	//var sessionTimers contains all session name and conresponding  Timer
-	public  static HashMap<String, SessionTimer> sessionTimers =new HashMap<String, SessionTimer>();
+	public  static HashMap<String, SessionTimer> sessionTimers = new HashMap<>();
 
 	//Used to store the time of the first connection
 	private Calendar iternalTime;
@@ -82,7 +82,7 @@ class SessionTimer extends TimerTask{
 	private long  computeGap(Calendar calendar){
 		long gap = 0 ;
 		if(!this.iternalTime.equals(calendar)){
-			gap=( calendar.getTimeInMillis() - this.iternalTime.getTimeInMillis());
+			gap= calendar.getTimeInMillis() - this.iternalTime.getTimeInMillis();
 			if(gap < 3000) {
 				gap = 0;
 			}

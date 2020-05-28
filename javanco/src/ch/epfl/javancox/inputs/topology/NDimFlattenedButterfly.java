@@ -95,18 +95,18 @@ public class NDimFlattenedButterfly extends AbstractDeterministicGenerator {
 			for (int j = 0 ; j < currentNodes ; j++) {
 				agh.newNode();
 			}
-			for (int j = 0 ; j < existingLinks.size() ; j++) {
-				LinkContainer existing = existingLinks.get(j);
-				LinkContainer newL = agh.newLink(existing.getStartNodeIndex() + ((i+1)*currentNodes), existing.getEndNodeIndex() + ((i+1)*currentNodes));
-				if (colors) {
-					newL.attribute("link_color").setValue(existing.attribute("link_color").getValue());
-				}
-			}
+            for (LinkContainer existing : existingLinks) {
+                LinkContainer newL = agh.newLink(existing.getStartNodeIndex() + (i + 1) * currentNodes,
+                        existing.getEndNodeIndex() + (i + 1) * currentNodes);
+                if (colors) {
+                    newL.attribute("link_color").setValue(existing.attribute("link_color").getValue());
+                }
+            }
 		}
 		for (int k = 0 ; k < currentNodes ; k++) {
 			for (int i = 0 ; i < radixes[dim]-1 ; i++) {
 				for (int j = i+1 ; j < radixes[dim] ; j++ ) {
-					LinkContainer lc = agh.newLink((i*currentNodes) + k , (j*currentNodes) + k);
+					LinkContainer lc = agh.newLink(i*currentNodes + k , j*currentNodes + k);
 					if (colors) 
 						lc.attribute("link_color").setValue(cmap.getColorAsInt(dim));
 				}

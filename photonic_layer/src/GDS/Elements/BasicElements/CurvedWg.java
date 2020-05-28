@@ -137,17 +137,19 @@ public class CurvedWg extends AbstractElement {
 		String st03 = "## ---------------------------------------- ##" ;
 		String[] args = {st01, st02, st03} ;
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String point1 = "(" + center.getX() + "," + center.getY() + ")" ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			String st2 = objectName + " = gdspy.Round(" + point1 + "," + Rout + "," + "inner_radius=" + Rin + "," + "initial_angle=" + startAngleRad + "," +
-						"final_angle=" + finalAngleRad + "," + "number_of_points=3000" + "," + "max_points=5000" + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")"  ;
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String point1 = "(" + center.getX() + "," + center.getY() + ")";
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st2 = objectName + " = gdspy.Round(" + point1 + "," + Rout + "," + "inner_radius=" + Rin + "," +
+                    "initial_angle=" + startAngleRad + "," +
+                    "final_angle=" + finalAngleRad + "," + "number_of_points=3000" + "," + "max_points=5000" + "," +
+                    "layer=" + layerNumber + "," + "datatype=" + dataType + ")";
 
-			String st3 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3}) ;
-		}
+            String st3 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3});
+        }
 		return args ;
 	}
 	
@@ -155,17 +157,19 @@ public class CurvedWg extends AbstractElement {
 	public String[] getPythonCode_no_header(String fileName, String topCellName){
 		String[] args = new String[0] ;
 		int n = layerMap.length ;
-		for(int i=0; i<n; i++){
-			int layerNumber = layerMap[i].getLayerNumber() ;
-			int dataType = layerMap[i].getDataType() ;
-			String point1 = "(" + center.getX() + "," + center.getY() + ")" ;
-			String title = "### adding a "+ layerMap[i].getLayerName() +" layer" ;
-			String st2 = objectName + " = gdspy.Round(" + point1 + "," + Rout + "," + "inner_radius=" + Rin + "," + "initial_angle=" + startAngleRad + "," +
-						"final_angle=" + finalAngleRad + "," + "number_of_points=3000" + "," + "max_points=5000" + "," + "layer=" + layerNumber + "," + "datatype=" + dataType + ")"  ;
+        for (AbstractLayerMap abstractLayerMap : layerMap) {
+            int layerNumber = abstractLayerMap.getLayerNumber();
+            int dataType = abstractLayerMap.getDataType();
+            String point1 = "(" + center.getX() + "," + center.getY() + ")";
+            String title = "### adding a " + abstractLayerMap.getLayerName() + " layer";
+            String st2 = objectName + " = gdspy.Round(" + point1 + "," + Rout + "," + "inner_radius=" + Rin + "," +
+                    "initial_angle=" + startAngleRad + "," +
+                    "final_angle=" + finalAngleRad + "," + "number_of_points=3000" + "," + "max_points=5000" + "," +
+                    "layer=" + layerNumber + "," + "datatype=" + dataType + ")";
 
-			String st3 = topCellName + ".add(" + objectName + ")" ;
-			args = MoreMath.Arrays.concat(args, new String[] {title, st2, st3}) ;
-		}
+            String st3 = topCellName + ".add(" + objectName + ")";
+            args = MoreMath.Arrays.concat(args, new String[]{title, st2, st3});
+        }
 		return args ;
 	}
 	

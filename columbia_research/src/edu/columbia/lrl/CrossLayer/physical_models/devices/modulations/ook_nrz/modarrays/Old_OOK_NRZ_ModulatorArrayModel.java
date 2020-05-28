@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package edu.columbia.lrl.CrossLayer.physical_models.devices.modulations.ook_nrz.modarrays;
 
 import java.util.ArrayList;
@@ -104,7 +99,7 @@ public class Old_OOK_NRZ_ModulatorArrayModel extends AbstractRingBased_OOK_NRZ_M
 		} else if (shiftHz < 1.0E10D) { shiftHz = 1.0E10D; }
 
 		for (int i = -ext; i < ext; ++i) {
-			indexes[i + ext] = (double) i;
+			indexes[i + ext] = i;
 			if (i != 0) {
 				double r1 = RingResonance.getResonance(centerHz, fsrHz, this.q, v_laser + (double) i * channelSpacing);
 				double r2 = RingResonance.getResonance(centerHz - shiftHz, fsrHz, this.qWithCarriers,
@@ -126,7 +121,7 @@ public class Old_OOK_NRZ_ModulatorArrayModel extends AbstractRingBased_OOK_NRZ_M
 
 		PowerPenalty intermod = new PowerPenalty("Crosstalk", "Modulator", -10.0D * Math.log10(signal_mul_IL));
 		PowerPenalty passivePP = new PowerPenalty("Passive insertion loss", "Modulator", this.passiveIL);
-		return MoreArrays.getArrayList(new PowerPenalty[] { intermod, passivePP });
+		return MoreArrays.getArrayList(intermod, passivePP);
 	}
 
 	public Pair<Double, ArrayList<PowerPenalty>> getModulationERAndPowerPenalties(

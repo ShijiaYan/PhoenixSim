@@ -170,13 +170,13 @@ public class CustomLogAxis extends LogarithmicAxis {
                 //for each tick to be displayed
                 if (this.smallLogFlag) {
                     //small log values in use; create numeric value for tick
-                    currentTickValue = Math.pow(10, i) + (Math.pow(10, i) * j);
+                    currentTickValue = Math.pow(10, i) + Math.pow(10, i) * j;
                     if (this.expTickLabelsFlag
-                        || (i < 0 && currentTickValue > 0.0
-                        && currentTickValue < 1.0)) {
+                        || i < 0 && currentTickValue > 0.0
+                        && currentTickValue < 1.0) {
                         //showing "1e#"-style ticks or negative exponent
                         // generating tick value between 0 & 1; show fewer
-                        if (j == 0 || (i > -4 && j < 2)
+                        if (j == 0 || i > -4 && j < 2
                                    || currentTickValue >= upperBoundVal) {
                           //first tick of series, or not too small a value and
                           // one of first 3 ticks, or last tick to be displayed
@@ -195,8 +195,8 @@ public class CustomLogAxis extends LogarithmicAxis {
                                //show tick label if it's the first or last in
                                // the set, or if it's 1-5; beyond that show
                                // fewer as the values get larger:
-                        tickLabel = (j < 1 || (i < 1 && j < 5) || (j < 4 - i)
-                                         || currentTickValue >= upperBoundVal)
+                        tickLabel = j < 1 || i < 1 && j < 5 || j < 4 - i
+                                         || currentTickValue >= upperBoundVal
                                          ? makeTickLabel(currentTickValue) : "";
                     }
                 }
@@ -204,9 +204,9 @@ public class CustomLogAxis extends LogarithmicAxis {
                     if (zeroTickFlag) {   //if did zero tick last iter then
                         --j;              //decrement to do 1.0 tick now
                     }     //calculate power-of-ten value for tick:
-                    currentTickValue = (i >= 0)
-                        ? Math.pow(10, i) + (Math.pow(10, i) * j)
-                        : -(Math.pow(10, -i) - (Math.pow(10, -i - 1) * j));
+                    currentTickValue = i >= 0
+                        ? Math.pow(10, i) + Math.pow(10, i) * j
+                        : -(Math.pow(10, -i) - Math.pow(10, -i - 1) * j);
                     if (!zeroTickFlag) {  // did not do zero tick last iteration
                         if (Math.abs(currentTickValue - 1.0) < 0.0001
                             && lowerBoundVal <= 0.0 && upperBoundVal >= 0.0) {
@@ -222,10 +222,10 @@ public class CustomLogAxis extends LogarithmicAxis {
                                // of the first two, if it's the first or last
                                // in the set, or if it's 1-5; beyond that
                                // show fewer as the values get larger:
-                    tickLabel = ((this.expTickLabelsFlag && j < 2)
+                    tickLabel = this.expTickLabelsFlag && j < 2
                                 || j < 1
-                                || (i < 1 && j < 5) || (j < 4 - i)
-                                || currentTickValue >= upperBoundVal)
+                                || i < 1 && j < 5 || j < 4 - i
+                                || currentTickValue >= upperBoundVal
                                    ? makeTickLabel(currentTickValue) : "";
                 }
 

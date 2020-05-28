@@ -15,7 +15,7 @@ public class ClassListProcessor<T> extends LinkedList<Class<? extends T>> {
 	@SuppressWarnings("unchecked")
 	public ClassListProcessor(String pathTofile) {
 		try {
-			URL url = JavancoFile.findRessource(pathTofile);
+			URL url = JavancoFile.findResource(pathTofile);
 			BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
 			String line;
 			while ((line = read.readLine()) != null) {

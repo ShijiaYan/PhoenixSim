@@ -64,7 +64,7 @@ public class WrapperFactory {
 				if(myConsole == null) {
 					myConsole = (IConsoleRMI)Naming.lookup(rmiURL + "JavancoRMIService");
 					if(wrapperTable == null) {
-						wrapperTable = new HashMap<String, IRemoteGraphWrapper>();
+						wrapperTable = new HashMap<>();
 					}
 				}
 				ok = true;

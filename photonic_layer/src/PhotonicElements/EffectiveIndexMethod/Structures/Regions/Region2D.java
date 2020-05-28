@@ -51,65 +51,35 @@ public class Region2D {
 	}
 	
 	public double getXWidth(){
-		return (xMax-xMin) ;
+		return xMax-xMin;
 	}
 	
 	public double getYWidth(){
-		return (yMax-yMin) ;
+		return yMax-yMin;
 	}
 	
 	public boolean isInside(double x, double y){
-		if(x>xMin && x<xMax && y>yMin && y<yMax){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return x > xMin && x < xMax && y > yMin && y < yMax;
 	}
 	
 	public boolean isOnTheLeftBorder(double x, double y){
-		if(x == xMin){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return x == xMin;
 	}
 	
 	public boolean isOnTheRightBorder(double x, double y){
-		if(x == xMax){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return x == xMax;
 	}
 	
 	public boolean isOnTheBottomBorder(double x, double y){
-		if(y == yMin){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return y == yMin;
 	}
 	
 	public boolean isOnTheTopBorder(double x, double y){
-		if(y == yMax){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return y == yMax;
 	}
 	
 	public boolean isOnTheBorder(double x, double y){
-		if(isOnTheLeftBorder(x, y) || isOnTheRightBorder(x, y) || isOnTheBottomBorder(x, y) || isOnTheTopBorder(x, y)){
-			return true ;
-		}
-		else{
-			return false ;
-		}
+        return isOnTheLeftBorder(x, y) || isOnTheRightBorder(x, y) || isOnTheBottomBorder(x, y) || isOnTheTopBorder(x, y);
 	}
 	
 	//****** for test

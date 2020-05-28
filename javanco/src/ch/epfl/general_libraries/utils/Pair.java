@@ -46,7 +46,7 @@ public class Pair<A,B> implements Serializable {
 	}
 
 	public PairList<A,B> toPairList() {
-		return new PairList<A,B>(this);
+		return new PairList<>(this);
 	}
 	
 	@SuppressWarnings("unchecked")	
@@ -59,15 +59,15 @@ public class Pair<A,B> implements Serializable {
 			}
 			
 			public boolean equals(Object o) {
-				return (this == o);
+				return this == o;
 			}
 		};
 	}
 
 	@Override
 	public int hashCode() {
-		int tot = (object1 == null) ? 0 : object1.hashCode();
-		tot += (object2 == null) ? 0 : object2.hashCode();
+		int tot = object1 == null ? 0 : object1.hashCode();
+		tot += object2 == null ? 0 : object2.hashCode();
 		return tot;
 		/*	final int prime = 31;
 		int result = 1;
@@ -96,12 +96,7 @@ public class Pair<A,B> implements Serializable {
 			return false;
 		}
 		if (object2 == null) {
-			if (other.object2 != null) {
-				return false;
-			}
-		} else if (!object2.equals(other.object2)) {
-			return false;
-		}
-		return true;
-	}
+            return other.object2 == null;
+		} else return object2.equals(other.object2);
+    }
 }

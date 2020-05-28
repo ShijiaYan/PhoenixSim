@@ -36,7 +36,7 @@ public class GraphicalDataHandler implements XMLDataHandler, ElementListener {
 	private java.util.Hashtable<String, String[]> xpathTable;
 	private java.util.Hashtable<String, JavancoXMLElement> elementTable;
 
-	private Hashtable<String, String> cache = new Hashtable<String, String>();
+	private Hashtable<String, String> cache = new Hashtable<>();
 
 	private AbstractGraphHandler agh;
 
@@ -45,7 +45,7 @@ public class GraphicalDataHandler implements XMLDataHandler, ElementListener {
 	public GraphicalDataHandler(AbstractGraphHandler agh) {
 	//	this.uiDel = agh.getUIDelegate();
 		this.agh = agh;
-		elementTable = new Hashtable<String, JavancoXMLElement>();
+		elementTable = new Hashtable<>();
 		initXpathTable();
 	}
 
@@ -101,7 +101,7 @@ public class GraphicalDataHandler implements XMLDataHandler, ElementListener {
 	 * <br>#author lchatela
 	 */
 	private void initXpathTable() {
-		xpathTable = new java.util.Hashtable<String, String[]>();
+		xpathTable = new java.util.Hashtable<>();
 		/* background */
 		xpathTable.put("backgroundColor", new String[]{BACKGROUND_ELEMENT,"color",""});
 		/* backgroundImage */
@@ -192,7 +192,7 @@ public class GraphicalDataHandler implements XMLDataHandler, ElementListener {
 			throw new NullPointerException("No attribute of name " + variableName + " exists in this handler");
 		}
 		JavancoXMLElement el = getElement(path[0]);
-		NetworkAttribute att = (NetworkAttribute)el.attribute(path[1]);
+		NetworkAttribute att = el.attribute(path[1]);
 		
 	//	NetworkAttribute att = (NetworkAttribute)getXML().getBackedElement().selectSingleNode(path[0] + "/@" + path[1]);
 		if (att != null) {

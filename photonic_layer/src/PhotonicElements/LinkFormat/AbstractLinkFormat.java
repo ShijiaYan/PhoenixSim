@@ -39,7 +39,7 @@ public abstract class AbstractLinkFormat {
 	}
 	
 	public Rate getWavelengthRATE() {
-		return new Rate((long)(getWavelengthRate()), 1e6);		
+		return new Rate((long) getWavelengthRate(), 1e6);
 	}
 	/**
 	 * This method throws by default an extension. *Configurable* formats

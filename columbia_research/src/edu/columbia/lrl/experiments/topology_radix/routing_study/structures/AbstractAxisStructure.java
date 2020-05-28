@@ -18,8 +18,8 @@ public abstract class AbstractAxisStructure {
 	protected final static int[] emptyA1 = new int[0];
 	
 	static {
-		subClassRegister = new HashMap<Character, Pair<Integer[], Class<? extends AbstractAxisStructure>>>();
-		charRegister = new HashMap<Class<? extends AbstractAxisStructure>, Character>();		
+		subClassRegister = new HashMap<>();
+		charRegister = new HashMap<>();
 		
 		// enumerating the subclass will oblige to have them loaded
 		ClassRepository repo = Experiment.globals.classRepo;
@@ -55,7 +55,7 @@ public abstract class AbstractAxisStructure {
 										    subClassRegister.get(c).getSecond().getSimpleName());
 		}
 		Integer[] iMposed = MoreArrays.toIntegerArray(imposed);
-		subClassRegister.put(c, new Pair<Integer[], Class<? extends AbstractAxisStructure>>(iMposed, cl));
+		subClassRegister.put(c, new Pair<>(iMposed, cl));
 		charRegister.put(cl, c);
 	}
 	

@@ -33,7 +33,7 @@ public class PulseVoltage extends AbstractVoltage {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("tRiseEdge (usec)", tRiseEdge_usec+"") ;
 		map.put("tFallEdge (usec)", tFallEdge_usec+"") ;
 		map.put("vStart (V)", vStart+"") ;

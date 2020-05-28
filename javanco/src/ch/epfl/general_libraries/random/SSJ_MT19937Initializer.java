@@ -23,9 +23,9 @@ public class SSJ_MT19937Initializer implements CloneableRandomStream {
 		seedTab[0] = seed;
 		doub[0] = seed / 4294967296d;
 		for (int i = 1 ; i < 624 ; i++) {
-			seedTab[i] = (1812433253 * (seedTab[i-1] ^ (seedTab[i-1] >>> 30)) + i);
+			seedTab[i] = 1812433253 * (seedTab[i-1] ^ seedTab[i-1] >>> 30) + i;
 			seedTab[i] &= 0xffffffff;
-			doub[i] = (seedTab[i] / 4294967296d);
+			doub[i] = seedTab[i] / 4294967296d;
 		}
 	}
 
@@ -58,7 +58,7 @@ public class SSJ_MT19937Initializer implements CloneableRandomStream {
 
 	public double nextDouble() {
 		pointer++;
-		double toReturn = (seedTab[pointer - 1] / 4294967296d);
+		double toReturn = seedTab[pointer - 1] / 4294967296d;
 		/*	if (pointer < 10 || (seedTab.length - pointer < 10)) {
 			logger.trace("Initialiser " + pointer + " : " + toReturn);
 		}*/

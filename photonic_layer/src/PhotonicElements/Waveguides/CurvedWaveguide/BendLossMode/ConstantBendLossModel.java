@@ -19,12 +19,12 @@ public class ConstantBendLossModel extends AbstractBendLossModel {
 
 	@Override
 	public double getLossPerCm(double radiusMicron) {
-		return (alphadBperCm * 23/100);
+		return alphadBperCm * 23/100;
 	}
 
 	@Override
 	public double getLossPerMeter(double radiusMicron) {
-		return (alphadBperCm * 23);
+		return alphadBperCm * 23;
 	}
 
 	@Override

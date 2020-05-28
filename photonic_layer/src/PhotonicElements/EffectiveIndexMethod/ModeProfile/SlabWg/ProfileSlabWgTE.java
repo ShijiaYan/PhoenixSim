@@ -70,48 +70,48 @@ public class ProfileSlabWgTE {
 	private Complex[] find_Ey_fields_down(double xValNm){
 		// forward wave
 		Complex amp_forward = new Complex(0,0) ;
-		Complex Ey_field_forward = (minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward)) ; // forward wave: -j*k_x
+		Complex Ey_field_forward = minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward); // forward wave: -j*k_x
 		// backward wave
 		Complex amp_backward = new Complex(1,0) ; 
-		Complex Ey_field_backward = (plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward)) ; // backward wave: +j*k_x
+		Complex Ey_field_backward = plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward); // backward wave: +j*k_x
 		return new Complex[] {Ey_field_forward, Ey_field_backward} ;
 	}
 	
 	private Complex find_Ey_field_down(double xValNm){
 		Complex[] Ey_down = find_Ey_fields_down(xValNm) ;
-		return (Ey_down[0].plus(Ey_down[1])); // summing up forward and backward waves
+		return Ey_down[0].plus(Ey_down[1]); // summing up forward and backward waves
 	}
 	
 	private Complex[] find_Ey_fields_core(double xValNm){
 		Complex A_plus_B = find_Ey_field_down(0) ;
 		Complex A_minus_B = find_Ey_field_down(0).times(plusJ.times(kx_down())).divides(minusJ.times(kx_core())) ;
 		// forward wave
-		Complex amp_forward = (A_plus_B).plus(A_minus_B).divides(2) ;
+		Complex amp_forward = A_plus_B.plus(A_minus_B).divides(2) ;
 		Complex Ey_forward = minusJ.times(kx_core()).times(xValNm*1e-9).exp().times(amp_forward) ;
 		// backward wave
-		Complex amp_backward = (A_plus_B).minus(A_minus_B).divides(2) ;
+		Complex amp_backward = A_plus_B.minus(A_minus_B).divides(2) ;
 		Complex Ey_backward = plusJ.times(kx_core()).times(xValNm*1e-9).exp().times(amp_backward) ;
 		return new Complex[] {Ey_forward, Ey_backward} ;
 	}
 	
 	private Complex find_Ey_field_core(double xValNm){
 		Complex[] Ey_core = find_Ey_fields_core(xValNm) ;
-		return (Ey_core[0].plus(Ey_core[1])); // suming up forward and backward waves
+		return Ey_core[0].plus(Ey_core[1]); // suming up forward and backward waves
 	}
 	
 	private Complex[] find_Ey_fields_up(double xValNm){
 		// forward wave
 		Complex amp_forward = find_Ey_field_core(widthNm).divides(minusJ.times(kx_up()).times(widthNm*1e-9).exp()) ;
-		Complex Ey_field_forward = (minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward)) ; // forward wave: -j*k_x
+		Complex Ey_field_forward = minusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_forward); // forward wave: -j*k_x
 		// backward wave
 		Complex amp_backward = new Complex(0,0) ; 
-		Complex Ey_field_backward = (plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward)) ; // backward wave: +j*k_x
+		Complex Ey_field_backward = plusJ.times(kx_down()).times(xValNm*1e-9).exp().times(amp_backward); // backward wave: +j*k_x
 		return new Complex[] {Ey_field_forward, Ey_field_backward} ;
 	}
 	
 	private Complex find_Ey_field_up(double xValNm){
 		Complex[] Ey_up = find_Ey_fields_up(xValNm) ;
-		return (Ey_up[0].plus(Ey_up[1])); // suming up forward and backward waves
+		return Ey_up[0].plus(Ey_up[1]); // suming up forward and backward waves
 	}
 	
 	public Complex get_Ey_field(){
@@ -174,21 +174,21 @@ public class ProfileSlabWgTE {
 		Complex coeff = new Complex(0, 1/(k0*120*Math.PI)) ;
 		Complex Hz_forward = find_Ey_fields_down(xValNm)[0].times(minusJ.times(kx_down())).times(coeff) ;
 		Complex Hz_backward = find_Ey_fields_down(xValNm)[1].times(plusJ.times(kx_down())).times(coeff) ;
-		return (Hz_forward.plus(Hz_backward)) ;
+		return Hz_forward.plus(Hz_backward);
 	}
 	
 	private Complex find_Hz_field_up(double xValNm){
 		Complex coeff = new Complex(0, 1/(k0*120*Math.PI)) ;
 		Complex Hz_forward = find_Ey_fields_up(xValNm)[0].times(minusJ.times(kx_up())).times(coeff) ;
 		Complex Hz_backward = find_Ey_fields_up(xValNm)[1].times(plusJ.times(kx_up())).times(coeff) ;
-		return (Hz_forward.plus(Hz_backward)) ;
+		return Hz_forward.plus(Hz_backward);
 	}
 	
 	private Complex find_Hz_field_core(double xValNm){
 		Complex coeff = new Complex(0, 1/(k0*120*Math.PI)) ;
 		Complex Hz_forward = find_Ey_fields_core(xValNm)[0].times(minusJ.times(kx_core())).times(coeff) ;
 		Complex Hz_backward = find_Ey_fields_core(xValNm)[1].times(plusJ.times(kx_core())).times(coeff) ;
-		return (Hz_forward.plus(Hz_backward)) ;
+		return Hz_forward.plus(Hz_backward);
 	}
 	
 	public Complex get_Hz_field(){

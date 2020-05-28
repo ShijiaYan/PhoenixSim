@@ -19,7 +19,7 @@ public abstract class AbstractDeterministicGenerator extends AbstractTopologyGen
 	}
 	
 	protected List<NodeContainer> placeOneColumn(int column, int numberOfNodes, int maxNodePerColumn, AbstractGraphHandler agh) {
-		ArrayList<NodeContainer> list = new ArrayList<NodeContainer>();
+		ArrayList<NodeContainer> list = new ArrayList<>();
 		int x = column*300;
 		double yIncr;
 		double y;

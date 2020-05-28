@@ -11,8 +11,6 @@ import javafx.scene.control.RadioButton;
 
 public class VariableSelectorController {
 
-//	SimulationDataBase simDataBase = new SimulationDataBase() ;
-
 	SimulationVariable xVar = new SimulationVariable("xVar", "Variable X", MoreMath.linspace(-10, 10, 1000)) ;
 	SimulationVariable yVar = new SimulationVariable("yVar", "variable Y", MoreMath.Arrays.Functions.sin(xVar.getAllValues())) ;
 	SimulationDataBase simDataBase = new SimulationDataBase(xVar, yVar) ;

@@ -49,12 +49,12 @@ public class RamAMROutputStream extends AbstractAMROutputStreamManager {
 	
 	@Override
 	public void flushAndClose() throws IOException {
-		for (int i = 0 ; i < byteStreams.length ; i++) {
-			for (int j = 0 ; j < byteStreams[i].length ; j++) {
-				byteStreams[i][j].flush();
-				byteStreams[i][j].close();
-			}
-		}
+        for (ByteArrayOutputStream[] byteStream : byteStreams) {
+            for (int j = 0; j < byteStream.length; j++) {
+                byteStream[j].flush();
+                byteStream[j].close();
+            }
+        }
 	}	
 
 }

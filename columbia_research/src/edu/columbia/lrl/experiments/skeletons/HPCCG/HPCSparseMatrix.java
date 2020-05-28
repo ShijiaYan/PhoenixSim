@@ -23,7 +23,7 @@ public class HPCSparseMatrix {
 		  double[] vals;
 	  }
 	  
-	  HashMap<Integer, Row> map = new HashMap<Integer, Row>();
+	  HashMap<Integer, Row> map = new HashMap<>();
 
 	  int num_external;
 	  int num_send_neighbors;

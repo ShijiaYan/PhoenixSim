@@ -37,7 +37,7 @@ public class HeaterPhotoConductance {
 		double factor = 1 + photoConductance.kp1_per_mW * P_mW + photoConductance.kp2_per_mW_squared* P_mW*P_mW ;
 		double num = V_volt/(selfHeating.Rlinear*1e-3) * 2 * factor ;
 		double denum = 1 + sqrt(1 + selfHeating.Kv * V_volt*V_volt * factor) ;
-		return (num/denum) ;
+		return num/denum;
 	}
 	
 	private double getInsideTrans(double lambda_nm, double V_volt, double I_mA){
@@ -45,7 +45,7 @@ public class HeaterPhotoConductance {
 		double phase = 2*PI*(lambda_nm-ring.resLambda_nm-ring.TOeff_nm_per_mW * V_volt * I_mA)/ring.FSR_nm ;
 		double xi = ring.tIn * ring.tOut * sqrt(ring.L) ;
 		double denom = 1+xi*xi-2*xi*cos(phase) ;
-		return (num/denom) ;
+		return num/denom;
 	}
 	
 	private double getInsidePower_mW(double lambda_nm, double V_volt, double I_mA){
@@ -57,7 +57,7 @@ public class HeaterPhotoConductance {
 		double phase = 2*PI*(lambda_nm - ring.resLambda_nm - ring.TOeff_nm_per_mW * V_volt * I_mA)/ring.FSR_nm ;
 		double xi = ring.tIn * ring.tOut * sqrt(ring.L) ;
 		double denom = 1+xi*xi-2*xi*cos(phase) ;
-		return (num/denom) ;
+		return num/denom;
 	}
 	
 	public double getDropTrans(){
@@ -66,15 +66,11 @@ public class HeaterPhotoConductance {
 	
 	public double getI_mA(){
 		// need to solve the equation
-		RealRootFunction func1 = new RealRootFunction() {
-			
-			@Override
-			public double function(double I_mA) {
-				double LHS = I_mA ;
-				double RHS = getI_mA(V_volt, getInsidePower_mW(laser.lambdaLaser_nm, V_volt, I_mA)) ;
-				return (LHS-RHS);
-			}
-		};
+		RealRootFunction func1 = I_mA -> {
+            double LHS = I_mA ;
+            double RHS = getI_mA(V_volt, getInsidePower_mW(laser.lambdaLaser_nm, V_volt, I_mA)) ;
+            return LHS-RHS;
+        };
 		
 		RealRoot root = new RealRoot() ;
 		root.setEstimate(0);
@@ -87,15 +83,11 @@ public class HeaterPhotoConductance {
 	
 	public double[] getI_mA_allValues(){
 		// need to solve the equation
-		RealRootFunction func1 = new RealRootFunction() {
-			
-			@Override
-			public double function(double I_mA) {
-				double LHS = I_mA ;
-				double RHS = getI_mA(V_volt, getInsidePower_mW(laser.lambdaLaser_nm, V_volt, I_mA)) ;
-				return (LHS-RHS);
-			}
-		};
+		RealRootFunction func1 = I_mA -> {
+            double LHS = I_mA ;
+            double RHS = getI_mA(V_volt, getInsidePower_mW(laser.lambdaLaser_nm, V_volt, I_mA)) ;
+            return LHS-RHS;
+        };
 		
 		RealRootFinder root = new RealRootFinder(func1, -1, 100) ;
 		root.findAllRoots();

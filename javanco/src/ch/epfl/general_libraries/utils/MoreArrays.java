@@ -13,17 +13,17 @@ public class MoreArrays {
 	
 	public static int max(int[] t) {
 		int max = -Integer.MAX_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			if (t[i] > max) max = t[i];
-		}
+        for (int value : t) {
+            if (value > max) max = value;
+        }
 		return max;
 	}
 	
 	public static double max(double[] t) {
 		double max = -Double.MAX_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			if (t[i] > max) max = t[i];
-		}
+        for (double v : t) {
+            if (v > max) max = v;
+        }
 		return max;
 	}
 	
@@ -32,9 +32,9 @@ public class MoreArrays {
 			return Integer.MIN_VALUE;
 		}
 		int min = Integer.MAX_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			if (t[i] < min) min = t[i];
-		}
+        for (int value : t) {
+            if (value < min) min = value;
+        }
 		return min;
 	}
 	
@@ -43,9 +43,9 @@ public class MoreArrays {
 			return Double.MIN_VALUE;
 		}		
 		double min = Double.MAX_VALUE;
-		for (int i = 0 ; i < t.length ; i++) {
-			if (t[i] < min) min = t[i];
-		}
+        for (double v : t) {
+            if (v < min) min = v;
+        }
 		return min;
 	}	
 	
@@ -60,7 +60,7 @@ public class MoreArrays {
 				index = i;
 			}
 		}
-		return new Pair<Double, Integer>(max, index);		
+		return new Pair<>(max, index);
 	}
 	
 	public static Pair<Double, Integer> minAndIndex(double[] d) {
@@ -72,7 +72,7 @@ public class MoreArrays {
 				index = i;
 			}
 		}
-		return new Pair<Double, Integer>(min, index);
+		return new Pair<>(min, index);
 	}
 	
 	public static double[] todoubleArray(Double[] doubles) {
@@ -133,9 +133,9 @@ public class MoreArrays {
 	
 	public static int sum(List<Integer> list) {
 		int accum = 0;
-		for (int i = 0 ; i < list.size() ; i++) {
-			accum += list.get(i);
-		}
+        for (Integer integer : list) {
+            accum += integer;
+        }
 		return accum;
 	}	
 	
@@ -154,25 +154,25 @@ public class MoreArrays {
 	
 	public static double sum(double[] t) {
 		double sum = 0;
-		for (int i = 0 ; i < t.length ; i++) {
-			sum += t[i];
-		}
+        for (double v : t) {
+            sum += v;
+        }
 		return sum;		
 	}
 	
 	public static float sum(float[] t) {
 		float sum = 0;
-		for (int i = 0 ; i < t.length ; i++) {
-			sum += t[i];
-		}
+        for (float v : t) {
+            sum += v;
+        }
 		return sum;		
 	}
 	
 	public static long sum(long[] t) {
 		long sum = 0;
-		for (int i = 0 ; i < t.length ; i++) {
-			sum += t[i];
-		}
+        for (long l : t) {
+            sum += l;
+        }
 		return sum;	
 	}
 	
@@ -214,7 +214,7 @@ public class MoreArrays {
 		return sum;	
 	}	
 	
-	public static Object[] concat(Object v1[], Object v2[]){
+	public static Object[] concat(Object[] v1, Object[] v2){
 		int len = v1.length + v2.length;
 		Object[] newv = new Object[len];
 		for(int i=0; i < len; i++){
@@ -227,7 +227,7 @@ public class MoreArrays {
 		return newv;
 	}
 	
-	public static Object[] concat(Object v1[], Object v2){
+	public static Object[] concat(Object[] v1, Object v2){
 		Object[] newv = new Object[v1.length+1];
 		for(int i=0; i < v1.length; i++){
 			newv[i] = v1[i];
@@ -236,10 +236,10 @@ public class MoreArrays {
 		return newv;
 	}	
 	
-	public static <T> T[] concatGeneric(T v1[], T v2[]){
+	public static <T> T[] concatGeneric(T[] v1, T[] v2){
 		int len = v1.length + v2.length;
 		@SuppressWarnings("unchecked")
-		T[] newv = (T[])(new Object[len]);
+		T[] newv = (T[]) new Object[len];
 		for(int i=0; i < len; i++){
 			if(i < v1.length){
 				newv[i] = v1[i];
@@ -250,7 +250,7 @@ public class MoreArrays {
 		return newv;
 	}	
 	
-	public static double[] concat(double v1[], double v2[]){
+	public static double[] concat(double[] v1, double[] v2){
 		int len = v1.length + v2.length;
 		double[] newv = new double[len];
 		for(int i=0; i < len; i++){
@@ -263,7 +263,7 @@ public class MoreArrays {
 		return newv;
 	}
 	
-	public static int[] concat(int v1[], int v2[]){
+	public static int[] concat(int[] v1, int[] v2){
 		int len = v1.length + v2.length;
 		int[] newv = new int[len];
 		for(int i=0; i < len; i++){
@@ -307,10 +307,10 @@ public class MoreArrays {
 	}	
 	
 	public static List<Integer> asList(int[] ints) {
-		List<Integer> l = new ArrayList<Integer>(ints.length);
-		for (int i = 0 ; i < ints.length ; i++) {
-			l.add(ints[i]);
-		}
+		List<Integer> l = new ArrayList<>(ints.length);
+        for (int anInt : ints) {
+            l.add(anInt);
+        }
 		return l;
 	}
 	
@@ -341,16 +341,16 @@ public class MoreArrays {
 
 	public static int product(ArrayList<Integer> clientsPerLevel) {
 		int prod = 1;
-		for (int i = 0 ; i < clientsPerLevel.size() ; i++) {
-			prod *= clientsPerLevel.get(i);
-		}
+        for (Integer integer : clientsPerLevel) {
+            prod *= integer;
+        }
 		return prod;
 	}
 
 	public static boolean hasThisValue(int[] radixes, int v) {
-		for (int i = 0 ; i < radixes.length ; i++) {
-			if (radixes[i] == v) return true;
-		}
+        for (int radix : radixes) {
+            if (radix == v) return true;
+        }
 		return false;
 	}
 
@@ -472,9 +472,9 @@ public class MoreArrays {
 
 	public static double mean(int[] factors) {
 		int accum = 0 ;
-		for (int i = 0 ; i < factors.length ; i++) {
-			accum += factors[i];
-		}
+        for (int factor : factors) {
+            accum += factor;
+        }
 		return (double)accum/factors.length;
 	}
 
@@ -537,18 +537,18 @@ public class MoreArrays {
 	}
 
 	public static boolean contains(int[] tab, int index) {
-		for (int i = 0 ; i < tab.length ; i++) {
-			if (tab[i] == index) return true;
-		}
+        for (int value : tab) {
+            if (value == index) return true;
+        }
 		return false;
 	}
 
 	public static int countsOfValue(int[] vals, int trigger) {
 		int count = 0;
 		int le = vals.length;
-		for (int i = 0 ; i < le ; i++) {
-			if (vals[i] == trigger) count++;
-		}
+        for (int val : vals) {
+            if (val == trigger) count++;
+        }
 		return count;
 	}
 

@@ -22,11 +22,11 @@ public class NewObjectPanel<X> implements ObjectReceiver<X> {
 	Notifiable<X> toNotify;
 
 	public NewObjectPanel(Class<? extends X> c) throws Exception {
-		this(c, new String[]{"ch.epfl","umontreal.iro.lecuyer.probdist"}, new DefaultNotifiable<X>());
+		this(c, new String[]{"ch.epfl","umontreal.iro.lecuyer.probdist"}, new DefaultNotifiable<>());
 	}
 	
 	public NewObjectPanel(Class<? extends X> c, String prefix) throws Exception {
-		this(c, new String[]{prefix}, new DefaultNotifiable<X>());
+		this(c, new String[]{prefix}, new DefaultNotifiable<>());
 	}
 	
 	public NewObjectPanel(Class<? extends X> c, Notifiable<X> toNotify) throws Exception {
@@ -59,7 +59,7 @@ public class NewObjectPanel<X> implements ObjectReceiver<X> {
 			/*	for (int i = 0 ; i < a.length ; i++) {
 					cons.add(a[i]);
 				}*/
-			tabPane.add(cl.getSimpleName(), GuiMethod.createConstructorPanel(a, this, new ArrayList<Class>()));
+			tabPane.add(cl.getSimpleName(), GuiMethod.createConstructorPanel(a, this, new ArrayList<>()));
 		}
 
 
@@ -89,6 +89,6 @@ public class NewObjectPanel<X> implements ObjectReceiver<X> {
 
 
 	public static void main(String[] args) throws Exception {
-		new NewObjectPanel<MantissaBasedPRNStream>(MantissaBasedPRNStream.class);
+        new NewObjectPanel<>(MantissaBasedPRNStream.class);
 	}
 }

@@ -19,6 +19,6 @@ public class AlternativeXtalkPPModel extends AbstractXtalkPPModel {
 	}
 
 	public Map<String, String> getAllParameters() {
-		return SimpleMap.getMap(new String[0]);
+		return SimpleMap.getMap();
 	}
 }

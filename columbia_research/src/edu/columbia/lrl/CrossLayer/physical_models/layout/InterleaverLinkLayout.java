@@ -3,7 +3,6 @@ package edu.columbia.lrl.CrossLayer.physical_models.layout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import ch.epfl.general_libraries.results.Execution;
 import ch.epfl.general_libraries.utils.Pair;
 import edu.columbia.lrl.CrossLayer.PowerConsumption;
@@ -18,25 +17,21 @@ import edu.columbia.lrl.CrossLayer.physical_models.devices.signaling.WDMSignalli
 import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.physical_models.util.LayoutWorseCaseProperties;
 
-public class InterleaverLinkLayout extends PhysicalLayout {
+public class InterleaverLinkLayout extends AbstractPhysicalLayout {
 	
-//	private AbstractWDMModDemodModel modDemod;
 	private AbstractDemux demux;
 	private AbstractTunableLaserModel laserModel;
 	
 	public InterleaverLinkLayout(
-//			ModandMuxWDMModDemodModel modDemod,
 			AbstractDemux demux,
 			AbstractTunableLaserModel laserModel
 		) {
-//		this.modDemod = modDemod;
 		this.demux = demux;
 		this.laserModel = laserModel;
 	}
 
 	@Override
 	public Map<String, String> getAllParameters() {
-//		Map<String, String> m = modDemod.getAllParameters();
 		Map<String, String> m = demux.getAllParameters();
 		m.putAll(laserModel.getAllParameters());
 		return m;
@@ -52,7 +47,7 @@ public class InterleaverLinkLayout extends PhysicalLayout {
 		if (!(modDemod instanceof ModandMuxWDMModDemodModel)) {
 			throw new IllegalStateException("Tunable laser mux demux model must use a ModandMuxWDMModDemodModel signalling");
 		}
-		return ((ModandMuxWDMModDemodModel)modDemod);
+		return (ModandMuxWDMModDemodModel)modDemod;
 	}
 
 	@Override
@@ -75,13 +70,13 @@ public class InterleaverLinkLayout extends PhysicalLayout {
 	
 	public List<PowerConsumption> getPowerConsumptions(
 			PhysicalParameterAndModelsSet modelSet, AbstractLinkFormat linkFormat) {
-		List<PowerConsumption> list = new ArrayList<PowerConsumption>();
+		List<PowerConsumption> list = new ArrayList<>();
 		
 		ModandMuxWDMModDemodModel modDemod = getModandMux(modelSet);
 		
 		List<PowerConsumption> modPCList = modDemod.getModulationPowerConsumption(modelSet, linkFormat);
 		for (PowerConsumption pc : modPCList) {
-			pc.setWavelength(false);
+			pc.setPerWavelength(false);
 			list.add(pc);
 		}
 		
@@ -98,7 +93,7 @@ public class InterleaverLinkLayout extends PhysicalLayout {
 		PowerConsumption las = modelSet.getSingleLaserConsumption(laserModel, reqOptPow_mW, linkFormat.getNumberOfChannels());
 		
 		las.setCircuit(true);
-		las.setWavelength(false);
+		las.setPerWavelength(false);
 		
 		list.add(las);		
 		return list;

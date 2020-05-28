@@ -16,7 +16,7 @@ public class ResultVisualisationService extends AbstractService {
 	
 	private static final Logger logger = new Logger(ResultVisualisationService.class);
 	
-	public static final HashMap<String, SmartDataPointCollector> registeredDBs  = new HashMap<String, SmartDataPointCollector>();
+	public static final HashMap<String, SmartDataPointCollector> registeredDBs  = new HashMap<>();
 
 	public ResultVisualisationService(Context context) {
 		super(context); 

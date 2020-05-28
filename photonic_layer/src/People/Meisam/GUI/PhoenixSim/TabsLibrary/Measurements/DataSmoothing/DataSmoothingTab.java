@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 
 public class DataSmoothingTab extends AbstractTab {
 
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/DataSmoothing/data_smoothing.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/PhoenixSim/TabsLibrary/Measurements/DataSmoothing/data_smoothing.fxml")) ;
 	DataSmoothingTabController controller ;
 
 	public DataSmoothingTab(SimulationDataBase simDataBase){

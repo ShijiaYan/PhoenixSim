@@ -20,7 +20,7 @@ import javafx.util.Callback;
 
 public class FileListView {
 
-    ListView<String> list = new ListView<String>();
+    ListView<String> list = new ListView<>();
     private String path ;
     private String[] filesAndFolders ;
 
@@ -44,31 +44,26 @@ public class FileListView {
     	File folder = new File(path);
     	File[] listOfFiles = folder.listFiles();
     	filesAndFolders = new String[0];
-	    for (int i = 0; i < listOfFiles.length; i++) {
-	    	if(listOfFiles[i].getName().charAt(0) != '~' && listOfFiles[i].getName().charAt(0) != '$' &&
-	    			listOfFiles[i].getName().charAt(0) != '.' && !(listOfFiles[i].isHidden())){
-	    		filesAndFolders = MoreMath.Arrays.append(filesAndFolders, listOfFiles[i].getName()) ;
-	    	}
-	    }
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.getName().charAt(0) != '~' && listOfFile.getName().charAt(0) != '$' &&
+                    listOfFile.getName().charAt(0) != '.' && !listOfFile.isHidden()) {
+                filesAndFolders = MoreMath.Arrays.append(filesAndFolders, listOfFile.getName());
+            }
+        }
     }
 
     private void populateList(){
     	data = FXCollections.observableArrayList() ;
     	int N = filesAndFolders.length ;
-    	for(int i=0; i<N; i++){
-    		data.add(filesAndFolders[i]) ;
-    	}
+        for (String filesAndFolder : filesAndFolders) {
+            data.add(filesAndFolder);
+        }
     }
 
     public void createFileList() {
         list.setItems(data);
 
-        list.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(ListView<String> list) {
-                return new AttachmentListCell();
-            }
-        });
+        list.setCellFactory(list -> new AttachmentListCell());
         
         list.setOnMouseClicked(e -> {
         	if(e.getButton().equals(MouseButton.PRIMARY)){
@@ -101,7 +96,7 @@ public class FileListView {
 
     }
 
-    static HashMap<String, Image> mapOfFileExtToSmallIcon = new HashMap<String, Image>();
+    static HashMap<String, Image> mapOfFileExtToSmallIcon = new HashMap<>();
 
     private static String getFileExt(String fname) {
         String ext = ".";
@@ -137,7 +132,7 @@ public class FileListView {
         final String ext = getFileExt(fname);
         Image fileIcon ;
         if(ext == null){
-        	fileIcon = new Image(Object.class.getClass().getResourceAsStream("/People/Meisam/GUI/Utilities/Icons/folder.png")) ;
+        	fileIcon = new Image(Class.class.getResourceAsStream("/People/Meisam/GUI/Utilities/Icons/folder.png")) ;
         }
         else{
 	        fileIcon = mapOfFileExtToSmallIcon.get(ext);

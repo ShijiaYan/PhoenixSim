@@ -125,7 +125,7 @@ public class SFG {
 
 			ArrayList<Integer> cur = allLoops.get(level);
 			Complex brackerGain = Complex.ZERO ;
-			for (int i = 0; i < cur.size(); i += (level + 1)) {
+			for (int i = 0; i < cur.size(); i += level + 1) {
 				Complex termGain = Complex.ONE ;
 				for (int j = 0; j <= level; j++) {
 					if (isTouched(individualLoops.get(cur.get(i + j)).getPath()
@@ -160,7 +160,7 @@ public class SFG {
 			ArrayList<Integer> cur = allLoops.get(level);
 
 			Complex bracketGain = Complex.ZERO ;
-			for (int i = 0; i < cur.size(); i += (level + 1)) {
+			for (int i = 0; i < cur.size(); i += level + 1) {
 				Complex termGain = individualLoops.get(cur.get(i)).getGain();
 				for (int j = 1; j <= level; j++) {
 					termGain = termGain.times(individualLoops.get(cur.get(i + j)).getGain()) ;
@@ -182,7 +182,7 @@ public class SFG {
 			// Start adding the first level of n'th non-touching loops
 			ArrayList<Integer> individual;
 			constructIndividualLoops();
-			allLoops.add(individual = new ArrayList<Integer>());
+			allLoops.add(individual = new ArrayList<>());
 			for (int i = 0; i < individualLoops.size(); i++) {
 				individual.add(i);
 			}
@@ -300,9 +300,9 @@ public class SFG {
 			String[] recentPath = (recent = forwardPaths.get(prev)).getPath()
 					.split(" ");
 			orignal = new Hashtable<>();
-			for (int i = 0; i < recentPath.length; i++) {
-				orignal.put(recentPath[i], true);
-			}
+            for (String s : recentPath) {
+                orignal.put(s, true);
+            }
 
 			String[] tempStrings;
 			for (int i = 0; i < PREV; i++) {
@@ -324,14 +324,14 @@ public class SFG {
 
 	private boolean isEqual(String[] b) {
 
-		if (orignal.size() != (b.length - 1)) // because "b" has the src node
+		if (orignal.size() != b.length - 1) // because "b" has the src node
 												// twice
 			return false;
 
-		for (int i = 0; i < b.length; i++) {
-			if (!orignal.containsKey(b[i]))
-				return false;
-		}
+        for (String s : b) {
+            if (!orignal.containsKey(s))
+                return false;
+        }
 		return true;
 	}
 
@@ -385,7 +385,7 @@ public class SFG {
 				if (!touched) { // if not touched then add this combination
 					ArrayList<Integer> nextLevel = new ArrayList<>();
 					if (allLoops.size() == level)
-						allLoops.add(nextLevel = new ArrayList<Integer>());
+						allLoops.add(nextLevel = new ArrayList<>());
 					else
 						nextLevel = allLoops.get(level);
 					// check if this combination of paths were already taken
@@ -403,27 +403,27 @@ public class SFG {
 
 	private boolean isTouched(Path a, Path b) {
 
-		String aa[] = a.getPath().split(" ");
+		String[] aa = a.getPath().split(" ");
 		String[] bb = b.getPath().split(" ");
 
 		orignal = new Hashtable<>();
-		for (int i = 0; i < aa.length; i++) {
-			orignal.put(aa[i], true);
-		}
+        for (String value : aa) {
+            orignal.put(value, true);
+        }
 
-		for (int i = 0; i < bb.length; i++) {
-			if (orignal.containsKey(bb[i]))
-				return true;
-		}
+        for (String s : bb) {
+            if (orignal.containsKey(s))
+                return true;
+        }
 		return false;
 	}
 
 	private boolean isTouched(String[] a) {
 
-		for (int i = 0; i < a.length; i++) {
-			if (orignal.containsKey(a[i]))
-				return true;
-		}
+        for (String s : a) {
+            if (orignal.containsKey(s))
+                return true;
+        }
 		return false;
 	}
 }

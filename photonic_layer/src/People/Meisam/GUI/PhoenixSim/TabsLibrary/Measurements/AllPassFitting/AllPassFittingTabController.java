@@ -129,7 +129,7 @@ public class AllPassFittingTabController extends AbstractTabController {
 
 	@FXML
 	public void chooseXData() throws IOException {
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass()
+		FXMLLoader loader = new FXMLLoader(Class.class
 				.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml"));
 		WindowBuilder varSelect = new WindowBuilder(loader);
 		varSelect.setIcon("/People/Meisam/GUI/Utilities/VariableSelector/Extras/icon.png");
@@ -149,7 +149,7 @@ public class AllPassFittingTabController extends AbstractTabController {
 
 	@FXML
 	public void chooseYData() throws IOException {
-		FXMLLoader loader = new FXMLLoader(Object.class.getClass()
+		FXMLLoader loader = new FXMLLoader(Class.class
 				.getResource("/People/Meisam/GUI/Utilities/VariableSelector/variable_selector.fxml"));
 		WindowBuilder varSelect = new WindowBuilder(loader);
 		varSelect.setIcon("/People/Meisam/GUI/Utilities/VariableSelector/Extras/icon.png");
@@ -293,14 +293,10 @@ public class AllPassFittingTabController extends AbstractTabController {
 			fit.fitData();
 			double BW_nm = Math.abs(fit.getParameters()[0]);
 			// step 2: find x = t*sqrt(L)
-			RealRootFunction func1 = new RealRootFunction() {
-
-				@Override
-				public double function(double x) {
-					double y = 1 - Math.pow(1 - x, 2) / (2 * x) - Math.cos(Math.PI * BW_nm / FSR_nm);
-					return y;
-				}
-			};
+			RealRootFunction func1 = x -> {
+                double y = 1 - Math.pow(1 - x, 2) / (2 * x) - Math.cos(Math.PI * BW_nm / FSR_nm);
+                return y;
+            };
 			RealRoot solverX = new RealRoot();
 			double x = solverX.bisect(func1, 0, 1);
 			// step 3: find L
@@ -338,8 +334,8 @@ public class AllPassFittingTabController extends AbstractTabController {
 
 	private double getLorentzian(double BW_nm, double er, double lambda_nm, double lambda_res_nm) {
 		double s = 2 / BW_nm * (lambda_nm - lambda_res_nm);
-		double num = (s * s) + 1 / er;
-		double denum = (s * s) + 1;
+		double num = s * s + 1 / er;
+		double denum = s * s + 1;
 		double tr = num / denum;
 		return tr;
 	}

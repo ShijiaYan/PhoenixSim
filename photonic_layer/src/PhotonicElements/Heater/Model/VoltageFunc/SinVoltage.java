@@ -41,7 +41,7 @@ public class SinVoltage extends AbstractVoltage {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("tSart (usec)", tStart_usec+"") ;
 		map.put("vAmp (V)", vAmp+"") ;
 		map.put("DC voltage (V)", vDC+"") ;

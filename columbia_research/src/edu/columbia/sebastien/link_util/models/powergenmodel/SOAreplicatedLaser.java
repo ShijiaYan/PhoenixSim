@@ -45,18 +45,18 @@ public class SOAreplicatedLaser extends AbstractPowerSharingModel {
 			soa[i].setLinkUtilisationExperiment(lue);
 		}
 		if (alwaysOn) {
-			for (int i = 0 ; i < lasers.length ; i++) {
-				lasers[i].activate(0, minimalLaserPowerMW);	
-			}			
+            for (Laser laser : lasers) {
+                laser.activate(0, minimalLaserPowerMW);
+            }
 		}
 	}
 	
 	@Override
 	public void shutDown(double max) {
 		if (alwaysOn) {
-			for (int i = 0 ; i < lasers.length ; i++) {
-				lasers[i].disable(max);	
-			}
+            for (Laser laser : lasers) {
+                laser.disable(max);
+            }
 		}
 	}
 	

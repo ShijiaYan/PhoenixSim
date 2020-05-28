@@ -60,7 +60,7 @@ public class TreeLegend {
 	private static Map<String, Set<StringDoubleOrInt>> createLegendMap(
 			Map<PairList<String,String>, ?> serie) {
 
-		HashMap<String, Set<StringDoubleOrInt>> ret = new HashMap<String, Set<StringDoubleOrInt>>();
+		HashMap<String, Set<StringDoubleOrInt>> ret = new HashMap<>();
 		Set<PairList<String, String>> keys = serie.keySet();
 		for (PairList<String, String> values : keys) {
 			for (Pair<String, String> valuePair : values) {
@@ -69,7 +69,7 @@ public class TreeLegend {
 				if (ret.containsKey(valueKey)) {
 					valueSet = ret.get(valueKey);
 				} else {
-					valueSet = new HashSet<StringDoubleOrInt>();
+					valueSet = new HashSet<>();
 					ret.put(valueKey, valueSet);
 				}
 				StringDoubleOrInt toAdd;
@@ -103,11 +103,11 @@ public class TreeLegend {
 		Map<StringDoubleOrInt, ?> active;
 		String shapeOrTexture;
 		if (texture) {
-			ke = new ArrayList<StringDoubleOrInt>(seriesTexture.getSecond().keySet());
+			ke = new ArrayList<>(seriesTexture.getSecond().keySet());
 			active = seriesTexture.getSecond();
 			shapeOrTexture = seriesTexture.getFirst();
 		} else {
-			ke = new ArrayList<StringDoubleOrInt>(seriesShape.getSecond().keySet());
+			ke = new ArrayList<>(seriesShape.getSecond().keySet());
 			active = seriesShape.getSecond();
 			shapeOrTexture = seriesShape.getFirst();
 		}
@@ -116,8 +116,8 @@ public class TreeLegend {
 			DefaultMutableTreeNode shapeNode = new DefaultMutableTreeNode(
 					active.get(e));
 			top.add(shapeNode);
-			Pair<String, String> shapePair = new Pair<String, String>(shapeOrTexture, e.toString());
-			parentNode = new ArrayList<DefaultMutableTreeNode>();
+			Pair<String, String> shapePair = new Pair<>(shapeOrTexture, e.toString());
+			parentNode = new ArrayList<>();
 			parentNode.add(shapeNode);
 			parentNode = doString(legends, parentNode);
 			for (DefaultMutableTreeNode node : parentNode) {
@@ -161,13 +161,13 @@ public class TreeLegend {
 
 
 		for (Entry<String, Set<StringDoubleOrInt>> legendEntry : legends.entrySet()) {
-			List<DefaultMutableTreeNode> newParent = new LinkedList<DefaultMutableTreeNode>();
+			List<DefaultMutableTreeNode> newParent = new LinkedList<>();
 			String leg = legendEntry.getKey();
-			List<StringDoubleOrInt> list = new ArrayList<StringDoubleOrInt>(legendEntry.getValue());
+			List<StringDoubleOrInt> list = new ArrayList<>(legendEntry.getValue());
 			Collections.sort(list);
 			for (StringDoubleOrInt i : list) {
 				for (DefaultMutableTreeNode p : parentNode) {
-					DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new Pair<String, StringDoubleOrInt>(leg, i));
+					DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new Pair<>(leg, i));
 					p.add(childNode);
 					newParent.add(childNode);
 				}
@@ -184,7 +184,7 @@ public class TreeLegend {
 
 
 		for (Entry<PairList<String, String>, ?> entry : seriesPaintOrTexture.entrySet()) {
-			PairList<String, String> key = new PairList<String, String>();
+			PairList<String, String> key = new PairList<>();
 			for (Pair<String, String> pair : entry.getKey()) {
 				if(pair.equals(getPair(pair.getFirst(), node))) {
 					key.add(pair);
@@ -192,9 +192,9 @@ public class TreeLegend {
 			}
 			Paint ret = (Paint)seriesPaintOrTexture.get(key);
 			if (ret != null) {
-				PairList<String, String> newList = new PairList<String, String>();
+				PairList<String, String> newList = new PairList<>();
 				newList.addAll(key);
-				if (!shapePair.equals(new Pair<String, String>("", ""))) {
+				if (!shapePair.equals(new Pair<>("", ""))) {
 					newList.add(shapePair);
 				}
 				if (existingLegends.contains(newList)) {
@@ -208,7 +208,7 @@ public class TreeLegend {
 	}
 
 	private static Pair<String, String> getPair(String valueName, DefaultMutableTreeNode node) {
-		Pair<String, String> ret = new Pair<String, String>();
+		Pair<String, String> ret = new Pair<>();
 		ret.setFirst(valueName);
 		DefaultMutableTreeNode current = node;
 		while (ret.getSecond() == null && current.getUserObject() instanceof Pair<?, ?>){
@@ -235,7 +235,7 @@ public class TreeLegend {
 	private static Pair<String, Map<StringDoubleOrInt, ?>> createShapeOrTextureSet(
 			Map<Pair<String,String>, ?> toChange) {
 
-		Pair<String, Map<StringDoubleOrInt, ?>> ret = new Pair<String, Map<StringDoubleOrInt, ?>>();
+		Pair<String, Map<StringDoubleOrInt, ?>> ret = new Pair<>();
 		for (Entry<Pair<String,String>, ?> e : toChange.entrySet()) {
 			Pair<String, String> key = e.getKey();
 			Map<StringDoubleOrInt, ?> valueMap;

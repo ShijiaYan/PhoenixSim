@@ -54,7 +54,7 @@ public class PulseTrainVoltage extends AbstractVoltage {
 
 	@Override
 	public Map<String, String> getAllParameters() {
-		Map<String, String> map = new SimpleMap<String, String>() ;
+		Map<String, String> map = new SimpleMap<>() ;
 		map.put("Duty Cycle", dutyCycle+"") ;
 		map.put("tWidth (usec)", tWidth_usec+"") ;
 		map.put("tPeriod (usec)", tPeriod_usec+"") ;

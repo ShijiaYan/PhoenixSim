@@ -84,7 +84,7 @@ public class CustomBarRenderer extends BarRenderer {
 		// relative to the base value and (b) whether or not the range axis is
 		// inverted. This only matters if/when we apply the minimumBarLength
 		// attribute, because we should extend the non-base end of the bar
-		boolean positive = (value >= super.getBase());
+		boolean positive = value >= super.getBase();
 		boolean inverted = rangeAxis.isInverted();
 		double barL0 = Math.min(transL0, transL1);
 		double barLength = Math.abs(transL1 - transL0);
@@ -138,7 +138,7 @@ public class CustomBarRenderer extends BarRenderer {
 				column);
 		if (generator != null && isItemLabelVisible(row, column)) {
 			drawItemLabel(g2, dataset, row, column, plot, generator, bar,
-					(value < 0.0));
+                    value < 0.0);
 		}
 
 		// add an item entity, if this information is being collected
@@ -178,7 +178,7 @@ public class CustomBarRenderer extends BarRenderer {
 		// relative to the base value and (b) whether or not the range axis is
 		// inverted. This only matters if/when we apply the minimumBarLength
 		// attribute, because we should extend the non-base end of the bar
-		boolean positive = (value >= super.getBase());
+		boolean positive = value >= super.getBase();
 		boolean inverted = rangeAxis.isInverted();
 		double barL0 = Math.min(transL0, transL1);
 		double barLength = Math.abs(transL1 - transL0);

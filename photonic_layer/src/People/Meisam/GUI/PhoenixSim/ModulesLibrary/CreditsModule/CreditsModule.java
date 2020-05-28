@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 
 public class CreditsModule {
 
-    FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Credits/GeneralCredits/general_credits.fxml")) ;
+    FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Credits/GeneralCredits/general_credits.fxml")) ;
     WindowBuilder credits = new WindowBuilder(loader) ;
 
     public CreditsModule(){

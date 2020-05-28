@@ -72,12 +72,7 @@ public class HeaterPWMTabController extends AbstractTabController {
     }
 
     private boolean pwmToggleIsSelected(){
-        if(pwmWaveguidePlotRadioButton.isSelected() || pwmHeaterPlotRadioButton.isSelected()){
-            return true ;
-        }
-        else{
-            return false ;
-        }
+        return pwmWaveguidePlotRadioButton.isSelected() || pwmHeaterPlotRadioButton.isSelected();
     }
 
     @FXML
@@ -94,7 +89,7 @@ public class HeaterPWMTabController extends AbstractTabController {
     public void setDPWM(){
         double PWM_D = Double.parseDouble(pwmDTextField.getText()) ;
         simDataBase.addNewVariable(new SimulationVariable("PWM_D", new double[]{PWM_D}));
-        pwmDLabel.setText("D is set to " + (100*PWM_D) + " %");
+        pwmDLabel.setText("D is set to " + 100*PWM_D + " %");
         if(pwmToggleIsSelected()){
             pwmPlot.getSelectedToggle().setSelected(false);
         }
@@ -118,7 +113,7 @@ public class HeaterPWMTabController extends AbstractTabController {
         double[] time_usec = simDataBase.getVariable("time_(usec)").getAllValues() ;
         double tStart_usec = simDataBase.getVariable("tStart_(usec)").getValue(0) ;
         double tEnd_usec = simDataBase.getVariable("tEnd_(usec)").getValue(0) ;
-        double tPeriod_usec = (1.0/(freq*1e3))*1e6 ;
+        double tPeriod_usec = (1.0/(freq*1e3)) *1e6 ;
         int numPeriods = (int) (MoreMath.Arrays.FindMaximum.getValue(time_usec)/tPeriod_usec)+1 ;
         int M = time_usec.length ;
         double[] heaterPWMVoltage_V = new double[M] ;

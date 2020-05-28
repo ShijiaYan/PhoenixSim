@@ -64,14 +64,11 @@ public class TransientResponse {
 	
 	private double getInvervalIntegral(final double t_usec, double t_start_usec, double t_end_usec){
 		
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double tau_usec) {
-				double voltH = voltage.getVoltage(t_usec-tau_usec) ;
-				double arg = selfH.getDeltaT(voltH) * impulse.getTimeResponse(tau_usec);
-				return arg ;
-			}
-		};
+		IntegralFunction func = tau_usec -> {
+            double voltH = voltage.getVoltage(t_usec-tau_usec) ;
+            double arg = selfH.getDeltaT(voltH) * impulse.getTimeResponse(tau_usec);
+            return arg ;
+        };
 		
 		Integration transResponse = new Integration() ;
 		transResponse.setIntegrationFunction(func);
@@ -132,14 +129,11 @@ public class TransientResponse {
 	
 	private double getInvervalIntegral(final double t_usec, double t_start_usec, double t_end_usec, LinearInterpolation impulseInterpolate){
 		
-		IntegralFunction func = new IntegralFunction() {
-			@Override
-			public double function(double tau_usec) {
-				double voltH = voltage.getVoltage(t_usec-tau_usec) ;
-				double arg = selfH.getDeltaT(voltH) * impulseInterpolate.interpolate(tau_usec);
-				return arg ;
-			}
-		};
+		IntegralFunction func = tau_usec -> {
+            double voltH = voltage.getVoltage(t_usec-tau_usec) ;
+            double arg = selfH.getDeltaT(voltH) * impulseInterpolate.interpolate(tau_usec);
+            return arg ;
+        };
 		
 		Integration transResponse = new Integration() ;
 		transResponse.setIntegrationFunction(func);

@@ -41,9 +41,9 @@ public class VerticalLabelUI extends BasicLabelUI {
     public void paint(Graphics g, JComponent c) {
         JLabel label = (JLabel)c;
         String text = label.getText();
-        Icon icon = (label.isEnabled()) ? label.getIcon() : label.getDisabledIcon();
+        Icon icon = label.isEnabled() ? label.getIcon() : label.getDisabledIcon();
  
-        if ((icon == null) && (text == null)) {
+        if (icon == null && text == null) {
             return;
         }
  

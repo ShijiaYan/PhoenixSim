@@ -37,7 +37,7 @@ public class GraphicalLWSimExperiment extends LWSIMExperiment implements LWSimCo
 		Thread.currentThread().setName("Simulation thread");
 		this.javancoGUI = JavancoDefaultGUI.getAndShowDefaultGUI();
 		this.diag = new PlayStopDialog(this.javancoGUI);
-		super.run(man, (AbstractResultsDisplayer) null);
+		super.run(man, null);
 	}
 
 	public String toShortString() {
@@ -67,8 +67,6 @@ public class GraphicalLWSimExperiment extends LWSIMExperiment implements LWSimCo
 			ui.setBestFit(this.javancoGUI.getActuallyActiveInternalFrame().getSize());
 			Evt e = new Evt(this.repaintEach, this, this);
 			this.manager.queueEvent(e);
-			boolean var5 = false;
-
 			int endCondition;
 			try {
 				endCondition = this.manager.runSimulation();
@@ -96,10 +94,9 @@ public class GraphicalLWSimExperiment extends LWSIMExperiment implements LWSimCo
 	private void updateCounters(AbstractSwitch swi, int type) {
 		if (this.agh == null) { this.agh = swi.getNodeContainer().getAbstractGraphHandler(); this.initCounters(); }
 
-		int var10002;
-		if (type == -1 || type == -3) { var10002 = this.counters[swi.getIndex()][0]++; }
+		if (type == -1 || type == -3) {}
 
-		if (type == -2 || type == -3) { var10002 = this.counters[swi.getIndex()][1]++; }
+		if (type == -2 || type == -3) {}
 
 	}
 
@@ -115,10 +112,10 @@ public class GraphicalLWSimExperiment extends LWSIMExperiment implements LWSimCo
 
 		for (i = 0; i < this.counters.length; ++i) {
 			NodeContainer nc = this.agh.getNodeContainer(i);
-			Iterator var5 = nc.getOutgoingLinks().iterator();
+			Iterator<LinkContainer> var5 = nc.getOutgoingLinks().iterator();
 
 			while (var5.hasNext()) {
-				LinkContainer lc = (LinkContainer) var5.next();
+				LinkContainer lc = var5.next();
 				int drop;
 				if (lc.attribute("orig_port").getValue().equals("up")) {
 					drop = (int) (255.0D * (double) this.counters[i][0] / (double) max);

@@ -50,11 +50,8 @@ public abstract class AbstractTopologyAnalyser extends AbstractExperimentBlock {
 	public static boolean hasOneComponent ( AbstractGraphHandler agh ) {
 		int comp = getNumberOfComponents( agh );
 
-		if (comp == 1) {
-			return true;
-		}
-		return false;
-	}
+        return comp == 1;
+    }
 	
 	public static int getNumberOfComponents(AbstractGraphHandler agh) {
 		class LocalIteration {
@@ -83,6 +80,6 @@ public abstract class AbstractTopologyAnalyser extends AbstractExperimentBlock {
 				startColor++;
 			}
 		}
-		return (startColor);
+		return startColor;
 	}		
 }

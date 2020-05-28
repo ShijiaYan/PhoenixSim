@@ -32,9 +32,9 @@ public class NodeIndexManager {
 
 
 	public boolean hasGaps() {
-		for (int i = 0 ; i < occupation.length ; i++) {
-			if (occupation[i] == false) return true;
-		}
+        for (boolean b : occupation) {
+            if (b == false) return true;
+        }
 		return false;
 	}
 

@@ -30,7 +30,7 @@ public class ExtensionFilter extends javax.swing.filechooser.FileFilter {
 
 	@Override
 	public boolean accept(java.io.File f){
-		if ( (f.isDirectory()) || (extensions == null)) {
+		if ( f.isDirectory() || extensions == null) {
 			return true;
 		}
 		String filename = f.getName().toLowerCase();

@@ -8,10 +8,10 @@ import ch.epfl.general_libraries.traffic.Rate;
 import ch.epfl.general_libraries.utils.MoreCollections;
 import ch.epfl.general_libraries.utils.SimpleMap;
 import edu.columbia.lrl.CrossLayer.physical_models.layout.P2PLayout;
-import edu.columbia.lrl.CrossLayer.physical_models.layout.PhysicalLayout;
+import edu.columbia.lrl.CrossLayer.physical_models.layout.AbstractPhysicalLayout;
 import edu.columbia.lrl.CrossLayer.physical_models.util.AbstractLinkFormat;
 import edu.columbia.lrl.CrossLayer.simulator.components.Demultiplexor;
-import edu.columbia.lrl.CrossLayer.simulator.components.Multiplexor;
+import edu.columbia.lrl.CrossLayer.simulator.components.Multiplexer;
 import edu.columbia.lrl.LWSim.AbstractTrafficGenerator;
 import edu.columbia.lrl.LWSim.InitFeedback;
 import edu.columbia.lrl.LWSim.LWSimComponent;
@@ -35,7 +35,7 @@ public class PhysicalFullMeshBuilder extends FullyMeshedNetworkBuilder implement
 	}
 
 	//	@Override
-	public PhysicalLayout getPhysicalLayoutImpl(int clients) {
+	public AbstractPhysicalLayout getPhysicalLayoutImpl(int clients) {
 		return new P2PLayout(/*Nb couplers*/2);
 	}			
 
@@ -47,7 +47,7 @@ public class PhysicalFullMeshBuilder extends FullyMeshedNetworkBuilder implement
 		int numClients = lwSimExperiment.getNumberOfClients();
 		
 		AbstractTrafficGenerator[] generators = new AbstractTrafficGenerator[numClients];
-		Multiplexor[] multiplexors = new Multiplexor[numClients];
+		Multiplexer[] multiplexers = new Multiplexer[numClients];
 		SerializingBuffer[][] buffers = new SerializingBuffer[numClients][numClients - 1];
 		TransmissionLink[][] links = new TransmissionLink[numClients][numClients - 1];
 		Demultiplexor[] demultiplexors = new Demultiplexor[numClients];
@@ -58,12 +58,12 @@ public class PhysicalFullMeshBuilder extends FullyMeshedNetworkBuilder implement
 		// Construct components, add to dests
 		for (int i = 0; i < numClients; i++, index++) {
 			generators[i] = lwSimExperiment.getTrafficGenerator().getCopy(1, index);
-			multiplexors[i] = new Multiplexor(index);
+			multiplexers[i] = new Multiplexer(index);
 			demultiplexors[i] = new Demultiplexor(index);
 			receivers[i] = stub.getReceiver(index);
 
 			dests.add(generators[i]);
-			dests.add(multiplexors[i]);
+			dests.add(multiplexers[i]);
 			dests.add(demultiplexors[i]);
 			dests.add(receivers[i]);
 
@@ -86,14 +86,14 @@ public class PhysicalFullMeshBuilder extends FullyMeshedNetworkBuilder implement
 		// Connect components
 		for (int i = 0; i < numClients; i++) {
 
-			generators[i].setTrafficDestination(multiplexors[i]);
+			generators[i].setTrafficDestination(multiplexers[i]);
 			demultiplexors[i].setTrafficDestination(receivers[i]);
 
 			int subIndex = 0;
 			for (int j = 0; j < numClients; j++) {
 
 				if (i != j) {
-					multiplexors[i].addDest(j, buffers[i][subIndex]);
+					multiplexers[i].addDest(j, buffers[i][subIndex]);
 
 					buffers[i][subIndex].setTrafficDestination(links[i][subIndex]);
 					links[i][subIndex].setTrafficDestination(demultiplexors[j]);
@@ -107,7 +107,7 @@ public class PhysicalFullMeshBuilder extends FullyMeshedNetworkBuilder implement
 	
 	@Override
 	public Map<String, String> getAllParameters() {
-		return new SimpleMap<String, String>(0);
+		return new SimpleMap<>(0);
 	}
 
 	@Override

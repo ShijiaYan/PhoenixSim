@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 
 public class ExportCompleted {
 	
-	FXMLLoader loader = new FXMLLoader(Object.class.getClass().getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportCompleted/exportCompleted.fxml")) ;
+	FXMLLoader loader = new FXMLLoader(Class.class.getResource("/People/Meisam/GUI/Utilities/ExportPlot/ExportCompleted/exportCompleted.fxml")) ;
 	WindowBuilder builder = new WindowBuilder(loader) ;
 	
 	public ExportCompleted(){

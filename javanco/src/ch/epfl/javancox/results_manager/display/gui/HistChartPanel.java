@@ -136,16 +136,14 @@ public class HistChartPanel extends AbstractChartProvider.AbstractChartPanel imp
 
 	@Override
 	public Pair<ActionListener[], String[]> getDisplayerPossibleActions(ComplexDisplayPanel panel) {
-		ActionListener excel = new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent ev) {
-				HistChartProvider disp = (HistChartProvider)displayer;
-				disp.createExcelData();
-			}
-		};
+		ActionListener excel = ev -> {
+            HistChartProvider disp = (HistChartProvider)displayer;
+            disp.createExcelData();
+        };
 
-		return new Pair<ActionListener[], String[]>(
-				new ActionListener[] { excel },
-				new String[] { "Export displayed series as excel sheet" });
+		return new Pair<>(
+                new ActionListener[]{excel},
+                new String[]{"Export displayed series as excel sheet"});
 	}
 	
 	public ChartContainer computeChart(DataRetrievalOptions options) {

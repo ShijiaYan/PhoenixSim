@@ -126,7 +126,7 @@ public class Db {
 		arg = arg + "\n";
 		String arg4 = " ";
 		boolean arg5 = false;
-		ArrayList<Double> arg6 = new ArrayList<Double>();
+		ArrayList<Double> arg6 = new ArrayList<>();
 
 		while (true) {
 			while (true) {
@@ -137,7 +137,7 @@ public class Db {
 						double[] arg12 = new double[arg13];
 
 						for (arg14 = 0; arg14 < arg13; ++arg14) {
-							arg12[arg14] = ((Double) arg6.get(arg14)).doubleValue();
+							arg12[arg14] = arg6.get(arg14).doubleValue();
 						}
 
 						return arg12;
@@ -666,7 +666,7 @@ public class Db {
 			arg0 = JOptionPane.showInputDialog(arg4 + arg);
 			if (arg0 != null) {
 				try {
-					arg1 = (long) Short.parseShort(arg0.trim());
+					arg1 = Short.parseShort(arg0.trim());
 					arg3 = true;
 				} catch (NumberFormatException arg6) {
 					;
@@ -748,7 +748,7 @@ public class Db {
 			arg0 = JOptionPane.showInputDialog(arg4 + arg);
 			if (arg0 != null) {
 				try {
-					arg1 = (long) Byte.parseByte(arg0.trim());
+					arg1 = Byte.parseByte(arg0.trim());
 					arg3 = true;
 				} catch (NumberFormatException arg6) {
 					;
@@ -1498,7 +1498,7 @@ public class Db {
 	}
 
 	public static final synchronized boolean yesNo(String arg) {
-		int arg0 = JOptionPane.showConfirmDialog((Component) null, arg, "Db Class Yes or No Box", 0, 3);
+		int arg0 = JOptionPane.showConfirmDialog(null, arg, "Db Class Yes or No Box", 0, 3);
 		boolean arg1 = false;
 		if (arg0 == 0) {
 			arg1 = true;
@@ -1509,7 +1509,7 @@ public class Db {
 
 	public static final synchronized boolean noYes(String arg) {
 		Object[] arg0 = new Object[]{"Yes", "No"};
-		int arg1 = JOptionPane.showOptionDialog((Component) null, arg, "Db Class Yes or No Box", 0, 3, (Icon) null,
+		int arg1 = JOptionPane.showOptionDialog(null, arg, "Db Class Yes or No Box", 0, 3, null,
 				arg0, arg0[1]);
 		boolean arg2 = false;
 		if (arg1 == 0) {
@@ -1520,239 +1520,239 @@ public class Db {
 	}
 
 	public static final synchronized void show(String arg, double arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (double)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (double)", 1);
 	}
 
 	public static final synchronized void show(double arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (double)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (double)", 1);
 	}
 
 	public static final synchronized void show(String arg, double arg0, int arg2) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + Fmath.truncate(arg0, arg2), "Db.show (double)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + Fmath.truncate(arg0, arg2), "Db.show (double)", 1);
 	}
 
 	public static final synchronized void show(double arg, int arg1) {
-		JOptionPane.showMessageDialog((Component) null, " " + Fmath.truncate(arg, arg1), "Db.show (double)", 1);
+		JOptionPane.showMessageDialog(null, " " + Fmath.truncate(arg, arg1), "Db.show (double)", 1);
 	}
 
 	public static final synchronized void show(String arg, Double arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.doubleValue(), "Db.show (Double)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.doubleValue(), "Db.show (Double)", 1);
 	}
 
 	public static final synchronized void show(Double arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.doubleValue(), "Db.show (Double)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.doubleValue(), "Db.show (Double)", 1);
 	}
 
 	public static final synchronized void show(String arg, float arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (float)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (float)", 1);
 	}
 
 	public static final synchronized void show(float arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (float)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (float)", 1);
 	}
 
 	public static final synchronized void show(String arg, float arg0, int arg1) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + Fmath.truncate(arg0, arg1), "Db.show (float)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + Fmath.truncate(arg0, arg1), "Db.show (float)", 1);
 	}
 
 	public static final synchronized void show(float arg, int arg0) {
-		JOptionPane.showMessageDialog((Component) null, " " + Fmath.truncate(arg, arg0), "Db.show (float)", 1);
+		JOptionPane.showMessageDialog(null, " " + Fmath.truncate(arg, arg0), "Db.show (float)", 1);
 	}
 
 	public static final synchronized void show(String arg, Float arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.floatValue(), "Db.show (float)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.floatValue(), "Db.show (float)", 1);
 	}
 
 	public static final synchronized void show(Float arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.floatValue(), "Db.show (float)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.floatValue(), "Db.show (float)", 1);
 	}
 
 	public static final synchronized void show(String arg, BigDecimal arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.toString(), "Db.show (BigDecimal)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.toString(), "Db.show (BigDecimal)", 1);
 	}
 
 	public static final synchronized void show(BigDecimal arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.toString(), "Db.show (BigDecimal)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.toString(), "Db.show (BigDecimal)", 1);
 	}
 
 	public static final synchronized void show(String arg, BigInteger arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.toString(), "Db.show (BigInteger)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.toString(), "Db.show (BigInteger)", 1);
 	}
 
 	public static final synchronized void show(BigInteger arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.toString(), "Db.show (BigInteger)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.toString(), "Db.show (BigInteger)", 1);
 	}
 
 	public static final synchronized void show(String arg, int arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (int)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (int)", 1);
 	}
 
 	public static final synchronized void show(int arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (int)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (int)", 1);
 	}
 
 	public static final synchronized void show(String arg, Integer arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.intValue(), "Db.show (int)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.intValue(), "Db.show (int)", 1);
 	}
 
 	public static final synchronized void show(Integer arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.intValue(), "Db.show (int)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.intValue(), "Db.show (int)", 1);
 	}
 
 	public static final synchronized void show(String arg, long arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (long)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (long)", 1);
 	}
 
 	public static final synchronized void show(long arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (long)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (long)", 1);
 	}
 
 	public static final synchronized void show(String arg, Long arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.longValue(), "Db.show (long)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.longValue(), "Db.show (long)", 1);
 	}
 
 	public static final synchronized void show(Long arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.longValue(), "Db.show (long)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.longValue(), "Db.show (long)", 1);
 	}
 
 	public static final synchronized void show(String arg, short arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (short)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (short)", 1);
 	}
 
 	public static final synchronized void show(short arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (short)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (short)", 1);
 	}
 
 	public static final synchronized void show(String arg, Short arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.shortValue(), "Db.show (short)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.shortValue(), "Db.show (short)", 1);
 	}
 
 	public static final synchronized void show(Short arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.shortValue(), "Db.show (short)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.shortValue(), "Db.show (short)", 1);
 	}
 
 	public static final synchronized void show(String arg, byte arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (byte)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (byte)", 1);
 	}
 
 	public static final synchronized void show(byte arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (byte)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (byte)", 1);
 	}
 
 	public static final synchronized void show(String arg, Byte arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.byteValue(), "Db.show (byte)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.byteValue(), "Db.show (byte)", 1);
 	}
 
 	public static final synchronized void show(Byte arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.byteValue(), "Db.show (byte)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.byteValue(), "Db.show (byte)", 1);
 	}
 
 	public static final synchronized void show(String arg, Complex arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (Complex)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (Complex)", 1);
 	}
 
 	public static final synchronized void show(Complex arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (Complex)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (Complex)", 1);
 	}
 
 	public static final synchronized void show(String arg, Complex arg0, int arg1) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + Complex.truncate(arg0, arg1), "Db.show (Complex)",
+		JOptionPane.showMessageDialog(null, arg + " " + Complex.truncate(arg0, arg1), "Db.show (Complex)",
 				1);
 	}
 
 	public static final synchronized void show(Complex arg, int arg0) {
-		JOptionPane.showMessageDialog((Component) null, " " + Complex.truncate(arg, arg0), "Db.show (Complex)", 1);
+		JOptionPane.showMessageDialog(null, " " + Complex.truncate(arg, arg0), "Db.show (Complex)", 1);
 	}
 
 	public static final synchronized void show(String arg, Phasor arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (Phasor)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (Phasor)", 1);
 	}
 
 	public static final synchronized void show(Phasor arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (Phasor)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (Phasor)", 1);
 	}
 
 	public static final synchronized void show(String arg, Phasor arg0, int arg1) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + Phasor.truncate(arg0, arg1), "Db.show (Phasor)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + Phasor.truncate(arg0, arg1), "Db.show (Phasor)", 1);
 	}
 
 	public static final synchronized void show(Phasor arg, int arg0) {
-		JOptionPane.showMessageDialog((Component) null, " " + Phasor.truncate(arg, arg0), "Db.show (Phasor)", 1);
+		JOptionPane.showMessageDialog(null, " " + Phasor.truncate(arg, arg0), "Db.show (Phasor)", 1);
 	}
 
 	public static final synchronized void show(String arg, ErrorProp arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (ErrorProp)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (ErrorProp)", 1);
 	}
 
 	public static final synchronized void show(ErrorProp arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (ErrorProp)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (ErrorProp)", 1);
 	}
 
 	public static final synchronized void show(String arg, ErrorProp arg0, int arg1) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + ErrorProp.truncate(arg0, arg1),
+		JOptionPane.showMessageDialog(null, arg + " " + ErrorProp.truncate(arg0, arg1),
 				"Db.show (ErrorProp)", 1);
 	}
 
 	public static final synchronized void show(ErrorProp arg, int arg0) {
-		JOptionPane.showMessageDialog((Component) null, " " + ErrorProp.truncate(arg, arg0), "Db.show (ErrorProp)", 1);
+		JOptionPane.showMessageDialog(null, " " + ErrorProp.truncate(arg, arg0), "Db.show (ErrorProp)", 1);
 	}
 
 	public static final synchronized void show(String arg, ComplexErrorProp arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (ComplexErrorProp)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (ComplexErrorProp)", 1);
 	}
 
 	public static final synchronized void show(ComplexErrorProp arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (ComplexErrorProp)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (ComplexErrorProp)", 1);
 	}
 
 	public static final synchronized void show(String arg, ComplexErrorProp arg0, int arg1) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + ComplexErrorProp.truncate(arg0, arg1),
+		JOptionPane.showMessageDialog(null, arg + " " + ComplexErrorProp.truncate(arg0, arg1),
 				"Db.show (ComplexErrorProp)", 1);
 	}
 
 	public static final synchronized void show(ComplexErrorProp arg, int arg0) {
-		JOptionPane.showMessageDialog((Component) null, " " + ComplexErrorProp.truncate(arg, arg0),
+		JOptionPane.showMessageDialog(null, " " + ComplexErrorProp.truncate(arg, arg0),
 				"Db.show (ComplexErrorProp)", 1);
 	}
 
 	public static final synchronized void show(String arg, boolean arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (boolean)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (boolean)", 1);
 	}
 
 	public static final synchronized void show(boolean arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (boolean)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (boolean)", 1);
 	}
 
 	public static final synchronized void show(String arg, Boolean arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.booleanValue(), "Db.show (boolean)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.booleanValue(), "Db.show (boolean)", 1);
 	}
 
 	public static final synchronized void show(Boolean arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.booleanValue(), "Db.show (boolean)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.booleanValue(), "Db.show (boolean)", 1);
 	}
 
 	public static final synchronized void show(String arg, char arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (char)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (char)", 1);
 	}
 
 	public static final synchronized void show(char arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg, "Db.show (char)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg, "Db.show (char)", 1);
 	}
 
 	public static final synchronized void show(String arg, Character arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0.charValue(), "Db.show (char)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0.charValue(), "Db.show (char)", 1);
 	}
 
 	public static final synchronized void show(Character arg) {
-		JOptionPane.showMessageDialog((Component) null, " " + arg.charValue(), "Db.show (char)", 1);
+		JOptionPane.showMessageDialog(null, " " + arg.charValue(), "Db.show (char)", 1);
 	}
 
 	public static final synchronized void show(String arg, String arg0) {
-		JOptionPane.showMessageDialog((Component) null, arg + " " + arg0, "Db.show (String)", 1);
+		JOptionPane.showMessageDialog(null, arg + " " + arg0, "Db.show (String)", 1);
 	}
 
 	public static final synchronized void show(String arg) {
-		JOptionPane.showMessageDialog((Component) null, arg, "Db.show (message only)", 1);
+		JOptionPane.showMessageDialog(null, arg, "Db.show (message only)", 1);
 	}
 
 	public static final synchronized int optionBox(String arg, String[] arg0, String[] arg1, int arg2) {
@@ -1772,7 +1772,7 @@ public class Db {
 				arg7 = arg7 + (arg6 + 1) + ". " + arg0[arg6] + "\n";
 			}
 
-			return 1 + JOptionPane.showOptionDialog((Component) null, arg7, arg, 1, 3, (Icon) null, arg4,
+			return 1 + JOptionPane.showOptionDialog(null, arg7, arg, 1, 3, null, arg4,
 					arg4[arg2 - 1]);
 		}
 	}
@@ -1785,16 +1785,16 @@ public class Db {
 			arg4[arg5] = "(" + (arg5 + 1) + ") " + arg1[arg5];
 		}
 
-		return 1 + JOptionPane.showOptionDialog((Component) null, arg0, arg, 1, 3, (Icon) null, arg4, arg4[arg2 - 1]);
+		return 1 + JOptionPane.showOptionDialog(null, arg0, arg, 1, 3, null, arg4, arg4[arg2 - 1]);
 	}
 
 	public static final synchronized void endProgram() {
-		int arg = JOptionPane.showConfirmDialog((Component) null, "Do you wish to end the program", "End Program", 0,
+		int arg = JOptionPane.showConfirmDialog(null, "Do you wish to end the program", "End Program", 0,
 				3);
 		if (arg == 0) {
 			System.exit(0);
 		} else {
-			JOptionPane.showMessageDialog((Component) null,
+			JOptionPane.showMessageDialog(null,
 					"Now you must press the appropriate escape key/s, e.g. Ctrl C, to exit this program");
 		}
 

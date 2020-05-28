@@ -12,7 +12,7 @@ public class BooleanChooseNode extends AbstractParameterChooseNode {
 	private boolean current;
 
 	public BooleanChooseNode(Class<?> c, Map<String, String> annotationMap,
-			ObjectConstuctionTreeModel<?> containingTree, boolean checkDef)
+                             ObjectConstructionTreeModel<?> containingTree, boolean checkDef)
 					throws Exception {
 		super(c, containingTree, annotationMap);
 		String def = annotationMap.get("ParamName.default_");
@@ -59,8 +59,8 @@ public class BooleanChooseNode extends AbstractParameterChooseNode {
 
 	@Override
 	protected AbstractParameterChooseNode paremeterChooseNodeClone(
-			Class<?> userObject, Map<String, String> annotationMap2,
-			ObjectConstuctionTreeModel<?> containingTreeModel, boolean b)
+            Class<?> userObject, Map<String, String> annotationMap2,
+            ObjectConstructionTreeModel<?> containingTreeModel, boolean b)
 			throws Exception {
 		return new BooleanChooseNode(userObject, annotationMap2, containingTreeModel, b);
 	}

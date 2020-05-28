@@ -32,15 +32,14 @@ public class RingWg implements Experiment {
 	private double getThruTransmission(double phiRad) {
 		double t_in = Math.sqrt(1 - inputKappa * inputKappa) ;
 		double L = loss ;
-		double num = t_in*t_in + L - 2*t_in*Math.sqrt(L)*Math.cos(phiRad) ;
-		double denum = 1 + t_in*t_in * L - 2*t_in* Math.sqrt(L)*Math.cos(phiRad) ;
-		double trans = num/denum ;
-		return trans ;
+		final double v = 2 * t_in * Math.sqrt(L) * Math.cos(phiRad);
+		double num = t_in*t_in + L - v;
+		double denum = 1 + t_in*t_in * L - v;
+		return num/denum;
 	}
 	
 	private double getThruTransmissionDB(){
-		double trdB = 10*Math.log10(getThruTransmission()) ;
-		return trdB ;
+		return 10*Math.log10(getThruTransmission());
 	}
 	
 	private double getFinesse(){
@@ -48,23 +47,19 @@ public class RingWg implements Experiment {
 		double L = loss ;
 		double A = 1-t_in * Math.sqrt(L) ;
 		double B = 2*t_in*Math.sqrt(L) ;
-		double arg = 1-(A*A/B) ;
+		double arg = 1- A*A/B;
 		double Dphi3dB = 2*Math.acos(arg) ;
 		double fsr = 2*Math.PI ;
-		return (fsr/Dphi3dB) ;
+		return fsr/Dphi3dB;
 	}
 	
 	private double getFinesseNumeric(){
-		RealRootFunction func = new RealRootFunction() {
-			@Override
-			public double function(double phi) {
-				double y = getThruTransmission(phi) - (getThruTransmission(0) + getThruTransmission(Math.PI)) * 1/2 ;
-				return y;
-			}
-		};
+		RealRootFunction func = phi -> {
+			return getThruTransmission(phi) - (getThruTransmission(0) + getThruTransmission(Math.PI)) * 1/2;
+        };
 		RealRoot rootFinder = new RealRoot() ;
 		double phi3dB = rootFinder.bisect(func, 0, Math.PI) ;
-		return (Math.PI/phi3dB) ;
+		return Math.PI/phi3dB;
 	}
 	
 	@Override
@@ -87,10 +82,10 @@ public class RingWg implements Experiment {
 		
 		dp.addResultProperty("Finesse (equation)", getFinesse());
 		dp.addResultProperty("Finesse (numeric)", getFinesseNumeric());
-		dp.addProperty("phi/2pi", phiRad/(twoPi));
+		dp.addProperty("phi/2pi", phiRad/ twoPi);
 		dp.addProperty("lossDB", lossDB);
 		dp.addProperty("input kappa", inputKappa);
-		dp.addResultProperty("Thru Transmission (dB)", getThruTransmissionDB());	
+		dp.addResultProperty("Thru Transmission (dB)", getThruTransmissionDB());
 		dp.addResultProperty("Thru Transmission", getThruTransmission());
 	/*	if (phiRad == 2*Math.PI) {
 			DataPoint dp2 = new DataPoint() ;
