@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+
+<TabPane fx:id="styleTabs" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="403.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="People.Meisam.GUI.Utilities.ExportPlot.ExportToMATLAB.ExportToMatlabController">
+  <tabs>
+      <Tab fx:id="plotStyleTab" closable="false" text="Plot Style">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label contentDisplay="RIGHT" layoutX="9.0" layoutY="105.0" text="Line Width: ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="lineWidth" layoutX="82.0" layoutY="101.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="146.0" promptText="default: 1" />
+                  <CheckBox fx:id="plotBox" layoutX="298.0" layoutY="68.0" mnemonicParsing="false" selected="true" text="Plot Box">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <Label contentDisplay="RIGHT" layoutX="9.0" layoutY="9.0" text="Plot Title">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="plotTitle" layoutX="7.0" layoutY="30.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="374.0" promptText="default: none" />
+                  <Label contentDisplay="RIGHT" layoutX="9.0" layoutY="69.0" text="Line Style:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="lineStyle" layoutX="78.0" layoutY="65.0" prefWidth="150.0" promptText="default: -" />
+                  <Label contentDisplay="RIGHT" layoutX="10.0" layoutY="142.0" text="Marker Style:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="markerStyle" layoutX="98.0" layoutY="138.0" prefWidth="150.0" promptText="default: none" />
+                  <Label contentDisplay="RIGHT" layoutX="12.0" layoutY="179.0" text="Marker Size:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="markerSize" layoutX="96.0" layoutY="175.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="151.0" promptText="default: 5" />
+                  <Button fx:id="exportButton" layoutX="294.0" layoutY="175.0" mnemonicParsing="false" onAction="#exportButtonPressed" prefHeight="27.0" prefWidth="96.0" text="Export" />
+                  <CheckBox fx:id="gridON" layoutX="298.0" layoutY="98.0" mnemonicParsing="false" selected="true" text="Grid ON">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="holdON" layoutX="299.0" layoutY="127.0" mnemonicParsing="false" selected="true" text="Hold ON">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+    <Tab text="X Axis Style" fx:id="xAxisStyleTab">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="269.0" prefWidth="432.0">
+               <children>
+                  <TextField layoutX="6.0" layoutY="36.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="373.0" promptText="default: x-label" fx:id="xAxisLabel" />
+                  <Label contentDisplay="RIGHT" layoutX="7.0" layoutY="14.0" text="X Axis Label">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label contentDisplay="RIGHT" layoutX="8.0" layoutY="69.0" text="X Axis Limits">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="37.0" layoutY="89.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="109.0" promptText="default: min(x)" fx:id="xAxisMin" />
+                  <Label contentDisplay="RIGHT" layoutX="7.0" layoutY="94.0" text="from" />
+                  <Label contentDisplay="RIGHT" layoutX="150.0" layoutY="94.0" text="to" />
+                  <TextField layoutX="167.0" layoutY="89.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="109.0" promptText="default: max(x)" fx:id="xAxisMax" />
+                  <Label contentDisplay="RIGHT" layoutX="8.0" layoutY="125.0" text="X Axis Scale">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <RadioButton layoutX="6.0" layoutY="150.0" mnemonicParsing="false" selected="true" text="Linear" fx:id="xAxisScaleLinear">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="xAxisScale" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton layoutX="6.0" layoutY="179.0" mnemonicParsing="false" text="Log" toggleGroup="$xAxisScale" fx:id="xAxisScaleLog" />
+                  <CheckBox layoutX="296.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="X Axis Grid" fx:id="xAxisGrid">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox layoutX="296.0" layoutY="124.0" mnemonicParsing="false" text="X Minor Grid" fx:id="xMinorGrid">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <Label contentDisplay="RIGHT" layoutX="91.0" layoutY="125.0" text="X Label Position">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <RadioButton layoutX="91.0" layoutY="179.0" mnemonicParsing="false" text="Top" fx:id="xAxisPositionTop">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="xAxisPosition" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton layoutX="91.0" layoutY="150.0" mnemonicParsing="false" selected="true" text="Bottom" toggleGroup="$xAxisPosition" fx:id="xAxisPositionBottom" />
+                  <Label contentDisplay="RIGHT" layoutX="194.0" layoutY="125.0" text="X Direction">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <RadioButton layoutX="194.0" layoutY="149.0" mnemonicParsing="false" selected="true" text="Normal" fx:id="xAxisDirectionNormal">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="xAxisDirection" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton layoutX="194.0" layoutY="178.0" mnemonicParsing="false" text="Reverse" toggleGroup="$xAxisDirection" fx:id="xAxisDirectionReverse" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab fx:id="yAxisStyleTab" text="Y Axis Style">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="269.0" prefWidth="432.0">
+               <children>
+                  <TextField fx:id="yAxisLabel" layoutX="6.0" layoutY="36.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="373.0" promptText="default: y-label" />
+                  <Label contentDisplay="RIGHT" layoutX="7.0" layoutY="14.0" text="Y Axis Label">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label contentDisplay="RIGHT" layoutX="8.0" layoutY="69.0" text="Y Axis Limits">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="yAxisMin" layoutX="37.0" layoutY="89.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="109.0" promptText="default: min(y)" />
+                  <Label contentDisplay="RIGHT" layoutX="7.0" layoutY="94.0" text="from" />
+                  <Label contentDisplay="RIGHT" layoutX="150.0" layoutY="94.0" text="to" />
+                  <TextField fx:id="yAxisMax" layoutX="167.0" layoutY="89.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="109.0" promptText="default: max(y)" />
+                  <Label contentDisplay="RIGHT" layoutX="8.0" layoutY="125.0" text="Y Axis Scale">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="yAxisScaleLinear" layoutX="6.0" layoutY="150.0" mnemonicParsing="false" selected="true" text="Linear">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="yAxisScale" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="yAxisScaleLog" layoutX="6.0" layoutY="179.0" mnemonicParsing="false" text="Log" toggleGroup="$yAxisScale" />
+                  <CheckBox fx:id="yAxisGrid" layoutX="296.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Y Axis Grid">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="yMinorGrid" layoutX="296.0" layoutY="124.0" mnemonicParsing="false" text="Y Minor Grid">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <Label contentDisplay="RIGHT" layoutX="91.0" layoutY="125.0" text="Y Label Position">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="yAxisPositionRight" layoutX="91.0" layoutY="179.0" mnemonicParsing="false" text="Right">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="yAxisPosition" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="yAxisPositionLeft" layoutX="91.0" layoutY="150.0" mnemonicParsing="false" selected="true" text="Left" toggleGroup="$yAxisPosition" />
+                  <Label contentDisplay="RIGHT" layoutX="194.0" layoutY="125.0" text="Y Direction">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="yAxisDirectionNormal" layoutX="194.0" layoutY="149.0" mnemonicParsing="false" selected="true" text="Normal">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="yAxisDirection" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="yAxisDirectionReverse" layoutX="194.0" layoutY="178.0" mnemonicParsing="false" text="Reverse" toggleGroup="$yAxisDirection" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Legend">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+      <Tab text="Extras">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

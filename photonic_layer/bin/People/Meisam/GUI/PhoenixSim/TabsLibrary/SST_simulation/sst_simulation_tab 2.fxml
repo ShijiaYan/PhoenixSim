@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import org.controlsfx.control.StatusBar?>
+
+<TabPane prefHeight="700.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="People.Meisam.GUI.PhoenixSim.TabsLibrary.SST_simulation.SSTTabController">
+   <tabs>
+      <Tab fx:id="tab" text="SST simulation">
+         <content>
+            <HBox nodeOrientation="LEFT_TO_RIGHT">
+               <children>
+                  <Pane fx:id="pane" prefHeight="667.0" prefWidth="985.0">
+                     <children>
+                        <Button fx:id="runButton" layoutX="286.0" layoutY="358.0" mnemonicParsing="false" onAction="#demoRunSSTConfig" prefHeight="27.0" prefWidth="165.0" text="Run" />
+                        <StatusBar fx:id="statusBar" layoutX="-1.0" layoutY="638.0" prefWidth="900.0" />
+                        <Button fx:id="generateButton" layoutX="286.0" layoutY="320.0" mnemonicParsing="false" onAction="#demoGenerateSSTConfigFile" prefHeight="27.0" prefWidth="164.0" text="Generate Config File..." />
+                        <Slider fx:id="paramSlider1" layoutX="42.0" layoutY="69.0" onDragDetected="#updateTab" onDragDone="#updateTab" onDragDropped="#updateTab" onDragEntered="#updateTab" onDragExited="#updateTab" onDragOver="#updateTab" onMouseClicked="#updateTab" onMouseDragEntered="#updateTab" onMouseDragExited="#updateTab" onMouseDragOver="#updateTab" onMouseDragReleased="#updateTab" onMouseDragged="#updateTab" onMouseMoved="#updateTab" onMousePressed="#updateTab" onMouseReleased="#updateTab" onScroll="#updateTab" />
+                        <Text fx:id="textParam1" layoutX="42.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timebase" wrappingWidth="83.59765625" />
+                        <TableView fx:id="paramTable" layoutX="42.0" layoutY="117.0" prefHeight="200.0" prefWidth="207.0">
+                          <columns>
+                            <TableColumn fx:id="paramTableColumn1" prefWidth="112.0" text="ParamName" />
+                            <TableColumn fx:id="paramTableColumn2" prefWidth="93.0" text="Value" />
+                          </columns>
+                        </TableView>
+                        <Slider fx:id="paramSlider2" layoutX="264.0" layoutY="70.0" onDragDetected="#updateTab" onDragOver="#updateTab" onKeyPressed="#updateTab" onMouseDragOver="#updateTab" onMouseDragged="#updateTab" onMouseMoved="#updateTab" onMousePressed="#updateTab" onMouseReleased="#updateTab" onScroll="#updateTab" />
+                        <Text fx:id="textParam2" layoutX="264.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop at cycle" wrappingWidth="83.59765625" />
+                        <Slider fx:id="paramSlider3" layoutX="462.0" layoutY="71.0" onDragDetected="#updateTab" onMouseDragged="#updateTab" onMouseMoved="#updateTab" onMousePressed="#updateTab" onMouseReleased="#updateTab" />
+                        <Text fx:id="textParam3" layoutX="462.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clocker Count" wrappingWidth="101.59765625" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>

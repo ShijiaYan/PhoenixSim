@@ -5,10 +5,10 @@
 
 package edu.columbia.lrl.CrossLayer.physical_models.util;
 
-import java.util.Map;
-
 import ch.epfl.general_libraries.clazzes.ParamName;
 import ch.epfl.general_libraries.utils.SimpleMap;
+
+import java.util.Map;
 
 
 public class Constants {
@@ -47,7 +47,7 @@ public class Constants {
     }
 
     public double getSpeedOfLight() {
-        return 3.0E8D;
+        return this.SPEED_OF_LIGHT;
     }
 
     public double getFullFSR() {
@@ -63,7 +63,7 @@ public class Constants {
     }
 
     public double e() {
-        return 1.6022E-19D;
+        return this.ELECTRON_CHARGE;
     }
 
     public void setFullFSR(double fullFSR) {

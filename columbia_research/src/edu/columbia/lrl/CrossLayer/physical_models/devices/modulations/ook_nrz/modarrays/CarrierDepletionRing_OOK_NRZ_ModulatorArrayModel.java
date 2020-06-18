@@ -41,7 +41,7 @@ public class CarrierDepletionRing_OOK_NRZ_ModulatorArrayModel extends AbstractRi
         this.referenceER = absRing.getER();
         this.relResShift = resShift;
         this.capacitance = capacitance;
-        this.effIndex = absRing.getNeff();
+        this.effIndex = absRing.getGroupIndex();
         this.maxDriveVoltage = maxDriveVoltage;
     }
 

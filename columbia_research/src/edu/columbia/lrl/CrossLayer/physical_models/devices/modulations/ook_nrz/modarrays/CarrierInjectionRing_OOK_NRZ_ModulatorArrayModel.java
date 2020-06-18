@@ -43,7 +43,7 @@ public class CarrierInjectionRing_OOK_NRZ_ModulatorArrayModel extends AbstractRi
         this.referenceER = absRing.getER();
         this.relResShift = resShift;
         this.capacitance = capacitance;
-        this.Neff = absRing.getNeff();
+        this.Neff = absRing.getGroupIndex();
     }
 
     public Map<String, String> getRingBasedArrayParameters() {

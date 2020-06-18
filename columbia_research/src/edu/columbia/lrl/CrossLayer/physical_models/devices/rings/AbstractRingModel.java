@@ -21,5 +21,5 @@ public abstract class AbstractRingModel {
 
 	public abstract double getDBperCm(Constants var1);
 
-	public abstract double getNeff();
+	public abstract double getGroupIndex();
 }
